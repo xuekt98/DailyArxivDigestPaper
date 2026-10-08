@@ -10,11 +10,84 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-08](daily_arxiv_digest/2026_10/2026-10-08/) | 580 | 10 | 10 | 10 | 10 | 10 | [SGF+ 梯度负对齐（+ 实时音视频 26fps）](https://arxiv.org/abs/2610.10429) · [预测的未来不足以控制](https://arxiv.org/abs/2610.09309) · [BoT-GRPO 不要价值网络](https://arxiv.org/abs/2610.09804) |
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-08
+
+- **arXiv 批次窗口**：2026-10-07 UTC（截至 2026-10-08 17:00 CST，当天批次尚未发布）
+- **扫描**：580 篇去重论文（cs.LG 251 / cs.AI 178 / cs.CV 148 / cs.RO 92 / cs.CL 79 /
+  cs.SD 18 / eess.AS 18，其余为跨分类重复）
+- **全文精读**：50 篇，抽取作者机构与 80 张论文原图
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-08/2026-10-08_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[SGF+: Decoupling Gradient Flows for Autoregressive Video Generation](https://arxiv.org/abs/2610.10429)**
+   （aigc_visual #1）— 本批最强的诊断。自回归视频生成要同时做两件事：对当前帧去噪、
+   把当前帧的 KV 写成后续预测的上下文。这两个角色通常**共用参数**，而作者测到它们的梯度
+   呈现不同模式并存在**系统性负对齐**，直接妨碍视觉质量与时序一致性的联合优化。
+   这解释了为什么时序不一致很难靠更大模型解决——不是学不会长程依赖，
+   而是去噪梯度在直接损害 KV 写入目标。
+   **务必连读 [Real-Time Joint Audio-Video Generation](https://arxiv.org/abs/2610.10343)**：
+   它在部署侧给出同一病因的同一解法——链式流水线靠顺序获得「块自回归」与「少步采样」，
+   但每一步都在微调上一步的权重，所以**后一个目标可以撤销前一个能力**；
+   改为并行获得后，两个适配器的更新方向近似正交（训练中未施加任何正交约束），
+   推理时直接相加。实时性数字是本批唯一完整的：**480×832、未量化、约 26 fps、30 秒连续生成**。
+
+2. **[Predicted Futures Are Not Enough: Learning Executable Goals for Robot Manipulation](https://arxiv.org/abs/2610.09309)**
+   （embodied #3）— 具身线四篇高相关论文合起来是本项目日报迄今最完整的一条批判线，
+   这篇是最锋利的一环：生成式世界模型能预测操作场景如何朝目标演化，
+   但**这些未来并不直接暴露控制所需的紧凑任务变量**；当训练只监督未来预测时，
+   终极目标精度就不是一个显式的学习目标——即便几何恢复的信息在中间层可得。
+   [RoboJEPA](https://arxiv.org/abs/2610.10515) 补上原则层（我们缺少估计潜世界模型
+   能力如何随规模/数据/算力变化的方法），[ΔWAM](https://arxiv.org/abs/2610.09734) 补上第三块
+   （可预测的未来有很大一部分由外观与场景持续性主导，而非动作依赖的动力学）。
+   结论：**预测精度、动作相关性、目标达成度是三个不同的量**，把前一个当作后两个的代理
+   会系统性误导。这条线直接对接 10-07 日报「世界模型可预测但不可控」。
+
+3. **[BoT-GRPO: Efficient Process-Reward RL for Reasoning via Bag-of-Token Aggregation](https://arxiv.org/abs/2610.09804)**
+   （rl #1）— GRPO 中每次 rollout 的所有 token 共享同一优势值，因此过程监督无梯度分化。
+   BoT-GRPO 用 bag-of-tokens 聚合让过程奖励生效，**且不引入价值网络**——这一点比机制本身
+   更关键，因为价值网络的训练成本与不稳定性正是 GRPO 被大量采用的主因，绕开它意味着
+   这套方法能直接套进现有 GRPO 流水线。
+   配对读 [COPC](https://arxiv.org/abs/2610.09597)：异步 LLM RL 的主流做法只修正策略侧的
+   token 级不匹配，COPC **证明这不充分**——优势估计同样继承了行为策略的不匹配
+   （优势正是用陈旧策略的轨迹算出的）。两篇同属 LLM RL 训练机制，一篇改奖励分配、
+   一篇改 off-policy 校正。
+
+### 备注
+
+- **⚠️ 音频 LM 线今天几乎空窗**：cs.SD / eess.AS 之外双工与语音 LM 关键词全库零命中，
+  25 篇声音类论文里没有一篇是真正的双工或语音语言模型工作。该线用了 **8 个 wild-card**，
+  由 ASR、评测与安全类论文补足，真实相关的只有前两篇。读这条线时必须打折。
+  唯二值得看的：[Dialect-Robust Speech LM](https://arxiv.org/abs/2610.09321)
+  （LLM 生成方言文本 → 标准语言 TTS 转伪方言语音，把数据依赖从稀缺的语音侧移到丰富的文本侧）；
+  [Boundary-Free Contextual Biasing](https://arxiv.org/abs/2610.09467)
+  （为冻结的公开 CTC 模型做免训练、无二次解码的偏置解码，字符级 Aho-Corasick 绕开中日文词边界缺失）。
+- **跨线信号（本日最强）**：**共享权重/共享参数导致两个目标互相抵消**。
+  SGF+（梯度负对齐）、实时音视频（后一目标撤销前一能力）、ORCA（组合失败是对齐错位而非信息缺失，
+  据此判定「补更强文本编码器」这条主流解法无效）、Visual Jev Rewards（主体在场≠主体参与交互）、
+  ΔWAM（可预测未来被外观主导）、Predicted Futures（预测不暴露控制变量）、
+  Juno（JEPA 潜变量干扰动作学习）、COPC（只修策略侧不足）——八篇跨全部五条线指向同一病因。
+- **触觉方向从方法期进入基准期**：本批至少 5 篇触觉工作同时出现（因子化表征、500 小时视触数据、
+  时序触觉学习、磁纤毛传感器、统一仿真-真实基准）。信号是子方向在快速积累、
+  但尚无统一基准使这些方法无法横向比较。
+- **与 10-07 的连线**：RFPO（推理端 ODE 积分预算错配）与前一天的 QF3（训练端流策略 RL 过慢）
+  正好构成一对流策略实用化的两端；TTS 激活引导已连续两天出现（情感控制、隐式性别偏差校准）。
 
 ## 2026-10-07
 
