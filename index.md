@@ -10,12 +10,80 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-09](daily_arxiv_digest/2026_10/2026-10-09/) | 643 | 10 | 10 | 10 | 10 | 10 | [聚合准确率掩盖成对漂移](https://arxiv.org/abs/2610.11196) · [因果视频扩散不需要双向教师](https://arxiv.org/abs/2610.11479) · [双工智能体的异步委派范式](https://arxiv.org/abs/2610.11299) |
 | [2026-10-08](daily_arxiv_digest/2026_10/2026-10-08/) | 580 | 10 | 10 | 10 | 10 | 10 | [SGF+ 梯度负对齐（+ 实时音视频 26fps）](https://arxiv.org/abs/2610.10429) · [预测的未来不足以控制](https://arxiv.org/abs/2610.09309) · [BoT-GRPO 不要价值网络](https://arxiv.org/abs/2610.09804) |
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-09
+
+- **arXiv 批次窗口**：2026-10-08 UTC（截至 2026-10-09 17:00 CST，当天批次尚未发布）
+- **扫描**：643 篇去重论文（cs.LG 230 / cs.AI 237 / cs.CV 184 / cs.CL 119 / cs.RO 86 /
+  cs.SD 18 / eess.AS 14，其余为跨分类重复）
+- **全文精读**：50 篇，抽取作者机构与 92 张论文原图
+- **Wild-card**：本批 6 篇（集中在 aigc_audio 与 rl），**audio_lm 零 wild-card**——三天来首次
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-09/2026-10-09_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Selective Listening: Mechanism-Guided Control of Audio Influence in Large Audio-Language Models](https://arxiv.org/abs/2610.11196)**（audio_lm #2）
+   — 本批方法论价值最高的一篇，也是本项目日报「指标系统性漏掉真实失效」这条线索的**第三例**
+   （前两例：10-06 的 Mind the Execution Gap、10-07 的 World Models' Last Exam）。
+   任务无关的音频在**不需要听的时候**仍会改变 LALM 的文本推理决策——模型在偷听。
+   关键在于：**聚合准确率完全掩盖了这种成对漂移**，因为音频带来的修复与损害互相抵消，
+   净值不变但逐样本行为已经改变。作者用成对漂移分析定位出架构特定、可干预的**晚期音频通路**。
+   这比前两例更进一步：前两例是「指标测错了东西」，这一例是「指标测对了总量却漏掉了行为改变」。
+
+2. **[Conditional Residual Prediction: Improving Autoregressive Video Diffusion without a Bidirectional Teacher](https://arxiv.org/abs/2610.11479)**（aigc_visual #1）
+   — 质疑的是领域默认路径而非某个模型。因果视频扩散适合流式/交互/长视频，
+   但标准训练下质量常低于**同规模**双向模型；既有做法多是初始化自或蒸馏一个预训练双向教师，
+   这篇改为直接训练因果模型。「同规模因果不如双向」常被归因于因果结构的信息损失，
+   若条件残差能在不引入教师的情况下补上差距，说明**差距来自训练信号而非架构上限**——
+   这会改变大量视频生成工作的基线设定。
+
+3. **[DuplexAgent-RSI: Recursive Harness Improvement for Full-Duplex Voice Agent Collaboration](https://arxiv.org/abs/2610.11299)**（audio_lm #1）
+   — **三天来第一篇真正的双工语音助手架构论文**（10-08 这条线是空窗的，用了 8 个 wild-card）。
+   语音智能体正在收敛到一种协作范式：全双工模型作为实时对话入口常驻通道，
+   检索/推理/编码通过**异步委派**处理。分工理由是能力边界——双工模型支持持续听说，
+   但复杂推理与工具使用超出其能力。把「双工模型」定位为**接口层**而非全能体，是重要的架构转向：
+   它正好回答了记忆问题（10-07 PERSIST / AgentMemGate）在系统层面归谁管。
+   **今天双工方向是三部曲**，建议连读：[DiffuPlex](https://arxiv.org/abs/2610.12214)（滚动掩码扩散，
+   在单次骨干唤醒中预测多个未来帧，把等待用户说话的空转变成有用计算）、
+   [SteerablePlex](https://arxiv.org/abs/2610.12201)（双工模型随历史增长失控，
+   用作用户模拟器会产生**不可靠的评测结果**）。
+
+### 备注
+
+- **⚡ 双工线全面回补**：10-08 那天 cs.SD/eess.AS 之外双工关键词全库零命中，今天三篇真双工同时出现，
+  且恰好覆盖架构、效率、可控性三个正交问题。把 SteerablePlex 与 10-07 的
+  [Coupled but Late](https://arxiv.org/abs/2610.08683)（模型间环路稳定到的时序未必是人类的）连起来读，
+  结论是：**以全双工模型为主体的评测协议目前都不可靠**，不只是需要改进。
+- **跨线信号：绝对代理指标不预测下游实际效应**（本批最强）。Beyond Speech Captions 实证
+  「语音-文本对齐只能弱预测下游声学结果」；Residual Advantage 用**学生相对**教师的指导替代结果标签，
+  解释 OPD 为何无效（教师信号只有相对学生状态才有意义）；Can Jev be Your Q or Policy 追问
+  RL 需要的是生成能力还是校准的评估接口；MiDashengLM-Spatial 与多篇论文都指出
+  「各自强但都不完整」的空缺。10-08 日报的「预测精度/动作相关性/目标达成度是三个不同的量」继续延伸。
+- **灵巧操作的数据来源被拆成三个独立障碍**：[Generative Neural Retargeting](https://arxiv.org/abs/2610.12440)
+  （IK 忽略动力学，而灵巧操作恰是动力学受限任务）、[Dex-One2Many](https://arxiv.org/abs/2610.12470)
+  （严格模仿动作把单条演示当成唯一答案，而成功轨迹是一个集合）、
+  [OmniDex](https://arxiv.org/abs/2610.11194)（杂乱场景数据随场景×物体组合爆炸）。
+  三篇合起来说明：用人类数据做灵巧操作不是「找更好的重定向算法」的问题。
+- **新任务设定两则**：[Acting from Belief, Looking When Needed](https://arxiv.org/abs/2610.11591)
+  把**观测时机**当作决策变量（间歇感知下的导航），是本批唯一一篇如此处理世界模型的工作；
+  [Path-Creative Navigation](https://arxiv.org/abs/2610.11072) 指出导航任务被定义得过窄——
+  既有方法假设环境固定只做绕行，而路线可能被铰接结构或可移动物体阻断。
 
 ## 2026-10-08
 
