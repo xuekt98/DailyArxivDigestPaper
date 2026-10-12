@@ -10,6 +10,7 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-12](daily_arxiv_digest/2026_10/2026-10-12/) | 488 | 10 | 10 | 10 | 10 | 10 | [审计 AAD：主流缓解手段的参照物是 OOD](https://arxiv.org/abs/2610.13112) · [动作不描述它将达成什么](https://arxiv.org/abs/2610.13212) · [PPO 的裁剪代理是几何退化的](https://arxiv.org/abs/2610.13015) |
 | [2026-10-09](daily_arxiv_digest/2026_10/2026-10-09/) | 643 | 10 | 10 | 10 | 10 | 10 | [聚合准确率掩盖成对漂移](https://arxiv.org/abs/2610.11196) · [因果视频扩散不需要双向教师](https://arxiv.org/abs/2610.11479) · [双工智能体的异步委派范式](https://arxiv.org/abs/2610.11299) |
 | [2026-10-08](daily_arxiv_digest/2026_10/2026-10-08/) | 580 | 10 | 10 | 10 | 10 | 10 | [SGF+ 梯度负对齐（+ 实时音视频 26fps）](https://arxiv.org/abs/2610.10429) · [预测的未来不足以控制](https://arxiv.org/abs/2610.09309) · [BoT-GRPO 不要价值网络](https://arxiv.org/abs/2610.09804) |
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
@@ -17,6 +18,73 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-12
+
+- **arXiv 批次窗口**：2026-10-09 UTC（截至 2026-10-12 17:00 CST，当天批次尚未发布；
+  10-10/10-11 为周末无公告，故窗口较前次回溯 3 天）
+- **扫描**：488 篇去重论文（cs.LG 193 / cs.CV 132 / cs.AI 128 / cs.CL 90 / cs.RO 61 /
+  cs.SD 22 / eess.AS 22，其余为跨分类重复）
+- **全文精读**：50 篇，抽取作者机构与 92 张论文原图
+- **Wild-card**：本批 11 篇；**双工方向再次空窗**（10-08 无、10-09 三篇、10-12 无），audio_lm 用 6 个
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-12/2026-10-12_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Does Location Matter? A Black-Box Causal Audit Reveals Model-Dependent Audio Grounding in LALM Hallucination](https://arxiv.org/abs/2610.13112)**（audio_lm #1）
+   — **本项目日报审计线索的第四例，且审计对象升级为「领域标准做法本身」**。
+   LALM 幻觉的主流缓解手段 Audio-Aware Decoding（AAD）通过对比真实音频 logits 与全零「空白」波形
+   logits 运作——而**此前评审已把该空白波形标记为分布外（OOD）**。
+   若参照物本身 OOD，抑制幻觉的机制就建立在一个无效前提上；作者用黑盒因果测试隔离幻觉来源，
+   并揭示音频 grounding 是**模型相关**的。用 LALM 的团队应先做这个审计再继续用 AAD。
+   前例：10-06 Mind the Execution Gap、10-07 World Models' Last Exam、10-09 Selective Listening。
+
+2. **[Beyond Actions: Learning Future Operation Targets for Vision-Language-Action Models](https://arxiv.org/abs/2610.13212)**（embodied #1）
+   — 出发点是一个观察：**动作说明机器人执行什么，但不描述这些命令将达成什么**——
+   而 VLA 却主要通过预测动作块来学习。AFCE 让一个以未来为基准的物理**效果**成为主要预测目标。
+   把预测目标从「命令」换成「结果」，是因为命令在多解任务上不唯一：同一目标可由多组动作达成，
+   而其中只有一部分在当前状态下可执行。这是 10-08 日报
+   「预测精度/动作相关性/目标达成度是三个不同的量」那条批判线的**第五次延续**。
+   同线的 Grounded-Dreamer（世界模型合成数据 + 物理 grounding）与
+   Dream to Remember（世界模型承担记忆角色、避免顺序任务下的遗忘）构成今日具身三强。
+
+3. **[Generalized Proximal Policy Optimization: Unifying LLM RL Algorithms from the Perspective of Divergence](https://arxiv.org/abs/2610.13015)**（rl #1）
+   — 对本项目日报追踪的 GRPO 生态做了根源性判断：主流 PPO 依赖一个**几何退化的裁剪代理**，
+   它无法自适应对策略偏移的抵抗力，导致过早裁剪与探索退化；后续所有 GRPO 变体都在打补丁而非修根本。
+   作者从**散度**视角统一 LLM RL 算法。
+   同批 [Trajectory-Aware Policy Optimization](https://arxiv.org/abs/2610.13020) 给出同源的第二个诊断：
+   既有方法在 token 或序列层面控制策略不匹配，但**局部不匹配会沿轨迹累积成严重的状态分布偏移**
+   ——控制粒度不足是根本原因。两篇建议连读。
+
+### 备注
+
+- **⚡ 审计线索今天扩展到四条线、五篇论文**（本项目日报迄今最集中）：
+  审计 AAD 这个标准缓解手段（2610.13112）；审计生成音乐裁判——
+  其有效性只通过「与专家评分的相关性」验证，而这没说明裁判在响应音乐、文本提示还是提问方式
+  （2610.13247，四个带对照的探针）；审计 UTMOS——发现它**倾向给口音更重的合成语音打更低分**，
+  而用 UTMOS 筛选合成数据会在数据里进一步强化口音偏见形成闭环（2610.13175）；
+  审计 ASR 数据增强——收益几乎总以聚合错误率报告，无法解释「为什么以及何时有帮助」
+  （2610.13807，4 语言 × 5 数据规模 × 2 增强）；审计 MMDiT 的 image-to-text 反馈——
+  它**保留**而非纠正已出现的对象与属性（2610.13941）。
+  共同结论：这些被广泛使用的组件，其有效性前提从未被验证。
+- **信用分配的细化是本批 RL 第二主题**，三篇同源：TreeHCA 指出事后信用分配的估计**依赖于轨迹中存在
+  信息性替代方案**（这个前提正是它引入树式扩展的原因）；Beyond Temporal Proximity 指出标准 RL 按
+  **时间邻近性**而非显式相关性传播奖励，在长延迟回报场景（推荐、机器人长程）必然出错；
+  EmoGavel 补上「只监督最终偏好决策、不定位错误内容」的缺陷。
+- **本周最连贯的一组对**：Unified Generative Video Compression（2610.13023，把双向与自回归变成同一框架下的参数）
+  与 10-09 日报的 Conditional Residual Prediction（质疑「必须有双向教师」）——
+  两者合起来指向**因果性与双向性不是二选一**。
+- **⚠️ 双工方向本周第三次空窗**：10-08 无、10-09 三篇、10-12 无。这条线（用户的首要兴趣）
+  在 arXiv 上确实是低频出现，无法靠抓取窗口调整解决。
 
 ## 2026-10-09
 
