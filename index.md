@@ -7,16 +7,19 @@
 cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 **跳过记录**：当 arXiv 尚未公告新批次时（周末、节假日、或公告尚未发布），
-当日不生成日报，也不新增目录行，以免与上一份报告重复。已跳过的日期：
+当日不生成日报，也不新增目录行，以免与上一份报告重复。已跳过或合并的日期：
 
 - **2026-10-13** — 探测 10-10 / 10-11 / 10-12 / 10-13 四个 UTC 日均返回 0 条；
   无日期限制查询确认全库最新提交仍为 `2610.13947v1`（2026-10-09T17:59:41Z），
-  与 10-12 那份日报所覆盖的批次相同，故跳过。最新报告仍为 [2026-10-12](daily_arxiv_digest/2026_10/2026-10-12/)。
+  与 10-12 那份日报所覆盖的批次相同，故跳过。
+- **2026-10-14（累计补齐）** — 10-13 之后 arXiv 补发了 4 个批次（10-10 至 10-13 UTC），
+  为避免漏读，本份日报采用**累计窗口**一次性覆盖 1935 篇，而非只取最新批次。
 
 ## 目录
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-14](daily_arxiv_digest/2026_10/2026-10-14/) | 1935 | 10 | 10 | 10 | 10 | 10 | [Diffuplex：全双工 1872 token/s](https://arxiv.org/abs/2610.17780) · [Demiurge：跨轨迹一致的 4D 世界](https://arxiv.org/abs/2610.14685) · [LLM 价值函数做信用分配](https://arxiv.org/abs/2610.15840) |
 | [2026-10-12](daily_arxiv_digest/2026_10/2026-10-12/) | 488 | 10 | 10 | 10 | 10 | 10 | [审计 AAD：主流缓解手段的参照物是 OOD](https://arxiv.org/abs/2610.13112) · [动作不描述它将达成什么](https://arxiv.org/abs/2610.13212) · [PPO 的裁剪代理是几何退化的](https://arxiv.org/abs/2610.13015) |
 | [2026-10-09](daily_arxiv_digest/2026_10/2026-10-09/) | 643 | 10 | 10 | 10 | 10 | 10 | [聚合准确率掩盖成对漂移](https://arxiv.org/abs/2610.11196) · [因果视频扩散不需要双向教师](https://arxiv.org/abs/2610.11479) · [双工智能体的异步委派范式](https://arxiv.org/abs/2610.11299) |
 | [2026-10-08](daily_arxiv_digest/2026_10/2026-10-08/) | 580 | 10 | 10 | 10 | 10 | 10 | [SGF+ 梯度负对齐（+ 实时音视频 26fps）](https://arxiv.org/abs/2610.10429) · [预测的未来不足以控制](https://arxiv.org/abs/2610.09309) · [BoT-GRPO 不要价值网络](https://arxiv.org/abs/2610.09804) |
@@ -25,6 +28,79 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-14
+
+- **arXiv 批次窗口**：**累计窗口 2026-10-10 至 2026-10-13 UTC**（10-13 之后 arXiv 补发 4 个批次；
+  10-13 那次运行因当时尚未公告而跳过，这四次一并补齐，避免漏读）
+- **扫描**：**1935 篇**去重论文（cs.AI 769 / cs.LG 759 / cs.CV 431 / cs.CL 355 / cs.RO 266 /
+  cs.SD 60 / eess.AS 若干，其余为跨分类重复）；逐日原始量 10-10:481 / 10-11:427 / 10-12:851 / 10-13:912
+- **全文精读**：50 篇，抽取作者机构与 89 张论文原图
+- **Wild-card**：本批 5 篇；**audio_lm 零 wild-card**——双工方向自 10-08 以来首次满配
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-14/2026-10-14_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Diffuplex: Full-duplex Spoken Language Modeling with Discrete Diffusion](https://arxiv.org/abs/2610.17780)**（audio_lm #1）
+   — **双工方向自 10-08 记录以来首次满配**（10-08 空窗、10-09 三篇、10-12 空窗），今天一次性出现四篇真双工工作。
+   Diffuplex 基于离散扩散，**开启思考模式时每次前向 13.0 个 token、平均 1872 token/秒**，
+   解码速度显著超过前沿自回归模型。在全双工场景下「每次前向多 token」不是优化而是**必要**：
+   轮次决策必须亚秒完成，否则等待用户说话的延迟会直接破坏交互体验。
+   配套读 [D2](https://arxiv.org/abs/2610.17124)（MIT CSAIL + MIT-IBM Watson AI Lab）：
+   全双工模型在通用能力上长期**落后于半双工**，D2 在细时间粒度上把预训练半双工转换为高能力全双工，
+   这条路比「从零训练全双工」成本低一个量级。
+
+2. **[Demiurge: Forging Navigable 4D Worlds via Autoregressive Video Rerendering](https://arxiv.org/abs/2610.14685)**（aigc_visual #1）
+   — 直接连接 AIGC 视频与世界模型两个核心兴趣。既有 novel-view 视频方法**独立处理每条相机轨迹**，
+   缺乏形成连贯可导航 4D 世界所需的跨轨迹一致性。关键区分在于：单条轨迹的 NVS 只需轨迹内一致，
+   而可导航世界要求跨轨迹的同一性——这是强得多的约束，也是世界模型真正需要的性质。
+
+3. **[LLM Value Functions for Credit Assignment in Agentic RL](https://arxiv.org/abs/2610.15840)**（rl #1）
+   — 本批 RL 十篇全部在处理 GRPO 家族的信用分配与信号质量。核心矛盾被反复陈述：
+   GRPO 把相同的轨迹级优势**同等广播给所有动作**，而评论家方法需额外学一个价值函数。
+   ProAS 把这称为「统一信用分配困境」并指出均匀性会**持续强化多数模式**——
+   未尝试的动作因此无法获得优势。LLM Value Functions 试图绕开这个二选一：不训额外评论家，
+   而是用 LLM 本身充当价值函数，代价是信用分配的正确性被绑定到 LLM 的判断质量上。
+
+### 备注
+
+- **⚡ 双工线全面回补且首次零 wild-card**。更值得注意的是 [DuplexAct](https://arxiv.org/abs/2610.17738)
+  ——它是本项目日报在 10-09 提出的问题的**直接回应**。当时判断「以全双工模型为主体的评测协议都不可靠」，
+  并列出三条具体缺陷（缺少动作级形式化、只评估动作是否发生而非成功、真实对话覆盖有限），
+  DuplexAct 逐条处理。把 DuplexAct 与 10-07 的
+  [Coupled but Late](https://arxiv.org/abs/2610.08683)（模型间环路时序未必是人类的）、
+  10-09 的 SteerablePlex（失控导致评测不可靠）连读，三天下来这条线的问题陈述已相当完整。
+- **AR 长视频生成成为本批最大的聚集**：AIGC 视觉线 10 篇中有 7 篇在处理自回归视频的**历史与缓存**，
+  沿三个维度展开——缓存决策（Frequency-Step Cache 把耦合的「同步/修复」两决策**分离**；
+  FrameFold 从「按历史长度保留」转向**响应引导**整合）、缓存压缩（TempoKV 指出既有 KV 量化方法
+  **专为 LLM 设计、迁移到视频效果差**）、预测时程（Prospective Forcing 指出自回归视频生成器
+  **通常只被训练预测紧邻的未来**）。这条线本项目已连续追踪五天（10-05 ID-Forcing → 10-08 Memory Forcing → 今天）。
+- **RL 十篇全在处理信号质量**，三类问题各自清晰：
+  核心矛盾（统一广播 vs 额外评论家）；信号被压缩或失真（Many Right Answers 指出单参考设计
+  把偏置写进奖励、RELAY 指出 rubric 塌缩成单一奖励且并列时**零梯度**、Double-Rollout 指出
+  **正确答案可能并不由推理轨迹支撑**）；探索预算该投在哪
+  （Variance-Optimal State Resampling 给出**闭式 Neyman 型解**，把预算分配从调参变成可计算问题）。
+- **流匹配正在系统性入侵判别式任务**：本批 FLOMSS（源分离）、Prime-EVC（情感语音转换）、
+  MSVAE（连续潜空间音乐语义）三篇分属不同子任务却同一范式。
+- **具身线的力/接触成为独立主线**，五篇从数据（ForceWAM 解耦「未来」与「响应」学习）、
+  表征（DEFT-VLA 指出定位阶段力信息无用甚至干扰、接触后才关键）、
+  架构（Vision-Predictor-Action 用轻量 JEPA 预测器替换自回归解码器以提高**闭环控制频率**）三侧切入。
+  效率侧的选择与 audio_lm 线 Diffuplex 的「多 token 前向」完全同构。
+- **审计主题继续**：[WoVR+](https://arxiv.org/abs/2610.17922) 指出世界模型用于 RL 时
+  **幻觉会误导策略优化**——预测误差会被策略当作真实后果来利用，因此 RL 会主动放大世界模型的分歧区域；
+  [What Do Deepfake Audio Detectors Hear?](https://arxiv.org/abs/2610.17617) 追问检测器在语音与
+  背景混合上究竟关注哪个（若在听背景，则针对语音的对抗攻击恰好打在盲区）；
+  [Collapse, Repair, and Drift](https://arxiv.org/abs/2610.18192) 指出 CER 揭示了损失曲线看不到的
+  **暂态崩塌与恢复**，意味着训练中途存在比起点终点都差的检查点。
 
 ## 2026-10-12
 
