@@ -19,6 +19,7 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-15](daily_arxiv_digest/2026_10/2026-10-15/) | 570 | 10 | 10 | 10 | 10 | 10 | [单次 rollout 的 token 信用分配](https://arxiv.org/abs/2610.20497) · [LALM 后训练学到的是格式适应](https://arxiv.org/abs/2610.19476) · [触觉从传感器变为表示学习来源](https://arxiv.org/abs/2610.20134) |
 | [2026-10-14](daily_arxiv_digest/2026_10/2026-10-14/) | 1935 | 10 | 10 | 10 | 10 | 10 | [Diffuplex：全双工 1872 token/s](https://arxiv.org/abs/2610.17780) · [Demiurge：跨轨迹一致的 4D 世界](https://arxiv.org/abs/2610.14685) · [LLM 价值函数做信用分配](https://arxiv.org/abs/2610.15840) |
 | [2026-10-12](daily_arxiv_digest/2026_10/2026-10-12/) | 488 | 10 | 10 | 10 | 10 | 10 | [审计 AAD：主流缓解手段的参照物是 OOD](https://arxiv.org/abs/2610.13112) · [动作不描述它将达成什么](https://arxiv.org/abs/2610.13212) · [PPO 的裁剪代理是几何退化的](https://arxiv.org/abs/2610.13015) |
 | [2026-10-09](daily_arxiv_digest/2026_10/2026-10-09/) | 643 | 10 | 10 | 10 | 10 | 10 | [聚合准确率掩盖成对漂移](https://arxiv.org/abs/2610.11196) · [因果视频扩散不需要双向教师](https://arxiv.org/abs/2610.11479) · [双工智能体的异步委派范式](https://arxiv.org/abs/2610.11299) |
@@ -28,6 +29,77 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-15
+
+- **arXiv 批次窗口**：2026-10-14 UTC（截至 2026-10-15 17:00 CST，当天批次尚未发布）
+- **扫描**：570 篇去重论文（cs.LG 221 / cs.AI 211 / cs.CL 139 / cs.CV 120 / cs.RO 79 /
+  cs.SD 19 / eess.AS 11，其余为跨分类重复）
+- **全文精读**：50 篇，抽取作者机构与 93 张论文原图
+- **Wild-card**：本批 10 篇（aigc_visual 2 / aigc_audio 3 / audio_lm 5 / embodied 1 / rl 1）
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-15/2026-10-15_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Hindsight-Privileged RLVR: Single-Rollout Token Credit Without Group Sampling](https://arxiv.org/abs/2610.20497)**（rl #1）
+   — **攻击的是 GRPO 必须多次采样这个结构性成本，而不是它的信用分配粒度。**
+   组采样的代价不只是算力：它是熵退化与组内无变化的根源，因为组必须来自同一策略的窄分布；
+   用事后（hindsight）信息替代同策略采样，等于绕开了这个循环依赖。
+   配套读 [Where to Start, How to Move](https://arxiv.org/abs/2610.19349)，
+   它给出同一问题的另一半：**训练早期全失败组很常见**，而长时程任务只在成功时给奖，
+   因此全失败组**阻止了后续步骤被练习**——因为到达后续步骤本身就要求先成功。
+   两篇合起来是一个自锁：不会到达，就不会被练到。
+
+2. **[What Does LALM Post-training Learn?](https://arxiv.org/abs/2610.19476)**（audio_lm #2）
+   — **本项目日报审计线索的第五次出现**，且对象是更根本的问题：
+   后训练带来的基准提升**可能反映的是对特定问题格式（如选择题）的适应**，
+   而非音频理解与推理能力的真正进步。
+   选择题的后训练收益可以来自「学会排除干扰选项」这一格式技巧，这在开放式生成中完全无用——
+   若评测只用选择题，该能力的价值被系统性高估。用 LALM 基准分数做选型前建议先看这篇。
+
+3. **[Tactile-Guided Robot Learning: From Representation Learning to Foundation Models](https://arxiv.org/abs/2610.20134)**（embodied #1）
+   — **把本项目日报已追踪三天的触觉趋势收束成一篇综述**（10-08 五篇触觉、10-14 五篇力/接触、今天三篇）。
+   关键论断：触觉的角色已从接触检测与反应式控制，扩展到**学习可迁移表示**、条件化策略与支撑具身物理推理——
+   它提供的是视觉无法获得的**物理接触信息**，而非更精细的接触信号。
+   配套 [TacClaw-Infinity](https://arxiv.org/abs/2610.20320) 点出数据瓶颈的真实位置：
+   触觉数据的难点不是采集量而是**标注结构**（视觉可自动弱标注，触觉需要与接触事件对齐的时序标签）。
+
+### 备注
+
+- **⚡ 一条可直接用于工程决策的反直觉观察**：
+  [Speculative Sampling in Interactive Video Generation](https://arxiv.org/abs/2610.20556)
+  实验显示交互式视频生成中**更大的块提升视频质量**且更好利用 GPU 并行，
+  采样时间仅小幅增加——这直接推翻了「块越小越好」这一部署默认（小块的低质量可能来自其自身表达限制
+  而非速度代价）。配合 [Are We Overthinking One-Step Generation?](https://arxiv.org/abs/2610.20331)
+  （质疑一步生成研究的复杂度投入），两篇共同指向：过去几年在「更少步数」上的努力，
+  可能不如「接受稍多步数换质量」划算。
+- **自回归化的成本是本批 AIGC 视觉主线**，接上 10-09（Conditional Residual Prediction）
+  → 10-12（Unified Generative Video Compression）→ 10-14（七篇 AR 缓存方案）→ 今天补上**转换本身**：
+  [Glance Forcing](https://arxiv.org/abs/2610.20220) 指出主流做法需要**离线 PF-ODE 轨迹**，
+  每次转换都要跑一遍完整求解器而蒸馏本身已需大量采样，**成本是叠加的**；
+  [RepForcing](https://arxiv.org/abs/2610.20111) 则把初始化与蒸馏分开——
+  中间 AR 教师能提供因果兼容的 ODE 目标，但**因果兼容本身并不保证高质量生成**。
+- **⚠️ 双工语音方向再次稀缺**：本批 cs.SD 19 + eess.AS 11 篇中仅一篇真双工，
+  且属通信域的带内全双工自干扰消除（非语音域）。audio_lm 用了 5 个 wild-card。
+  仍值得看的 [MultiPartyTurnBench](https://arxiv.org/abs/2610.20172) 把话语权时机推进到多方场景，
+  并明确提出**易混淆的非事件**这一关键设计——附和（backchannel）在声学上与真正的话轮转换几乎不可分，
+  因此只测正例的基准会奖励「对任何声音都让出话语权」的策略。
+  它接上 10-07 Coupled but Late → 10-09 DuplexAct → 10-14 Diffuplex/D2 这条追踪线。
+- **RL 评测的第三个审计实例**：[More Methods, Better Agents?](https://arxiv.org/abs/2610.19789)
+  指出既有评测常在不同实验条件下**复用已发表的基线分数**，意味着比较的不是方法而是**评测设置**。
+- **RL 信号正确性三篇**：C3 指出纯结果 RL 会产生**误导性强化**（成功轨迹上不良的局部行为
+  也可能拿到**正的** token 级优势）；When Pairwise Preferences Cycle 指出成对偏好可能成环
+  （A>B、B>C 不蕴含 A>C）；When Does Momentum Help in RLVR? 用 bandit 形式化质疑一阶动量
+  （动量有效的前提是梯度近似同向，而 RLVR 梯度方差极大）。
 
 ## 2026-10-14
 
