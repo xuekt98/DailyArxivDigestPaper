@@ -36,7 +36,34 @@ Daily arXiv paper collection, filtering, summarization, and reading notes.
 
 ## 项目结构
 
-<!-- TODO: 用一两段说明仓库的目录划分与各子模块的用途。详细架构请写到 `project_handbook/project_architecture/ARCHITECTURE.md`。 -->
+本项目收纳**每日 arXiv 论文日报**：抓取 7 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
+cs.AI / cs.RO / cs.LG）的最新公告批次，按 5 条研究线（AIGC 视觉 / AIGC 音频 /
+音频与语音 LM / 具身与世界模型 / 强化学习）各出 top-10 排名报告与条目目录。
+
+```
+daily_arxiv_digest/<YYYY_MM>/<YYYY-MM-DD>/
+├── <date>_<track>_report.md   # 10 篇/线，含摘要、作者机构、关键图表
+├── <date>_<track>_entry.md    # shields.io 条目目录（mine-create-paper-entry 格式）
+└── res/                       # 论文原图，命名 <arxiv_id>_{framework,result}.png
+index.md                       # 累计索引：每日一行摘要 + 各日详情章节
+codex_temp/<date>/             # 每次运行的临时目录，报告写完后整体清理
+```
+
+**管线脚本**已固化在 `project_handbook/project_tools/digest/`：
+
+- `scrape.py` — 探测最新公告批次（可回溯数日，处理周末/节假日空档）、
+  逐（分类 × 日）抓取以避免 `max_results` 截断、按研究线做关键词预筛。
+  用法：`python scrape.py --out codex_temp/<date> --auto 6`（或 `--days 20261015,20261016`）
+- `read.py` — 3 秒限速下载 PDF，抽取作者机构、贡献句与关键图（图注区域裁剪），
+  产出 `phase2_cards/<id>.json`。用法：`python read.py --out codex_temp/<date>`
+  （shortlist 由当次运行写入 `codex_temp/<date>/shortlist.json`）
+
+每次运行的**相关性打分、排名与报告分析**是人工撰写的，存放在当次
+`codex_temp/<date>/render.py`（随临时目录清理，不入库）。
+
+⚠️ arXiv 的公告存在**时区滞后与周末空档**：中文标准时间下午运行时，
+最新可用批次通常是前一天的 UTC 日。若探测发现当日及近几日均为空，
+**不生成日报**（避免与上一份重复），仅在 `index.md` 的「跳过记录」中登记原因。
 
 ## 使用约定
 

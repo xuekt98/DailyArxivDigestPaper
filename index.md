@@ -19,6 +19,7 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-16](daily_arxiv_digest/2026_10/2026-10-16/) | 574 | 10 | 10 | 10 | 10 | 10 | [一次通过回答多个话轮问题](https://arxiv.org/abs/2610.21150) · [167 万条 RLVR 语料的去污染审计](https://arxiv.org/abs/2610.21229) · [机器人策略该预测什么](https://arxiv.org/abs/2610.21915) |
 | [2026-10-15](daily_arxiv_digest/2026_10/2026-10-15/) | 570 | 10 | 10 | 10 | 10 | 10 | [单次 rollout 的 token 信用分配](https://arxiv.org/abs/2610.20497) · [LALM 后训练学到的是格式适应](https://arxiv.org/abs/2610.19476) · [触觉从传感器变为表示学习来源](https://arxiv.org/abs/2610.20134) |
 | [2026-10-14](daily_arxiv_digest/2026_10/2026-10-14/) | 1935 | 10 | 10 | 10 | 10 | 10 | [Diffuplex：全双工 1872 token/s](https://arxiv.org/abs/2610.17780) · [Demiurge：跨轨迹一致的 4D 世界](https://arxiv.org/abs/2610.14685) · [LLM 价值函数做信用分配](https://arxiv.org/abs/2610.15840) |
 | [2026-10-12](daily_arxiv_digest/2026_10/2026-10-12/) | 488 | 10 | 10 | 10 | 10 | 10 | [审计 AAD：主流缓解手段的参照物是 OOD](https://arxiv.org/abs/2610.13112) · [动作不描述它将达成什么](https://arxiv.org/abs/2610.13212) · [PPO 的裁剪代理是几何退化的](https://arxiv.org/abs/2610.13015) |
@@ -29,6 +30,72 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-16
+
+- **arXiv 批次窗口**：2026-10-15 UTC（截至 2026-10-16 17:00 CST，当天批次尚未发布）
+- **扫描**：574 篇去重论文（cs.AI 226 / cs.LG 211 / cs.CV 135 / cs.CL 135 / cs.RO 78 /
+  cs.SD 13 / eess.AS 极少量，其余为跨分类重复）
+- **全文精读**：50 篇，抽取作者机构与 89 张论文原图
+- **Wild-card**：本批 10 篇，其中 **aigc_audio 占 9**（见下方警告）
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-16/2026-10-16_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[VoxTurn: Answering Several Turn-Taking Questions in One Pass with One Model](https://arxiv.org/abs/2610.21150)**（audio_lm #1）
+   — 级联语音智能体必须在用户的**每次静默中**判断用户是否说完（太早→打断，太晚→变慢），
+   而且往往还需要几个相关但不同的判断：用户是否会继续说、自己说话期间的声音是
+   **打断还是附和**、那声音到底是不是语音。VoxTurn 用**一个模型一次通过**回答这几个问题。
+   关键在于：把多个检测器合并为一次前向不只是省算力，而是让这些判断**共享表示**——
+   而「打断 vs 附和」的区分恰恰需要同时看到语音与自身说话状态，分离的检测器在结构上无法做到。
+   它直接回应了昨天 MultiPartyTurnBench 提出的「易混淆非事件」难题。
+
+2. **[What Should We Remove? Evaluating the Reliability and Costs of RLVR Data Decontamination](https://arxiv.org/abs/2610.21229)**（rl #2）
+   — **本项目日报审计线索中规模最大的一例**：审计 **16 个开放 RLVR 数学语料、1,673,514 条训练项**，
+   对照 **6 个基准、1,949 道题**，评估去污染清理策略的可靠性与**数据损失代价**。
+   去污染的隐含代价常被忽略：清理越激进训练数据损失越大，而训练语料规模与效果的关系在 RLVR 上
+   尚未被系统刻画——因此「宁可多删」的直觉可能并不成立。任何用公开 RLVR 语料做后训练的团队都应先看这份数字。
+
+3. **[What Should Robot Policies Learn to Predict?](https://arxiv.org/abs/2610.21915)**（embodied #2）
+   — VLA 通常以动作预测为主要监督，而 latent-action（LA）与未来视觉（FV）预测等辅助目标
+   常被加入以改进策略学习，然而作者指出它们会与动作预测**竞争表示容量**。
+   「辅助目标越多越好」是本方向的普遍默认，本文把它变成一个可测的取舍——
+   接上 10-12 Beyond Actions（预测目标换成效果）与 10-14 WAVE-0/ΔWAM，是这条线的又一环。
+
+### 备注
+
+- **⚠️ aigc_audio 是本项目日报至今最薄的一次**：cs.SD 仅 13 篇，
+  全库 574 篇中**没有一篇** TTS、音乐生成或语音转换论文（10-14、10-15 这两天分别有 10、8 篇真实生成/编辑工作）。
+  该线用了 **9 个 wild-card**，由转录、压缩、水印、语音增强、多语评测等**非生成**工作补足，
+  读这部分时请大幅打折。
+- **⚡ 本批是记忆方向的最大一次聚集**（跨四条线共八篇）：
+  [Hy-Memory](https://arxiv.org/abs/2610.22196)（把**写入路径**识别为需专门优化的关键环节）、
+  [MemComposer](https://arxiv.org/abs/2610.21091)（**语义相似本身不保证记忆有用**，有用性由呈现方式决定）、
+  [All-in-One Memory](https://arxiv.org/abs/2610.21147)（搜索/写入/停止缺少**共享奖励空间**）、
+  [MemCut](https://arxiv.org/abs/2610.21405)（记忆基准长期只测「找得回不准」，
+  因此一个每次检索完美但拒绝删除的系统会得满分）、
+  [从长上下文到选择性记忆](https://arxiv.org/abs/2610.21165)（「持续扩展上下文窗口并不消除推理期压力」）、
+  以及嵌入/具身/RL 线的若干变体。这条线本项目已连续追踪五天（10-07 PERSIST → 10-09 Gated Memory → …）。
+- **触觉连续第四天出现在本日报**：10-08 五篇、10-14 五篇力/接触、10-15 一篇综述、
+  今天 [Spark-0](https://arxiv.org/abs/2610.22342)。关键设计是**空间对齐**：
+  触觉的高维信号若不与视觉空间对齐，就只能提供「有接触发生」这类全局信息、无法定位接触位置，
+  这正是触觉此前难以进入预训练的根本原因。
+- **两个被质疑的标准组件**：[Speculative Forcing](https://arxiv.org/abs/2610.22347) 指出少步 AR 视频生成器
+  **让每个 token 都走最终去噪步**而不论需要多少精修；[Rethinking CFG](https://arxiv.org/abs/2610.21550)
+  论证 CFG 在文图到图建模中的角色被理解不足（输入已高度约束分布时 CFG 可能在放大输入偏差而非提升质量）。
+  两篇都接上本日报审计线索。
+- **管线脚本已固化**：抓取与 PDF 提取的机械部分已迁移到
+  [`project_handbook/project_tools/digest/`](https://github.com/xuekt98/DailyArxivDigestPaper/tree/main/project_handbook/project_tools/digest)
+  （`scrape.py` / `read.py`），不再每次随临时目录重写。
 
 ## 2026-10-15
 
