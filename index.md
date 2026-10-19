@@ -24,6 +24,7 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-19](daily_arxiv_digest/2026_10/2026-10-19/) | 429 | 10 | 10 | 10 | 10 | 10 | [准确率可以在不 grounding 的情况下提升](https://arxiv.org/abs/2610.23148) · [Qwen3-TTS 的条件化与失效模式](https://arxiv.org/abs/2610.23678) · [无视觉纯触觉操控](https://arxiv.org/abs/2610.23438) |
 | [2026-10-16](daily_arxiv_digest/2026_10/2026-10-16/) | 574 | 10 | 10 | 10 | 10 | 10 | [一次通过回答多个话轮问题](https://arxiv.org/abs/2610.21150) · [167 万条 RLVR 语料的去污染审计](https://arxiv.org/abs/2610.21229) · [机器人策略该预测什么](https://arxiv.org/abs/2610.21915) |
 | [2026-10-15](daily_arxiv_digest/2026_10/2026-10-15/) | 570 | 10 | 10 | 10 | 10 | 10 | [单次 rollout 的 token 信用分配](https://arxiv.org/abs/2610.20497) · [LALM 后训练学到的是格式适应](https://arxiv.org/abs/2610.19476) · [触觉从传感器变为表示学习来源](https://arxiv.org/abs/2610.20134) |
 | [2026-10-14](daily_arxiv_digest/2026_10/2026-10-14/) | 1935 | 10 | 10 | 10 | 10 | 10 | [Diffuplex：全双工 1872 token/s](https://arxiv.org/abs/2610.17780) · [Demiurge：跨轨迹一致的 4D 世界](https://arxiv.org/abs/2610.14685) · [LLM 价值函数做信用分配](https://arxiv.org/abs/2610.15840) |
@@ -35,6 +36,74 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-19
+
+- **arXiv 批次窗口**：2026-10-16 UTC（截至 2026-10-19 17:00 CST；周末无公告，故窗口较前次回溯 3 天）
+- **扫描**：429 篇去重论文（cs.LG 156 / cs.AI 119 / cs.CL 96 / cs.CV 90 / cs.RO 54 /
+  cs.SD 18，其余为跨分类重复）
+- **全文精读**：50 篇，抽取作者机构与 90 张论文原图
+- **Wild-card**：本批 10 篇（aigc_visual 1 / aigc_audio 3 / audio_lm 5 / embodied 1 / rl 1）；
+  **aigc_audio 的 wild-card 从昨天的 9 降到 3**，音频生成线明显回暖
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-19/2026-10-19_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Grounded Credit Assignment in Reinforcement Learning for Multi-Turn Search Agents](https://arxiv.org/abs/2610.23148)**（rl #1）
+   — **本项目日报审计线索中最锋利的一次**：结果奖励 RL（GRPO）给搜索智能体每个 token 相同优势，
+   而 rollout 实际同时练习「找到证据」与「使用证据」。作者表明
+   **准确率可以在没有 grounding 的情况下提升**——Search-R1 在全部七个 QA 基准上提升准确率，
+   但在 Bamboogle 上有证据支持的正确回答占比并未同步改善。
+   换言之，一个旗舰 RL 方法可以在**不使用检索到的证据**的前提下刷高分数。
+   配套必读 [Batched Contextual RL II](https://arxiv.org/abs/2610.22887)：长 rollout 窗口使 RLVR 昂贵，
+   但单纯缩短会在**每条 rollout 都截断于答案之前**时消除组相对优势（组内同质则优势恒为零）。
+   两篇合起来定义了 RLVR 的真实张力。
+
+2. **[Beyond the Benchmark: Conditioning, Domains and Failure Modes of Qwen3-TTS](https://arxiv.org/abs/2610.23678)**（aigc_audio #1）
+   — Qwen3-TTS 报告了 SOTA 零样本克隆，但技术报告留下三个未答问题：**模型应如何被条件化**、
+   **在朗读语音之外表现如何**、**如何失败**。作者刻画其两种克隆接口（ICL 与 X-Vector），
+   并与 Chatterbox、XTTS-v2、F5-TTS 对比。
+   「朗读之外」是最少被测的条件——基准几乎都用朗读语料，而真实使用场景多为自然口语。
+   **选型前用它作为替代评测，比直接采信技术报告的 SOTA 数字更可靠。**
+
+3. **[No Eyes, No Problem: What Does Touch Contribute to Blind Baoding Ball Manipulation?](https://arxiv.org/abs/2610.23438)**（embodied #2）
+   — **触觉连续第五天出现在本日报**，而今天这篇把它推到极端：人类能仅凭手内触觉操控物体，
+   机器人**在完全无视觉**下实现持续真实操作仍是开放挑战。
+   这是一个干净的消融设定——它把触觉从「视觉的补充」提升为**独立的操作信息来源**，
+   因此能真正回答触觉的边际价值，而非其在有视觉系统中的增量。
+
+### 备注
+
+- **⚡ 审计线索的第三种类型**：前几类是「指标测错了东西」（UMMOS 口音偏见）与
+  「评测工具本身有问题」（Selective Listening、AAD 审计）；今天多了一类
+  **「指标对但行为不是那样」**——Search-R1 在七个基准上涨分，却没用证据。
+  同一批还有两个实例：[Ignored, Not Refused](https://arxiv.org/abs/2610.23254)
+  审计**十一个开放权重模型的 33,000 条轨迹**，发现低提示注入成功率隐藏的是
+  「**被忽略**」而非「被拒绝」；[MUB](https://arxiv.org/abs/2610.22989) 用**身份遮蔽**录音
+  切断「搜歌名再答题」这条捷径；[Leakage-Audited Arousal](https://arxiv.org/abs/2610.23063)
+  按**完整歌曲**留出，防止模型靠记忆片段而非预测趋势得分。
+- **RL 信用分配的一个免费信号被找到**：MGE-PO 用 **rollout 生成熵**——
+  GRPO 给同等奖励的响应相同优势，但它们之间的熵差异被浪费了；
+  正确性决定修正的符号、熵决定幅度，且不需要额外的奖励模型。
+- **一个值得做实验验证的论断**：[Learning to Correct Geometry in Generated Videos](https://arxiv.org/abs/2610.23856)
+  论证生成视频的几何不一致**在很大程度上是数据问题**——网络规模视频语料中大部分运动来自手持拍摄，
+  缺少精确相机轨迹。若成立，增加训练规模不会解决它。
+- **数据侧的一个隐蔽陷阱**：[ASR-Style Transcript Normalization](https://arxiv.org/abs/2610.22934)
+  指出 ASR 归一化会移除填充停顿、标点并展开口语形式——而这些恰恰是对话行为分类所依赖的线索。
+  下游任务若直接用标准 ASR 输出，会在训练阶段就失去这些信息。成本极低而影响面很大。
+- **⚠️ 双工语音方向仍然稀缺**：本批 cs.SD 与 eess.AS 之外双工关键词全库零命中，audio_lm 用了 5 个 wild-card。
+  本线唯一可归入该议题的是 [Jarvis](https://arxiv.org/abs/2610.23804) 及其「慢脑-前端」分工——
+  它把「双工」从轮次级并发推进到**任务级**并发：用户可在任务运行中改写需求，
+  因此协调层必须是一等组件而非消息传递。
 
 ## 2026-10-16
 
