@@ -24,6 +24,7 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-21](daily_arxiv_digest/2026_10/2026-10-21/) | 501 | 10 | 10 | 10 | 10 | 10 | [难题上 RLVR 没有任何奖励信号](https://arxiv.org/abs/2610.27467) · [偏好模型的分数里有多少不是「质量」](https://arxiv.org/abs/2610.28195) · [音频 LLM 到底有没有在听（机制层）](https://arxiv.org/abs/2610.28189) |
 | [2026-10-20](daily_arxiv_digest/2026_10/2026-10-20/) | 525 | 10 | 10 | 10 | 10 | 10 | [是 RL 的功劳还是数据的功劳](https://arxiv.org/abs/2610.25812) · [音频 LLM 到底有没有在听](https://arxiv.org/abs/2610.25599) · [首个跨本体 loco-操作世界基础模型](https://arxiv.org/abs/2610.26855) |
 | [2026-10-19](daily_arxiv_digest/2026_10/2026-10-19/) | 429 | 10 | 10 | 10 | 10 | 10 | [准确率可以在不 grounding 的情况下提升](https://arxiv.org/abs/2610.23148) · [Qwen3-TTS 的条件化与失效模式](https://arxiv.org/abs/2610.23678) · [无视觉纯触觉操控](https://arxiv.org/abs/2610.23438) |
 | [2026-10-16](daily_arxiv_digest/2026_10/2026-10-16/) | 574 | 10 | 10 | 10 | 10 | 10 | [一次通过回答多个话轮问题](https://arxiv.org/abs/2610.21150) · [167 万条 RLVR 语料的去污染审计](https://arxiv.org/abs/2610.21229) · [机器人策略该预测什么](https://arxiv.org/abs/2610.21915) |
@@ -37,6 +38,90 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
 ---
+
+## 2026-10-21
+
+- **arXiv 批次窗口**：2026-10-20 UTC（截至 2026-10-21 17:00 CST，当天批次尚未发布）
+- **扫描**：501 篇去重论文（逐日原始 709 条：cs.AI 215 / cs.LG 168 / cs.CV 147 / cs.CL 94 /
+  cs.RO 67 / eess.AS 10 / cs.SD 8，其余为跨分类重复）
+- **全文精读**：55 篇，抽取作者机构与 100 张论文原图（最终入库 92 张）
+- **Wild-card**：本批 8 篇（aigc_visual 0 / aigc_audio 6 / audio_lm 2 / embodied 0 / rl 0）
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_embodied_entry.md) |
+| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Projected Distillation: On Learning to Solve Hard Problems from Close, Correct Targets](https://arxiv.org/abs/2610.27467)**（rl #2）
+   — **把 RLVR 的地基问题摆到了台面上：在困难问题上，RL 本身提供不了任何信号。**
+   在策略学习框架下，若所有尝试都失败，RLVR 就没有基于奖励的学习信号；而在策略蒸馏里，
+   教师给的 next-token 监督又会条件在**已经出错的上下文**上。
+   作者的做法不是换更强的教师，而是把教师降级为「正确性集合」——
+   学生从自己错误的**最小化、在线的修正**中学习，并证明**修正必须既最小又在线**。
+   这与 10-20 日报「是 RL 的功劳还是数据的功劳」构成一对：
+   上一篇问收益归算法还是归数据，这一篇问**信号从哪来**。
+   **任何在难题上做后训练的工作都应先确认它的监督信号到底从哪来。**
+
+2. **[Attractive Faces Skew Text-to-Image Reward Models and Leaderboards](https://arxiv.org/abs/2610.28195)**（aigc_visual #4）
+   — **偏好模型的分数里，有相当一部分根本不是「质量」。**
+   对人脸，**感知吸引力压过图像质量**：在受控用户研究中，标注者把更漂亮的脸评为更高质量，
+   **哪怕拿来对比的是同保真度的真实照片**。隔离编辑 40 个人脸属性后，
+   吸引力是 PickScore / MPS / HPSv2.1 / HPSv3 四个主流偏好模型的最强相关项。
+   换言之，当前 T2I 榜单在很大程度上奖励的是「生成更好看的人脸」，
+   而这与「更符合提示词」没有必然关系——与本项目自 10-16 起追踪的「审计/评测工具有问题」线索直接接续。
+
+3. **[Uncovering Audio-Text Alignment in Large Audio-Language Models through Cross-Modal Concept Neurons](https://arxiv.org/abs/2610.28189)**（audio_lm #1）
+   — **「音频 LLM 到底有没有在听」这条三日线索在机制层收口。**
+   10-19 的 VocalGrad 说声学信息在语言共现时用不上，10-20 的 Text Dominance 说转写可用时模型忽略副语言线索；
+   本篇进一步问**机制**：是否存在一个音频与文本表示**对齐的共享子空间**？
+   作者识别跨模态神经元并对其做因果测试（steering）。
+   若共享子空间存在，那么「有转写就忽略声音」就不是全有全无的现象，
+   而是**可定位、可干预**的局部行为——这比行为层的观察更进一步。
+
+### 备注
+
+- **⚠️ arXiv API 的 `submittedDate` 区间查询被限流，管线已改道**：
+  本次运行中 arXiv 对 `submittedDate:[... TO ...]` 形式的区间查询持续返回
+  **HTTP 429 / 503**，而普通的 `cat:<分类>` 查询正常。
+  `project_handbook/project_tools/digest/scrape.py` 已改为
+  **按分类倒序拉取 + 本地按 v1 `published` 日期过滤**（API 只暴露已公告论文，
+  因此按 `published` 分组与按批次日分组等价），并加入 429/503 退避重试与页面缓存。
+  首次探测可用 7 次请求完成整批，速率限制仍为 3 秒以上。
+  **如果今后抓取再次大面积失败，先检查是否又是区间查询。**
+- **触觉子方向连续第三批升温**：本批同时出现三篇——
+  [Tactile-ETA](https://arxiv.org/abs/2610.27613)（用上下文注入把触觉经验给进智能体，**不做任务特定训练**）、
+  [HuTact](https://arxiv.org/abs/2610.27995)（**改用人类手-物交互数据**预训练触觉手部表示，绕开机器人触觉数据瓶颈）、
+  [Physical Canvas](https://arxiv.org/abs/2610.28613)（把触觉放进**世界模型**并要求状态一致性）。
+  三篇分别落在「数据从哪来」「表示怎么学」「模拟器怎么用」，构成了一个完整链条。
+- **世界模型的两条摊销路线同时出现**：
+  [SuperMimic](https://arxiv.org/abs/2610.28480)（CoRL 2026 Oral）用**一个可微世界模型**替换
+  「一堆逐动作专家 + 有损蒸馏」，GPU 小时数下降**一个数量级以上**；
+  10-20 日报的 [Ropedia](https://arxiv.org/abs/2610.26855) 则是**跨本体**摊销。
+  两者回答的是同一个问题：如何把一次性的大规模训练变成一次性的可微模型复用。
+- **AR 视频缓存线索接续**：[CALM](https://arxiv.org/abs/2610.28192) 指出各注意力层/头对 token merging
+  的敏感度**不同但相关且跨提示稳定**，于是可用**离线校准**决定各层各头的合并比例，
+  并证明注意力输出误差可作轻量代理——这是把「拍脑袋定统一比例」换成可测分配问题的做法。
+- **⚠️ aigc_audio 连续第二次极薄**：cs.SD 仅 8 篇、eess.AS 仅 10 篇，
+  501 篇中真正做音频**生成/编辑**的只有个位数，该线用了 **6 个 wild-card**（本项目日报至今最多）。
+  仍值得看 [LoCA](https://arxiv.org/abs/2610.28035)：它指出 TTS 用 RL 的真正痛点是
+  **句子级奖励定位不了局部错误**，解法是用 ASR 对齐把内容错误定位到声学帧上再重分配优势，
+  在 VoxCPM2 上把样本加权内容误差相对预训练骨干降 **20.5%**。
+- **一个被量化的物理建模陷阱**：
+  [Differentiable Karplus-Strong](https://arxiv.org/abs/2610.28043) 通过梯度分析发现
+  **标准频谱损失对起音时间不提供有意义的方向性梯度**——
+  这直接解释了为什么物理建模合成里的参数长期不可辨识（是系统性的，不是调参问题）。
+- **一个「零代价增益」的范例**：
+  [Slots Are Not Speakers](https://arxiv.org/abs/2610.28053) 指出流式 diarizer 的 N 个槽位限制的是
+  「能同时表达几个人」而非「会遇到几个人」，用**只重标注**的因果 linker
+  （不引入任何额外漏检）把 4 槽主干在超限部分的 DER 从 **36.8%** 降到 **22.6%**，
+  在 23 人庭审场景把 cpWER 从 **82.7%** 降到 **24.4%**。
 
 ## 2026-10-20
 

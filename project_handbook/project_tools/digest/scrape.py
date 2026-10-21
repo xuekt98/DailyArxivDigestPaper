@@ -10,6 +10,14 @@ Usage:
   python scrape.py --out <workdir> --auto 3   # probe back N days, use newest non-empty
 
 Outputs into <workdir>: raw_papers.json, phase1_listing.md, candidates.json
+
+Why no submittedDate in the query (2026-10-21):
+  arXiv's API answers `submittedDate:[... TO ...]` range searches with HTTP 429
+  / 503 for this host, while plain `cat:<c>` queries answered normally. The
+  range search is therefore done locally: fetch each category sorted by
+  submittedDate (descending) and keep the entries whose v1 `published` date
+  equals the batch day. The API only exposes announced papers, so a batch day
+  is exactly the set of papers whose v1 timestamp falls on it.
 """
 from __future__ import annotations
 
@@ -18,33 +26,43 @@ import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-API = "http://export.arxiv.org/api/query"
-RATE = 3.0
+API = "https://export.arxiv.org/api/query"
+RATE = 5.0
+PAGE = 300
 NS = {"atom": "http://www.w3.org/2005/Atom"}
 CATS = ["cs.CV", "cs.SD", "eess.AS", "cs.CL", "cs.AI", "cs.RO", "cs.LG"]
 
 
 def fetch(url: str, label: str) -> bytes:
-    s = RATE
-    for attempt in range(1, 4):
+    """GET with arXiv-friendly backoff. 429/503 are throttles, not failures."""
+    wait = 20.0
+    for attempt in range(1, 6):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "arxiv-daily-digest/0.2"})
-            with urllib.request.urlopen(req, timeout=60) as r:
-                if r.status == 429:
-                    raise RuntimeError("429")
+            req = urllib.request.Request(
+                url, headers={"User-Agent": "arxiv-daily-digest/0.2 (daily paper digest)"})
+            with urllib.request.urlopen(req, timeout=120) as r:
                 return r.read()
+        except urllib.error.HTTPError as exc:
+            if exc.code in (429, 503) and attempt < 5:
+                print(f"  throttle [{label}] attempt {attempt}: HTTP {exc.code}; "
+                      f"sleep {wait:.0f}s", file=sys.stderr)
+                time.sleep(wait)
+                wait = min(wait * 2, 120)
+                continue
+            raise
         except Exception as exc:
-            if attempt >= 3:
+            if attempt >= 5:
                 raise
             print(f"  retry {attempt} [{label}]: {exc}", file=sys.stderr)
-            time.sleep(s)
-            s *= 2
+            time.sleep(wait)
+            wait = min(wait * 2, 120)
     raise RuntimeError("unreachable")
 
 
@@ -78,10 +96,53 @@ def parse(b: bytes, day: str) -> list[dict]:
     return out
 
 
-def url_for(cats: list[str], start: str, end: str, n: int = 300) -> str:
-    clause = " OR ".join(f"cat:{c}" for c in cats)
-    query = f"({clause}) AND submittedDate:[{start} TO {end}]"
-    return f"{API}?search_query={urllib.parse.quote(query)}&sortBy=submittedDate&sortOrder=descending&max_results={n}"
+def url_for(cat: str, start: int = 0, n: int = PAGE) -> str:
+    query = f"cat:{cat}"
+    return (f"{API}?search_query={urllib.parse.quote(query)}"
+            f"&sortBy=submittedDate&sortOrder=descending&max_results={n}&start={start}")
+
+
+class Fetcher:
+    """Cached page reader: one arXiv call per (category, start)."""
+
+    def __init__(self) -> None:
+        self._cache: dict[tuple[str, int], list[dict]] = {}
+        self.calls = 0
+
+    def page(self, cat: str, start: int = 0) -> list[dict]:
+        key = (cat, start)
+        if key not in self._cache:
+            rows = parse(fetch(url_for(cat, start), f"{cat}@{start}"), "")
+            self._cache[key] = rows
+            self.calls += 1
+            time.sleep(RATE)
+        return self._cache[key]
+
+    def day(self, cat: str, ymd: str) -> list[dict]:
+        """All entries of one category whose v1 published date is `ymd`."""
+        out, start = [], 0
+        while True:
+            rows = self.page(cat, start)
+            if not rows:
+                break
+            out.extend([r for r in rows if r["published"][:10] == ymd])
+            oldest = min(r["published"][:10] for r in rows)
+            if len(rows) == PAGE and oldest >= ymd:
+                start += PAGE
+                continue
+            break
+        return out
+
+    def latest_day(self) -> str:
+        """Newest v1 submission date across all categories (the newest batch)."""
+        latest = ""
+        for cat in CATS:
+            rows = self.page(cat)
+            if rows:
+                d = max(r["published"][:10] for r in rows)
+                if d > latest:
+                    latest = d
+        return latest
 
 
 # --------------------------------------------------------------------------
@@ -223,29 +284,26 @@ def main() -> int:
     work = Path(args.out)
     work.mkdir(parents=True, exist_ok=True)
 
+    fetcher = Fetcher()
+
     if args.days:
         days = [d.strip() for d in args.days.split(",") if d.strip()]
     else:
         today = datetime.now(timezone.utc)
-        days = None
-        for back in range(0, (args.auto or 7) + 1):
-            d = (today - timedelta(days=back)).strftime("%Y%m%d")
-            rows = parse(fetch(url_for(CATS, d + "0000", d + "2359", 5), f"probe {d}"), d)
-            print(f"[probe] {d} -> {len(rows)}", file=sys.stderr)
-            if rows:
-                days = [d]
-                print(f"[probe] using {d} ({back}d behind)", file=sys.stderr)
-                break
-            time.sleep(RATE)
-        if not days:
+        newest = fetcher.latest_day()
+        print(f"[probe] newest announced batch day = {newest}", file=sys.stderr)
+        if not newest:
             print("[probe] no announced batch found", file=sys.stderr)
             return 1
+        days = [newest]
+        lag = (today - datetime.strptime(newest, "%Y-%m-%d").replace(tzinfo=timezone.utc)).days
+        print(f"[probe] using {newest} ({lag}d behind today-UTC)", file=sys.stderr)
 
     merged, per_day = {}, {}
     for day in days:
         n0 = 0
         for cat in CATS:
-            rows = parse(fetch(url_for([cat], day + "0000", day + "2359"), f"{day}/{cat}"), day)
+            rows = fetcher.day(cat, day)
             n0 += len(rows)
             for r in rows:
                 k = r["base_id"]
@@ -254,9 +312,7 @@ def main() -> int:
                 else:
                     r["categories"] = sorted(r["categories"])
                     merged[k] = r
-            if len(rows) >= 300:
-                print(f"[warn] {day}/{cat} truncated at max_results=300", file=sys.stderr)
-            time.sleep(RATE)
+            print(f"  [fetch] {day}/{cat}: {len(rows)}", file=sys.stderr)
         per_day[day] = n0
         print(f"[fetch] {day}: {n0} raw, merged {len(merged)}", file=sys.stderr)
 
@@ -264,7 +320,7 @@ def main() -> int:
     write_outputs(work, papers, days, per_day)
     from collections import Counter
     c = Counter(x for p in papers for x in p["categories"])
-    print(f"\nTOTAL {len(papers)} unique | days {days}")
+    print(f"\nTOTAL {len(papers)} unique | days {days} | arxiv calls {fetcher.calls}")
     print("per-day raw:", per_day)
     print("cats:", dict(c.most_common(10)))
     prefilter(work, papers)

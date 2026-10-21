@@ -55,7 +55,10 @@ STRONG = re.compile(
     r"\bbuaa\b|\bseu\b|\bjlu\b|\braunschweig\b|\bfraunhofer\b|\bupf\b|\bwisc\b|"
     r"\bits\b|\bpisa\b|\bdcu\b|\bswansea\b|\byue\b|\bscu\b|\bhhu\b|\bwhu\b|"
     r"\bai singapore\b|\baisingapore\b|\bwuhan\b|\bshandong\b|\bharbin\b|\bhohai\b|"
-    r"\bjiangsu\b|\bsysu\b|\bscau\b|\bautonomous\b|\binstitut|\blaborator)", re.I)
+    r"\bjiangsu\b|\bsysu\b|\bscau\b|\bautonomous\b|\binstitut|\blaborator|"
+    r"\bbaai\b|\bthu\b|\bcasia\b|\bnus\b|\bhkust\b|\bsjt[uU]\b|\becnu\b|\bwhu\b|"
+    r"\buc\b|\bberkeley\b|\bstanford\b|\bharvard\b|\byale\b|\boxford\b|"
+    r"\bcambridge\b|\bedinburgh\b|\bimperial\b|\bucl\b|\btsinghua\b|\bpeking university\b)", re.I)
 
 EMAILISH = re.compile(r"@")
 FOOT = re.compile(r"^\s*(\{[^}]*\}|[A-Za-z0-9._%+-]+)\s*(emails?|e-mail|correspond)", re.I)
