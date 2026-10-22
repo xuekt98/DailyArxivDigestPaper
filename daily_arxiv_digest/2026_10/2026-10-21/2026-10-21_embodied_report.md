@@ -4,9 +4,9 @@
 
 **Source**: arXiv cs.CV, cs.SD, eess.AS, cs.CL, cs.AI, cs.RO, cs.LG submissions, window 2026-10-20 UTC (latest announced batch as of 2026-10-21 17:00 CST)
 
-**Track**: embodied (top 10 of 501 papers scanned, 55 full reads)
+**Track**: embodied (top 10 of 517 papers scanned, 93 full reads)
 
-**Scope**: single differentiable world model for humanoid whole-body control, state-consistent visuo-tactile world model, sim-to-real evaluation of an industrial navigation stack, tactile in-context learning for manipulation, complementary predictive representations, fast motion retargeting, paired clean-perturbed robustness diagnostics, MLLM judges for embodied video, active visual verification for object-goal navigation, tactile hand representations from human data
+**Scope**: single differentiable world model for humanoid whole-body control, state-consistent visuo-tactile world model, complementary predictive representations for manipulation, tactile in-context learning for manipulation, fast motion retargeting, sim-to-real evaluation of an industrial navigation stack, paired clean-perturbed robustness diagnostics, MLLM judges for embodied video, active visual verification for object-goal navigation, tactile hand representations from human data
 
 ---
 
@@ -22,7 +22,7 @@
 
 ### 1. SuperMimic: Scaling Humanoid Whole-Body Control with One Differentiable World Model
 
-**arXiv**: [2610.28480](https://arxiv.org/abs/2610.28480) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: embodied-ai, world-model, humanoid | **Categories**: cs.RO | **Pages**: 19
+**arXiv**: [2610.28480](https://arxiv.org/abs/2610.28480) | **Score**: 9.0 (relevance 9.0 x 0.7 + quality 9.0 x 0.3) | **Tags**: embodied-ai, world-model, humanoid | **Categories**: cs.RO | **Pages**: 19
 
 **Authors**: Qiayuan Liao, Yiyang Shao, Junfeng Long, Kevin Zakka, Roberto Horowitz, Pieter Abbeel, Koushil Sreenath
 
@@ -62,11 +62,11 @@
 
 ### 2. Physical Canvas: A Vision Tactile World Model For Robot Policy Evaluation And Learning
 
-**arXiv**: [2610.28613](https://arxiv.org/abs/2610.28613) | **Score**: 8.85 (relevance 9 x 0.7 + quality 8.5 x 0.3) | **Tags**: embodied-ai, world-model, tactile | **Categories**: cs.RO | **Pages**: 34
+**arXiv**: [2610.28613](https://arxiv.org/abs/2610.28613) | **Score**: 8.85 (relevance 9.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: embodied-ai, world-model, tactile | **Categories**: cs.RO | **Pages**: 34
 
 **Authors**: Zebin Xing, Yuhang Zheng, Yupeng Zheng, Yichen Zhang, Zichen Li, Shangqing Zhou, Yujie Zang, Yuchen Liu, Zhongpu Xia, Haoran Li et al.
 
-**Affiliation**: Institute of Automation, Chinese Academy of Sciences; National University of Singapore; Xi’an Jiaotong University; Beijing Institute of Technology
+**Affiliation**: Institute of Automation, Chinese Academy of Sciences; National University of Singapore; Xi'an Jiaotong University; Beijing Institute of Technology
 
 **Abstract**
 
@@ -104,7 +104,7 @@
 
 ### 3. From Predictive Geometry to Action: Learning Complementary Predictive Representations for Embodied Manipulation
 
-**arXiv**: [2610.28164](https://arxiv.org/abs/2610.28164) | **Score**: 8.85 (relevance 9 x 0.7 + quality 8.5 x 0.3) | **Tags**: embodied-ai, world-model, manipulation | **Categories**: cs.RO | **Pages**: 36
+**arXiv**: [2610.28164](https://arxiv.org/abs/2610.28164) | **Score**: 8.85 (relevance 9.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: embodied-ai, world-model, manipulation | **Categories**: cs.RO | **Pages**: 36
 
 **Authors**: Xiaoxu Xu, Hao Li, Hongtao Zhang, Yili Tang, Jiafei Cao, Junhao Cai, Haoxiang Ma, Weixin Li, Weinan Zhang
 
@@ -146,7 +146,7 @@
 
 ### 4. Embodied Task Agents Can Perform Fine Manipulation through Tactile In-Context Learning
 
-**arXiv**: [2610.27613](https://arxiv.org/abs/2610.27613) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: embodied-ai, tactile, in-context-learning | **Categories**: cs.RO | **Pages**: 24
+**arXiv**: [2610.27613](https://arxiv.org/abs/2610.27613) | **Score**: 8.7 (relevance 9.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: embodied-ai, tactile, in-context-learning | **Categories**: cs.RO | **Pages**: 24
 
 **Authors**: Yubang Wang, Zezheng Huai, Yifei Zhang, Jinhao Wu, Yitong Chen, Haozhe Zhang, Sixian Li, Jingjing Gong, Zhenyang Lin, Ziyang Chen et al.
 
@@ -188,7 +188,7 @@
 
 ### 5. Fast Motion Retargeting Pipeline for Scalable Humanoid Robot Learning
 
-**arXiv**: [2610.28470](https://arxiv.org/abs/2610.28470) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8 x 0.3) | **Tags**: embodied-ai, humanoid, data-pipeline | **Categories**: cs.RO | **Pages**: 8
+**arXiv**: [2610.28470](https://arxiv.org/abs/2610.28470) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8.0 x 0.3) | **Tags**: embodied-ai, humanoid, data-pipeline | **Categories**: cs.RO | **Pages**: 8
 
 **Authors**: Daniel Marew, Sangjun Park, Nisal Perera, Donghyun Kim
 
@@ -230,7 +230,7 @@
 
 ### 6. Physical AI for Intralogistics: Benchmarking the NVIDIA Sim-to-Real Ecosystem for Cosmos-Enhanced COMPASS Navigation on Industrial Mobile Robots
 
-**arXiv**: [2610.28432](https://arxiv.org/abs/2610.28432) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8 x 0.3) | **Tags**: embodied-ai, sim-to-real, navigation | **Categories**: cs.RO | **Pages**: 39
+**arXiv**: [2610.28432](https://arxiv.org/abs/2610.28432) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8.0 x 0.3) | **Tags**: embodied-ai, sim-to-real, navigation | **Categories**: cs.RO | **Pages**: 39
 
 **Authors**: Charbel Abi Hana, Rayan Zaitouni, Kameel Amareen, Mohamad Mostafa, Hasan Sayour, Wei Liu, Yan Chang, Mihir Acharya, Anthony Rizk
 
@@ -238,7 +238,7 @@
 
 **Abstract**
 
-> Classical robot navigation stacks are reliable but often require re-engineering for each new robot type and site. Learning-based navigation shifts this effort from hand-tuned parameters to data generation and training, where a policy adapts to each new embodiment or facility by fine-tuning in simulation. Whether policies adapted this way stay reliable on real industrial robots has seen little systematic testing. We study this for NVIDIA's X-Mobility and COMPASS workflow for training learned navigation policies on Idealworks robots. In simulation, we extend the COMPASS benchmark with two embodiments, the differential-drive iw.hub and an omnidirectional Humanoid Mobile Platform (HMP), and with a digital twin of the Idealworks R&D center. For the real world, we fine-tune X-Mobility on data from this digital twin, with and without sim-to-real variants generated by NVIDIA Cosmos, train COMPASS on top of it from scratch in the digital twin, deploy the resulting policies on the iw.hub's onboard Jetson AGX Xavier, and benchmark them in the Idealworks R&D center against COMPASS trained only on NVIDIA's environments and the existing Idealworks navigation stack on task success, efficiency, safety, smoothness and onboard compute. Running every static scenario both in a digital-twin replica and in the real facility measures the sim-to-real gap and how far Cosmos-augmented data closes it. Training in the digital twin with Cosmos sim-to-real augmentation raises the real-world success rate of learned navigation from 65.3% to 91.7% across four scenarios and nearly halves its weighted travel time compared with simulation-only training, bringing it within 8.3 points of the production navigation stack, fully onboard; with an integrated global planner, it also reaches far, occluded goals in every trial.
+> Classical robot navigation stacks are reliable but often require re-engineering for each new robot type and site. Learning-based navigation shifts this effort from hand-tuned parameters to data generation and training, where a policy adapts to each new embodiment or facility by fine-tuning in simulation. Whether policies adapted this way stay reliable on real industrial robots has seen little systematic testing. We study this for NVIDIA's X-Mobility and COMPASS workflow for training learned navigation policies on Idealworks robots. In simulation, we extend the COMPASS benchmark with two embodiments, the differential-drive iw$\mkern-1.5mu.\mkern-1.5mu$hub and an omnidirectional Humanoid Mobile Platform (HMP), and with a digital twin of the Idealworks R&D center. For the real world, we fine-tune X-Mobility on data from this digital twin, with and without sim-to-real variants generated by NVIDIA Cosmos, train COMPASS on top of it from scratch in the digital twin, deploy the resulting policies on the iw$\mkern-1.5mu.\mkern-1.5mu$hub's onboard Jetson AGX Xavier, and benchmark them in the Idealworks R&D center against COMPASS trained only on NVIDIA's environments and the existing Idealworks navigation stack on task success, efficiency, safety, smoothness and onboard compute. Running every static scenario both in a digital-twin replica and in the real facility measures the sim-to-real gap and how far Cosmos-augmented data closes it. Training in the digital twin with Cosmos sim-to-real augmentation raises the real-world success rate of learned navigation from 65.3% to 91.7% across four scenarios and nearly halves its weighted travel time compared with simulation-only training, bringing it within 8.3 points of the production navigation stack, fully onboard; with an integrated global planner, it also reaches far, occluded goals in every trial.
 
 **Key findings**
 
@@ -270,7 +270,7 @@
 
 ### 7. RoboCasa-Shift: Stage-Aware Robustness Evaluation of Vision-Language-Action Policies in Long-Horizon Household Manipulation
 
-**arXiv**: [2610.27861](https://arxiv.org/abs/2610.27861) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8 x 0.3) | **Tags**: embodied-ai, vla, evaluation | **Categories**: cs.RO | **Pages**: 14
+**arXiv**: [2610.27861](https://arxiv.org/abs/2610.27861) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8.0 x 0.3) | **Tags**: embodied-ai, vla, evaluation | **Categories**: cs.RO | **Pages**: 14
 
 **Authors**: Haocheng Wang, Youquan Liu, Weiyu Guo, Aokai Zhang, Donghang Wu, Hongyu Liu, Sha Zhang, Weidong Yang, Ben Fei
 
@@ -312,7 +312,7 @@
 
 ### 8. RoboJudge: Multimodal Language Models as Judges for Embodied Video Generation
 
-**arXiv**: [2610.27782](https://arxiv.org/abs/2610.27782) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: embodied-ai, world-model, evaluation | **Categories**: cs.CV, cs.RO | **Pages**: 31
+**arXiv**: [2610.27782](https://arxiv.org/abs/2610.27782) | **Score**: 8.0 (relevance 8.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: embodied-ai, world-model, evaluation | **Categories**: cs.CV, cs.RO | **Pages**: 31
 
 **Authors**: Siyuan Ma, Yu Qi, Cheng Ye, Ruotian Peng, Xinyi Xu, Zitiantao Lin, Zedong Cai, Yijian Huang, Weiyang Liu, Siyuan Wang et al.
 
@@ -352,7 +352,7 @@
 
 ### 9. CLOSER: Evidence-Aware Active Visual Verification for Embodied Object-Goal Navigation
 
-**arXiv**: [2610.28476](https://arxiv.org/abs/2610.28476) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: embodied-ai, navigation, active-perception | **Categories**: cs.CV, cs.RO | **Pages**: 13
+**arXiv**: [2610.28476](https://arxiv.org/abs/2610.28476) | **Score**: 8.0 (relevance 8.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: embodied-ai, navigation, active-perception | **Categories**: cs.CV, cs.RO | **Pages**: 13
 
 **Authors**: Pengying Wu, Mingye Jiang, Yunze Hu, Zhejia Wen, Kangjie Zhou, Zongru Yang, Zhe Peng, Chang Liu
 
@@ -394,7 +394,7 @@
 
 ### 10. Learning Tactile-Aware Hand Representations from Human Hand-Object Interaction Data
 
-**arXiv**: [2610.27995](https://arxiv.org/abs/2610.27995) | **Score**: 7.85 (relevance 8 x 0.7 + quality 7.5 x 0.3) | **Tags**: embodied-ai, tactile, representation-learning | **Categories**: cs.AI, cs.RO | **Pages**: 9
+**arXiv**: [2610.27995](https://arxiv.org/abs/2610.27995) | **Score**: 7.85 (relevance 8.0 x 0.7 + quality 7.5 x 0.3) | **Tags**: embodied-ai, tactile, representation-learning | **Categories**: cs.AI, cs.RO | **Pages**: 9
 
 **Authors**: Yeonguk Yu, Jaehong Kim, Byungok Han
 
@@ -434,7 +434,7 @@
 
 ## Footer
 
-- Total papers reviewed across all 5 tracks: 50 (from 501 scanned)
+- Total papers reviewed across all 7 tracks: 70 (from 517 scanned, 93 full reads)
 - embodied track final top-10: 10
 - Wild-cards in this track: 0
 - Figure assets: `res/` (shared across tracks)

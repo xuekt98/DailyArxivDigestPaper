@@ -4,7 +4,7 @@
 
 **Source**: arXiv cs.CV, cs.SD, eess.AS, cs.CL, cs.AI, cs.RO, cs.LG submissions, window 2026-10-20 UTC (latest announced batch as of 2026-10-21 17:00 CST)
 
-**Track**: audio_lm (top 10 of 501 papers scanned, 55 full reads)
+**Track**: audio_lm (top 10 of 517 papers scanned, 93 full reads)
 
 **Scope**: cross-modal concept neurons in large audio-language models, full-duplex interaction benchmark with visual engagement, transactional memory in full-duplex speech agents, Viterbi-guided hotword selection for speech-LLM ASR, sketch-guided audio-contrastive decoding, training-free speaker linking for frozen streaming diarizers, evidence-grounded audio-visual reasoning benchmark, phoneme-mediated EMG-to-text reconstruction, evidence-grounded depression assessment over spoken counseling, segment-level ASR semantic evaluation
 
@@ -24,11 +24,11 @@
 
 ### 1. Uncovering Audio-Text Alignment in Large Audio-Language Models through Cross-Modal Concept Neurons
 
-**arXiv**: [2610.28189](https://arxiv.org/abs/2610.28189) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: audio-LM, interpretability | **Categories**: cs.CL, cs.SD, eess.AS | **Pages**: 22
+**arXiv**: [2610.28189](https://arxiv.org/abs/2610.28189) | **Score**: 9.0 (relevance 9.0 x 0.7 + quality 9.0 x 0.3) | **Tags**: audio-LM, interpretability | **Categories**: cs.CL, cs.SD, eess.AS | **Pages**: 22
 
 **Authors**: Tzu-Quan Lin, Chih-Kai Yang, Yi-Cheng Lin, Hao Tang, Hung-yi Lee
 
-**Affiliation**: Centre for Speech Technology Research, University of Edinburgh, United Kingdom; Graduate Institute of Communication Engineering, National Taiwan University, Taiwan; NTU Artificial Intelligence Center of Research Excellence (NTU AI-CoRE), Taiwan
+**Affiliation**: Centre for Speech Technology Research, University of Edinburgh, United Kingdom; Graduate Institute of Communication Engineering, National Taiwan University, Taiwan; NTU Artificial Intelligence Center of Research Excellence (NTU AI-CoRE), Taiwan; versity of Edinburgh
 
 **Abstract**
 
@@ -64,7 +64,7 @@
 
 ### 2. DIVE: Benchmarking Full-Duplex Interaction with Visual Engagement in Continuous Streams
 
-**arXiv**: [2610.28405](https://arxiv.org/abs/2610.28405) | **Score**: 8.9 (relevance 9 x 0.7 + quality 8.5 x 0.3) | **Tags**: duplex-voice, benchmark, multimodal | **Categories**: cs.AI | **Pages**: 19
+**arXiv**: [2610.28405](https://arxiv.org/abs/2610.28405) | **Score**: 8.9 (relevance 9.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: duplex-voice, benchmark, multimodal | **Categories**: cs.AI | **Pages**: 19
 
 **Authors**: Yuhang Chen, Guangyue Liu, Shilong Liu
 
@@ -102,7 +102,7 @@
 
 ### 3. DuplexLedger: Benchmarking Transactional Memory in Full-Duplex Speech Agents
 
-**arXiv**: [2610.27581](https://arxiv.org/abs/2610.27581) | **Score**: 8.9 (relevance 9 x 0.7 + quality 8.5 x 0.3) | **Tags**: duplex-voice, memory, benchmark | **Categories**: cs.AI | **Pages**: 38
+**arXiv**: [2610.27581](https://arxiv.org/abs/2610.27581) | **Score**: 8.9 (relevance 9.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: duplex-voice, memory, benchmark | **Categories**: cs.AI | **Pages**: 38
 
 **Authors**: Yuxuan Li, Xiangchen Guan, Kunrong Li, Jin Wang, Kaiwen Luo, Yang Xiao, Yufei Guo, Zhisheng Chen, Liang Lin, Kun Wang
 
@@ -144,11 +144,11 @@
 
 ### 4. VISH-ASR: Viterbi-Guided Selection of Hotwords for Speech-LLM Contextual ASR
 
-**arXiv**: [2610.27867](https://arxiv.org/abs/2610.27867) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: audio-LM, ASR, contextual | **Categories**: cs.AI, cs.HC, eess.AS | **Pages**: 5
+**arXiv**: [2610.27867](https://arxiv.org/abs/2610.27867) | **Score**: 8.0 (relevance 8.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: audio-LM, ASR, contextual | **Categories**: cs.AI, cs.HC, eess.AS | **Pages**: 5
 
 **Authors**: Xiaoyu Gu, Yu Xi, Chencheng Wang, Zonghan Zhou, Haoyu Li, Jing Peng, Kai Yu
 
-**Affiliation**: MoE Key Lab of Artificial Intelligence, AI Institute, X-LANCE Lab, Shanghai Jiao Tong University; School of Intelligence Science and Technology, Nanjing University, Suzhou, China
+**Affiliation**: MoE Key Lab of Artificial Intelligence, AI Institute, X-LANCE Lab, Shanghai Jiao Tong University; School of Intelligence Science and Technology, Nanjing University, Suzhou, China; (y1, . . . , yL) denote its CTC-token sequence. VISH searches for its
 
 **Abstract**
 
@@ -186,7 +186,7 @@
 
 ### 5. SKAD: Sketch-Guided Audio-Contrastive Decoding for Reasoning in Large Audio-Language Models
 
-**arXiv**: [2610.28146](https://arxiv.org/abs/2610.28146) | **Score**: 7.85 (relevance 8 x 0.7 + quality 7.5 x 0.3) | **Tags**: audio-LM, decoding, reasoning | **Categories**: eess.AS | **Pages**: 14
+**arXiv**: [2610.28146](https://arxiv.org/abs/2610.28146) | **Score**: 7.85 (relevance 8.0 x 0.7 + quality 7.5 x 0.3) | **Tags**: audio-LM, decoding, reasoning | **Categories**: eess.AS | **Pages**: 14
 
 **Authors**: Junyu Wang, Peiyuan Jiang, Siyuan Zhang, Jian Zong, Tianrui Wang, Zikang Huang, Meng Ge, Longbiao Wang, Jianwu Dang
 
@@ -222,7 +222,7 @@
 
 ### 6. Slots Are Not Speakers: Training-Free Speaker Linking for Frozen Streaming Diarizers
 
-**arXiv**: [2610.28053](https://arxiv.org/abs/2610.28053) | **Score**: 7.45 (relevance 7.5 x 0.7 + quality 7 x 0.3) | **Tags**: audio-LM, diarization, streaming | **Categories**: cs.AI, cs.SD | **Pages**: 5
+**arXiv**: [2610.28053](https://arxiv.org/abs/2610.28053) | **Score**: 7.45 (relevance 7.5 x 0.7 + quality 7.0 x 0.3) | **Tags**: audio-LM, diarization, streaming | **Categories**: cs.AI, cs.SD | **Pages**: 5
 
 **Authors**: Aditya Srinivas Menon, Kumarmanas Nethil, Kavya Manohar
 
@@ -260,7 +260,7 @@
 
 ### 7. EvaOmni: An Evidence-Grounded Benchmark for Audio-Visual Reasoning
 
-**arXiv**: [2610.28444](https://arxiv.org/abs/2610.28444) | **Score**: 7.3 (relevance 7 x 0.7 + quality 8 x 0.3) | **Tags**: audio-LM, benchmark, multimodal | **Categories**: cs.CV | **Pages**: 33
+**arXiv**: [2610.28444](https://arxiv.org/abs/2610.28444) | **Score**: 7.3 (relevance 7.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: audio-LM, benchmark, multimodal | **Categories**: cs.CV | **Pages**: 34
 
 **Authors**: Xiaoxing Hu, Wenxi Yao, Chaoyuan Shi, Ziqi Ye, Xiaorong Guo, Peixuan Li, Zhuoran Sun, Ziyang Gong, Peiyuan Zhang, Mingxin Liu et al.
 
@@ -302,7 +302,7 @@
 
 ### 8. PhonoBridge: Error-Aware Phoneme-Mediated EMG-to-Text Reconstruction
 
-**arXiv**: [2610.27678](https://arxiv.org/abs/2610.27678) | **Score**: 7.25 (relevance 7 x 0.7 + quality 7.5 x 0.3) | **Tags**: speech-LM, EMG, interface | **Categories**: cs.CL, cs.HC, cs.SD | **Pages**: 5
+**arXiv**: [2610.27678](https://arxiv.org/abs/2610.27678) | **Score**: 7.25 (relevance 7.0 x 0.7 + quality 7.5 x 0.3) | **Tags**: speech-LM, EMG, interface | **Categories**: cs.CL, cs.HC, cs.SD | **Pages**: 5
 
 **Authors**: Wen Qiu, Jiacheng Zhang, Xuanda Chen, Siqi Cai, Haizhou Li
 
@@ -342,11 +342,11 @@
 
 ### 9. AudiPsy: Evidence-Grounded Multimodal Reasoning over Spoken Counseling Conversations for Depression Assessment
 
-**arXiv**: [2610.27567](https://arxiv.org/abs/2610.27567) | **Score**: 7.25 (relevance 7 x 0.7 + quality 7.5 x 0.3) | **Tags**: audio-LM, spoken-dialogue, clinical | **Categories**: cs.AI, cs.CL | **Pages**: 25
+**arXiv**: [2610.27567](https://arxiv.org/abs/2610.27567) | **Score**: 7.25 (relevance 7.0 x 0.7 + quality 7.5 x 0.3) | **Tags**: audio-LM, spoken-dialogue, clinical | **Categories**: cs.AI, cs.CL | **Pages**: 25
 
 **Authors**: Chuanbo Zhu, Run Luo, Weibo Zhao, Yue Li, Kun Qian, Qiang Qu, Yike Guo, Minghuan Tan, Wei Xue
 
-**Affiliation**: The Hong Kong University of Science and Technology; Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences; National University of Singapore; University of the Chinese Academy of Sciences
+**Affiliation**: Chuanbo Zhu1, Run Luo3, Weibo Zhao4, Yue Li2; The Hong Kong University of Science and Technology; Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences; National University of Singapore
 
 **Abstract**
 
@@ -382,7 +382,7 @@
 
 ### 10. SMART: Semantic Segment Mapping and Assessment of Recognition Transcripts with Contextual Rubrics
 
-**arXiv**: [2610.27820](https://arxiv.org/abs/2610.27820) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Tags**: speech-LM, ASR, evaluation | **Categories**: cs.AI, cs.CL, eess.AS | **Pages**: 5
+**arXiv**: [2610.27820](https://arxiv.org/abs/2610.27820) | **Score**: 7.0 (relevance 7.0 x 0.7 + quality 7.0 x 0.3) | **Tags**: speech-LM, ASR, evaluation | **Categories**: cs.AI, cs.CL, eess.AS | **Pages**: 5
 
 **Authors**: Xiaoyu Gu, Chencheng Wang, Fuyang Li, Yu Xi, Tao Liu, Jiaoqi Guo, Kai Yu
 
@@ -422,7 +422,7 @@
 
 ## Footer
 
-- Total papers reviewed across all 5 tracks: 50 (from 501 scanned)
+- Total papers reviewed across all 7 tracks: 70 (from 517 scanned, 93 full reads)
 - audio_lm track final top-10: 10
 - Wild-cards in this track: 2
 - Figure assets: `res/` (shared across tracks)

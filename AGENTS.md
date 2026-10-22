@@ -37,8 +37,22 @@ Daily arXiv paper collection, filtering, summarization, and reading notes.
 ## 项目结构
 
 本项目收纳**每日 arXiv 论文日报**：抓取 7 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
-cs.AI / cs.RO / cs.LG）的最新公告批次，按 5 条研究线（AIGC 视觉 / AIGC 音频 /
-音频与语音 LM / 具身与世界模型 / 强化学习）各出 top-10 排名报告与条目目录。
+cs.AI / cs.RO / cs.LG）的最新公告批次，按 **7 条研究线**各出 top-10 排名报告与条目目录。
+
+7 条研究线（`mine-arxiv-daily-digest` skill v0.3.0 起的划分）：
+
+| track | 覆盖范围 |
+| --- | --- |
+| `aigc_visual` | AIGC 图像 / 视频 / 3D 生成与编辑 |
+| `aigc_audio` | 音频生成、TTS、音乐（仅生成，不含语音理解/LM） |
+| `audio_lm` | 音频与语音语言模型、双工语音助手 |
+| `embodied` | 具身智能与世界模型 |
+| `rl_core` | RL 算法与理论、多智能体 RL、sim-to-real |
+| `rl_llm` | LLM 后训练的 RL：RLHF / DPO / GRPO / RLAIF / RLVR |
+| `rl_aigc` | 生成式内容模型的 RL：扩散/流匹配 RL、生成式奖励模型 |
+
+**方法学优先**：RL 论文归方法学线，不归领域线——音频 LM 上的 GRPO 归 `rl_llm`，
+视频扩散上的 RL 归 `rl_aigc`，机器人操作的 sim-to-real RL 归 `rl_core`。
 
 ```
 daily_arxiv_digest/<YYYY_MM>/<YYYY-MM-DD>/
@@ -64,6 +78,11 @@ codex_temp/<date>/             # 每次运行的临时目录，报告写完后�
 ⚠️ arXiv 的公告存在**时区滞后与周末空档**：中文标准时间下午运行时，
 最新可用批次通常是前一天的 UTC 日。若探测发现当日及近几日均为空，
 **不生成日报**（避免与上一份重复），仅在 `index.md` 的「跳过记录」中登记原因。
+
+⚠️ **批次窗口 = 公告日减一天，且截止到 18:00 UTC**：arXiv 的投稿截止是
+美东 14:00（= UTC 18:00），00:00 UTC 公告的批次覆盖的是**前一天 00:00–17:59:59 UTC**
+提交的论文。因此按「自然日」过滤 `published` 会把两个批次拼在一起，
+必须显式套用 18:00 UTC 截止线（`scrape.py` 的 `CUTOFF`）。
 
 ## 使用约定
 

@@ -1,3 +1,7 @@
 # Codex scratch directory
 codex_temp/*
 !codex_temp/.gitkeep
+
+# Python bytecode
+__pycache__/
+*.py[cod]

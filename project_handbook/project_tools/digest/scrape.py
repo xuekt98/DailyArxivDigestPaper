@@ -36,6 +36,11 @@ from pathlib import Path
 API = "https://export.arxiv.org/api/query"
 RATE = 5.0
 PAGE = 300
+# arXiv's submission deadline is 14:00 US Eastern = 18:00 UTC (EDT). The
+# announcement at 00:00 UTC therefore covers v1 timestamps from 00:00 to
+# 17:59:59 UTC of the *previous* day. A calendar-day filter would splice two
+# different announcement batches together, so the cutoff is applied explicitly.
+CUTOFF = "18:00:00"
 NS = {"atom": "http://www.w3.org/2005/Atom"}
 CATS = ["cs.CV", "cs.SD", "eess.AS", "cs.CL", "cs.AI", "cs.RO", "cs.LG"]
 
@@ -102,6 +107,11 @@ def url_for(cat: str, start: int = 0, n: int = PAGE) -> str:
             f"&sortBy=submittedDate&sortOrder=descending&max_results={n}&start={start}")
 
 
+def in_batch(published: str, ymd: str) -> bool:
+    """True when a v1 timestamp falls inside the batch announced at `ymd` 00:00 UTC."""
+    return published[:10] == ymd and published[11:19] < CUTOFF
+
+
 class Fetcher:
     """Cached page reader: one arXiv call per (category, start)."""
 
@@ -119,13 +129,18 @@ class Fetcher:
         return self._cache[key]
 
     def day(self, cat: str, ymd: str) -> list[dict]:
-        """All entries of one category whose v1 published date is `ymd`."""
+        """Entries of one category inside the batch announced at `ymd` 00:00 UTC.
+
+        That batch is exactly the v1 submissions stamped `ymd` between 00:00 and
+        17:59:59 UTC. Papers stamped after the deadline belong to the next
+        announcement, so they are excluded here.
+        """
         out, start = [], 0
         while True:
             rows = self.page(cat, start)
             if not rows:
                 break
-            out.extend([r for r in rows if r["published"][:10] == ymd])
+            out.extend([r for r in rows if in_batch(r["published"], ymd)])
             oldest = min(r["published"][:10] for r in rows)
             if len(rows) == PAGE and oldest >= ymd:
                 start += PAGE
@@ -134,12 +149,13 @@ class Fetcher:
         return out
 
     def latest_day(self) -> str:
-        """Newest v1 submission date across all categories (the newest batch)."""
+        """Submission day of the newest announced batch."""
         latest = ""
         for cat in CATS:
-            rows = self.page(cat)
-            if rows:
-                d = max(r["published"][:10] for r in rows)
+            for r in self.page(cat):
+                d = r["published"][:10]
+                if r["published"][11:19] >= CUTOFF:
+                    continue
                 if d > latest:
                     latest = d
         return latest
@@ -287,7 +303,14 @@ def main() -> int:
     fetcher = Fetcher()
 
     if args.days:
-        days = [d.strip() for d in args.days.split(",") if d.strip()]
+        days = []
+        for d in (x.strip() for x in args.days.split(",") if x.strip()):
+            # accept YYYYMMDD or YYYY-MM-DD; comparisons are against the ISO
+            # date form of the v1 `published` timestamp
+            d = d.replace("-", "")
+            if len(d) != 8 or not d.isdigit():
+                raise SystemExit(f"bad --days value: {d!r} (expected YYYYMMDD)")
+            days.append(f"{d[:4]}-{d[4:6]}-{d[6:]}")
     else:
         today = datetime.now(timezone.utc)
         newest = fetcher.latest_day()

@@ -4,7 +4,8 @@
 以及当天最值得读的 3 篇。
 
 **统计口径**：每次运行扫描 arXiv 的 7 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
-cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
+cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 2026-10-21 起，
+强化学习拆为 rl_core / rl_llm / rl_aigc 三条独立研究线）。
 
 **跳过记录**：当 arXiv 尚未公告新批次时（周末、节假日、或公告尚未发布），
 当日不生成日报，也不新增目录行，以免与上一份报告重复。已跳过或合并的日期：
@@ -24,7 +25,7 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [2026-10-21](daily_arxiv_digest/2026_10/2026-10-21/) | 501 | 10 | 10 | 10 | 10 | 10 | [难题上 RLVR 没有任何奖励信号](https://arxiv.org/abs/2610.27467) · [偏好模型的分数里有多少不是「质量」](https://arxiv.org/abs/2610.28195) · [音频 LLM 到底有没有在听（机制层）](https://arxiv.org/abs/2610.28189) |
+| [2026-10-21](daily_arxiv_digest/2026_10/2026-10-21/) | 517 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [社区对 OPD 失效的主流解释是错的](https://arxiv.org/abs/2610.28586) · [偏好模型的分数里有多少不是「质量」](https://arxiv.org/abs/2610.28195) · [音频 LLM 到底有没有在听（机制层）](https://arxiv.org/abs/2610.28189) |
 | [2026-10-20](daily_arxiv_digest/2026_10/2026-10-20/) | 525 | 10 | 10 | 10 | 10 | 10 | [是 RL 的功劳还是数据的功劳](https://arxiv.org/abs/2610.25812) · [音频 LLM 到底有没有在听](https://arxiv.org/abs/2610.25599) · [首个跨本体 loco-操作世界基础模型](https://arxiv.org/abs/2610.26855) |
 | [2026-10-19](daily_arxiv_digest/2026_10/2026-10-19/) | 429 | 10 | 10 | 10 | 10 | 10 | [准确率可以在不 grounding 的情况下提升](https://arxiv.org/abs/2610.23148) · [Qwen3-TTS 的条件化与失效模式](https://arxiv.org/abs/2610.23678) · [无视觉纯触觉操控](https://arxiv.org/abs/2610.23438) |
 | [2026-10-16](daily_arxiv_digest/2026_10/2026-10-16/) | 574 | 10 | 10 | 10 | 10 | 10 | [一次通过回答多个话轮问题](https://arxiv.org/abs/2610.21150) · [167 万条 RLVR 语料的去污染审计](https://arxiv.org/abs/2610.21229) · [机器人策略该预测什么](https://arxiv.org/abs/2610.21915) |
@@ -37,15 +38,22 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
 
+> **强化学习列的口径**：自 2026-10-21 起，`mine-arxiv-daily-digest` skill 升到 v0.3.0，
+> 把强化学习拆成 **rl_core（算法/理论/MARL/sim-to-real）/ rl_llm（LLM 后训练与对齐）/
+> rl_aigc（生成式内容模型的 RL）** 三条独立研究线，每条各 10 篇。
+> 该日起的条目记作 `10 / 10 / 10`；**此前各日为一列合并计数**（合并线未按新口径重拆）。
+
 ---
 
 ## 2026-10-21
 
-- **arXiv 批次窗口**：2026-10-20 UTC（截至 2026-10-21 17:00 CST，当天批次尚未发布）
-- **扫描**：501 篇去重论文（逐日原始 709 条：cs.AI 215 / cs.LG 168 / cs.CV 147 / cs.CL 94 /
-  cs.RO 67 / eess.AS 10 / cs.SD 8，其余为跨分类重复）
-- **全文精读**：55 篇，抽取作者机构与 100 张论文原图（最终入库 92 张）
-- **Wild-card**：本批 8 篇（aigc_visual 0 / aigc_audio 6 / audio_lm 2 / embodied 0 / rl 0）
+- **arXiv 批次窗口**：2026-10-20 UTC 00:00–17:59:59（arXiv 00:00 UTC 公告的批次 = 前一天截稿前的提交）
+- **扫描**：517 篇去重论文（逐日原始 796 条：cs.AI 265 / cs.LG 178 / cs.CV 148 / cs.CL 96 /
+  cs.RO 71 / eess.AS 10 / cs.SD 9，其余为跨分类重复）
+- **全文精读**：93 篇，抽取作者机构与 162 张论文原图（最终入库 128 张）
+- **研究线**：**7 条**（skill v0.3.0 起 RL 拆为三线），每条各 10 篇，共 **70 篇**
+- **Wild-card**：本批 19 篇（aigc_visual 0 / aigc_audio 7 / audio_lm 2 / embodied 0 /
+  rl_core 3 / rl_llm 0 / rl_aigc 7）
 
 ### 各研究线
 
@@ -55,26 +63,31 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 | AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_aigc_audio_entry.md) |
 | 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_audio_lm_entry.md) |
 | 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_embodied_entry.md) |
-| 强化学习 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_entry.md) |
+| 强化学习 · 核心算法 / 理论 / MARL / sim-to-real | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_core_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_core_entry.md) |
+| 强化学习 · LLM 后训练与对齐 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_llm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_llm_entry.md) |
+| 强化学习 · 生成式内容模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_aigc_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-21/2026-10-21_rl_aigc_entry.md) |
 
 ### 当天最值得读的 3 篇
 
-1. **[Projected Distillation: On Learning to Solve Hard Problems from Close, Correct Targets](https://arxiv.org/abs/2610.27467)**（rl #2）
-   — **把 RLVR 的地基问题摆到了台面上：在困难问题上，RL 本身提供不了任何信号。**
-   在策略学习框架下，若所有尝试都失败，RLVR 就没有基于奖励的学习信号；而在策略蒸馏里，
-   教师给的 next-token 监督又会条件在**已经出错的上下文**上。
-   作者的做法不是换更强的教师，而是把教师降级为「正确性集合」——
-   学生从自己错误的**最小化、在线的修正**中学习，并证明**修正必须既最小又在线**。
-   这与 10-20 日报「是 RL 的功劳还是数据的功劳」构成一对：
-   上一篇问收益归算法还是归数据，这一篇问**信号从哪来**。
-   **任何在难题上做后训练的工作都应先确认它的监督信号到底从哪来。**
+1. **[Capable Teacher, Myopic Scorer: Reward-Free Teacher Repair for Agentic On-Policy Distillation](https://arxiv.org/abs/2610.28586)**（rl_llm #1）
+   — **把社区对 OPD 失效的主流解释直接推翻了。**
+   智能体 on-policy 蒸馏（OPD）在学生自己的轨迹上训练、由教师给每个 token 打分。
+   社区的通行解释是**复合误差**：学生的错误把轨迹带出教师可靠的区域，
+   于是近期方法用 episode-length 课程、教师引导回合、前缀重放、教师介入等手段把训练限制在该区域内。
+   作者证明**这个解释不完整**：从学生偏离教师最多的那些状态出发，
+   教师自己的接管仍然能完成任务，但按 token 打分训练的学生仍会耗尽回合。
+   真因是 **next-token 打分的短视**——教师给每个 token 评分时看不到 episode 的结局，
+   于是它的分数放行了「安全的、拖延的」动作，而结果导向的 RL 会用零奖励惩罚它们。
+   R2S 因此把修复点从**训练数据**移到了**打分器**：先从未训练学生的高分歧状态跑教师接管，
+   用接管结果反过来微调教师，再做普通 OPD。
+   **任何在 OPD 上做局部改进的工作都应先确认自己修的是不是同一个病。**
 
-2. **[Attractive Faces Skew Text-to-Image Reward Models and Leaderboards](https://arxiv.org/abs/2610.28195)**（aigc_visual #4）
+2. **[Attractive Faces Skew Text-to-Image Reward Models and Leaderboards](https://arxiv.org/abs/2610.28195)**（rl_aigc #1）
    — **偏好模型的分数里，有相当一部分根本不是「质量」。**
    对人脸，**感知吸引力压过图像质量**：在受控用户研究中，标注者把更漂亮的脸评为更高质量，
    **哪怕拿来对比的是同保真度的真实照片**。隔离编辑 40 个人脸属性后，
-   吸引力是 PickScore / MPS / HPSv2.1 / HPSv3 四个主流偏好模型的最强相关项。
-   换言之，当前 T2I 榜单在很大程度上奖励的是「生成更好看的人脸」，
+   吸引力是 PickScore / MPS / HPSv2.1 / HPSv3 四个主流偏好模型的最强相关项，也是回归分析中的最强预测因子。
+   换言之，当前 T2I 奖励模型与榜单在很大程度上奖励的是「生成更好看的人脸」，
    而这与「更符合提示词」没有必然关系——与本项目自 10-16 起追踪的「审计/评测工具有问题」线索直接接续。
 
 3. **[Uncovering Audio-Text Alignment in Large Audio-Language Models through Cross-Modal Concept Neurons](https://arxiv.org/abs/2610.28189)**（audio_lm #1）
@@ -87,14 +100,43 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 
 ### 备注
 
-- **⚠️ arXiv API 的 `submittedDate` 区间查询被限流，管线已改道**：
-  本次运行中 arXiv 对 `submittedDate:[... TO ...]` 形式的区间查询持续返回
-  **HTTP 429 / 503**，而普通的 `cat:<分类>` 查询正常。
-  `project_handbook/project_tools/digest/scrape.py` 已改为
-  **按分类倒序拉取 + 本地按 v1 `published` 日期过滤**（API 只暴露已公告论文，
-  因此按 `published` 分组与按批次日分组等价），并加入 429/503 退避重试与页面缓存。
-  首次探测可用 7 次请求完成整批，速率限制仍为 3 秒以上。
-  **如果今后抓取再次大面积失败，先检查是否又是区间查询。**
+- **⚠️ skill 升级到 v0.3.0：5 条研究线 → 7 条，50 篇 → 70 篇，10 个文件 → 14 个文件。**
+  强化学习被拆成三条独立线，因为 RL 文献里其实有三个不同的社群——
+  不同的基准（AlpacaEval vs GenEval）、不同的核心方法（PPO-clip vs 分类器引导）、不同的会场（NeurIPS/ACL vs CVPR/SIGGRAPH）；
+  混在一条报告里只会得到「5 篇 LLM 对齐 + 5 篇扩散微调」，不如拆开。
+  新增**方法学优先**原则：RL 论文归方法学线，不归领域线——
+  音频 LM 上的 GRPO 归 `rl_llm`，视频扩散上的 RL 归 `rl_aigc`，机器人操作的 sim-to-real RL 归 `rl_core`。
+  本批最典型的两例：LoCA（TTS 上的 RL）从音频线移入 `rl_aigc`；
+  Attractive Faces（T2I 奖励模型）从视觉线移入 `rl_aigc`。
+  **此前各日未按新口径重拆**，历史条目仍为合并计数。
+- **⚠️ 批次窗口口径此前一直是错的，本次修正。**
+  arXiv 的投稿截止是美东 14:00（= **UTC 18:00**），因此 00:00 UTC 公告的那一批覆盖的是
+  **前一天 00:00–17:59:59 UTC** 的提交。此前按「自然日」过滤 `published`，
+  会把**两个不同公告批次**拼进同一窗口；本批修正后为 517 篇（原报 501）。
+  同时修掉了分页截断：单个分类在批次内超过 300 篇时（本次 cs.AI 有 265 篇唯一论文、
+  逐分类原始 284 条）旧脚本只取首页，**此前各份日报的扫描量都因此偏少**。
+  `scrape.py` 现在按分类翻页 + 显式套用 18:00 UTC 截止线。
+  **历史条目的扫描量应视为下界。**
+- **arXiv API 对 `submittedDate` 区间查询限流**：本轮排查中，
+  `submittedDate:[... TO ...]` 形式的区间查询持续返回 **HTTP 429 / 503**，
+  而普通 `cat:<分类>` 查询正常。管线已改为**按分类倒序拉取 + 本地按 v1 `published` 过滤**，
+  并加入 429/503 退避重试与页面缓存；整批 9 次请求完成，速率限制仍为 3 秒以上。
+  **今后抓取再次大面积失败，先检查是否又是区间查询。**
+- **on-policy 蒸馏（OPD）在本批独占 rl_llm 的一半席位**，且从三个不同角度改进同一件事：
+  [R2S](https://arxiv.org/abs/2610.28586) 修**打分器**（社区主流解释被推翻）；
+  [Adaptive Pullback](https://arxiv.org/abs/2610.28194) 指出师生对数比惩罚的
+  **当前取值不区分「持续的高惩罚」与「突然上升」**，并发现惩罚跳变处同时出现**教师置信度下降**；
+  [OPTD](https://arxiv.org/abs/2610.28048) 发现**中间层的师生转移一致性可直接预测答案正确率**，
+  据此加了一项几乎零成本的层间监督。
+  另有 [Ask to Distill](https://arxiv.org/abs/2610.27450) 把「好问题」重新定义为
+  「能在学生轨迹上逼出多少教师监督」，并证明这可在**全程不需要答案**的前提下学出来。
+  **OPD 正在成为 LLM 后训练的新主线，值得单独追踪。**
+- **一条隐形的偏好污染通道**：
+  [Near-Duplicate Image Selection Transfers Preferences](https://arxiv.org/abs/2610.27943) 证明，
+  仅仅**在近重复图像中做选择**（源照片与人工字幕固定、不使用任何目标特定提示），
+  就能让偏好从策展者传给下游学生，在 LLaVA-1.5 / Qwen2.5-VL / Qwen3-VL / Gemma 4 上均出现方向性偏移。
+  换言之，**任何做数据筛选的流程（包括 RLHF 里的偏好数据构造）都可能无意识写入策展者的偏好**——
+  这是一条不依赖任何显式偏好标注的污染通道。
 - **触觉子方向连续第三批升温**：本批同时出现三篇——
   [Tactile-ETA](https://arxiv.org/abs/2610.27613)（用上下文注入把触觉经验给进智能体，**不做任务特定训练**）、
   [HuTact](https://arxiv.org/abs/2610.27995)（**改用人类手-物交互数据**预训练触觉手部表示，绕开机器人触觉数据瓶颈）、
@@ -108,8 +150,15 @@ cs.AI / cs.RO / cs.LG），按 5 条研究线各出 10 篇排名报告。
 - **AR 视频缓存线索接续**：[CALM](https://arxiv.org/abs/2610.28192) 指出各注意力层/头对 token merging
   的敏感度**不同但相关且跨提示稳定**，于是可用**离线校准**决定各层各头的合并比例，
   并证明注意力输出误差可作轻量代理——这是把「拍脑袋定统一比例」换成可测分配问题的做法。
-- **⚠️ aigc_audio 连续第二次极薄**：cs.SD 仅 8 篇、eess.AS 仅 10 篇，
-  501 篇中真正做音频**生成/编辑**的只有个位数，该线用了 **6 个 wild-card**（本项目日报至今最多）。
+  配套 [MoDDiT](https://arxiv.org/abs/2610.28086) 把「图像是稀疏的」这一被 DiT 丢掉的先验
+  落成了可学习的 token 路由。
+- **⚠️ rl_aigc 是本项目日报至今最薄的一次**：517 篇里真正做「RL / 偏好优化用于生成式内容模型」的
+  只有 3 篇（Attractive Faces、LoCA、DeCert），该线用了 **7 个 wild-card**，
+  超出 skill 规定的 1–2 个名额——已逐条标注理由。
+  仍值得看 [DeCert](https://arxiv.org/abs/2610.27528)：它在**没有参考答案**的情况下构造偏好监督，
+  办法是利用**同一批正确判定之间「理由质量」的差异**——
+  这对文生图这类「本就没有唯一答案」的生成任务尤其有价值。
+- **aigc_audio 连续第二次极薄**（cs.SD 仅 9 篇、eess.AS 仅 10 篇），该线用了 7 个 wild-card。
   仍值得看 [LoCA](https://arxiv.org/abs/2610.28035)：它指出 TTS 用 RL 的真正痛点是
   **句子级奖励定位不了局部错误**，解法是用 ASR 对齐把内容错误定位到声学帧上再重分配优势，
   在 VoxCPM2 上把样本加权内容误差相对预训练骨干降 **20.5%**。

@@ -4,73 +4,31 @@
 
 **Source**: arXiv cs.CV, cs.SD, eess.AS, cs.CL, cs.AI, cs.RO, cs.LG submissions, window 2026-10-20 UTC (latest announced batch as of 2026-10-21 17:00 CST)
 
-**Track**: aigc_audio (top 10 of 501 papers scanned, 55 full reads)
+**Track**: aigc_audio (top 10 of 517 papers scanned, 93 full reads)
 
-**Scope**: local credit assignment for flow-matching TTS, generative speech separation with speech language models, unified end-to-end audio-visual editing without masks, differentiable Karplus-Strong physical modelling, audio deepfake detection over real call channels, polyphonic mixture-to-constituent alignment, efficient sound-design evaluation, Mamba audio classification, active noise control for AR glasses, respiratory sound domain-incremental learning
+**Scope**: token-based generative speech separation with speech language models, unified end-to-end audio-visual editing without masks, differentiable Karplus-Strong physical modelling, audio deepfake detection over real call channels, polyphonic mixture-to-constituent alignment, efficient sound-design evaluation, Mamba audio classification, active noise control for AR glasses, respiratory sound domain-incremental learning, multimodal media forensics platform
 
-⚠️ **Wild-card**: 本批该线仅 4 篇严格命中，其余 6 篇为 wild-card 补足，已在正文逐条标注。
+⚠️ **Wild-card**: 本批该线仅 3 篇严格命中，其余 7 篇为 wild-card 补足，已在正文逐条标注。
 
 ---
 
-**这是本批最薄的一条线——501 篇里真正做音频生成/编辑的只有个位数，因此本篇 10 篇里有 6 篇是 wild-card，必须先说清楚。** 最实的一篇是 **LoCA**：它指出了 TTS 用 RL 时的真正痛点——句子级奖励定位不了局部错误，而有符号回归更新会导致对采样输出过度拟合或排斥；解法是用 ASR 对齐把内容错误定位到声学帧上再重分配优势，在 VoxCPM2 上把样本加权内容误差相对预训练骨干降 20.5%、相对 GROW 降 14.3%。
+**这是本批最薄的一条线——517 篇里真正做音频生成/编辑的只有个位数，因此本篇 10 篇里有 7 篇是 wild-card，必须先说清楚。** 最实的两篇：**SLM-SS** 把语音分离的目标从波形指标换到语义可懂度（用语音语言模型 + 量化神经编解码器）；**AVE (Edit in Sync)** 则是本批唯一真正做生成式编辑的音频相关工作——首个统一端到端的音视频编辑框架，**不需要空间掩码**，并附带 10 万对（外观 + 声音参考）数据集。去掉掩码这一点的意义比数据集本身更大，因为掩码正是把编辑降级成局部修补的根源。
 
-**SLM-SS** 把语音分离的目标从波形指标换到语义可懂度（用语音语言模型 + 量化神经编解码器）；**AVE (Edit in Sync)** 则是本批唯一真正做生成式编辑的音频相关工作——首个统一端到端的音视频编辑框架，**不需要空间掩码**，并附带 10 万对（外观 + 声音参考）数据集。去掉掩码这一点的意义比数据集本身更大，因为掩码正是把编辑降级成局部修补的根源。
+**理论侧 Differentiable Karplus-Strong 给出了一个具体但关键的发现：标准频谱损失对起音时间不提供有意义的方向性梯度**，直接损害联合训练——这解释了为什么物理建模合成里的参数长期不可辨识（是系统性的，不是调参问题）。
 
-**理论侧 Differentiable Karplus-Strong 给出了一个具体但关键的发现：标准频谱损失对起音时间不提供有意义的方向性梯度**，直接损害联合训练——这解释了为什么物理建模合成里的参数长期不可辨识。其余三篇 wild-card 分别站在溯源（RealComm：真实通话链路会显著破坏音频深伪检测）、表征（MiCLA：混合—成分关系被自监督忽略）与评测成本（游戏音效评测：只微调多模态编码器而非整个智能体）三个角度。
+**其余五篇 wild-card 分别站在溯源（RealComm：真实通话链路会显著破坏音频深伪检测；Media Intelligence Platform：把假视频/人脸/AI 图像/音频深伪/局部篡改检测统一到一个平台）、表征（MiCLA：混合—成分关系被自监督忽略）、评测成本（游戏音效评测：只微调多模态编码器而非整个智能体）与两个垂直应用（音频分类骨干、AR 眼镜降噪）四个角度。
 
 ---
 
 ## Top 10 - AIGC 音频生成与编辑
 
-### 1. LoCA: Local Credit Assignment for Reinforcement Learning of Autoregressive Flow-Matching TTS
-
-**arXiv**: [2610.28035](https://arxiv.org/abs/2610.28035) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-audio, TTS, rl-algorithm | **Categories**: cs.SD | **Pages**: 10
-
-**Authors**: Jie Liu, Junyu Zhou, Junhao Zhong, WeiSen Tang, Rukai Cai, Haoyue Zhan, Ruiqi Xing, Ling Long
-
-**Affiliation**: Lingguang Zhaxian Technology, Shanghai, China
-
-**Abstract**
-
-> Reinforcement learning can improve text-to-speech synthesis through feedback on generated speech. However, sentence-level rewards do not identify local errors, while signed regression updates can lead to excessive fitting or repulsion of sampled outputs. We propose LoCA (Local Credit Assignment) for autoregressive flow-matching text-to-speech. LoCA uses ASR-based text alignment to locate content errors in generated speech and redistribute sentence-level advantages across acoustic frames. To improve training stability, we introduce reference-relative positive and negative thresholds that limit continued fitting and repulsion. Experiments on VoxCPM2 show that LoCA reduces sample-weighted content error on a multilingual CV3 evaluation subset by 20.5% and 14.3% relative to the pretrained backbone and GROW, respectively, while improving speaker similarity. LoCA also improves content accuracy on the Seed-TTS-Eval hard subset. Ablation results support the contributions of local credit and threshold-based regression control.
-
-**Key findings**
-
-- **Finding**: RL 可以通过生成语音的反馈改进 TTS，但**句子级奖励无法定位局部错误**，而有符号回归更新会导致对采样输出的过度拟合或排斥。
-
-- **Finding**: LoCA 用 ASR 文本对齐在生成语音中定位内容错误，并把句子级优势重新分配到声学帧上。
-
-- **Finding**: 为提升训练稳定性，引入参考相对的**正/负阈值**，限制持续的拟合与排斥。
-
-- **Finding**: 在 VoxCPM2 上，LoCA 在多语言 CV3 评测子集上把样本加权内容误差相对预训练骨干降低 **20.5%**、相对 GROW 降低 **14.3%**，同时提升说话人相似度。
-
-- **Finding**: 论文报告在 2000 步后仍保留困难集训练轨迹。
-
-- **Inference**: 用 ASR 把「内容对不对」这个符号信号投影回帧级，等于给声学生成装了一个可定位的验收器——这比句级 MOS 奖励的信息密度高一个量级。
-
-- **Recommendation**: 强烈推荐。本批音频线最实的一篇，且 RL × 生成 × 语音三者交叉。
-
-**Key figures**
-
-*Framework / architecture - Figure 1 Local-credit construction in an illustrative 12-frame example. Six unflagged and four error frames give mean label 0.6; two unknown tail frames are excluded. With local weight 0.2 and senten*
-
-![LoCA: Local Credit Assignment for Reinforcement Learning of Autoregressive Flow-Matching TTS - framework](res/2610.28035_framework.png)
-
-*Main result - Figure 2 retains the hard-set training trajectories through step 2000. CV3 hard combines the 60 Chi-*
-
-![LoCA: Local Credit Assignment for Reinforcement Learning of Autoregressive Flow-Matching TTS - result](res/2610.28035_result.png)
-
-**Why this ranks #1**: 它解决的是音频生成 RL 里最实际的痛点——奖励太粗导致无法定位，且给出了量化的改进幅度。
-
----
-
-### 2. SLM-SS: Token-Based Speech Separation with Speech Language Models
+### 1. SLM-SS: Token-Based Speech Separation with Speech Language Models
 
 **arXiv**: [2610.27785](https://arxiv.org/abs/2610.27785) | **Score**: 8.5 (relevance 8.5 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-audio, speech-separation | **Categories**: cs.AI, cs.SD | **Pages**: 15
 
 **Authors**: Chenda Li, Tianhua Li, Yiming Chen, Wei Wang, Jiahe Wang, Xin Zhou, Yanmin Qian
 
-**Affiliation**: Acoustics Lab, Shanghai Jiao Tong University, Shanghai, 200240, P. R. China
+**Affiliation**: No. 62601524 and No. U25A20409, and in part by SJTU Med-; Acoustics Lab, Shanghai Jiao Tong University, Shanghai, 200240, P. R. China; yanminqian}sjtu.edu.cn)
 
 **Abstract**
 
@@ -100,13 +58,13 @@
 
 ![SLM-SS: Token-Based Speech Separation with Speech Language Models - result](res/2610.27785_result.png)
 
-**Why this ranks #2**: 分离任务的目标函数终于对齐到了下游可懂度，而不是停留在波形指标。
+**Why this ranks #1**: 分离任务的目标函数终于对齐到了下游可懂度，而不是停留在波形指标。
 
 ---
 
-### 3. Edit in Sync: Unified End-to-End Audio-Visual Editing for Human-Centric Videos
+### 2. Edit in Sync: Unified End-to-End Audio-Visual Editing for Human-Centric Videos
 
-**arXiv**: [2610.27947](https://arxiv.org/abs/2610.27947) | **Score**: 8.25 (relevance 8 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-edit, audio-visual, dataset | **Categories**: cs.CV | **Pages**: 13
+**arXiv**: [2610.27947](https://arxiv.org/abs/2610.27947) | **Score**: 8.25 (relevance 8.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-edit, audio-visual, dataset | **Categories**: cs.CV | **Pages**: 13
 
 **Authors**: Ziye Yuan, Minghong Cai, Xu He, Ruchang Yao, Xiao Fu, Kaixin Ding, Ming Zhang, Xiangyu Du, Tianpeng Lan, Da Xie et al.
 
@@ -142,17 +100,17 @@
 
 ![Edit in Sync: Unified End-to-End Audio-Visual Editing for Human-Centric Videos - result](res/2610.27947_result.png)
 
-**Why this ranks #3**: 它是本批唯一真正做「生成式编辑」（而非检索式/局部修补）的音频相关工作，并附带一个 10 万对的数据集。
+**Why this ranks #2**: 它是本批唯一真正做「生成式编辑」（而非检索式/局部修补）的音频相关工作，并附带一个 10 万对的数据集。
 
 ---
 
-### 4. Sound Matching with a Differentiable Karplus-Strong Algorithm
+### 3. Sound Matching with a Differentiable Karplus-Strong Algorithm
 
 **arXiv**: [2610.28043](https://arxiv.org/abs/2610.28043) | **Score**: 7.85 (relevance 7.5 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-audio, physical-modeling, sound-synthesis | **Categories**: eess.AS | **Pages**: 8
 
 **Authors**: Pablo Tablas de Paula, David Marttila, Rodrigo Díaz, Irán Román, Emmanouil Benetos, Joshua D. Reiss
 
-**Affiliation**: Queen Mary University Of London
+**Affiliation**: Queen Mary University Of London; constant over its note
 
 **Abstract**
 
@@ -182,13 +140,13 @@
 
 ![Sound Matching with a Differentiable Karplus-Strong Algorithm - result](res/2610.28043_result.png)
 
-**Why this ranks #4**: 它指出了一个常被忽视的梯度层面的失效：频谱损失对起音时间「无梯度」，这直接决定了联合训练能不能成。
+**Why this ranks #3**: 它指出了一个常被忽视的梯度层面的失效：频谱损失对起音时间「无梯度」，这直接决定了联合训练能不能成。
 
 ---
 
-### 5. RealComm: Benchmarking and Adapting Audio Deepfake Detection over Real Communication Channels
+### 4. RealComm: Benchmarking and Adapting Audio Deepfake Detection over Real Communication Channels
 
-**arXiv**: [2610.27459](https://arxiv.org/abs/2610.27459) | **Score**: 7.45 (relevance 7 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-audio, provenance, deepfake-detection | **Categories**: eess.AS | **Pages**: 12
+**arXiv**: [2610.27459](https://arxiv.org/abs/2610.27459) | **Score**: 7.45 (relevance 7.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-audio, provenance, deepfake-detection | **Categories**: eess.AS | **Pages**: 12
 
 **Authors**: Li Wang, Jindong Wang, Wan Lin, Kunyu Feng, Yufan Lin, Lei Wang, Rizhao Cai, Ce Fang, Jinzhe Xue, Jie Shi et al.
 
@@ -222,13 +180,13 @@
 
 ![RealComm: Benchmarking and Adapting Audio Deepfake Detection over Real Communication Channels - result](res/2610.27459_result.png)
 
-**Why this ranks #5**: Wild-card：生成侧工作，但它量化了「真实通话链路」对音频伪造检测的破坏程度，是本批音频线少见的、有明确失效边界的一篇。
+**Why this ranks #4**: Wild-card：生成侧工作，但它量化了「真实通话链路」对音频伪造检测的破坏程度，是本批音频线少见的、有明确失效边界的一篇。
 
 ---
 
-### 6. MiCLA: Mixture-to-Constituent Latent Alignment for Polyphonic Audio Representation Learning
+### 5. MiCLA: Mixture-to-Constituent Latent Alignment for Polyphonic Audio Representation Learning
 
-**arXiv**: [2610.27491](https://arxiv.org/abs/2610.27491) | **Score**: 7.3 (relevance 7 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-audio, representation-learning | **Categories**: cs.LG, cs.SD, stat.ML | **Pages**: 13
+**arXiv**: [2610.27491](https://arxiv.org/abs/2610.27491) | **Score**: 7.3 (relevance 7.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: AIGC-audio, representation-learning | **Categories**: cs.LG, cs.SD, stat.ML | **Pages**: 13
 
 **Authors**: Kohei Yamamoto, Kosuke Okusa
 
@@ -262,13 +220,13 @@
 
 ![MiCLA: Mixture-to-Constituent Latent Alignment for Polyphonic Audio Representation Learning - result](res/2610.27491_result.png)
 
-**Why this ranks #6**: Wild-card：不是生成工作，但它指出了真实音频「混合—成分」关系在自监督里被系统性忽略。
+**Why this ranks #5**: Wild-card：不是生成工作，但它指出了真实音频「混合—成分」关系在自监督里被系统性忽略。
 
 ---
 
-### 7. Reusing Multimodal Agents: Efficient Evaluation of Sound Designs in Games
+### 6. Reusing Multimodal Agents: Efficient Evaluation of Sound Designs in Games
 
-**arXiv**: [2610.27670](https://arxiv.org/abs/2610.27670) | **Score**: 6.65 (relevance 6.5 x 0.7 + quality 7 x 0.3) | **Tags**: AIGC-audio, evaluation | **Categories**: cs.AI | **Pages**: 11
+**arXiv**: [2610.27670](https://arxiv.org/abs/2610.27670) | **Score**: 6.65 (relevance 6.5 x 0.7 + quality 7.0 x 0.3) | **Tags**: AIGC-audio, evaluation | **Categories**: cs.AI | **Pages**: 11
 
 **Authors**: Thai Nguyen Van, Ibrahim Khan, Mury Fajar Dewantoro, Pratch Suntichaikul, Hai Van Pham, Ruck Thawonmas
 
@@ -302,13 +260,13 @@
 
 ![Reusing Multimodal Agents: Efficient Evaluation of Sound Designs in Games - result](res/2610.27670_result.png)
 
-**Why this ranks #7**: Wild-card：与生成关系较远，但「只微调编码器而非整个智能体」这个结论本身对多模态评测设计有普遍价值。
+**Why this ranks #6**: Wild-card：与生成关系较远，但「只微调编码器而非整个智能体」这个结论本身对多模态评测设计有普遍价值。
 
 ---
 
-### 8. AD-Mamba: Architecture-Complementary Knowledge Distillation for Efficient and Robust Audio Classification
+### 7. AD-Mamba: Architecture-Complementary Knowledge Distillation for Efficient and Robust Audio Classification
 
-**arXiv**: [2610.27713](https://arxiv.org/abs/2610.27713) | **Score**: 6.45 (relevance 6 x 0.7 + quality 7.5 x 0.3) | **Tags**: AIGC-audio, architecture, efficiency | **Categories**: eess.AS | **Pages**: 13
+**arXiv**: [2610.27713](https://arxiv.org/abs/2610.27713) | **Score**: 6.45 (relevance 6.0 x 0.7 + quality 7.5 x 0.3) | **Tags**: AIGC-audio, architecture, efficiency | **Categories**: eess.AS | **Pages**: 13
 
 **Authors**: Junyu Wang, Tianrui Wang, Meng Ge, Longbiao Wang, Xiaobao Wang, Jianwu Dang
 
@@ -342,11 +300,11 @@
 
 ![AD-Mamba: Architecture-Complementary Knowledge Distillation for Efficient and Robust Audio Classification - result](res/2610.27713_result.png)
 
-**Why this ranks #8**: Wild-card：与生成无关，但给出了音频骨干「效率—精度」权衡的一个具体参照点。
+**Why this ranks #7**: Wild-card：与生成无关，但给出了音频骨干「效率—精度」权衡的一个具体参照点。
 
 ---
 
-### 9. Active Noise Control for Augmented Reality Glasses using Virtual Sensing with Directional Robustness
+### 8. Active Noise Control for Augmented Reality Glasses using Virtual Sensing with Directional Robustness
 
 **arXiv**: [2610.28263](https://arxiv.org/abs/2610.28263) | **Score**: 6.0 (relevance 5.5 x 0.7 + quality 7.5 x 0.3) | **Tags**: AIGC-audio, signal-processing, hardware | **Categories**: eess.AS | **Pages**: 5
 
@@ -382,13 +340,13 @@
 
 ![Active Noise Control for Augmented Reality Glasses using Virtual Sensing with Directional Robustness - result](res/2610.28263_result.png)
 
-**Why this ranks #9**: Wild-card：明确不在生成/理解/RL 范围内，仅作硬件侧约束的注脚保留。
+**Why this ranks #8**: Wild-card：明确不在生成/理解/RL 范围内，仅作硬件侧约束的注脚保留。
 
 ---
 
-### 10. APRIL: Ambiguity-Aware Expert Routing for Respiratory Sound Domain-Incremental Learning
+### 9. APRIL: Ambiguity-Aware Expert Routing for Respiratory Sound Domain-Incremental Learning
 
-**arXiv**: [2610.27942](https://arxiv.org/abs/2610.27942) | **Score**: 5.8 (relevance 5.5 x 0.7 + quality 7 x 0.3) | **Tags**: AIGC-audio, continual-learning, vertical | **Categories**: cs.AI, cs.SD | **Pages**: 15
+**arXiv**: [2610.27942](https://arxiv.org/abs/2610.27942) | **Score**: 5.8 (relevance 5.5 x 0.7 + quality 7.0 x 0.3) | **Tags**: AIGC-audio, continual-learning, vertical | **Categories**: cs.AI, cs.SD | **Pages**: 15
 
 **Authors**: Xinhong Li, Weiping Tu
 
@@ -422,15 +380,55 @@
 
 ![APRIL: Ambiguity-Aware Expert Routing for Respiratory Sound Domain-Incremental Learning - result](res/2610.27942_result.png)
 
-**Why this ranks #10**: Wild-card：垂直医疗应用，不在生成/理解线内；保留是因为「专家选择比参数保护更难」这个观察有普遍性。
+**Why this ranks #9**: Wild-card：垂直医疗应用，不在生成/理解线内；保留是因为「专家选择比参数保护更难」这个观察有普遍性。
+
+---
+
+### 10. Media Intelligence Platform: Multimodal Detection of Synthetic and Manipulated Content
+
+**arXiv**: [2610.27974](https://arxiv.org/abs/2610.27974) | **Score**: 5.9 (relevance 6 x 0.7 + quality 7 x 0.3) | **Tags**: AIGC-audio, provenance, forensics | **Categories**: cs.CV, cs.MM | **Pages**: 21 | **[wild-card=yes]**
+
+**Authors**: David Fischinger, Marcel Hasenbalg, Silvia Poletti, Davide Antonutti, Mina Schütz, Lam Pham, Justin Ilyes, Péter Rjabcsenkó, Simon Freitter, Martin Boyer
+
+**Affiliation**: Austrian Institute of Technology, Giefinggasse 4, 1210 Vienna - Austria
+
+**Abstract**
+
+> The rapid progress of generative artificial intelligence has led to a significant increase in manipulated multimedia content, including synthetic faces, forged videos, AI-generated images, fake audio, and locally edited images. Existing detection approaches are typically designed for a single manipulation type, limiting their applicability in real-world scenarios involving heterogeneous media sources. In this work, we present the Media Intelligence Platform (MIP), a unified web-based framework for multimodal media forensics integrating specialized modules for fake video detection, face morphing detection, AI-generated image detection, audio deepfake detection, localized image manipulation detection, and text analysis. Its modular architecture enables flexible integration of heterogeneous models and supports future extensions for emerging manipulation techniques. Experimental results on representative benchmark datasets demonstrate reliable detection performance across multiple media modalities while providing a practical and user-friendly interface for forensic investigations. The platform highlights the potential of unified multimodal systems for comprehensive deepfake detection in real-world environments, and is accompanied by a public demonstrator released with this workshop submission to support reproducibility and community evaluation.
+
+**Key findings**
+
+- **Finding**: 生成式 AI 的快速进展导致被操纵的多媒体内容显著增加，包括合成人脸、伪造视频、AI 生成图像、假音频与局部编辑图像。
+
+- **Finding**: 现有检测方法通常只针对**单一操纵类型**设计，在涉及异构媒体来源的真实场景中适用性受限。
+
+- **Finding**: MIP 是统一的 web 化多模态媒体取证框架，整合假视频检测、人脸变形检测、AI 生成图像检测、**音频深伪检测**、局部图像篡改检测与文本分析等专门模块。
+
+- **Finding**: 其模块化架构可灵活集成异构模型，并支持面向新兴操纵技术的扩展。
+
+- **Inference**: 把六种取证模块统一到一个平台，重点不在某个新模型，而在「检测器本来就是异构的」这个现实——多模态伪造的组合攻击本来就没有单一检测器。
+
+- **Recommendation**: 可选读（wild-card）。
+
+**Key figures**
+
+*Framework / architecture - Figure 1 MIP overview. The platform supports multimodal input upload, analysis tool selection, and job history tracking.*
+
+![Media Intelligence Platform: Multimodal Detection of Synthetic and Manipulated Content - framework](res/2610.27974_framework.png)
+
+*Main result - Figure 2 Example result view showing model predictions and explainable outputs.*
+
+![Media Intelligence Platform: Multimodal Detection of Synthetic and Manipulated Content - result](res/2610.27974_result.png)
+
+**Why this ranks #10**: Wild-card：不是生成工作，但它是本批唯一系统性面对「多模态伪造检测」的平台级工作，其中含音频深伪检测模块。
 
 ---
 
 ## Footer
 
-- Total papers reviewed across all 5 tracks: 50 (from 501 scanned)
+- Total papers reviewed across all 7 tracks: 70 (from 517 scanned, 93 full reads)
 - aigc_audio track final top-10: 10
-- Wild-cards in this track: 6
+- Wild-cards in this track: 7
 - Figure assets: `res/` (shared across tracks)
 
 Generated by `mine-arxiv-daily-digest` skill. Sister file: `2026-10-21_aigc_audio_entry.md`.

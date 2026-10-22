@@ -4,17 +4,17 @@
 
 **Source**: arXiv cs.CV, cs.SD, eess.AS, cs.CL, cs.AI, cs.RO, cs.LG submissions, window 2026-10-20 UTC (latest announced batch as of 2026-10-21 17:00 CST)
 
-**Track**: aigc_visual (top 10 of 501 papers scanned, 55 full reads)
+**Track**: aigc_visual (top 10 of 517 papers scanned, 93 full reads)
 
-**Scope**: multi-view video world model with point-trajectory supervision, continual concept personalization in residual space, interactive streaming video benchmark, attractiveness bias in text-to-image reward models, long-video memory tokens, conditioning-as-program in diffusion, code-based video generation benchmark, latent-to-4DGS unification, hidden-concept recovery in T2I, calibrated KV-cache compression
+**Scope**: multi-view video world model with point-trajectory supervision, continual concept personalization in residual space, interactive streaming video benchmark, long-video memory tokens, conditioning-as-program in diffusion, code-based video generation benchmark, latent-to-4DGS unification, hidden-concept recovery in T2I, calibrated KV-cache compression, learned token routing in DiT
 
 ---
 
-**本批 AIGC 视觉线的重心明显偏向评测与审计，而不是又一个更大的生成模型。** StreamEval 用 300 个脚本化用例评测 37 个交互式视频生成模型，得到一个反直觉结论：高视觉质量与身份保持**并不必然**伴随可靠的请求执行与持续的状态一致性。Code2Video-Compass 把代码驱动的视频生成（T2V/I2V/V2V）摆上 12 项客观 + 5 项主观的双层评测台。而 Attractive Faces Skew 一篇更直接：人类偏好模型给人脸打的分里，有很大一部分根本不是「质量」——**感知吸引力压过图像质量**，即使是同保真度的真实照片对比也一样。
+**本批 AIGC 视觉线的重心明显偏向评测与审计，而不是又一个更大的生成模型。** StreamEval 用 300 个脚本化用例评测 37 个交互式视频生成模型，得到一个反直觉结论：高视觉质量与身份保持**并不必然**伴随可靠的请求执行与持续的状态一致性。Code2Video-Compass 把代码驱动的视频生成（T2V/I2V/V2V）摆上 12 项客观 + 5 项主观的双层评测台。
 
-**生成方法侧有三个值得注意的取向。** 第一是 **VPM**：把持久场景点的 3D 轨迹与未来视频**并列**预测，用点监督逼出跨视角几何一致性——这比「多一个辅助任务」要硬，因为点轨迹无法靠外观蒙混。第二是 **Dancing Diffusion**：把条件从「全程恒定」改成「沿去噪轨迹分布的程序」，让编辑第一次有了「操作」的粒度（「先换背景，再让人转过来」）。第三是 **ReCam**：「粗读不需要粗表示」——长视频的记忆开销被拆成「存得细、读得少」，配合 dual-pointer 去噪抑制漂移。
+**生成方法侧有三个值得注意的取向。** 第一是 **VPM**：把持久场景点的 3D 轨迹与未来视频**并列**预测，用点监督逼出跨视角几何一致性——这比「多一个辅助任务」要硬，因为点轨迹无法靠外观蒙混。第二是 **Dancing Diffusion**：把条件从「全程恒定」改成「沿去噪轨迹分布的程序」，让编辑第一次有了「操作」的粒度（「先换背景，再让人转过来」）。第三是 **ReCam**：「粗读不需要粗表示」——长视频的记忆开销被拆成「存得细、读得少」。
 
-**另外两篇把长期被默认的设定摆到台面上。** Continual Concept Personalization 明确假设概念是**顺序到达**的（而非一次性给全），并用残差空间承载每个概念，使「不遗忘」变成一个可判定的覆盖问题；SplatFlux 把 4D 重建与 4D 生成统一为同一个 latent-to-4DGS 解码问题，并强调静态-动态解耦必须是**显式**的。工程侧的 CALM 把「所有层用同一个合并比例」这个拍脑袋做法替换成可离线标定的分配问题，并给出「注意力输出误差可作轻量代理」这一可操作判据。
+**另外两篇把长期被默认的设定摆到台面上。** Continual Concept Personalization 明确假设概念是**顺序到达**的（而非一次性给全），并用残差空间承载每个概念，使「不遗忘」变成一个可判定的覆盖问题；SplatFlux 把 4D 重建与 4D 生成统一为同一个 latent-to-4DGS 解码问题，并强调静态-动态解耦必须是**显式**的。工程侧的 CALM 把「所有层用同一个合并比例」这个拍脑袋做法替换成可离线标定的分配问题；MoDDiT 则把「图像是稀疏的」这一被 DiT 丢掉的先验，落成了可学习的 token 路由。
 
 ---
 
@@ -22,7 +22,7 @@
 
 ### 1. Learning the 4D World through Point Trajectory Forecasting
 
-**arXiv**: [2610.28594](https://arxiv.org/abs/2610.28594) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-video, world-model | **Categories**: cs.CV | **Pages**: 43
+**arXiv**: [2610.28594](https://arxiv.org/abs/2610.28594) | **Score**: 9.0 (relevance 9.0 x 0.7 + quality 9.0 x 0.3) | **Tags**: AIGC-video, world-model | **Categories**: cs.CV | **Pages**: 43
 
 **Authors**: Byungwoo Jeon, Sunghwan Hong, Dohyeon Kim, Jonghoon Lee, Jungwoo Park, Inhee Lee, Doosan Baek, Jinil Kim, Taehyun Lim, Hanbyul Joo et al.
 
@@ -62,7 +62,7 @@
 
 ### 2. Continual Concept Personalization in Diffusion Models via Residual-Space Adaptation
 
-**arXiv**: [2610.28567](https://arxiv.org/abs/2610.28567) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-image, personalization | **Categories**: cs.CV, cs.LG | **Pages**: 23
+**arXiv**: [2610.28567](https://arxiv.org/abs/2610.28567) | **Score**: 9.0 (relevance 9.0 x 0.7 + quality 9.0 x 0.3) | **Tags**: AIGC-image, personalization | **Categories**: cs.CV, cs.LG | **Pages**: 23
 
 **Authors**: Yuzhi Liu, Enis Simsar, Giulia Lanzillotta, Thomas Hofmann
 
@@ -102,7 +102,7 @@
 
 ### 3. StreamEval: Evaluating Interactive Streaming Video Generation Models
 
-**arXiv**: [2610.28402](https://arxiv.org/abs/2610.28402) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-video, benchmark | **Categories**: cs.CV | **Pages**: 22
+**arXiv**: [2610.28402](https://arxiv.org/abs/2610.28402) | **Score**: 9.0 (relevance 9.0 x 0.7 + quality 9.0 x 0.3) | **Tags**: AIGC-video, benchmark | **Categories**: cs.CV | **Pages**: 22
 
 **Authors**: StreamEval Team
 
@@ -140,49 +140,9 @@
 
 ---
 
-### 4. Attractive Faces Skew Text-to-Image Reward Models and Leaderboards
+### 4. Recast the Past: Stable Long Video Generation with Full Context Memory
 
-**arXiv**: [2610.28195](https://arxiv.org/abs/2610.28195) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-image, reward-model, evaluation | **Categories**: cs.CV, cs.LG | **Pages**: 17
-
-**Authors**: Harvey Mannering, Zhiwu Huang, Adam Prügel-Bennett
-
-**Affiliation**: University of Southampton
-
-**Abstract**
-
-> Human preference is now central to the evaluation, guidance, finetuning, and ranking of text-to-image models. However, the susceptibility of human preferences to bias in image generation remains underexplored. We identify a key observation: for human faces, perceived attractiveness overrides image quality in preference judgments, even when comparing real photographs of identical fidelity. In a controlled user study, annotators rank more attractive faces as higher quality, even when unattractive real faces are compared with attractive AI-generated ones. We examine the downstream consequences of this bias. Firstly, simulating Elo rankings from user study data shows attractiveness can invert a leaderboard's ranking, elevating synthetic attractive faces over real, unattractive ones. Secondly, the same bias reappears in the human preference models. Editing 40 annotated facial attributes in isolation, we find that attractiveness is the strongest correlate of score for four of five human preference models (PickScore, MPS, HPSv2.1, HPSv3), and the strongest predictor of score in regression analysis. We further show that preference aligned generation shifts faces toward younger, more feminine faces, and can override explicit prompts for unattractive faces, thereby limiting user control. Finally, we explore mitigation strategies, both for data collection and post training on human preference models. These findings highlight the need for preference models that disentangle image quality from human cognitive bias, enabling more reliable evaluation.
-
-**Key findings**
-
-- **Finding**: 人类偏好现在驱动 T2I 的评测、引导、微调与榜单，但偏好对图像生成偏差的易感性仍缺乏系统研究。
-
-- **Finding**: 关键观察：对人脸，**感知吸引力压过图像质量**——即使与保真度相同的真实照片对比，标注者仍把更漂亮的脸排为更高质量。
-
-- **Finding**: 在受控用户研究中，标注者把更有吸引力的脸评为质量更高，哪怕不够吸引力的真实人脸被拿来比较。
-
-- **Finding**: 隔离编辑 40 个标注人脸属性后，吸引力是 5 个主流人类偏好模型中 4 个的最强相关项（PickScore、MPS、HPSv2.1、HPSv3），也是回归分析中的最强预测因子。
-
-- **Inference**: 偏好模型与人类偏好对齐得越好，越会继承人类对「好看」的偏见——这意味着当前 T2I 榜单在很大程度上是在奖励「生成更好看的人脸」，而这与「更符合提示词」没有必然关系。
-
-- **Recommendation**: 强烈推荐。任何用人类偏好模型做 T2I 训练/评测的人都应该先读这篇。
-
-**Key figures**
-
-*Framework / architecture - Figure 1 Two AI-generated faces and the scores assigned by four widely used preference models. Stable Diffusion v1.5 (2022) was prompted for an attractive face; GPT-Image-2 (2026) was given a blurred*
-
-![Attractive Faces Skew Text-to-Image Reward Models and Leaderboards - framework](res/2610.28195_framework.png)
-
-*Main result - Figure 2 User study overview. Participants rank four faces by preference (Question 1) and rate three subjective attributes per face on a 0–100 scale (Question 2).*
-
-![Attractive Faces Skew Text-to-Image Reward Models and Leaderboards - result](res/2610.28195_result.png)
-
-**Why this ranks #4**: 它把一个一直被默认忽略的混淆变量（颜值）摆到了台面上：偏好模型的分数里有相当一部分不是「质量」。
-
----
-
-### 5. Recast the Past: Stable Long Video Generation with Full Context Memory
-
-**arXiv**: [2610.27986](https://arxiv.org/abs/2610.27986) | **Score**: 8.9 (relevance 9 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-video, long-video, memory | **Categories**: cs.AI, cs.CV | **Pages**: 30
+**arXiv**: [2610.27986](https://arxiv.org/abs/2610.27986) | **Score**: 8.9 (relevance 9.0 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-video, long-video, memory | **Categories**: cs.AI, cs.CV | **Pages**: 30
 
 **Authors**: Yukuo Ma, Cong Liu, Junke Wang, Junqi Liu, Haibin Huang, Zuxuan Wu, Xuelong Li
 
@@ -218,13 +178,13 @@
 
 ![Recast the Past: Stable Long Video Generation with Full Context Memory - result](res/2610.27986_result.png)
 
-**Why this ranks #5**: 「粗读不需要粗表示」这一句把长视频的记忆开销问题重新定义了。
+**Why this ranks #4**: 「粗读不需要粗表示」这一句把长视频的记忆开销问题重新定义了。
 
 ---
 
-### 6. Dancing Diffusion: Learning Continuous Programs for Image Generation and Editing
+### 5. Dancing Diffusion: Learning Continuous Programs for Image Generation and Editing
 
-**arXiv**: [2610.28003](https://arxiv.org/abs/2610.28003) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-image, AIGC-edit, diffusion | **Categories**: cs.AI, cs.GR | **Pages**: 38
+**arXiv**: [2610.28003](https://arxiv.org/abs/2610.28003) | **Score**: 8.7 (relevance 9.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: AIGC-image, AIGC-edit, diffusion | **Categories**: cs.AI, cs.GR | **Pages**: 38
 
 **Authors**: Cui Enhe, Jinyue Yang, Bojian Yin, Guoqi Li
 
@@ -258,11 +218,11 @@
 
 ![Dancing Diffusion: Learning Continuous Programs for Image Generation and Editing - result](res/2610.28003_result.png)
 
-**Why this ranks #6**: 它把条件从「全程恒定」变成了「沿轨迹分布的程序」，这是一次真正的建模升级而非工程改进。
+**Why this ranks #5**: 它把条件从「全程恒定」变成了「沿轨迹分布的程序」，这是一次真正的建模升级而非工程改进。
 
 ---
 
-### 7. Code2Video-Compass: A Comprehensive Benchmark for General-Purpose Code-Based Video Generation across T2V, I2V, and V2V
+### 6. Code2Video-Compass: A Comprehensive Benchmark for General-Purpose Code-Based Video Generation across T2V, I2V, and V2V
 
 **arXiv**: [2610.28416](https://arxiv.org/abs/2610.28416) | **Score**: 8.5 (relevance 8.5 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-video, benchmark, code-generation | **Categories**: cs.AI, cs.CV | **Pages**: 12
 
@@ -298,11 +258,11 @@
 
 ![Code2Video-Compass: A Comprehensive Benchmark for General-Purpose Code-Based Video Generation across T2V, I2V, and V2V - result](res/2610.28416_result.png)
 
-**Why this ranks #7**: 它给出了一个成体系的双层评测（12 客观 + 5 主观），并且已经跑过 15 个模型。
+**Why this ranks #6**: 它给出了一个成体系的双层评测（12 客观 + 5 主观），并且已经跑过 15 个模型。
 
 ---
 
-### 8. SplatFlux: Feed-Forward 4D Gaussian Reconstruction and Generation from Video Latents
+### 7. SplatFlux: Feed-Forward 4D Gaussian Reconstruction and Generation from Video Latents
 
 **arXiv**: [2610.28257](https://arxiv.org/abs/2610.28257) | **Score**: 8.5 (relevance 8.5 x 0.7 + quality 8.5 x 0.3) | **Tags**: AIGC-3D, 4D-generation | **Categories**: cs.CV | **Pages**: 20
 
@@ -336,13 +296,13 @@
 
 ![SplatFlux: Feed-Forward 4D Gaussian Reconstruction and Generation from Video Latents - result](res/2610.28257_result.png)
 
-**Why this ranks #8**: 重建与生成被统一成同一个解码问题，且明确指出了静态-动态解耦必须是显式的而非隐式的。
+**Why this ranks #7**: 重建与生成被统一成同一个解码问题，且明确指出了静态-动态解耦必须是显式的而非隐式的。
 
 ---
 
-### 9. Beyond the Prompt: Recovering Hidden Concepts in Text-to-Image Models
+### 8. Beyond the Prompt: Recovering Hidden Concepts in Text-to-Image Models
 
-**arXiv**: [2610.27473](https://arxiv.org/abs/2610.27473) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-image, safety, audit | **Categories**: cs.AI, cs.CR, cs.LG | **Pages**: 9
+**arXiv**: [2610.27473](https://arxiv.org/abs/2610.27473) | **Score**: 8.35 (relevance 8.5 x 0.7 + quality 8.0 x 0.3) | **Tags**: AIGC-image, safety, audit | **Categories**: cs.AI, cs.CR, cs.LG | **Pages**: 9
 
 **Authors**: Zhengfeng Zheng, Minghong Fang
 
@@ -376,13 +336,13 @@
 
 ![Beyond the Prompt: Recovering Hidden Concepts in Text-to-Image Models - result](res/2610.27473_result.png)
 
-**Why this ranks #9**: 它把「隐藏概念」从一个比喻变成了一个可复现的恢复任务，并给出了可核查的标注体系。
+**Why this ranks #8**: 它把「隐藏概念」从一个比喻变成了一个可复现的恢复任务，并给出了可核查的标注体系。
 
 ---
 
-### 10. Offline Makes Online Better: Calibrated Cache Compression for Video Generation
+### 9. Offline Makes Online Better: Calibrated Cache Compression for Video Generation
 
-**arXiv**: [2610.28192](https://arxiv.org/abs/2610.28192) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-video, efficiency, cache | **Categories**: cs.AI, cs.CV, cs.LG | **Pages**: 25
+**arXiv**: [2610.28192](https://arxiv.org/abs/2610.28192) | **Score**: 8.0 (relevance 8.0 x 0.7 + quality 8.0 x 0.3) | **Tags**: AIGC-video, efficiency, cache | **Categories**: cs.AI, cs.CV, cs.LG | **Pages**: 25
 
 **Authors**: Zhen Wang, Ning Lai, Qingtao Yu
 
@@ -412,13 +372,55 @@
 
 ![Offline Makes Online Better: Calibrated Cache Compression for Video Generation - result](res/2610.28192_result.png)
 
-**Why this ranks #10**: 它把一个常见的工程拍脑袋（统一比例）替换成了一个可离线标定的分配问题，并给出了代理指标。
+**Why this ranks #9**: 它把一个常见的工程拍脑袋（统一比例）替换成了一个可离线标定的分配问题，并给出了代理指标。
+
+---
+
+### 10. MoDDiT: Simple Token Routing in Diffusion Transformers
+
+**arXiv**: [2610.28086](https://arxiv.org/abs/2610.28086) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-image, efficiency, architecture | **Categories**: cs.AI, cs.CV | **Pages**: 17
+
+**Authors**: Jarek Liesen, Matthew T. Jackson, Benjamin Ellis, Shimon Whiteson, Jakob N. Foerster
+
+**Affiliation**: University of Oxford
+
+**Abstract**
+
+> Real-time video generation, interactive world models, and on-device image synthesis are almost a reality. Diffusion Transformers (DiT) achieve excellent sample quality, shifting the bottleneck to the throughput of the models themselves. Natural images are inherently sparse, as large portions of an image are often background, contribute little to the scene content, and are easy to denoise. DiTs fail to exploit this sparsity, as they process image tokens statically and uniformly. We propose MoDDiT, a simple architecture modification that learns to route tokens through both MLP and self-attention operations. By routing tokens through both blocks independently, MoDDiT allows for dynamic compute allocation in MLPs that varies across tokens, images, and denoising timesteps. Using MoDDiT to train image generation models from scratch significantly reduces computational costs of training and inference, processing as few as 12.5% of the tokens. By increasing sparsity and model depth, MoDDiT reduces costs and improves generation performance over unrouted baselines. The learned allocation is interpretable, revealing how computation varies with visual content and noise level. We also use MoDDiT to train video generation models, where allocation correlates with motion, and to distill a dense bidirectional video model into a sparse autoregressive student.
+
+**Key findings**
+
+- **Finding**: 实时视频生成、交互式世界模型与端侧图像合成已接近现实，DiT 的瓶颈从画质转向模型吞吐。
+
+- **Finding**: 自然图像本质上是稀疏的——大片区域是背景、对场景内容贡献很小、且易于去噪；但 DiT 以静态且均匀的方式处理图像 token，未能利用这种稀疏性。
+
+- **Finding**: MoDDiT 学习把 token 同时路由到 MLP 与 self-attention 两个运算块。
+
+- **Finding**: 由于 token 在两个块中各自独立路由，MLP 侧实现了**随 token、随图像、随去噪时间步变化**的动态计算分配。
+
+- **Finding**: 用 MoDDiT 从头训练图像生成模型显著降低了训练与推理的计算成本。
+
+- **Inference**: 让背景 token 走 MLP 捷径、让承载场景内容的 token 走注意力，等于把「图像稀疏」这一先验真正写进架构——此前 DiT 把它丢掉了。
+
+- **Recommendation**: 推荐。
+
+**Key figures**
+
+*Framework / architecture - Figure 1 Image generation and learned compute allocation in MoDDiT for a red panda example. (a) Generated images along the*
+
+![MoDDiT: Simple Token Routing in Diffusion Transformers - framework](res/2610.28086_framework.png)
+
+*Main result - Figure 2 Token routing in MoDDiT. Top: self-attention uses fixed top-K routing per sample, selecting two of four tokens at the illustrated*
+
+![MoDDiT: Simple Token Routing in Diffusion Transformers - result](res/2610.28086_result.png)
+
+**Why this ranks #10**: 它把「图像是稀疏的」这个一直没人写进 DiT 架构的先验，落成了可学习的 token 路由。
 
 ---
 
 ## Footer
 
-- Total papers reviewed across all 5 tracks: 50 (from 501 scanned)
+- Total papers reviewed across all 7 tracks: 70 (from 517 scanned, 93 full reads)
 - aigc_visual track final top-10: 10
 - Wild-cards in this track: 0
 - Figure assets: `res/` (shared across tracks)
