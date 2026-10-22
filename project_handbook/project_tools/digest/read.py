@@ -61,6 +61,8 @@ STRONG = re.compile(
     r"\bcambridge\b|\bedinburgh\b|\bimperial\b|\bucl\b|\btsinghua\b|\bpeking university\b)", re.I)
 
 EMAILISH = re.compile(r"@")
+# footnote markers that prefix an affiliation or an author name
+MARKERS = "∗†‡§¶★*"
 FOOT = re.compile(r"^\s*(\{[^}]*\}|[A-Za-z0-9._%+-]+)\s*(emails?|e-mail|correspond)", re.I)
 BADLINE = re.compile(r"^(abstract|introduction|keywords|index terms|arxiv:|preprint|this manuscript|"
                      r"published|accepted|license|figure|table|\d+\s*$|in th)", re.I)
@@ -142,6 +144,40 @@ def extract_figures(doc, outdir: Path, bid: str) -> list[dict]:
     return out
 
 
+def split_numbered(line: str) -> list[str]:
+    """Split '1Foo Institute 2Bar University' into its numbered pieces.
+
+    arXiv PDFs often put every affiliation on one line, each prefixed by its
+    superscript marker.  Keyword matching then sees the concatenation and
+    misses the individual institutions.  The marker is a number followed by the
+    institution name, so at least three letters must follow the number - that
+    keeps '3D-MAVT' and '4D' from being cut in half.
+    """
+    parts = re.split(r"(?=(?:^|\s)\d{1,2}\s?[A-Za-z]{3,})", line)
+    out = []
+    for p in parts:
+        p = re.sub(r"^\s*\d{1,2}\s*", "", p).strip()
+        p = re.sub(r"^[\s" + MARKERS + r"]+", "", p).strip()
+        if p:
+            out.append(p)
+    return out
+
+
+def affiliations_after_authors(doc) -> list[str]:
+    """Kept for reference only - deliberately NOT used.
+
+    Reading the affiliation block positionally (the lines right after the
+    author list) does catch short lab names that carry no institution keyword
+    ("VoxNexus, Singapore"), but on papers whose page 1 interleaves figure
+    text with the author block it also picks up the *author lines themselves*
+    and reports them as institutions.  A wrong affiliation is worse than a
+    missing one, so the positional guess stays disabled; papers whose
+    affiliation the keyword scan misses are filled in explicitly by the
+    reporter's override map instead.
+    """
+    return []
+
+
 def extract_affils(doc) -> list[str]:
     aff = []
     for pno in range(min(len(doc), 2)):
@@ -171,9 +207,11 @@ def extract_affils(doc) -> list[str]:
             break
     seen, ordered = set(), []
     for a in aff:
-        if a not in seen and not is_prose(a):
-            seen.add(a)
-            ordered.append(a)
+        # a single line may carry several numbered affiliations
+        for piece in split_numbered(a):
+            if piece not in seen and not is_prose(piece):
+                seen.add(piece)
+                ordered.append(piece)
     return ordered[:4]
 
 

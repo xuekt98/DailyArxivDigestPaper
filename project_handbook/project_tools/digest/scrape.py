@@ -30,16 +30,19 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, time as _time
 from pathlib import Path
 
 API = "https://export.arxiv.org/api/query"
 RATE = 5.0
 PAGE = 300
-# arXiv's submission deadline is 14:00 US Eastern = 18:00 UTC (EDT). The
-# announcement at 00:00 UTC therefore covers v1 timestamps from 00:00 to
-# 17:59:59 UTC of the *previous* day. A calendar-day filter would splice two
-# different announcement batches together, so the cutoff is applied explicitly.
+# arXiv closes submissions at 14:00 US Eastern (= 18:00 UTC, EDT) and announces
+# at 20:00 ET (= 00:00 UTC the next day). The announcement arXiv lists under
+# date D therefore holds every paper whose v1 `published` timestamp falls
+# between 18:00 UTC on D-1 and 17:59:59 UTC on D -- the batch straddles two
+# UTC calendar days. Filtering on the calendar date of `published` alone would
+# silently drop the D-1 evening half of every announcement (~21% of the
+# tracked categories on the 2026-10-21 listing).
 CUTOFF = "18:00:00"
 NS = {"atom": "http://www.w3.org/2005/Atom"}
 CATS = ["cs.CV", "cs.SD", "eess.AS", "cs.CL", "cs.AI", "cs.RO", "cs.LG"]
@@ -107,9 +110,24 @@ def url_for(cat: str, start: int = 0, n: int = PAGE) -> str:
             f"&sortBy=submittedDate&sortOrder=descending&max_results={n}&start={start}")
 
 
-def in_batch(published: str, ymd: str) -> bool:
-    """True when a v1 timestamp falls inside the batch announced at `ymd` 00:00 UTC."""
-    return published[:10] == ymd and published[11:19] < CUTOFF
+def window_bounds(listing_day: str) -> tuple[str, str]:
+    """UTC half-open window [lo, hi) of the announcement arXiv lists on `listing_day`.
+
+    `listing_day` is the date arXiv shows on its "new submissions for <date>"
+    listing. The corresponding announcement fires at 00:00 UTC on the *next* day
+    and contains v1 timestamps from 18:00 UTC on `listing_day - 1` up to
+    17:59:59 UTC on `listing_day`.
+    """
+    d = datetime.strptime(listing_day, "%Y-%m-%d").date()
+    lo = datetime.combine(d - timedelta(days=1), _time(18, 0, 0))
+    hi = datetime.combine(d, _time(18, 0, 0))
+    return lo.strftime("%Y-%m-%dT%H:%M:%SZ"), hi.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def in_batch(published: str, listing_day: str) -> bool:
+    """True when a v1 timestamp falls inside the announcement listed on `listing_day`."""
+    lo, hi = window_bounds(listing_day)
+    return lo <= published < hi
 
 
 class Fetcher:
@@ -128,34 +146,40 @@ class Fetcher:
             time.sleep(RATE)
         return self._cache[key]
 
-    def day(self, cat: str, ymd: str) -> list[dict]:
-        """Entries of one category inside the batch announced at `ymd` 00:00 UTC.
+    def day(self, cat: str, listing_day: str) -> list[dict]:
+        """Entries of one category inside the announcement listed on `listing_day`.
 
-        That batch is exactly the v1 submissions stamped `ymd` between 00:00 and
-        17:59:59 UTC. Papers stamped after the deadline belong to the next
-        announcement, so they are excluded here.
+        That announcement spans two UTC calendar days: 18:00 on the previous
+        day through 17:59:59 on `listing_day`. Papers stamped after the 18:00
+        UTC deadline on `listing_day` belong to the *next* announcement and are
+        excluded here.
         """
         out, start = [], 0
+        lo_date = window_bounds(listing_day)[0][:10]
         while True:
             rows = self.page(cat, start)
             if not rows:
                 break
-            out.extend([r for r in rows if in_batch(r["published"], ymd)])
+            out.extend([r for r in rows if in_batch(r["published"], listing_day)])
             oldest = min(r["published"][:10] for r in rows)
-            if len(rows) == PAGE and oldest >= ymd:
+            if len(rows) == PAGE and oldest >= lo_date:
                 start += PAGE
                 continue
             break
         return out
 
     def latest_day(self) -> str:
-        """Submission day of the newest announced batch."""
+        """Listing date of the newest announced batch.
+
+        The newest v1 timestamp on arXiv always falls in the 00:00-17:59:59 UTC
+        half of its day (everything from 18:00 UTC onwards waits for the next
+        announcement), so the calendar date of the newest entry is exactly the
+        listing date of the newest batch.
+        """
         latest = ""
         for cat in CATS:
             for r in self.page(cat):
                 d = r["published"][:10]
-                if r["published"][11:19] >= CUTOFF:
-                    continue
                 if d > latest:
                     latest = d
         return latest
@@ -252,7 +276,7 @@ def write_outputs(work: Path, papers: list[dict], days: list[str], per_day: dict
     (work / "raw_papers.json").write_text(json.dumps(papers, ensure_ascii=False, indent=1), encoding="utf-8")
     esc = lambda s: s.replace("|", "\\|")
     label = days[0] if len(days) == 1 else f"{days[0]}..{days[-1]}"
-    L = [f"# Phase 1 - arxiv Listing ({label} UTC)", "", f"Count: {len(papers)}", "",
+    L = [f"# Phase 1 - arxiv Listing ({label} listing date)", "", f"Count: {len(papers)}", "",
          "| arxiv_id | title | authors | categories | abs_url | pdf_url |",
          "| --- | --- | --- | --- | --- | --- |"]
     for p in papers:
@@ -260,8 +284,10 @@ def write_outputs(work: Path, papers: list[dict], days: list[str], per_day: dict
         L.append(f"| {p['arxiv_id']} | {esc(p['title'])} | {esc(a)} | "
                  f"{esc(', '.join(p['categories']))} | {esc(p['abs_url'])} | {esc(p['pdf_url'])} |")
     (work / "phase1_listing.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    bounds = {d: window_bounds(d) for d in days}
     (work / "window.json").write_text(json.dumps(
-        {"days": days, "per_day_raw": per_day, "unique_total": len(papers)}, indent=1), encoding="utf-8")
+        {"listing_days": days, "utc_windows": bounds, "per_day_raw": per_day,
+         "unique_total": len(papers)}, indent=1), encoding="utf-8")
 
 
 def prefilter(work: Path, papers: list[dict]) -> None:
@@ -293,7 +319,7 @@ def prefilter(work: Path, papers: list[dict]) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", required=True, help="workdir under codex_temp/")
-    ap.add_argument("--days", help="comma-separated YYYYMMDD UTC days")
+    ap.add_argument("--days", help="comma-separated arXiv listing dates (YYYYMMDD)")
     ap.add_argument("--auto", type=int, help="probe back N days, use newest non-empty day")
     ap.add_argument("--top", type=int, default=16)
     args = ap.parse_args()
@@ -305,8 +331,8 @@ def main() -> int:
     if args.days:
         days = []
         for d in (x.strip() for x in args.days.split(",") if x.strip()):
-            # accept YYYYMMDD or YYYY-MM-DD; comparisons are against the ISO
-            # date form of the v1 `published` timestamp
+            # accept YYYYMMDD or YYYY-MM-DD; the value is the arXiv *listing*
+            # date, i.e. the date arXiv shows on its "new submissions" page
             d = d.replace("-", "")
             if len(d) != 8 or not d.isdigit():
                 raise SystemExit(f"bad --days value: {d!r} (expected YYYYMMDD)")
@@ -314,13 +340,14 @@ def main() -> int:
     else:
         today = datetime.now(timezone.utc)
         newest = fetcher.latest_day()
-        print(f"[probe] newest announced batch day = {newest}", file=sys.stderr)
+        print(f"[probe] newest announced listing day = {newest}", file=sys.stderr)
         if not newest:
             print("[probe] no announced batch found", file=sys.stderr)
             return 1
         days = [newest]
         lag = (today - datetime.strptime(newest, "%Y-%m-%d").replace(tzinfo=timezone.utc)).days
-        print(f"[probe] using {newest} ({lag}d behind today-UTC)", file=sys.stderr)
+        lo, hi = window_bounds(newest)
+        print(f"[probe] using listing day {newest} (UTC window {lo} .. {hi})", file=sys.stderr)
 
     merged, per_day = {}, {}
     for day in days:
