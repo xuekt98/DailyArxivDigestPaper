@@ -28,14 +28,17 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
   （705 条原始 / 535 篇去重），故两天均不生成日报，以免与上一份重复。
   规律与 10-17 / 10-18 完全一致：**arXiv 周五 14:00 ET 截止的批次要到下周一 00:00 UTC 才公告**
   （周末不公告），因此周六、周日两天必然为空窗。
-  该批次（listing day 2026-10-23）预计在 **2026-10-26（周一）00:00 UTC** 公告 ——
-  周一运行的 listing 日会比常规的「运行当天减 1」再往前推一天（10-25 周日为空），
-  届时必须用 `--auto` 探测而不是 `--days 20261025`。
+  该批次（listing day 2026-10-23）已于 **2026-10-26（周一）00:00 UTC** 如期公告，
+  并已由 [2026-10-26](daily_arxiv_digest/2026_10/2026-10-26/) 那份日报完整覆盖
+  （663 条原始 / 474 篇去重）——预判与实际一致。
+  周一运行的 listing 日会比常规的「运行当天减 1」再往前推一天，因此当天必须用 `--auto` 探测
+  而不是 `--days 20261025`。
 
 ## 目录
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-26](daily_arxiv_digest/2026_10/2026-10-26/) | 474 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [伪标签当奖励：教师错误传播从 100% 降到 27%](https://arxiv.org/abs/2610.32572) · [生成视频上，逆向动力学模型的奖励基本是噪声](https://arxiv.org/abs/2610.32222) · [PPO 仍是 sim-to-real 的事实默认](https://arxiv.org/abs/2610.32855) |
 | [2026-10-23](daily_arxiv_digest/2026_10/2026-10-23/) | 535 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [奖励模型越准，下游反而越差](https://arxiv.org/abs/2610.30765) · [把运气从决策效应里拆开](https://arxiv.org/abs/2610.31544) · [纯文本 LLM 纠错会砸掉 13–32% 的正确转写](https://arxiv.org/abs/2610.30385) |
 | [2026-10-22](daily_arxiv_digest/2026_10/2026-10-22/) | 568 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [偏好优化可以在崩塌中一路涨分](https://arxiv.org/abs/2610.29410) · [RL 微调的崩溃边界取决于 VAE 先验](https://arxiv.org/abs/2610.28849) · [世界模型该压缩到什么程度](https://arxiv.org/abs/2610.30129) |
 | [2026-10-21](daily_arxiv_digest/2026_10/2026-10-21/) | 517 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [社区对 OPD 失效的主流解释是错的](https://arxiv.org/abs/2610.28586) · [偏好模型的分数里有多少不是「质量」](https://arxiv.org/abs/2610.28195) · [音频 LLM 到底有没有在听（机制层）](https://arxiv.org/abs/2610.28189) |
@@ -65,6 +68,111 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 > （`scrape.py` 的 `window_bounds()`）；**此前各日的扫描量与论文数应视为下限**。
 
 ---
+
+## 2026-10-26
+
+- **arXiv 批次窗口**：**2026-10-23 listing day** = 2026-10-22 18:00:00Z – 2026-10-23 17:59:59Z
+  （arXiv 00:00 UTC 公告的批次横跨两个 UTC 日：前一日 18:00 起算，当日 17:59:59 截止）
+- **扫描**：663 条原始 / **474 篇去重**（cs.LG 180 / cs.AI 170 / cs.CV 130 / cs.CL 94 /
+  cs.RO 62 / eess.AS 15 / cs.SD 12，其余为跨分类重复）
+- **全文精读**：70 篇，抽取作者机构与 **121** 张论文原图（全部入库，无缺失无孤儿）
+- **研究线**：**7 条**（skill v0.3.0 口径），每条各 10 篇，共 **70 篇**，全局无重复
+- **Wild-card**：本批 **8 篇**（aigc_visual 0 / aigc_audio 3 / audio_lm 0 / embodied 0 /
+  rl_core 0 / rl_llm 0 / rl_aigc 5）——比 10-23 的 6 篇再增加 2 篇
+- **机构标注**：70 篇**全部**依据 PDF 首页人工核对，无 `[unverified]`
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_embodied_entry.md) |
+| 强化学习 · 核心算法 / 理论 / MARL / sim-to-real | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_rl_core_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_rl_core_entry.md) |
+| 强化学习 · LLM 后训练与对齐 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_rl_llm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_rl_llm_entry.md) |
+| 强化学习 · 生成式内容模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_rl_aigc_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-26/2026-10-26_rl_aigc_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Pseudo-Labels as Rewards, Not Targets: Group-Relative Policy Optimization for Semi-Supervised ASR](https://arxiv.org/abs/2610.32572)**（rl_llm #5）
+   — **同一份伪标签，改当 GRPO 的奖励参考而不是 SFT 的目标：教师错误的传播率从 100% 降到 27%。**
+   银行领域用 Whisper 伪标签时，GRPO 相对 SFT 取得 **29.3%–56.2%** 的相对 WER 改善，
+   跨 **4 个 Whisper 规模、4 个教师家族、3 个领域、4 种语言**都成立。
+   最扎人的是两个数字对比：SFT **几乎 100% 原样复现**教师的错误，GRPO 只传过去 **27%**。
+   机制解释也很干净——错误的伪标签词**很少出现在 on-policy rollout 里**，所以组相对优势
+   仍然与干净转写对齐；而 SFT 把它们强行塞进策略支撑集，压垮了 GRPO 所依赖的奖励方差。
+   这条结论几乎零成本就能套到任何半监督设定上，而且天然跨了「音频 LM + LLM 后训练 RL」两条线。
+2. **[ACWM-RM: A Reference-Free Reward Model from Complementary Mismatch Preferences](https://arxiv.org/abs/2610.32222)**（rl_aigc #1）
+   — **视频世界模型的奖励要同时判「视觉质量」和「动作跟随」，而逆向动力学模型在生成视频上基本是噪声。**
+   作者先造 **AVM-Eval**（67.2k 对）量化「IDM 在生成视频上评 AF 有多不可靠」，
+   再造 **AVM-Pref**（506.3k 对）——**动作不匹配对监督 AF、视频不匹配对监督 VQ**，
+   一个数据集同时提供两维监督，不必分别训两个奖励模型。
+   关键性质是**奖励计算全程不需要真值视频**；下游 RL 实验在两项标准上都优于奖励基线。
+   这篇还顺带指出一个此前没人系统量化过的坑：很多视频 RL 流水线里的奖励信号可能基本是噪声。
+3. **[Regularised RL improves sim-to-real transfer](https://arxiv.org/abs/2610.32855)**（rl_core #1）
+   — **PPO 是 sim-to-real 流水线的事实默认，但正则化带来的鲁棒性才真正决定能不能上真机。**
+   作者指出正则化 RL 明明有可证明的鲁棒性保证，弱正则的 PPO 却仍是默认选择，
+   而正则化对迁移的实际收益一直缺乏刻画。为此推导了基于 **soft mellowmax** 价值函数的
+   **SMM-AC**：MuJoCo 上与 SAC 相当，**真机上回报更高**，且对观测、环境与动力学扰动
+   都比基线更鲁棒。收益体现在扰动鲁棒性而非平均性能上——这个区分很重要，
+   只报平均回报的话它看起来只是「和 SAC 差不多」。
+
+### 其他值得一看
+
+- **全双工模型在长对话里必崩，且崩法各不相同**（audio_lm #1）：
+  [Why Full-Duplex Speech Models Collapse in Long Conversations](https://arxiv.org/abs/2610.32349)
+  测了 5 个近期全双工模型，**无一幸免**：保留完整历史的模型在上下文用完**之前**就开始退化，
+  滑窗模型则陷入重复、沉默与胡言乱语。机制定位到 **Initialization-Anchor Eviction**
+  （滑窗丢掉第一个 KV 条目），两个**免训练**补丁——锚点固定 + 双工重复惩罚——就把崩溃大幅压下去。
+- **EBM 回到高保真生成**（aigc_visual #1）：
+  [Scaling Transformer Energy-based Models](https://arxiv.org/abs/2610.31889) 的 TEM
+  **不用 classifier-free guidance** 就在 ImageNet 256 达到 **FID-50K 3.82**，
+  512 分辨率 8.24——能量建模是 CFG 之外的第二条提质路径。
+- **统一动作条件的世界模型反超专用专家**（embodied #3）：
+  [UniAction](https://arxiv.org/abs/2610.32977) 把任意动作统一成「离散语义 + 连续时空坐标」的
+  稀疏元素集并直接映射进预训练视频模型的位置空间，**单个联合训练模型超过了力/相机/手/机器人
+  四种动作各自的专用专家**。
+- **VLA 的长时程多技能泛化**（embodied #1）：
+  [MAST-VLA](https://arxiv.org/abs/2610.32312) 把「用哪个技能」与「在哪里接触物体」拆成两级条件，
+  CALVIN ABC→D 长时程多技能跨场景泛化 **Avg. Len 4.65**，达 SOTA。
+- **第一视角脏标签也能规模化**（embodied #10）：
+  [EgoForesight](https://arxiv.org/abs/2610.31845) 用「可靠性条件化腐蚀 + 特权未来蒸馏」处理
+  噪声第一视角动作标签，3 万小时预训练下**真机开环动作 MSE 降 20.5%**，
+  RoboCasa 少样本成功率 +8.1 个百分点，且 scaling 斜率更陡。
+- **音频侧的两个硬数字**（aigc_audio #5 / #6）：
+  [MG-REPA](https://arxiv.org/abs/2610.32161) 把 REPA 的对齐拆成帧级 SSL + 句级说话人验证两支，
+  在 Libri2Mix 上用 **1/3 与 1/2 的轮数**达到 MeanFlow-TSE 基线的 OVRL 与 PESQ；
+  [Falcon](https://arxiv.org/abs/2610.32749) 用**单次编解码前向**做多尺度时频分离，
+  参数 **−91.9%**、计算 **−20.2×**、GPU 延迟 **−11.1×**，同时在真实场景基准 RealSSA 上 SOTA。
+- **视听时序定位的能力缺口**（audio_lm #7）：
+  [RVG-Bench](https://arxiv.org/abs/2610.32268) 要求先推理意图再定位片段，
+  22 个模型中最强的 Qwen3.8-Omni-Flash 也只有 **49.6 mIoU**。
+- **RL 训练的 rollout 提速**（rl_llm #8）：
+  [NgramRL](https://arxiv.org/abs/2610.32881) 直接用同一 prompt 的近期 rollout 当 n-gram 草稿源，
+  无需辅助模型与 GPU 常驻状态，每次目标模型前向提交 **3.60–7.77** 个 token，
+  比 prompt-lookup 解码多 **7.0×**。
+- **BF16 RL 崩溃的局部修复**（rl_llm #6）：
+  [Rounding-Location Alignment](https://arxiv.org/abs/2610.32951) 指出即便权重与 BF16 张量完全相同，
+  推理与训练端的**取整位置**不同就会让 on-policy 更新变成 off-policy；
+  只需对齐 **RoPE / SwiGLU / residual RMSNorm** 三处即可阻止训练崩溃（仅 RoPE 一处也够）。
+- **一则罕见的涌现行为**（rl_core #8）：
+  [Emergent Cooperative Thermoregulation in Lunar Swarm Robotics](https://arxiv.org/abs/2610.31868)
+  用进化策略训练 20 台月面机器人共享的策略，奖励**只在夜末给一次**、且不含任何位置或运动信息，
+  却涌现出聚集与核心-边缘轮换（与帝企鹅越冬行为相同）；存活阈值比静止抱团低 **37%**，
+  并可从 20 台零样本迁移到 40 台。
+- **音频两条线与 rl_aigc 持续最薄**（aigc_audio 3 个 wild-card、rl_aigc 5 个 wild-card）：
+  本批 cs.SD 仅 **12** 篇、eess.AS 仅 **15** 篇，生成侧真实命中的音频工作只有 8 篇；
+  rl_aigc 真正「RL / 偏好优化生成模型」的只有 **4 篇**（ACWM-RM、ImageRSI、ViT-H、扩散 RL 装箱）。
+  两个 wild-card 数量都**超出 skill 规定的 1–2 名额**，已在报告开头与每条 wild-card 条目上逐条标注理由：
+  aigc_audio 的 3 个是「TSE 负线索估计 / 弱监督语音增强 / 雷达语音增强挑战赛」，
+  rl_aigc 的 5 个是「蒸馏生成器适配 / 流匹配目标兼容性理论 / 多参考生成基准 /
+  抽象概念生成基准 / 扩散模型概念擦除」，均为同一生成模型方法族内与 RL / 奖励 / 选择机制最接近的邻居。
+
+> **批次公告验证**：本份日报取的是 listing day **2026-10-23**（周五 14:00 ET 截止那一批），
+> 它确实在 **2026-10-26（周一）00:00 UTC** 才公告——与 10-24 / 10-25 跳过记录里的预判一致。
+> 周一运行的 listing 日比「运行当天减 1」再往前推一天，因此本次用 `--auto` 探测而非 `--days`。
+
 
 ## 2026-10-23
 
