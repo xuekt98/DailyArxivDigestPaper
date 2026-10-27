@@ -38,6 +38,7 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-27](daily_arxiv_digest/2026_10/2026-10-27/) | 546 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [奖励黑客是一个预算分配问题](https://arxiv.org/abs/2610.35716) · [同一套控制器，输出力指令让成功率 26.7%→80%](https://arxiv.org/abs/2610.35862) · [把 3D 编辑重写成轨迹式视频编辑](https://arxiv.org/abs/2610.35756) |
 | [2026-10-26](daily_arxiv_digest/2026_10/2026-10-26/) | 474 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [伪标签当奖励：教师错误传播从 100% 降到 27%](https://arxiv.org/abs/2610.32572) · [生成视频上，逆向动力学模型的奖励基本是噪声](https://arxiv.org/abs/2610.32222) · [PPO 仍是 sim-to-real 的事实默认](https://arxiv.org/abs/2610.32855) |
 | [2026-10-23](daily_arxiv_digest/2026_10/2026-10-23/) | 535 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [奖励模型越准，下游反而越差](https://arxiv.org/abs/2610.30765) · [把运气从决策效应里拆开](https://arxiv.org/abs/2610.31544) · [纯文本 LLM 纠错会砸掉 13–32% 的正确转写](https://arxiv.org/abs/2610.30385) |
 | [2026-10-22](daily_arxiv_digest/2026_10/2026-10-22/) | 568 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [偏好优化可以在崩塌中一路涨分](https://arxiv.org/abs/2610.29410) · [RL 微调的崩溃边界取决于 VAE 先验](https://arxiv.org/abs/2610.28849) · [世界模型该压缩到什么程度](https://arxiv.org/abs/2610.30129) |
@@ -68,6 +69,139 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 > （`scrape.py` 的 `window_bounds()`）；**此前各日的扫描量与论文数应视为下限**。
 
 ---
+
+## 2026-10-27
+
+- **arXiv 批次窗口**：**2026-10-26 listing day** = 2026-10-25 18:00:00Z – 2026-10-26 17:59:59Z
+  （arXiv 00:00 UTC 公告的批次横跨两个 UTC 日：前一日 18:00 起算，当日 17:59:59 截止）
+- **扫描**：738 条原始 / **546 篇去重**（cs.AI 218 / cs.LG 193 / cs.CV 129 / cs.CL 104 / cs.RO 65 / cs.SD 16 / eess.AS 13，其余为跨分类重复）
+- **全文精读**：70 篇，抽取作者机构与 **116** 张论文原图（全部入库，无缺失无孤儿）
+- **研究线**：**7 条**（skill v0.3.0 口径），每条各 10 篇，共 **70 篇**，全局无重复
+- **Wild-card**：本批 **9（aigc_visual 0 / aigc_audio 4 / audio_lm 3 / embodied 0 / rl_core 0 / rl_llm 0 / rl_aigc 2）** 篇——比 10-26 的 8 篇再多 1 篇
+- **机构标注**：70 篇中 68 篇依据 PDF 首页人工核对，2 篇（2610.34799、2610.34915）PDF 首页未给出机构信息，标注 `[unverified]`
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_embodied_entry.md) |
+| 强化学习 · 核心算法 / 理论 / MARL / sim-to-real | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_rl_core_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_rl_core_entry.md) |
+| 强化学习 · LLM 后训练与对齐 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_rl_llm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_rl_llm_entry.md) |
+| 强化学习 · 生成式内容模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_rl_aigc_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-27/2026-10-27_rl_aigc_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Audit Where Hacks Pay: Budgeted Strong-Verifier Audits Against Reward Hacking in GRPO](https://arxiv.org/abs/2610.35716)**（rl_llm #2）
+   — **把「奖励黑客」从工程试错变成了一个有最优解的预算分配问题。**
+   RLVR 训练在廉价检查（单元测试）上，策略会学会钻空子；而更强的检查太贵、无法对每次 rollout 都跑。
+   作者问的是：有限的强验证器预算该怎么花？推导结果是——**优先审计弱通过数最少的组**
+   （low-pass budgeted audits，LB），能在固定修正量下最小化留在黑客身上的优势质量。
+   更硬的是这个推导**能预测行为**：从每次运行的起始状态出发，一个**冻结面板**上该优势质量的符号
+   在 **39 次运行中的 33 次**预测了奖励黑客会被压制（16 次预注册运行里的 13 次）。
+   实测在 LeetCode 与 Countdown-Code 上，LB 把黑客压到**接近零**，同预算的随机审计做不到且更费标签；
+   两种无偏修正（逐样本奖励级 IPW、组级优势修正）虽然也压住了黑客，留出准确率却比 LB 低
+   **6.1–11.8** 与 **8.0–11.5** 个百分点。全量审计与 LB 只差约两个百分点，却多花 **3.6 倍**标签。
+   结论很硬：**训练结果不只取决于期望更新，还取决于其估计的随机性。**
+2. **[Learning Force-Reactive Humanoid Loco-Manipulation](https://arxiv.org/abs/2610.35862)**（embodied #2）
+   — **同一批演示、同一套控制器，只因为输出里多了一路力指令，成功率从 26.7% 变成 80%。**
+   FLORE 指出日常任务需要同时控制接触力与运动，而在人形上力要跨双手与全身协同、无法只靠运动学轨迹指定。
+   方案很轻：两把力感知 UMI 式手持夹柄采手部运动与接触扳手、可穿戴追踪采身体运动，
+   训练**同时输出动作与每手力指令**的扩散策略，再由混合柔顺全身控制器执行
+   （对实测 F/T 传感器的力误差做积分，使每只手沿指令方向精确跟踪力、其余方向保持柔顺）。
+   三个富接触任务上成功率 **80%**，同演示、同控制器训练的位置-only 策略只有 **26.7%**。
+   数据采集方案本身也值得注意：**手持夹柄级别的成本**（无真机遥操作），比多数人形工作可复制性强得多。
+3. **[VidEdit3D: Flexible 3D Gaussian Editing with Video Diffusion](https://arxiv.org/abs/2610.35756)**（aigc_visual #1）
+   — **把 3D 场景编辑重写成「轨迹式视频编辑」，直接白拿视频扩散的多视角时序先验。**
+   3DGS 文本引导编辑长期卡在多视角一致性与结构性修改的矛盾里，而基于图像的编辑器在异常视角下常常改不到目标物体。
+   转写思路很漂亮：静态 3D 里的相机运动 ≡ 视频里的时间动态，于是可以直接调用预训练视频扩散模型的时空先验。
+   三段式：TGR 选关键帧、拼出满足 VDM 输入要求的平滑片段；FAVE 免训练传播编辑，其中 ECG 在共享隐状态上
+   对比源图与编辑图条件（结构上很像 classifier-free guidance，只是搬到了编辑一致性约束上）；
+   RS-GS 最后把几何与外观更新严格限制在目标 primitive 上，抑制背景属性泄漏。
+
+### 其他值得一看
+
+- **「加更多视觉记忆未必更好」的硬证据**（aigc_visual #6）：
+  [More Memory, Better Videos?](https://arxiv.org/abs/2610.35001) 用 VMem-Bench 双轨诊断发现，
+  检索把实体召回从 **0.559** 提到 **0.628–0.693**，却让精度从 **0.977** 跌到 **0.915–0.938**、
+  禁现实体规避从 **0.968** 跌到 **0.845–0.898**；并指出「prompt 供给 appearance 造成的高召回」是必须排除的混淆。
+- **把 3D 重建与原生 3D 扩散接进同一个 DiT**（aigc_visual #3）：
+  [GenSfM](https://arxiv.org/abs/2610.35522) 在共享注意力下联合去噪形状隐与位姿隐，
+  4 个无标定视角下新视角 PSNR 提升 **3.2–4.5 dB**，并在不用任何外部位姿骨干的前提下以 **96% 以上**
+  准确率恢复输入视角位姿。
+- **反向利用注意力归一化来防图像编辑**（aigc_visual #10）：
+  [Copying as Defense](https://arxiv.org/abs/2610.35566) 不去抑制模型对参考图的注意力，
+  而是在早期 block 最大化 target 到参考图的注意力质量让模型转而复现输入，
+  平均编辑成功率 **81.4% → 24.0%**，比最强基线再降 **44.3%**。
+- **图像扩散先验能跨模态迁到语音**（aigc_audio #1）：
+  [ImageTTS](https://arxiv.org/abs/2610.34807) 把 FLUX.2 的图像 VAE 与 DiT 改造成 TTS，
+  图像预训练初始化把 WER 从 **4.2% 降到 2.7%**，10 万小时数据下 Seed-TTS test-en WER **1.12%**。
+- **3 秒语音表示泄漏即可冒充**（aigc_audio #4）：
+  [STIA](https://arxiv.org/abs/2610.34688) 用一段泄漏的 Moshi 表示 + 公开数据训练条件流匹配模型，
+  生成攻击者指定文本的受害者语音，CAM++ 说话人余弦相似度 **0.78**、目标文本 WER **3.80%**。
+- **语音助手边听边动手的 1.8–2.0 秒**（audio_lm #1）：
+  [Heard Enough to Act](https://arxiv.org/abs/2610.34653) 把「听到多少才够行动」做成
+  earliest-actionable-point 标注语料（26,694 段 / 786 小时 / 48 领域），
+  正确调用相对整轮结束级联平均提前 **1.8–2.0 秒**。
+- **全双工模型的长会话退化被量化了**（audio_lm #2）：
+  [Diagnosing and Mitigating Long-Session Degradation](https://arxiv.org/abs/2610.34991) 提出闭环长会话评测，
+  暴露响应性、内容质量与声音一致性随时间退化；自蒸馏 LoRA + 双分辨率上下文 TRC 把
+  **KV-cache 增长减少 90% 以上**。
+- **世界模型该按「能不能规划」而不是「预测得准不准」来适配**（embodied #4）：
+  [OpTTA](https://arxiv.org/abs/2610.35636) 在预测损失外加入规划器的到达目标代价，
+  分布偏移任务上规划成功率平均 **+13.5** 个百分点，而纯预测目标只有 **+6.9**。
+- **视频世界模型的隐空间要为动力学服务**（embodied #8）：
+  [Video World Models Need Predictable Latents](https://arxiv.org/abs/2610.34663) 给 autoencoder
+  加时间性表征目标，同预算下推理最多便宜 **5 倍**、训练快 **7 倍**，
+  分布外与长程场景的像素与感知误差降低 **15%–24%**。
+- **零真机数据也能控机器人**（embodied #10）：
+  [ZAP](https://arxiv.org/abs/2610.35817) 用预训练 27B 模型加仿真任务上的 SFT 与 GRPO，
+  真实任务成功率 **96.7%**，比 GPT-6 Astra 快 **3 倍**、便宜 **17 倍**，
+  并能零样本泛化到试管插架、空中双手传递与国际象棋。
+- **细粒度信用分配何时有用、何时有害**（rl_core #2）：
+  [When Fine-Grained Credit Assignment Helps and Hurts](https://arxiv.org/abs/2610.35497)
+  在四类视频剪辑任务上实测：超过 60 轮的长程任务里衰减过程奖励相对结果-only GRPO 提升 **45.4%**，
+  30–40 轮的短程任务则至多 **10.4%**；并抓到「过程分升、任务分降」的奖励黑客。
+- **多目标 RL 的样本效率代价被量化**（rl_core #7）：
+  [Routed Ensembles and Trajectory Attribution](https://arxiv.org/abs/2610.35733) 引入目标冲突系数
+  并推导近乎最优的遗憾界，路由集成平均提升 **4.3%**，核代理轨迹归因在留一法相关性上高 **50%**、
+  轨迹选择回报高 **27%**。
+- **把奖励黑客之外的「离散奖励」也算清**（rl_llm #7）：
+  [Window Likelihood](https://arxiv.org/abs/2610.35581) 指出 whole-rollout GRPO 在全双工语音模型上
+  有零梯度陷阱与信用泄漏两处结构性失败，改为对停止决策做闭式积分后，
+  在六个后训练模型上取得最好的 yield/hold F1。
+- **长轨迹的探索不该靠逐 token 加熵**（rl_llm #6）：
+  [Info-GRPO](https://arxiv.org/abs/2610.34949) 把多样性改由整条轨迹的隐变量先验承载，
+  AIME24 上 Avg@8 相对 GRPO 提升 **1.66%–4.17%**，并以 **8 倍更少采样**达到同等多数投票准确率。
+- **RL 基础设施的数值一致性清单**（rl_llm #9）：
+  [MXFP8 RL on Blackwell](https://arxiv.org/abs/2610.34915) 实测采样器跑在学习器的 FP8 网格上
+  比 BF16 采样器 train-rollout KL 低 **11%–16%**，端到端把 MoE step 时间削 **10.7%**、生成时间削 **24%**，
+  并给出权重同步必须满足的七条条件与静默失败检查表。
+- **奖励引导扩散的高噪声失效有共同根源**（rl_aigc #1）：
+  [VaLoP](https://arxiv.org/abs/2610.35607) 证明两种常用价值梯度估计在高噪声处的误差
+  **同源于后验协方差**，提出向前看一步再把梯度拉回，用一次向量-雅可比积补上修正项；
+  摊销版只需一个奖励训练即可复用到其他奖励。
+- **扩散语言模型的 token 级信用分配**（rl_aigc #2）：
+  [DTCA](https://arxiv.org/abs/2610.35201) 以「提交 token 后剩余掩位置预测置信度的改善量」估计贡献，
+  并按词性分组用于挑选去噪时间步；LLaDA-8B-Instruct 上 MATH500 最高提升 **9.0** 个百分点。
+- **一步生成的目标该怎么写**（rl_aigc #5）：
+  [Cumulative Marginal Matching](https://arxiv.org/abs/2610.34575) 把流匹配视作一串中间边际分布，
+  直接优化累积 Wasserstein 差异，并证明 **Shortcut-CSL 只是它的一阶近似**。
+- **扩散语言模型的并行解码提速一个数量级**（rl_aigc #7）：
+  [dSpark](https://arxiv.org/abs/2610.35804) 学「何时提交 token」——优先提交那些**揭示之后会让别的位置
+  更可预测**的 token，GSM8K 上 LLaDA-8B-Instruct 加速 **10.12 倍**。
+- **音频两条线与 rl_aigc 持续最薄**（aigc_audio 4 个 wild-card、audio_lm 3 个、rl_aigc 2 个）：
+  本批 cs.SD 仅 **16** 篇、eess.AS 仅 **13** 篇；rl_aigc 严格命中「RL / 偏好优化生成模型」的只有
+  **3 篇**（VaLoP、DTCA、S²-RL）。aigc_audio 与 audio_lm 的 wild-card 数量**超出 skill 规定的 1–2 名额**，
+  已在报告开头与每条 wild-card 条目上逐条标注理由；rl_aigc 的 2 篇
+  （扩散采样动力学刻画 / 代码驱动视频生成评测）落在 1–2 名额内。
+
+> **批次公告验证**：本份日报取的是 listing day **2026-10-26**（2026-10-26 00:00 UTC 公告），
+> 窗口 `2026-10-25 18:00:00Z – 2026-10-26 17:59:59Z`。本次仍用 `--auto` 探测而非 `--days`，探测到的最新非空 listing 日
+> 与 [2026-10-26](daily_arxiv_digest/2026_10/2026-10-26/) 那份日报覆盖的 listing day 2026-10-23 不同，
+> 因此不构成重复批次。
 
 ## 2026-10-26
 
