@@ -46,6 +46,7 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-10-29](daily_arxiv_digest/2026_10/2026-10-29/) | 336 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [把粗粒度奖励拆到出错的那一步](https://arxiv.org/abs/2610.38391) · [深海域移下通用 VLA 只剩 7.9%](https://arxiv.org/abs/2610.38199) · [奖励不该去预测世界，而该去预测决策](https://arxiv.org/abs/2610.38439) |
 | [2026-10-30](daily_arxiv_digest/2026_10/2026-10-30/) | 619 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [每个 pass@1 收益都有 pass@k 的代价](https://arxiv.org/abs/2610.39295) · [零标注成本给 TTS 补上重音控制](https://arxiv.org/abs/2610.39427) · [把奖励精确投到模型的能力边界](https://arxiv.org/abs/2610.39835) |
 | [2026-10-28](daily_arxiv_digest/2026_10/2026-10-28/) | 578 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [奖励自己会随策略一起变强](https://arxiv.org/abs/2610.36578) · [Best-of-N 到底能带来多少收益](https://arxiv.org/abs/2610.37196) · [不足 1 亿参数的世界动作模型](https://arxiv.org/abs/2610.37091) |
 | [2026-10-27](daily_arxiv_digest/2026_10/2026-10-27/) | 546 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [奖励黑客是一个预算分配问题](https://arxiv.org/abs/2610.35716) · [同一套控制器，输出力指令让成功率 26.7%→80%](https://arxiv.org/abs/2610.35862) · [把 3D 编辑重写成轨迹式视频编辑](https://arxiv.org/abs/2610.35756) |
@@ -79,6 +80,80 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 > （`scrape.py` 的 `window_bounds()`）；**此前各日的扫描量与论文数应视为下限**。
 
 ---
+
+## 2026-10-29
+
+- **arXiv 批次窗口**：**2026-10-28 listing day** = 2026-10-27 18:00:00Z – 2026-10-28 17:59:59Z
+  （arXiv 00:00 UTC 公告的批次横跨两个 UTC 日：前一日 18:00 起算，当日 17:59:59 截止）
+- **扫描**：446 条原始 / **336 篇去重**（cs.AI 141 / cs.LG 121 / cs.CV 68 / cs.CL 59 / cs.RO 41 / eess.AS 9 / cs.SD 7，其余为跨分类重复）
+- **全文精读**：70 篇，抽取作者机构与 **112** 张论文原图（全部入库，无缺失无孤儿）；8 篇（2610.37995、2610.38109、2610.38122、2610.38252、2610.38266、2610.38313、2610.38486、2610.38608）正文无可提取图
+- **研究线**：**7 条**（skill v0.3.0 口径），每条各 10 篇，共 **70 篇**，全局无重复
+- **Wild-card**：本批 **17（aigc_visual 0 / aigc_audio 4 / audio_lm 4 / embodied 0 / rl_core 0 / rl_llm 0 / rl_aigc 9）** 篇
+  —— rl_aigc 最薄（该批次真正把 RL / 奖励 / 偏好直接用于扩散、流匹配与生成模型后训练的论文仅 1 篇），aigc_audio 与 audio_lm 次之，均已在报告开头与条目上逐条标注理由
+- **机构标注**：70 篇中 69 篇依据 PDF 首页人工核对；1 篇（2610.38413）正文仅有脚注式工作单位说明、无正式机构块，标注 `[unverified]`
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_embodied_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_embodied_entry.md) |
+| 强化学习 · 核心算法 / 理论 / MARL / sim-to-real | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_rl_core_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_rl_core_entry.md) |
+| 强化学习 · LLM 后训练与对齐 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_rl_llm_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_rl_llm_entry.md) |
+| 强化学习 · 生成式内容模型 | 10 | [报告](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_rl_aigc_report.md) · [条目](daily_arxiv_digest/2026_10/2026-10-29/2026-10-29_rl_aigc_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[SCOPE: Selective Critical-Step On-Policy Self-Distillation for Agentic Reinforcement Learning](https://arxiv.org/abs/2610.38391)**（rl_llm #1）
+   — **奖励太粗，唯一的办法是把它拆到出错的那一步。**
+   轨迹级的 outcome 奖励在长程 agent 任务里几乎无法归因：一次失败可能是第 3 步选错工具，
+   也可能是第 20 步忘了关抽屉。SCOPE 的做法是让策略**分析自己的 rollout**，
+   生成 step-specific 的 hindsight skill，并且**只在选中的错误步骤上蒸馏**。
+   这直接针对了自蒸馏在长程任务上失真的主因——轨迹级 skill 会把教师偏好带到无关步骤上，产生 off-target 信号。
+   方法上用有界的 signed teacher-student 系数稳定辅助更新，同时保留正向强化与负向纠正，
+   另加 success-relative 的成对长度奖励鼓励高效完成。
+   结果上 Qwen2.5-3B 在 ALFWorld / WebShop 拿到 **97.7% / 85.2%** 成功率，比 SEED 高 5.9 / 6.3 个点；
+   更关键的是**未见过的 ALFWorld 任务上 89.6%，比 GRPO 高 23.2 个点，交互次数还少了 46.7%**；
+   放大到 Qwen3-32B 后已见 99.2%、未见 94.0%。
+   推理：相比单纯换一个 reward 函数，把蒸馏约束在关键错误步上更像**给 outcome 稀疏任务补了一层密集且定位准确的信用分配**——
+   这也是本批 rl_llm 里最正面回应「奖励粒度」痛点的一篇。
+2. **[Embodied at Sea: Imitation Learning for Multi-Task Underwater Manipulation](https://arxiv.org/abs/2610.38199)**（embodied #1）
+   — **通用 VLA 在水下只拿到 7.9%——这是一次罕见的、把 domain shift 摆上台面的负面实证。**
+   论文在平静与湍流水域采集 **1616 条**真实水下操作数据，训练 14 个不同 proprioception 配置的 generalist VLA；
+   在沉船遗址与码头做海洋考古与保育案例研究，合计 748 回合、508 次可评分实机 rollout。
+   最刺眼的对照是：**单任务 ACT 策略 47.9%，通用 SmolVLA 7.9%**，沉船现场最成功的任务上达到 66.7%。
+   与此同时，14 个模型中有 10 个超过基线，最佳模型连同部分成功率达 93.3%。
+   推理：领域偏移下**专用 action chunking 策略反而赢过通用 VLA**，说明通用性的红利要靠足够同域数据才兑现；
+   那个 7.9% 更像是对零样本海洋泛化的警示，而不是调参不足。
+   值得优先读的理由很实际：野外机器人正在被大量宣传为「通用模型直接上手」，这篇给出了带实机数据的反面标尺。
+3. **[Predict the Reward, Not the World: World Reward Models for ML Agents](https://arxiv.org/abs/2610.38439)**（rl_llm #3）
+   — **让奖励模型预测「执行会支持哪个决策」，而不是预测「执行之后会怎样」。**
+   LLM-as-world-model 的常见做法是让模型预测执行结果，再据此打分。这篇论文给出一个反直觉的对照：
+   **直接预测执行会支持哪个决策，比预测世界更准**，而且输出是一个概率可校准的判别器而非开放式生成。
+   这条转换把「奖励建模」从生成任务换成了判别任务——于是它天然可以用标准的判别式训练、校准与置信度来做，
+   而这些恰恰是奖励模型在实践中最需要、又最难从开放式生成里拿到的性质。
+   推理：奖励之所以难做，难点往往不在于「描述后果」，而在于「后果与决策的相关性」；
+   直接建模相关性，等于跳过了那一整段间接推导。
+
+### 其他值得一看
+
+- **rubric 当成会随策略自动标定的活靶子**（rl_llm #4）：
+  [Co-Evolving Policy and Rubric via Capability Awareness](https://arxiv.org/abs/2610.38566)
+  是本批 rubric-based RL 里最接近「静态 rubric 失去区分力」这一根因的处理。
+- **相对动作信用让 PPO 走出平台期**（rl_core #1）：
+  [Learning from Relative Action Credit for Escaping Local Minima](https://arxiv.org/abs/2610.38034)
+  把长时程接触密集任务的停滞归因到 state-value critic 无法区分同状态不同动作。
+- **长视频的两个硬伤一起解决**（aigc_visual #1）：
+  [Hierarchical Diffusion for Camera-controlled Autoregressive Video Generation](https://arxiv.org/abs/2610.37983)
+  把视频生成重述为 warping-and-inpainting，再用两级去噪同时管住漂移与相机一致性。
+- **「多规划反而更糟」的负结果**（embodied #6）：
+  [When More Planning Hurts: Learned Planners for World Models](https://arxiv.org/abs/2610.37891)
+  加大更新预算降低了 latent 轨迹代价，却把已解出的任务变成失败——比又一个更强的 planner 更有价值。
+- **域匹配比数据量更关键**（audio_lm #1）：
+  [Beyond Aggregate WER](https://arxiv.org/abs/2610.38016) 把聚合 WER 拆成说话人角色与语言上下文后可见，
+  更大的域外双语语料并没有赢过更小的课堂语料。
 
 ## 2026-10-30
 
