@@ -56,6 +56,7 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-11-04](daily_arxiv_digest/2026_11/2026-11-04/) | 587 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [视频生成不一定要走潜空间：像素空间 FVD 反超先前 SOTA 27%](https://arxiv.org/abs/2611.04764) · [RLVR 一换分布就退化成暴力枚举](https://arxiv.org/abs/2611.03627) · [一个音频 LLM 拿下五项取证任务](https://arxiv.org/abs/2611.04634) |
 | [2026-11-03](daily_arxiv_digest/2026_11/2026-11-03/) | 564 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [视觉 RL 的收益在 Best-of-N 大预算下会反转](https://arxiv.org/abs/2611.02366) · [RLVR 只锐化采样分布，不改变模型的知识](https://arxiv.org/abs/2611.02574) · [把未来力学蒸馏进潜世界模型，真机成功率 87.1%](https://arxiv.org/abs/2611.03294) |
 | [2026-11-02](daily_arxiv_digest/2026_11/2026-11-02/) | 465 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [bf16 舍入悄悄丢掉了大部分 RL 更新](https://arxiv.org/abs/2610.41073) · [小 critic 配大教师会崩训练](https://arxiv.org/abs/2610.42135) · [把 steering vector 当训练信号用](https://arxiv.org/abs/2610.40998) |
 | [2026-10-30](daily_arxiv_digest/2026_10/2026-10-30/) | 619 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [每个 pass@1 收益都有 pass@k 的代价](https://arxiv.org/abs/2610.39295) · [零标注成本给 TTS 补上重音控制](https://arxiv.org/abs/2610.39427) · [把奖励精确投到模型的能力边界](https://arxiv.org/abs/2610.39835) |
@@ -92,6 +93,99 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 > （`scrape.py` 的 `window_bounds()`）；**此前各日的扫描量与论文数应视为下限**。
 
 ---
+
+## 2026-11-04
+
+- **arXiv 批次窗口**：**2026-11-03 listing day** = 2026-11-02 18:00:00Z – 2026-11-03 17:59:59Z
+  （arXiv 00:00 UTC 公告的批次横跨两个 UTC 日：前一日 18:00 起算，当日 17:59:59 截止）
+- **扫描**：765 条原始 / **587 篇去重**（cs.LG 225 / cs.AI 218 / cs.CV 158 / cs.CL 78 / cs.RO 71 / cs.SD 10 / eess.AS 5，其余为跨分类重复）
+- **全文精读**：70 篇，抽取作者机构与 **129** 张论文原图（全部入库，无缺失无孤儿）；2 篇（2611.03605、2611.04158）正文无可提取图
+- **研究线**：**7 条**（skill v0.3.0 口径），每条各 10 篇，共 **70 篇**，全局无重复
+- **Wild-card**：本批 **9（aigc_visual 0 / aigc_audio 4 / audio_lm 0 / embodied 0 / rl_core 0 / rl_llm 0 / rl_aigc 5）** 篇
+  —— rl_aigc 最薄（该批次真正把 RL / 奖励 / critic 用于生成模型后训练的仅 5 篇），
+  aigc_audio 次之（cs.SD + eess.AS 合计只有 15 篇，真属「仅生成」的仅 2 篇），
+  其余名额由离散扩散蒸馏、扩散分数学习理论、自博弈视觉验证器等相邻方向补位，
+  均已在报告开头与条目上逐条标注理由
+- **机构标注**：70 篇逐篇核对 PDF 首页（IEEE 格式按首页脚注 y 坐标过滤正文碎片），
+  全部取得机构信息，无 `[unverified]` 条目
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_embodied_entry.md) |
+| 强化学习 · 核心算法 / 理论 / MARL / sim-to-real | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_rl_core_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_rl_core_entry.md) |
+| 强化学习 · LLM 后训练与对齐 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_rl_llm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_rl_llm_entry.md) |
+| 强化学习 · 生成式内容模型 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_rl_aigc_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-04/2026-11-04_rl_aigc_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Pixel-space video generation with U-JiT](https://arxiv.org/abs/2611.04764)**（aigc_visual #2）
+   — **视频生成「必须走潜空间」这条共识，第一次被同条件从头训练的对照实验系统挑战。**
+   潜空间扩散 / 流匹配之所以通用，是因为可以复用预训练自编码器压缩数据；代价也很明确：
+   训练被迫**分成自编码器预训练与生成模型训练两段**，没法端到端，而且自编码器本身带来**信号损失**。
+   论文在 Kinetics-600 上把潜空间与像素空间模型**各自从头训练**做严格对照，
+   并指出已有像素空间图像方案的几个短板（基础 transformer 设计在高维视频上不够用），
+   用 UNet-like transformer 架构 + 训练配方与采样策略的改造来补。
+   结果：**128 分辨率 frames-to-video 任务上 FVD 相对先前 SOTA 改善 27%、相对 JiT 像素基线改善 14%**；
+   放大到 256 分辨率后 **per-frame FID 相对潜空间模型改善 27%、相对像素模型改善 61%**。
+   推理：这不是「潜空间不好」的结论，而是**端到端训练的自由度被低估了**——如果你的业务需要
+   像素级保真、或想在同一套权重里联合训练自编码器与生成器，这条路线值得重新算一遍账。
+2. **[Not All Reasoning Generalizes: A Case Study on Learning Generalizable Reasoning Strategies in RLVR](https://arxiv.org/abs/2611.03627)**（rl_llm #1）
+   — **RLVR 训出的模型，一换分布就会悄悄放弃推理、退化成暴力枚举——而且解法反直觉。**
+   论文用了一个可控的方程求解框架（对非双射字符串函数 f 找出多个解 x，使 f(x)=y），
+   把「推理策略」变成**可观测**的量，还能定义清晰的由易到难 OOD 位移（解更多、y 更长等）。
+   关键发现是：**只训非双射任务的 MONO 模型，分布内推导占比 85%、准确率很高，
+   但在三个 OOD 集上推导占比跌破 50%**，准确率断崖式下跌——最温和的 More Answers 仍有 80% 以上，
+   而 Length Change 上只剩 **6%**（同一模型分布内约 90%）。
+   这**不是基座能力不足、也不是奖励黑客**：模型在分布内确实用对了策略，只是策略切换在 OOD 触发下没被惩罚。
+   解法是「间接干预」：与**双射反演任务共同训练**。这些任务其实并不更难、离 OOD 更远，
+   却能显著恢复正确策略与准确率；MIXED 模型零样本迁移到数学基准上
+   MATH500 77.2%、Minerva-Math 37.5%、AIME24 13.3%、AIME25 10.0%、AMC23 62.5%、OlympiadBench 39.9%，均持平或高于 MONO。
+   推理：结果监督本身就能隐式地为「有效的推理过程」加信用——**想修 RLVR 泛化，
+   不一定非得先上过程奖励**。
+   推荐：怀疑自己的 RLVR 模型「一换分布就崩」时，先按论文思路**诊断推理策略是否发生切换**，
+   而不是只看准确率；再试最省事的干预——把若干分布与难度都不同的任务混进训练集做共同训练。
+3. **[VeriSpoof: Beyond Real or Fake with One Audio LLM](https://arxiv.org/abs/2611.04634)**（audio_lm #1）
+   — **深伪检测从「输出一个分数」推进到「给出一份可逐条核查的证据」。**
+   取证分析员真正要问的不只是「这段是不是合成的」，还包括**哪个系统合成的**、
+   **两段录音是否同源**、**结论凭什么成立**。VeriSpoof 用一套权重统一了五类任务：
+   深伪检测、生成器 / 声学模型 / 声码器归因、录音条件分析、合成片段定位、源验证；
+   每个结论都配**句级可独立核查**的理由——观测可在波形上量、合成片段有标签、源画像来自生成器元数据。
+   答案用**句子似然**读出分数，因此检测与源验证**不需要单独的 head**，可直接阈值化。
+   成绩：14 个 Speech-DF-Arena 测试集上 **pooled EER 2.14%**（28 个系统中第 3、开源第 1）；
+   仅用八个语料官方训练划分训练的 Base 版 EER 4.43%，**不到次优开源检测器的一半**；
+   同一套权重对训练中未见过的生成器做源验证为 6.2% EER。
+   最有工程价值的是**可核查性带来的局部失效发现**：PartialEdit（局部编辑伪造）上句级理由能抓到
+   **99.6%**，而直接问「真假」只有 78.4%；训练中未见的编辑下仍能 99.5% 判定。
+   而且**只更新 2.85B 参数中的 29.7M**，单张 24GB 显卡加梯度检查点就能训完。
+   推荐：评测检测器时直接接入 sentence-likelihood 打分做阈值化，而不是再训一个独立检测头；
+   务必单独测 PartialEdit 这类局部编辑样本——**整体 EER 会显著低估这种失效模式**。
+
+### 其他值得一看
+
+- **把「 RL 用在生成模型上」的边界划清楚**（rl_aigc #5）：
+  [Multi-Objective Generative Optimization via Expected Hypervolume Fine-Tuning](https://arxiv.org/abs/2611.05207)
+  指出期望超体积**不能写成固定逐样本奖励的期望**，并给出一阶变分形式的无偏自适应奖励。
+- **StepX-OPD：把能力整合与步数蒸馏合并成一次训练**（rl_aigc #1）：
+  [StepX-OPD](https://arxiv.org/abs/2611.04386)
+  在 SD3.5-Medium 与 FLUX.1-dev 上四步采样归一化均分 0.8901 / 0.8902，**超过 40 步的 Flow-OPD**，还省约 37% GPU 小时。
+- **on-policy 自蒸馏里，语义一致反而更差**（rl_llm #8）：
+  [Shuffled OPSD](https://arxiv.org/abs/2611.04958)
+  打乱题目词序更优（Qwen3-1.7B 最大 +3.52pt），但打乱教师示例反而变差。
+- **物理接触的反射弧，10 毫秒内送达**（embodied #3）：
+  [ReflexArc](https://arxiv.org/abs/2611.04424)
+  在 Unitree G1 上把瞬时触觉反射接进全身控制，首力峰值降 34.1%，冲量 0.2632 → 0.1225 N·s。
+- **用扩散生成 RL 策略网络参数，方向与本线相反**（rl_aigc #9，wild-card）：
+  [Policy Network Diffusion](https://arxiv.org/abs/2611.04614)
+  扩散服务 RL 而不是 RL 服务生成模型，在未见环境里生成的参数收敛更快——是理解「参数级生成」这条路线的样本。
+- **RL 的统计学地基又厚了一层**（rl_core #1）：
+  [Finite-Sample Convergence in Networked Average Reward MARL](https://arxiv.org/abs/2611.04072)
+  给出网络化平均回报 MARL 的有限样本收敛分析，并指出去中心化的陷阱。
+
 
 ## 2026-11-03
 
