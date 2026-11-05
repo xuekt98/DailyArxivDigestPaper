@@ -56,6 +56,7 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 
 | 日期 | 扫描量 | AIGC 视觉 | AIGC 音频 | 语音 LM | 具身/世界模型 | 强化学习 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [2026-11-05](daily_arxiv_digest/2026_11/2026-11-05/) | 518 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [图像自回归的生成顺序，才是推理能力的开关](https://arxiv.org/abs/2611.06838) · [给冻结的世界模型配一个「时间度量」，规划成功率 32.7%→63.0%](https://arxiv.org/abs/2611.05847) · [RL 想要改进基座策略，先看看离它的支撑集有多远](https://arxiv.org/abs/2611.05295) |
 | [2026-11-04](daily_arxiv_digest/2026_11/2026-11-04/) | 587 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [视频生成不一定要走潜空间：像素空间 FVD 反超先前 SOTA 27%](https://arxiv.org/abs/2611.04764) · [RLVR 一换分布就退化成暴力枚举](https://arxiv.org/abs/2611.03627) · [一个音频 LLM 拿下五项取证任务](https://arxiv.org/abs/2611.04634) |
 | [2026-11-03](daily_arxiv_digest/2026_11/2026-11-03/) | 564 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [视觉 RL 的收益在 Best-of-N 大预算下会反转](https://arxiv.org/abs/2611.02366) · [RLVR 只锐化采样分布，不改变模型的知识](https://arxiv.org/abs/2611.02574) · [把未来力学蒸馏进潜世界模型，真机成功率 87.1%](https://arxiv.org/abs/2611.03294) |
 | [2026-11-02](daily_arxiv_digest/2026_11/2026-11-02/) | 465 | 10 | 10 | 10 | 10 | 10 / 10 / 10 | [bf16 舍入悄悄丢掉了大部分 RL 更新](https://arxiv.org/abs/2610.41073) · [小 critic 配大教师会崩训练](https://arxiv.org/abs/2610.42135) · [把 steering vector 当训练信号用](https://arxiv.org/abs/2610.40998) |
@@ -93,6 +94,107 @@ cs.AI / cs.RO / cs.LG），按 7 条研究线各出 10 篇排名报告（自 202
 > （`scrape.py` 的 `window_bounds()`）；**此前各日的扫描量与论文数应视为下限**。
 
 ---
+
+## 2026-11-05
+
+- **arXiv 批次窗口**：**2026-11-04 listing day** = 2026-11-03 18:00:00Z – 2026-11-04 17:59:59Z
+  （arXiv 00:00 UTC 公告的批次横跨两个 UTC 日：前一日 18:00 起算，当日 17:59:59 截止）
+- **扫描**：704 条原始 / **518 篇去重**（cs.LG 207 / cs.AI 201 / cs.CV 134 / cs.CL 85 / cs.RO 62 / cs.SD 9 / eess.AS 6，其余为跨分类重复）
+- **全文精读**：70 篇，抽取作者机构与 **118** 张论文原图（全部入库，无缺失无孤儿）；7 篇（2611.05562、2611.05637、2611.05638、2611.05869、2611.06403、2611.06476、2611.06725）正文无可提取图
+- **研究线**：**7 条**（skill v0.3.0 口径），每条各 10 篇，共 **70 篇**，全局无重复
+- **Wild-card**：本批 **11（aigc_visual 0 / aigc_audio 5 / audio_lm 0 / embodied 0 / rl_core 0 / rl_llm 0 / rl_aigc 6）** 篇
+  —— rl_aigc 最薄（该批次真正把 RL / 奖励模型 / on-policy 蒸馏用于生成模型后训练的仅 4 篇），
+  aigc_audio 次之（音频域总量仅 23 篇，真属「音频生成 / 生产工具链」的只有 5 篇），
+  其余名额由双耳声学测量、水下声学信道通信、双耳视听分割、海洋声学自监督、少步扩散对抗蒸馏、
+  T2I 文化价值评测与来源归因等相邻方向补位，均已在报告开头与条目上逐条标注理由
+- **机构标注**：70 篇逐篇核对 PDF 首页（IEEE 格式按首页脚注 y 坐标过滤正文碎片与邮箱行）；
+  仅 2611.06205 在 PDF 内未给出任何机构信息，标 `[unverified]`，未作推测
+
+### 各研究线
+
+| 研究线 | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D 生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_aigc_visual_entry.md) |
+| AIGC 音频生成与编辑 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_aigc_audio_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_aigc_audio_entry.md) |
+| 音频与语音语言模型 / 双工语音助手 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_audio_lm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_audio_lm_entry.md) |
+| 具身智能与世界模型 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_embodied_entry.md) |
+| 强化学习 · 核心算法 / 理论 / MARL / sim-to-real | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_rl_core_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_rl_core_entry.md) |
+| 强化学习 · LLM 后训练与对齐 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_rl_llm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_rl_llm_entry.md) |
+| 强化学习 · 生成式内容模型 | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_rl_aigc_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-05/2026-11-05_rl_aigc_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Context-Aware Autoregressive Image Generation for Emerging Reasoning Properties](https://arxiv.org/abs/2611.06838)**（aigc_visual #1）
+   — **图像自回归模型的「生成顺序」被当成采样细节，实际上它是推理能力的开关。**
+   现有 AR 图像生成（next-patch、random-order、scale-wise one-step）的生成顺序大多是**预先设定或启发式**的，
+   论文指出这会让模型忽略图像里重要的结构依赖，从而同时限制结构鲁棒性与推理能力。
+   做法是 **SAR（Structure-Aware Reasoning）**：让模型在解码时**根据全局上下文与当前局部信息动态决定下一个 token 的位置**，
+   而不是走固定或随机顺序——本质上是把「人眼扫视」的做法搬进解码器。
+   效果在 **GenEval** 上非常干净：MaskGen-L 的 Overall pass rate 从 **53.94% 升到 57.49%**（Count 40.00% → 50.00%），
+   MaskGen-XL 从 **56.22% 升到 59.99%**（C.Attr 28% → 37%）；
+   增益集中在**需要全局一致性**的子项（Counting / Colors / Position）。
+   而 **MJHQ-30K FID 与随机顺序统计打平**，说明构图提升**不是拿分布级画质换的**。
+   作者自建的长提示词基准上，三个 AR 模型的平均分在六个推理维度上**各涨约 +0.5**。
+   机制解释很值得读：Infinity-8B 上 SAR 会**先定全局轮廓（数量、物体身份、整体几何）再填纹理**，
+   MaskGen-XL 上则**一次完整地画完一个物体再画下一个**——计数、空间关系、组合层级都从这种「逐个承诺」里自然掉出来。
+   推理：**这是纯推理期改动，不用重训**；如果你在用 AR 模型做 T2I，
+   先去测一遍「随机顺序 vs 结构感知顺序」的 GenEval 差距，成本远低于换模型。
+2. **[Time-to-Goal: Learned Temporal Metrics for Long-Horizon Planning with JEPA World Models](https://arxiv.org/abs/2611.05847)**（embodied #1）
+   — **一个冻结的 JEPA 世界模型，规划成功率能从 32.7% 做到 63.0%，靠的只是换掉目标代价函数里的欧氏距离。**
+   JEPA 类世界模型支持规划的前提是：**离目标时间上越近的状态，代价应该越低**。
+   但论文指出，JEPA 的训练目标（预测 + 分布正则）**从不强制这个次序**，
+   于是不同时间偏移的状态可能拿到相近的平均代价，长程规划就失去了时间上的分辨力。
+   修法 **T2G** 极轻量：在离线轨迹的 latent 三元组上训一个度量，用 **margin ranking loss** 让时间上更近的状态距离更小——
+   **不需要奖励，也不需要策略标签**；之后把欧氏代价换成这个度量，**JEPA 编码器与预测器保持冻结**。
+   结果：AntMaze 与 FourRoom 的诊断显示 T2G 保住了更强的时间对比度、长偏移下的近远排序也更准；
+   在**四个导航与操作基准**上，平均规划成功率从 **32.7%（flat LeWM）提到 63.0%**，
+   **接近甚至超过分层 H-JEPA 基线**。
+   推理：这条的价值在于「**不改世界模型也能大幅提升规划**」——
+   它把「隐式世界模型该学什么」换成了「目标代价该怎么度量」，是一条便宜的验证路径。
+3. **[GSBR: Geometric Support Behavior Regularization for Online RL](https://arxiv.org/abs/2611.05295)**（rl_core #1）
+   — **把在线 RL 约束到基座策略附近的最正确做法，不是「拉回分布」也不是「禁止出界」，而是「按距离罚」。**
+   现在越来越多 RL 从一个预训练的**扩散 / 流匹配基座策略**起步——它由模仿学习训成，
+   覆盖了很多「合理但次优」的行为。已有的两种正则化各有毛病：
+   **行为克隆式正则**把 actor 拉向基座的整个分布，于是**惩罚它丢掉次优模态**；
+   **硬支撑约束**又**直接禁止**那些「刚好落在基座支撑之外」的改进。
+   GSBR 改成**按动作到基座支撑集的距离来罚**：支撑集**内**不罚（actor 可以安心集中到高价值模态），
+   支撑集**外**按距离平滑增大惩罚，但只要**收益大于惩罚仍然允许改进**。
+   关键工程优势：**只需要基座策略的采样访问权限**——不需要它的权重，也不需要 critic 之外的额外结构。
+   效果：在**四个机器人基准的 19 个任务**上，平均成功率从基座策略的 **33% 提到 95%**，
+   在所有对比方法中**平均成功率与吞吐都最高**，归一化吞吐比次优 RL 方法**高约 23%**。
+   推理：如果你正在做「从预训练生成模型出发的 RL」，这比 KL 正则更不容易把策略压死；
+   关键是**罚的是距离而不是分布**，它同时保住了「别跑太远」和「别不许变好」。
+
+### 其他值得一看
+
+- **on-policy 蒸馏之后，OOD 比基座还差**（rl_llm #4）：
+  [On the Generalization Limitation of On-Policy Distillation for Post-RL Consolidation](https://arxiv.org/abs/2611.05609)
+  指出 OPD / MOPD 在**分布内**能拿到教师的 96.04–102.73%，但**分布外比基座模型还低 2.45–16.25%**，
+  组合式任务上低 18.19–24.34%——「蒸馏保住了能力」这个默认假设并不成立。
+- **视频生成 RL 的奖励权重自己校准**（rl_aigc #1）：
+  [EmoReward](https://arxiv.org/abs/2611.06518)
+  在 HunyuanVideo 1.5 上用 rollout 分数与结果**从奖励轨迹里蒸馏证据可靠性**，
+  自适应地分配多奖励权重，避开了固定奖励带来的 reward hacking。
+- **少步生成模型的奖励对齐，不必在推理时搜**（rl_aigc #2）：
+  [Learning Noise Optimization for Reward Alignment in Few-Step Generative Models](https://arxiv.org/abs/2611.06255)
+  用 **Local GRPO** 把奖励引导的初始噪声优化摊平成一个「学出来的残差传输」，免去逐样本测试时搜索。
+- **一步生成的 FID 压到 1.54**（aigc_visual #3）：
+  [NextGAN](https://arxiv.org/abs/2611.06270)
+  用标量 critic 在冻结表征空间里回归输入梯度，ImageNet 256×256 上 pixel-space JiT-B 一步 FID **2.87**、
+  latent DiT-XL/1 一步 FID **1.54**；文本到视频侧 Wan2.1-1.3B 两步 VBench 总分 **83.13**。
+- **流匹配 TTS 的 on-policy 蒸馏**（rl_aigc #3）：
+  [Ruby-OPD](https://arxiv.org/abs/2611.06403)
+  用带正字标记的文本表示 + 大规模纯文本语料上的 on-policy 蒸馏，
+  在 Joyo-Kanji-Yomi 上达到 **97.13% 准确率 / 2.02% 目标音素错误率**，同时保住发音可控性。
+- **GRPO 的 rollout 预算可以省一半**（rl_llm #1）：
+  [C-GRPO](https://arxiv.org/abs/2611.05591)
+  用校准后的保形阈值决定何时停止采样，六个基准上相对定长 GRPO **平均减少 49–70% rollout**，
+  并给出了停止规则的有限样本覆盖保证。
+- **移动操作的记忆基准**（embodied #2）：
+  [Robocasa-Mem](https://arxiv.org/abs/2611.06475)
+  区分**环境记忆**与**过程记忆**两类九个任务，提出**行为条件化评测**——后续任务约束由机器人自己的早期行为推导，
+  避免固定目标带来的走捷径空间。
+
 
 ## 2026-11-04
 
