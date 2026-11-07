@@ -652,7 +652,8 @@ def cmd_render(a) -> int:
                  f"listing day {a.listing} (announced {a.announced})")
         L.append("")
         L.append(f"**Batch window**: {a.win_a} .. {a.win_b}（arXiv 公告批次横跨两个 UTC 日："
-                 f"前一日 18:00 UTC 起算，当日 17:59:59 UTC 截止）")
+                 f"从前一日的美东 14:00 截止时刻起算（EDT 为 18:00Z，EST 为 19:00Z），"
+                 f"到当日的同一时刻为止）")
         L.append("")
         L.append(f"**Track**: {t} (top {len(rows)} of {src['scan_unique']} papers scanned, "
                  f"{src['full_reads']} full reads)")

@@ -30,22 +30,53 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta, timezone, time as _time
+from datetime import date, datetime, timedelta, timezone, time as _time
 from pathlib import Path
 
 API = "https://export.arxiv.org/api/query"
 RATE = 5.0
 PAGE = 300
-# arXiv closes submissions at 14:00 US Eastern (= 18:00 UTC, EDT) and announces
-# at 20:00 ET (= 00:00 UTC the next day). The announcement arXiv lists under
-# date D therefore holds every paper whose v1 `published` timestamp falls
-# between 18:00 UTC on D-1 and 17:59:59 UTC on D -- the batch straddles two
-# UTC calendar days. Filtering on the calendar date of `published` alone would
-# silently drop the D-1 evening half of every announcement (~21% of the
-# tracked categories on the 2026-10-21 listing).
-CUTOFF = "18:00:00"
+# arXiv closes submissions at 14:00 US Eastern and announces at 20:00 ET.
+# The announcement arXiv lists under date D therefore holds every paper whose
+# v1 `published` timestamp falls between the 14:00-ET deadline on D-1 and the
+# 14:00-ET deadline on D -- the batch straddles two UTC calendar days.
+# Filtering on the calendar date of `published` alone would silently drop the
+# D-1 evening half of every announcement (~21% of the tracked categories on
+# the 2026-10-21 listing).
+#
+# The deadline is NOT a fixed UTC instant: 14:00 ET is 18:00 UTC while Eastern
+# is on daylight time (EDT, UTC-4) and 19:00 UTC while it is on standard time
+# (EST, UTC-5). Eastern leaves daylight time on the first Sunday of November,
+# so from 2026-11-01 onward the cutoff sits one hour later in UTC. The hard
+# coded 18:00 the digest used during EDT therefore started missing the final
+# hour of every announcement (and duplicated the first hour of the previous
+# one) after the 2026-10-31 -> 2026-11-01 transition. `deadline_utc()` below
+# resolves the offset per date instead.
 NS = {"atom": "http://www.w3.org/2005/Atom"}
 CATS = ["cs.CV", "cs.SD", "eess.AS", "cs.CL", "cs.AI", "cs.RO", "cs.LG"]
+
+
+def _us_eastern_is_dst(d: date) -> bool:
+    """True when US Eastern is on daylight time (EDT, UTC-4) on date `d`.
+
+    US daylight time runs from the 2nd Sunday of March to the 1st Sunday of
+    November. The 14:00-ET submission deadline is never inside the ambiguous
+    01:00-03:00 local hour, so the date-level rule is exact for our purpose.
+    """
+    mar1 = date(d.year, 3, 1)
+    nov1 = date(d.year, 11, 1)
+    dst_start = mar1 + timedelta(days=(6 - mar1.weekday()) % 7 + 7)
+    dst_end = nov1 + timedelta(days=(6 - nov1.weekday()) % 7)
+    return dst_start <= d < dst_end
+
+
+def deadline_utc(d: date) -> datetime:
+    """arXiv's submission deadline for date `d`: 14:00 US Eastern, in UTC.
+
+    18:00 UTC during EDT, 19:00 UTC during EST.
+    """
+    offset = -4 if _us_eastern_is_dst(d) else -5
+    return datetime.combine(d, _time(14, 0, 0)) - timedelta(hours=offset)
 
 
 def fetch(url: str, label: str) -> bytes:
@@ -114,13 +145,14 @@ def window_bounds(listing_day: str) -> tuple[str, str]:
     """UTC half-open window [lo, hi) of the announcement arXiv lists on `listing_day`.
 
     `listing_day` is the date arXiv shows on its "new submissions for <date>"
-    listing. The corresponding announcement fires at 00:00 UTC on the *next* day
-    and contains v1 timestamps from 18:00 UTC on `listing_day - 1` up to
-    17:59:59 UTC on `listing_day`.
+    listing. The corresponding announcement fires the next day and contains v1
+    timestamps from the 14:00-ET deadline on `listing_day - 1` up to the
+    14:00-ET deadline on `listing_day` -- i.e. 18:00 UTC during EDT and
+    19:00 UTC during EST, so the window is not a fixed UTC instant.
     """
     d = datetime.strptime(listing_day, "%Y-%m-%d").date()
-    lo = datetime.combine(d - timedelta(days=1), _time(18, 0, 0))
-    hi = datetime.combine(d, _time(18, 0, 0))
+    lo = deadline_utc(d - timedelta(days=1))
+    hi = deadline_utc(d)
     return lo.strftime("%Y-%m-%dT%H:%M:%SZ"), hi.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
@@ -149,10 +181,10 @@ class Fetcher:
     def day(self, cat: str, listing_day: str) -> list[dict]:
         """Entries of one category inside the announcement listed on `listing_day`.
 
-        That announcement spans two UTC calendar days: 18:00 on the previous
-        day through 17:59:59 on `listing_day`. Papers stamped after the 18:00
-        UTC deadline on `listing_day` belong to the *next* announcement and are
-        excluded here.
+        That announcement spans two UTC calendar days: the 14:00-ET deadline on
+        the previous day through the 14:00-ET deadline on `listing_day`
+        (18:00 UTC during EDT, 19:00 UTC during EST). Papers stamped after that
+        deadline belong to the *next* announcement and are excluded here.
         """
         out, start = [], 0
         lo_date = window_bounds(listing_day)[0][:10]
@@ -171,10 +203,10 @@ class Fetcher:
     def latest_day(self) -> str:
         """Listing date of the newest announced batch.
 
-        The newest v1 timestamp on arXiv always falls in the 00:00-17:59:59 UTC
-        half of its day (everything from 18:00 UTC onwards waits for the next
-        announcement), so the calendar date of the newest entry is exactly the
-        listing date of the newest batch.
+        The newest v1 timestamp on arXiv always falls before the 14:00-ET
+        deadline of its own UTC day (everything from the deadline onwards waits
+        for the next announcement), so the calendar date of the newest entry is
+        exactly the listing date of the newest batch.
         """
         latest = ""
         for cat in CATS:
