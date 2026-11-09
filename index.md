@@ -3,15 +3,23 @@
 由 `mine-arxiv-daily-digest` skill 每日生成。每条记录包含当天各研究线的论文数，
 以及当天最值得读的 3 篇。
 
-**统计口径**：每次运行扫描 arXiv 的 7 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
-cs.AI / cs.RO / cs.LG），按研究线各出排名报告。线制分两个阶段：
+**统计口径**：每次运行扫描 arXiv 的分类集合，按研究线各出排名报告。
+现行口径（v0.8.0）扫描 8 个分类（cs.CV / cs.SD / eess.AS / cs.CL / cs.AI / cs.RO /
+cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制分三个阶段：
 
 - **skill v0.3.0（2026-10-13 ~ 2026-11-05，7 条线，每线 10 篇）**：aigc_visual / aigc_audio / audio_lm / embodied / rl_core / rl_llm / rl_aigc；
   其中强化学习自 2026-10-21 起拆为 rl_core / rl_llm / rl_aigc 三条独立研究线。
 - **skill v0.4.0（自 2026-11-06，4 条线，每线最多 10 篇、够格多少发多少）**：aigc_visual / duplex_speech / speech_rl / world_embodied；
   原 rl_aigc 并入 aigc_visual、原 rl_core 并入 world_embodied，rl_llm 与纯文本 LLM 的 RL 退出跟踪范围，语音合成并入 duplex_speech，纯音乐生成降级为 wild-card。
+- **skill v0.8.0（自 2026-11-09，4 个 axis × 10 个 direction，当天目标 60 篇）**：
+  aigc_visual（aigc_generation / aigc_editing / aigc_rl）、llm_vlm（llm_core / vlm_core / llm_vlm_rl）、
+  duplex_speech（duplex_speech_core / speech_rl）、world_embodied（world_model / embodied_ai）；
+  新增 `llm_vlm` 轴（LLM / VLM 及其 RL），语音 RL 降为 `duplex_speech` 轴内的一个 direction，
+  分类从 7 个增加到 8 个（加入 cs.IR）。配额改为**两级弹性分配**：
+  先按 axis 基准配额（15 / 18 / 12 / 15 = 60）分配，再把富余名额按富余量依次分配，单个 axis 上限 20 篇；
+  轴内再按 direction 基准配额（8/4/3、8/5/5、8/4、7/8）分配，薄 direction 让出名额而不被填充。
 
-目录表按这两个阶段分表呈现：**现行口径**表为 4 条线，**历史口径**表为 7 条线。
+目录表按这三个阶段分表呈现：**现行口径**表为 4 轴 60 篇，**过渡口径**表为 4 条线，**历史口径**表为 7 条线。
 
 **跳过记录**：当 arXiv 尚未公告新批次时（周末、节假日、或公告尚未发布），
 当日不生成日报，也不新增目录行，以免与上一份报告重复。已跳过或合并的日期：
@@ -122,7 +130,13 @@ cs.AI / cs.RO / cs.LG），按研究线各出排名报告。线制分两个阶�
 
 ## 目录
 
-**现行口径（skill v0.4.0 · 4 条研究线）** —— 自 2026-11-06 起
+**现行口径（skill v0.8.0 · 4 个 axis / 10 个 direction / 当天 60 篇）** —— 自 2026-11-09 起
+
+| 日期 | 扫描量 | AIGC 视觉 | LLM/VLM | 全双工语音 | 具身/世界模型 | 当天最值得读 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [2026-11-09](daily_arxiv_digest/2026_11/2026-11-09/) | 484 | 15 | 20 | 10 | 15 | [把空间尺度当成模态，像素空间多尺度扩散把 FID 4.39 压到 1.43](https://arxiv.org/abs/2611.08802) · [通用 AI 模型直接指挥机械臂，零样本 85.6% 打败 VLA 与 WAM](https://arxiv.org/abs/2611.09892) · [流式 RL 真正缺的是「卸载」信号](https://arxiv.org/abs/2611.09175) |
+
+**过渡口径（skill v0.4.0 · 4 条研究线）** —— 2026-11-06
 
 | 日期 | 扫描量 | AIGC 视觉 | 全双工语音 | 语音 RL | 具身/世界模型 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -155,6 +169,77 @@ cs.AI / cs.RO / cs.LG），按研究线各出排名报告。线制分两个阶�
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
+
+## 2026-11-09
+
+- **arXiv 批次窗口**：**2026-11-06 listing day** = 2026-11-05 19:00:00Z – 2026-11-06 18:59:59Z
+  （美东 11 月起进入冬令时（EST, UTC-5），14:00 ET 的投稿截止对应 **19:00Z**；
+  本批次窗口按夏令时感知口径计算，覆盖前一日 19:00Z 起至当日 19:00Z 止）
+- **扫描**：668 条原始 / **484 篇去重**（cs.AI 206 / cs.LG 186 / cs.CV 112 / cs.CL 70 / cs.RO 56 / cs.SD 16 / eess.AS 8 / cs.IR 14，其余为跨分类重复）
+- **全文精读**：60 篇，抽取作者机构与论文原图
+- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **60 篇**，全局无重复
+  - `aigc_visual` 15 篇（aigc_generation 9 / aigc_editing 3 / aigc_rl 3），base 15，未超上限
+  - `llm_vlm` 20 篇（llm_core 9 / vlm_core 5 / llm_vlm_rl 6），base 18 + 2 个补位名额，**正好顶到 axis cap 20**
+  - `duplex_speech` 10 篇（duplex_speech_core 9 / speech_rl 1），base 12 —— **speech_rl 断供，让出 2 个名额**
+  - `world_embodied` 15 篇（world_model 7 / embodied_ai 8），base 15，未超上限
+- **Wild-card**：本批 **2 篇**（aigc_visual 1 / duplex_speech 1）
+  —— **speech_rl 是空的**：全批 484 篇里，用强化学习训练语音或音频模型的只有 1 篇
+  （AUTEUR，用音频反馈做 RL 去红队文本到音频模型），视频扩散侧的 RL 在这一批同样缺席。
+  按「够格就发、发不满是正常结果」，speech_rl 就发这 1 篇，它让出的名额流向候选最充裕的 `llm_vlm`。
+  **aigc_editing 只有 2 篇方法论文**（AR-Edit、Paste2Place），补位 1 篇 wild-card 走使用侧
+  （Nano Banana 图像生成与编辑的 210 万条对话差分隐私分析）；**duplex_speech_core** 补位 1 篇
+  声音特效指令编辑（通用声音合成已非关注点，但编辑管线与语音编辑栈相通）。全部逐条标注理由
+- **机构标注**：60 篇逐篇核对 PDF 首页；无法确认的标 `[unverified]`，未编造
+
+### 各 axis
+
+| axis | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 15 | [报告](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_aigc_visual_entry.md) |
+| LLM / VLM 与其强化学习 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_llm_vlm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_llm_vlm_entry.md) |
+| 全双工语音与语音 LM（含语音 RL） | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_duplex_speech_entry.md) |
+| 具身智能与世界模型 | 15 | [报告](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-09/2026-11-09_world_embodied_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Scale as a Modality: Multi-Scale Pixel-Space Diffusion Transformers](https://arxiv.org/abs/2611.08802)**（aigc_visual · aigc_generation #1）
+   — **把「空间尺度」当成一种模态，像素空间的多尺度扩散就不再是两级粗到细的妥协。**
+   潜空间扩散依赖预训练自编码器，带来有损压缩并把空间粒度钉死；MS-pDiT 直接在像素空间把同一张噪声图像
+   用**多种 patch 尺寸**分词，每种尺度走独立 transformer 流，再用压缩过的 MM-DiT 式联合注意力做**双向**跨尺度交换，
+   而且注意力开销与最细 patch 尺寸无关。
+   效果是刻意的架构 scaling 论证：ImageNet 256×256 上把尺度数从 2 增到 5，FID 从 4.39 依次降到
+   **2.31 / 2.26 / 2.19**，而在同等参数预算下**增加一个中间尺度明显优于增加深度**；
+   最终 FID 达到 **1.43（256×256）与 1.44（512×512）**，并自然延伸到文本到图像（**GenEval 0.86、DPG-Bench 83.9**）。
+   作者的分析里有两个值得单独记住的结论：双向跨尺度交互是必需的，而细粒度流应当**晚些引入**。
+
+2. **[On Agentic Manipulation Policies](https://arxiv.org/abs/2611.09892)**（world_embodied · embodied_ai #1）
+   — **通用 AI 模型直接指挥机械臂，比专门的 VLA 与世界动作模型更靠谱。**
+   近年机器人操作的主流是「示范训练出的专家策略」，这篇（Apple）反过来问：通用 AI 模型能不能直接当策略？
+   结论是可以，而且差距很大。AMP1 这个参考 harness 不重训、不做任务专门适配，就横跨单臂、双臂与移动操作三种形态，
+   在 **RoboLab-120 上零样本成功率 85.6%**，而领先的 VLA 与 WAM 策略分别只有 **49.2% 与 42.9%**；
+   在 CaP-Gym 上同样取得 SOTA，**且完全不需要演示数据**。
+   这对当下「VLA 是具身通用模型答案」的默认假设是一次正面挑战：也许在具身任务上，
+   **通用模型的推理与纠错能力，比「为控制而生的架构」更值钱**。
+
+3. **[SIFR: Stable Signed Flow Reinforcement](https://arxiv.org/abs/2611.09175)**（aigc_visual · aigc_rl #1）
+   — **流式 RL 真正缺的不是更多正奖励，而是「卸载」信号。**
+   奖励微调流模型要做两件事：把高奖励样本推上去、把低奖励样本压下去。但迭代式奖励微调只给出正奖励权重，
+   **没有显式的卸载信号**，而且反复重加权会让分布越来越集中、最终坍缩。
+   SIFR 用**带符号优势**替换奖励权重来补上卸载信号，并约束相对参考模型的速度场漂移，
+   用一个带**漂移预算**的拉格朗日乘子自适应调节正则强度；作者还证明既有流式 RL 方法其实都落在这个框架内，
+   只是隐式地在最小化带符号损失、正则化选择不同。
+   验证规模很硬：SD3.5 Medium（2.5B）、FLUX.2 Klein（9B）一路到 **Cosmos 3 Super Text2Image（64B）**，
+   共 **12 组骨干–奖励对**（偏好奖励与规则奖励），在多数设置下追平或超过既有方法、**更早到达峰值奖励**，
+   并且在既有方法停滞或坍缩之后仍能继续提升。
+
+> **阅读提示**：本批次是 skill 升级到 v0.8.0 后的第一份日报，线制从 4 条 track 改成 **4 个 axis × 10 个 direction**，
+> 当天目标从「每线 10 篇」变成 **60 篇**，并**新增了 `llm_vlm` 轴**（LLM / VLM 及其 RL，占 20 篇，也是本批最大的一块）。
+> 三个要注意的地方：① **语音 RL 断供**——speech_rl 只有 1 篇（且这一批连视频扩散侧的 RL 也缺席），
+> 其余名额按两级弹性配额流向候选最充裕的 `llm_vlm`；② **aigc_editing 只有 2 篇方法论文**，是全线最薄的方向；
+> ③ `llm_vlm` 顶到了 20 篇的 axis 上限，超出的候选留在选稿池里没有进报告。
+> 若只想读三篇：MS-pDiT（生成的空间粒度怎么设计）、AMP1（具身策略该由谁来当）、SIFR（流式 RL 为什么一直会坍缩）。
+> 另外 `llm_vlm` 里 Transformer-FSQ（KV 缓存极端量化，Qwen3-1.7B 在 20 万上下文下原本要 21 GiB，是权重的 6.6 倍）
+> 与 Parallel Agent Teams（并行小团队再择优，在 12 个长程任务上同时超过 Best-of-N 与单个大队）也值得一读。
 
 ## 2026-11-06
 

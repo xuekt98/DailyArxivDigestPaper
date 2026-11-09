@@ -53,7 +53,7 @@ PAGE = 300
 # one) after the 2026-10-31 -> 2026-11-01 transition. `deadline_utc()` below
 # resolves the offset per date instead.
 NS = {"atom": "http://www.w3.org/2005/Atom"}
-CATS = ["cs.CV", "cs.SD", "eess.AS", "cs.CL", "cs.AI", "cs.RO", "cs.LG"]
+CATS = ["cs.CV", "cs.SD", "eess.AS", "cs.CL", "cs.AI", "cs.RO", "cs.LG", "cs.IR"]
 
 
 def _us_eastern_is_dst(d: date) -> bool:
@@ -222,13 +222,15 @@ class Fetcher:
 # final per-paper scoring/ranking is still authored per run in render.py.
 # --------------------------------------------------------------------------
 TRACKS = {
-    # ---- skill v0.4.0: 4 tracks -------------------------------------------
+    # ---- skill v0.8.0: 4 axes x 10 directions ------------------------------
     # aigc_visual   = AIGC image/video/3D/4D generation & editing
-    #                 + RL / preference optimization for visual generation
+    #                 (directions: aigc_generation / aigc_editing / aigc_rl)
+    # llm_vlm       = LLM + VLM + their RL
+    #                 (directions: llm_core / vlm_core / llm_vlm_rl)
     # duplex_speech = full-duplex / real-time / streaming speech LMs, TTS
-    # speech_rl     = RL / preference optimization for speech & audio LMs
+    #                 (directions: duplex_speech_core / speech_rl)
     # world_embodied= world models + embodied AI / VLA / robot learning
-    #                 + RL used for embodied work
+    #                 (directions: world_model / embodied_ai)
     "aigc_visual": [
         (r"\btext-to-image\b|\bimage synthesis\b|\bimage generation\b", 3),
         (r"\bdiffusion (model|transformer|modeling)\b|\bdiffusion transformer\b|\bmmdit\b", 2),
@@ -247,8 +249,7 @@ TRACKS = {
         (r"\bmotion (generation|synthesis|transfer)\b|\bhuman motion\b|\bmotion customization\b", 1),
         (r"\bwatermark\w*|\bprovenance\b|\bdeepfake\b", 1),
         (r"\bcache\b.*\b(diffusion|denois)|\bacceleration\b|\bsparse attention\b|\baccelerat\w+\b", 1),
-        # RL / preference optimization for visual generation (folded in from the
-        # removed rl_aigc track) - conjunctions only, so text-only RL stays out.
+        # direction aigc_rl - RL / preference optimization for visual generation
         (r"\bdpo\b|\bdiffusion[- ]dpo\b|\bpreference optimiz\w+|\bpreference alignment\b", 3),
         (r"\bverifiable reward\w*|\brubric\b|\bprocess reward\w*|\bartifact-as-rubric\b", 2.5),
         (r"\bbest[- ]of[- ]n\b|\brejection sampling\b|\bclassifier[- ]free guidance\b|\bcfg\b", 2),
@@ -259,6 +260,76 @@ TRACKS = {
         (r"(?s)\b(diffusion|image|video|visual|flow matching|generative|generation)\b.{0,120}?"
          r"\b(reinforcement learning|rlhf|grpo|policy optimization|reward model|"
          r"preference optimization|reward-weighted)\b", 4),
+    ],
+    "llm_vlm": [
+        # --- direction llm_core: architecture / pre-training ----------------
+        (r"\blarge language model\w*|\bllm\w*\b|\bdecoder-only\b|\bencoder-decoder\b", 2),
+        (r"\bmixture[- ]of[- ]experts\b|\bmoe\b|\bsparse activation\b|\brouting (mechanism|policy)\b", 3),
+        (r"\bstate[- ]space model\w*|\bmamba\b|\brwkv\b|\blinear attention\b|\bgqa\b|\bmqa\b|\brope\b", 3),
+        (r"\bscaling law\w*|\bpre-?training\b|\bcontinued pre-?training\b|\bemergent abilit\w+", 2),
+        (r"\bdata mixture\b|\bdata curation\b|\bdedup\w*|\bsynthetic data\b|\btokenizer\b", 1.5),
+        (r"\bsmall language model\w*|\bedge llm\b|\bmultilingual llm\b", 2),
+        # --- direction llm_core: reasoning -----------------------------------
+        (r"\bchain[- ]of[- ]thought\b|\bcot\b|\breasoning (model|distillation|trace|scaling)\b", 3),
+        (r"\btest[- ]time compute\w*|\binference[- ]time scaling\b|\bself-consistency\b|\bverifier\w*\b", 3),
+        (r"\breflection\b|\bself-correction\b|\bcritique\b|\bdeliberation\b", 2),
+        (r"\bprocess reward model\b|\boutcome reward model\b|\breasoning evaluation\b", 3),
+        # --- direction llm_core: agents -------------------------------------
+        (r"\bllm[- ]?(based )?agent\w*|\bagentic\b|\bagentic (workflow|system|pipeline)\b", 3),
+        (r"\btool use\b|\btool[- ]augmented\b|\bfunction calling\b|\breact\b", 3),
+        (r"\bmulti[- ]agent\b|\bagent[- ]team\w*|\bagent collaboration\b", 2.5),
+        (r"\bcode agent\b|\bswe[- ]?bench\b|\bweb agent\b|\bcomputer[- ]use agent\b", 3),
+        (r"\bagent memory\b|\bmemory for agents\b|\bself-correct\w+ loop\b|\blong-horizon (task|agent)\b", 2),
+        # --- direction llm_core: efficiency & deployment ---------------------
+        (r"\bquantiz\w+|\bint4\b|\bint8\b|\bfp4\b|\bfp8\b|\bq4\b", 2),
+        (r"\bkv[- ]cache\b|\bkey[- ]value cache\b|\bspeculative decoding\b|\bdraft model\b", 3),
+        (r"\binference accelerat\w+|\bserving throughput\b|\bmemory[- ]efficient attention\b|\bpruning\b", 2),
+        (r"\battention (kernel|mechanism)\b|\bsparse attention\b|\bflashattention\b|\bpagedattention\b", 1.5),
+        # --- direction llm_core: context & retrieval -------------------------
+        (r"\blong[- ]context\b|\bcontext (extension|window|compression|lengthening)\b|\bextreme context\b", 3),
+        (r"\bin-context learning\b|\bicl\b", 2),
+        (r"\brag\b|\bretrieval[- ]augmented\b|\bdense retrieval\b|\bpassage rerank\w*|\bre[- ]ranker\b", 3),
+        (r"\bknowledge (editing|injection|injection)\b|\bmodel editing\b|\bcontinual learning\b", 2.5),
+        # --- direction llm_core: trust & safety ------------------------------
+        (r"\bhallucinat\w+|\bfactualit\w+|\battribution\b|\bcitation verification\b", 2),
+        (r"\bjailbreak\w*|\bguardrail\w*|\bsafety alignment\b|\brefusal\b|\bred[- ]team\w*", 2),
+        (r"\bwatermarking\b|\bunlearning\b|\bmemorization\b|\bprivacy\b", 1.5),
+        # --- direction llm_core: code / math / science ------------------------
+        (r"\bcode generation\b|\bprogram synthesis\b|\bcode llm\b|\bprogram-of-thought\b", 2.5),
+        (r"\btheorem prov\w+|\bmathematical reasoning\b|\bformal proof\b|\blean\b", 2.5),
+        (r"\bllm for (science|research)\b|\bscientific discovery\b|\bmolecular\b", 1),
+        # --- direction vlm_core: architecture --------------------------------
+        (r"\bvision[- ]language model\w*|\bvlm\w*\b|\bmultimodal llm\b|\bmllm\b", 3),
+        (r"\bomni[- ]modal\b|\bany-to-any\b|\bvisual encoder\b|\bvision encoder\b", 3),
+        (r"\bq[- ]former\b|\bresampler\b|\bconnector\b|\bvisual token\b|\bprojector\b", 2),
+        (r"\bvisual instruction tuning\b|\bmultimodal sft\b|\binterleaved (image[- ]text|multimodal)\b", 3),
+        (r"\bclip\b|\bsiglip\b|\bvit\b|\bvision transformer\b", 1.5),
+        # --- direction vlm_core: understanding -------------------------------
+        (r"\bimage caption\w+|\bvideo caption\w+|\bcaptioning\b", 2.5),
+        (r"\bvqa\b|\bvisual question answer\w+|\bvisual question answering\b", 3),
+        (r"\bvisual grounding\b|\breferring expression\b|\bvisual entailment\b|\bimage[- ]text matching\b", 3),
+        (r"\bspatial reasoning\b|\bcompositional reasoning\b|\battribute binding\b|\bfine[- ]grained recognition\b", 2.5),
+        (r"\bvisual instruction following\b|\bmultimodal reasoning\b|\bmultimodal cot\b", 2.5),
+        # --- direction video-LM ----------------------------------------------
+        (r"\bvideo understanding\b|\bvideo[- ]llm\b|\blong video understanding\b|\bvideo[- ]lm\b", 3),
+        (r"\bvideo question answer\w+|\bvideo qa\b|\btemporal grounding\b|\bmoment retrieval\b", 3),
+        (r"\btemporal localization\b|\begocentric video\b|\bstreaming video\b|\bvideo agent\b", 2.5),
+        # --- direction vlm_core: agents / documents --------------------------
+        (r"\bgui agent\b|\bscreen understanding\b|\bmobile gui\b|\bscreenshot agent\b", 3),
+        (r"\bcomputer[- ]use\b|\bmultimodal web agent\b|\bweb[- ]ui\b", 2),
+        (r"\bdocument (understanding|vqa)\b|\bchart understanding\b|\binfographic\b|\bocr\b|\btable recognition\b", 2.5),
+        # --- direction llm_vlm_rl ---------------------------------------------
+        (r"\brlhf\b|\bppo[- ]rlhf\b|\brlaif\b|\bconstitutional ai\b", 3),
+        (r"\bdpo\b|\bipo\b|\bkto\b|\borpo\b|\bpreference (data|optimization|alignment)\b", 3),
+        (r"\bgrpo\b|\bgroup relative policy optimization\b|\brlvr\b|\bverifiable reward\w*\b", 3),
+        (r"\breward model\w*|\breward modeling\b|\bprocess reward model\b|\boutcome reward model\b", 2.5),
+        (r"\breward hacking\b|\boveroptimiz\w+|\bkl drift\b|\blength bias\b|\bexploration\b", 1.5),
+        (r"\bagentic rl\b|\breinforcement learning for (agents?|tool)\w*|\biterative rl\b|\bonline rl\b", 2.5),
+        (r"\brejection sampling\b|\bbest[- ]of[- ]n\b|\bself[- ]reward\w*\b", 2),
+        (r"\bmultimodal rlhf\b|\bmm[- ]rlhf\b|\bmultimodal preference\b|\bdpo for vlm\b", 3.5),
+        (r"\bgrpo for multimodal\b|\bmultimodal grpo\b|\bvisual reasoning rl\b", 3.5),
+        (r"\bvlm[- ]as[- ]judge\b|\bvlm reward model\b|\bmultimodal reward model\b|\bvlfeedback\b", 3),
+        (r"\brl for (gui|video|image)\b|\bembodied multimodal rl\b", 2.5),
     ],
     "duplex_speech": [
         (r"\bduplex\b|\bhalf-duplex\b|\bfull-duplex\b|\bturn-taking\b|\bbarge-in\b|\bfloor control\b", 3.5),
@@ -280,8 +351,7 @@ TRACKS = {
         # music / general sound synthesis: no longer a tracked interest, kept
         # at low weight so it can only surface as a wild card
         (r"\bmusic generation\b|\btext-to-music\b|\bsound generation\b|\bsource separation\b", 0.8),
-    ],
-    "speech_rl": [
+        # direction speech_rl - RL / preference optimization for speech & audio LMs
         (r"(?s)\b(reinforcement learning|rlhf|grpo|rlaif|rlvr|dpo|ipo|kto|orpo|"
          r"policy optimization|policy gradient|ppo|reward model\w*|reward modeling|"
          r"preference optimiz\w+|preference learning|rejection sampling|best[- ]of[- ]n)\b"
@@ -294,7 +364,6 @@ TRACKS = {
         (r"\bdialogue policy\b|\bmulti-turn spoken\b|\bspoken dialogue optimiz\w+|\blong-horizon dialogue\b", 3),
         (r"\boveroptimiz\w+|\breward hacking\b|\blength bias\b|\blatency bias\b", 2),
         (r"\bllm-as-judge\b.{0,40}\b(speech|audio)\b|\bjudge\b.{0,40}\b(speech|audio)\b", 2),
-        (r"\bverifiable reward\w*", 1),
         (r"\bself-improv\w+.{0,40}\b(speech|audio)\b", 2),
     ],
     "world_embodied": [
@@ -310,7 +379,7 @@ TRACKS = {
         (r"\bteleoperat\w+|\bquadruped\b|\bdrone\b|\buav\b|\brobot arm\b", 1.5),
         (r"\btactile\b|\bvisuotactile\b|\bforce (feedback|control|sensing)\b|\bcontact\b", 2),
         (r"\bmodel-based planning\b|\bplanning\b|\btrajectory (prediction|optimization)\b", 1.5),
-        # RL used for embodied work (folded in from the removed rl_core track)
+        # RL used for embodied work (direction embodied_ai)
         (r"(?s)\b(reinforcement learning|rl|policy optimization|policy gradient|sim-to-real|"
          r"domain randomization|reward shaping|reward model\w*|offline rl|model-based rl)\b"
          r".{0,120}?\b(robot|manipulat\w+|embodied|vla|locomotion|grasping|humanoid|"

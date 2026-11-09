@@ -36,36 +36,49 @@ Daily arXiv paper collection, filtering, summarization, and reading notes.
 
 ## 项目结构
 
-本项目收纳**每日 arXiv 论文日报**：抓取 7 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
-cs.AI / cs.RO / cs.LG）的最新公告批次，按 **4 条研究线**各出排名报告与条目目录。
+本项目收纳**每日 arXiv 论文日报**：抓取 8 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
+cs.AI / cs.RO / cs.LG / cs.IR）的最新公告批次，按 **4 个 axis × 10 个 direction**
+各出排名报告与条目目录，当天目标 **60 篇**。
 
-4 条研究线（`mine-arxiv-daily-digest` skill v0.4.0 起的划分）：
+现行口径（`mine-arxiv-daily-digest` skill **v0.8.0**，自 2026-11-09 起）：
 
-| track | 覆盖范围 |
-| --- | --- |
-| `aigc_visual` | AIGC 图像 / 视频 / 3D / 4D 生成与编辑，**并入**面向视觉生成的 RL、偏好优化与奖励模型 |
-| `duplex_speech` | 全双工 / 实时 / 流式语音 LM、speech-to-speech、语音助手；TTS / 语音克隆 / 语音转换 |
-| `speech_rl` | 语音 / 音频 LM 的 RL 与偏好优化（RLHF / GRPO / DPO、语音奖励模型、语音质量打分） |
-| `world_embodied` | 世界模型 + 具身 AI / VLA / 机器人学习，**并入**面向具身任务的 RL |
+| axis | direction | 覆盖范围 |
+| --- | --- | --- |
+| `aigc_visual` | `aigc_generation` / `aigc_editing` / `aigc_rl` | AIGC 图像 / 视频 / 3D / 4D 生成与编辑，含面向视觉生成的 RL、偏好优化与奖励模型 |
+| `llm_vlm` | `llm_core` / `vlm_core` / `llm_vlm_rl` | LLM 本体（架构 / 训练 / 推理效率 / 长上下文 / 评测）、VLM 本体（多模态理解 / GUI / 文档）、以及两者的 RL 与偏好优化 |
+| `duplex_speech` | `duplex_speech_core` / `speech_rl` | 全双工 / 实时 / 流式语音 LM、speech-to-speech、语音助手、TTS / 克隆 / 转换；语音与音频 LM 的 RL（GRPO / DPO / 语音奖励模型） |
+| `world_embodied` | `world_model` / `embodied_ai` | 世界模型（JEPA / 潜动力学 / 模型式 RL）+ 具身 AI / VLA / 机器人学习，含面向具身任务的 RL |
 
-**口径变更（2026-11-06 起）**：skill v0.3.0 的 7 条线（`aigc_visual` / `aigc_audio` /
-`audio_lm` / `embodied` / `rl_core` / `rl_llm` / `rl_aigc`）合并为上表的 4 条线——
-原 `rl_aigc` 并入 `aigc_visual`、原 `rl_core` 并入 `world_embodied`、
-`rl_llm` 与纯文本 LLM 的 RL 退出跟踪范围，语音合成并入 `duplex_speech`，
-纯音乐生成降级为 wild-card。2026-11-05 及更早的日报仍是 7 线版，未改写。
+**口径变更**：
 
-**方法学优先（仅语音 RL 保留）**：语音 LM 上的 GRPO / DPO 归 `speech_rl`，
-语音质量奖励模型归 `speech_rl`；视频扩散上的 RL 归 `aigc_visual`，
-机器人操作的 sim-to-real RL 归 `world_embodied`；纯文本 LLM 的 RL 属 off-topic。
+- **2026-11-09 起（v0.8.0）**：7 条 track（v0.3.0）/ 4 条 track（v0.4.0）合并为
+  **4 个 axis × 10 个 direction**；**新增 `llm_vlm` 轴**（LLM / VLM 及其 RL），
+  原 `speech_rl` 降为 `duplex_speech` 轴内的一个 direction；分类从 7 个增至 8 个
+  （加入 `cs.IR`）。2026-11-06 及更早的日报仍按旧口径，未改写。
+- **2026-11-06 起（v0.4.0）**：7 条线合并为 4 条线——原 `rl_aigc` 并入 `aigc_visual`、
+  原 `rl_core` 并入 `world_embodied`、`rl_llm` 与纯文本 LLM 的 RL 退出跟踪范围，
+  语音合成并入 `duplex_speech`，纯音乐生成降级为 wild-card。
 
-**配额**：每条线最多 10 篇，**够格多少发多少**——`speech_rl` 本就供给很薄，
-发不满是正常结果，不得凑数；wild-card 每线 1-2 条（`world_embodied` 1-3 条），
-须在报告开头声明数量与原因，并逐条标注 `[wild-card=yes]`。
+**方法学优先**：视觉生成侧的 RL 归 `aigc_visual` 轴，具身任务的 RL 归 `world_embodied` 轴，
+语音 / 音频 LM 的 RL 归 `duplex_speech` 轴的 `speech_rl` direction；
+**纯文本 LLM 的 RL 不再是独立跟踪线**，但当它服务于 VLM 或作为
+`llm_vlm_rl` direction（多模态 RLHF / DPO / GRPO、奖励模型、reward hacking）时仍会入选。
+
+**两级弹性配额**：
+
+- **axis 级**：`AXIS_BASE = {aigc_visual:15, llm_vlm:18, duplex_speech:12, world_embodied:15}`
+  （合 60），单个 axis 上限 `AXIS_CAP = 20`；富余名额按富余量依次重分配到候选最充裕的 axis。
+- **direction 级**：`DIR_BASE = {aigc_generation:8, aigc_editing:4, aigc_rl:3, llm_core:8,
+  vlm_core:5, llm_vlm_rl:5, duplex_speech_core:8, speech_rl:4, world_model:7, embodied_ai:8}`；
+  薄 direction **让出名额而不是被填充**（`speech_rl` 发不满是正常结果，不得凑数）。
+- **wild-card**：每 direction 1–2 条，须在报告开头声明数量与原因，
+  并逐条标注 `[wild-card=yes]`。
+- 评分 `final = 0.7 × relevance + 0.3 × quality`；`relevance >= 9` 必进。
 
 ```
 daily_arxiv_digest/<YYYY_MM>/<YYYY-MM-DD>/
-├── <date>_<track>_report.md   # 每线 ≤10 篇，含摘要、作者机构、关键图表
-├── <date>_<track>_entry.md    # shields.io 条目目录（mine-create-paper-entry 格式）
+├── <date>_<axis>_report.md   # 每 axis 一份，含摘要、作者机构、关键图表，direction 为子节
+├── <date>_<axis>_entry.md    # shields.io 条目目录（mine-create-paper-entry 格式）
 └── res/                       # 论文原图，命名 <arxiv_id>_{framework,result}.png
 index.md                       # 累计索引：每日一行摘要 + 各日详情章节
 codex_temp/<date>/             # 每次运行的临时目录，报告写完后整体清理
@@ -74,14 +87,18 @@ codex_temp/<date>/             # 每次运行的临时目录，报告写完后�
 **管线脚本**已固化在 `project_handbook/project_tools/digest/`：
 
 - `scrape.py` — 探测最新公告批次（可回溯数日，处理周末/节假日空档）、
-  逐（分类 × 日）抓取以避免 `max_results` 截断、按研究线做关键词预筛。
+  逐（分类 × 日）抓取以避免 `max_results` 截断、按 axis 做关键词预筛。
   用法：`python scrape.py --out codex_temp/<date> --auto 6`（或 `--days 20261015,20261016`）
 - `read.py` — 3 秒限速下载 PDF，抽取作者机构、贡献句与关键图（图注区域裁剪），
   产出 `phase2_cards/<id>.json`。用法：`python read.py --out codex_temp/<date>`
   （shortlist 由当次运行写入 `codex_temp/<date>/shortlist.json`）
+- `pipeline.py` — axis/direction 维度的选稿与渲染器。子命令依次为
+  `pool`（建候选池与 task 词表）→ `vocab` → `select`（两级配额校验）→
+  `spec`（生成 `meta_spec.md` 与分工文件）→ `checkmeta` → `render` → `verify`。
 
-每次运行的**相关性打分、排名与报告分析**是人工撰写的，存放在当次
-`codex_temp/<date>/render.py`（随临时目录清理，不入库）。
+每次运行的**相关性打分、排名与报告分析**是人工撰写的：选稿输入在
+`codex_temp/<date>/selection_input.json`，分析元数据由 5 个 `meta_*.py` 模块产出，
+机构核对结果写在 `codex_temp/<date>/orgs.json`（临时目录清理时一并删除，不入库）。
 
 ⚠️ arXiv 的公告存在**时区滞后与周末空档**：中文标准时间下午运行时，
 最新可用批次通常是前一天的 UTC 日。若探测发现当日及近几日均为空，
