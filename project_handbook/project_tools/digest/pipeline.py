@@ -4,7 +4,7 @@
 Reusable, date-parameterised machinery around scrape.py / read.py. Everything
 mechanical lives here so a daily run only has to author two inputs:
 
-  <work>/selection_input.json   -- the 70 picked papers (id / relevance /
+  <work>/selection_input.json   -- the picked papers (id / relevance /
                                    quality / wild) + wild-card reasons
   <work>/index_section.md        -- the index.md toc row + detail section
 
@@ -33,24 +33,29 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-TRACKS = ["aigc_visual", "aigc_audio", "audio_lm", "embodied",
-          "rl_core", "rl_llm", "rl_aigc"]
+# skill v0.4.0: 7 tracks -> 4 tracks.
+#   aigc_visual   = AIGC image/video/3D/4D generation & editing
+#                   (+ RL / preference optimization for visual generation)
+#   duplex_speech = full-duplex / real-time / streaming speech LMs, TTS
+#   speech_rl     = RL / preference optimization for speech & audio LMs
+#   world_embodied= world models + embodied AI / VLA / robot learning
+#                   (+ RL used for embodied work)
+TRACKS = ["aigc_visual", "duplex_speech", "speech_rl", "world_embodied"]
+QUOTA = 10
 
 TRACK_CN = {
-    "aigc_visual": ("AIGC 视觉生成", "AIGC-visual",
-                    "图像 / 视频 / 3D / 4D 内容的生成与编辑，含扩散与流匹配模型的训练方法、加速与评测基准"),
-    "aigc_audio": ("AIGC 音频生成", "AIGC-audio",
-                   "音频 / 语音 / 音乐的生成、合成、编辑与生产工具链，含 TTS、语音水印攻防与神经音频编解码"),
-    "audio_lm": ("音频与语音语言模型", "audio-lm",
-                 "音频 / 语音语言模型与多模态助手，含语音记忆、长音频检索、空间音频与多语种对话评测"),
-    "embodied": ("具身智能与世界模型", "embodied",
-                 "具身智能与世界模型，含移动操作、人形控制、触觉反射、VLA 策略与世界动作模型"),
-    "rl_core": ("核心强化学习", "rl-core",
-                "RL 算法与理论、多智能体 RL、sim-to-real 与离线 / 元 RL"),
-    "rl_llm": ("LLM 后训练 RL", "rl-llm",
-               "LLM 后训练的 RL：RLHF / DPO / GRPO / RLAIF / RLVR / on-policy 蒸馏与 RLVR 调度"),
-    "rl_aigc": ("生成式内容模型的 RL", "rl-aigc",
-                "生成式内容模型的 RL：扩散 / 流匹配 RL、生成式奖励模型与推理期采样扩展"),
+    "aigc_visual": ("AIGC 视觉生成与编辑", "AIGC-visual",
+                    "图像 / 视频 / 3D / 4D 内容的生成与编辑，含扩散与流匹配模型的训练方法、加速、"
+                    "评测基准，以及面向视觉生成的 RL / 偏好优化与奖励模型"),
+    "duplex_speech": ("全双工语音与语音 LM", "duplex-speech",
+                      "全双工 / 实时 / 流式语音语言模型、speech-to-speech 语音助手，"
+                      "以及 TTS、语音克隆与语音转换等合成侧工作"),
+    "speech_rl": ("语音 LM 的强化学习", "speech-rl",
+                  "语音 / 音频大模型的 RL 与偏好优化：RLHF / GRPO / DPO、语音奖励模型、"
+                  "语音质量打分与可验证奖励"),
+    "world_embodied": ("具身智能与世界模型", "embodied",
+                       "具身智能与世界模型，含移动操作、人形控制、触觉反射、VLA 策略、"
+                       "世界动作模型与面向具身任务的强化学习"),
 }
 
 # ---------------------------------------------------------------------------
@@ -62,88 +67,60 @@ VOCAB_BASE = {
         "Image_Editing", "Video_Editing", "3D_Editing",
         "Multi_Subject_Personalization", "Layout_to_Image",
         "Controllable_Generation", "Inpainting", "Style_Transfer",
+        "RL_for_Diffusion", "Diffusion_DPO", "Reward_Model_Image",
+        "Best_of_N", "GenEval", "HPSv2",
     ],
-    "aigc_audio": [
-        "Audio_Generation", "Music_Generation", "TTS", "Voice_Cloning",
-        "Audio_Editing", "Voice_Conversion", "Sound_Synthesis",
-        "Audio_Super_Resolution", "Text_to_Audio",
-    ],
-    "audio_lm": [
-        "Audio_Understanding", "Audio_Captioning", "Audio_QA",
-        "Audio_Reasoning", "Audio_LM", "Speech_LM",
+    "duplex_speech": [
         "Full_Duplex", "Voice_Assistant", "Speech_to_Speech",
-        "Real_Time_Speech", "Spoken_Dialogue", "Streaming_ASR",
+        "Real_Time_Speech", "Streaming_ASR", "Turn_Taking",
+        "Speech_LM", "Audio_LM", "Audio_Understanding",
+        "TTS", "Voice_Cloning", "Voice_Conversion",
+        "Streaming_TTS", "Expressive_TTS", "Spoken_Dialogue",
     ],
-    "embodied": [
+    "speech_rl": [
+        "RLHF_Speech", "GRPO_Speech", "RLAIF_Speech",
+        "DPO_Speech", "Preference_Optimization", "RLVR_Speech",
+        "Speech_Reward_Model", "Reward_Modeling", "Audio_Quality_Optimization",
+        "RL_for_ASR", "RL_for_TTS", "Dialogue_Policy_Optimization",
+        "Exploration_Speech", "Rejection_Sampling",
+    ],
+    "world_embodied": [
+        "World_Model", "Model_Based_RL", "Video_as_World_Model",
+        "Neural_Simulator", "JEPA", "Dreamer",
         "Embodied_Agent", "Visual_Navigation", "Manipulation",
         "Sim_to_Real", "Robot_Learning", "VLA_Model",
-        "World_Model", "Model_Based_RL", "Video_as_World_Model",
-        "Neural_Simulator", "Visual_Exploration", "Tactile_Sensing",
-    ],
-    "rl_core": [
-        "Policy_Gradient", "PPO", "SAC", "DQN", "A2C", "TRPO",
-        "Offline_RL", "Model_Free_RL", "Exploration",
-        "Multi_Agent_RL", "MARL", "QMIX", "MAPPO",
-        "Hierarchical_RL", "Meta_RL", "Imitation_Learning",
-        "Inverse_RL", "Sim_to_Real_RL", "RL_Theory",
-    ],
-    "rl_llm": [
-        "RLHF", "PPO_RLHF", "RLAIF",
-        "DPO", "IPO", "KTO", "ORPO",
-        "GRPO", "RLVR", "Reward_Modeling",
-        "Constitutional_AI", "LLM_Alignment", "Preference_Optimization",
-    ],
-    "rl_aigc": [
-        "RL_for_Diffusion", "RL_for_Flow_Matching",
-        "DPO_Diffusion", "Diffusion_DPO", "Preference_Alignment",
-        "Reward_Weighted_Regression", "RWR",
-        "Best_of_N", "BoN", "Rejection_Sampling",
-        "Classifier_Guidance", "CFG_Distillation", "Reward_Model_Image",
-        "GenEval", "DrawBench", "HPSv2", "Aesthetic_Scoring",
+        "Tactile_Sensing", "Diffusion_Policy", "Action_Chunking",
     ],
 }
 
 VOCAB_EXTRA = {
     "aigc_visual": [
-        "Diffusion_Acceleration", "KV_Cache_Compression", "Autoregressive_Generation",
+        "Diffusion_Acceleration", "Video_Acceleration", "Autoregressive_Generation",
         "Few_Step_Generation", "Identity_Preservation", "Scene_Reconstruction",
-        "Video_Acceleration", "Tokenizer_Compression", "World_Evolution",
+        "Tokenizer_Compression", "Flow_Matching", "Text_to_Image",
+        "Reward_Model_Video", "Preference_Optimization_Visual",
+        "RL_for_Video", "Diffusion_Distillation", "CFG_Optimization",
+        "T2I_Evaluation", "Image_Provenance", "Multi_Reference_Synthesis",
     ],
-    "aigc_audio": [
-        "Video_to_Audio", "Speech_Deepfake_Detection", "Voice_Identity",
-        "Acoustic_Measurement", "Acoustic_Communication", "Audio_Visual_Segmentation",
-        "Audio_Representation_Learning", "Sound_Source_Localization", "Speech_Forensics",
-        "TTS_Control", "Cross_Codec_Robustness",
+    "duplex_speech": [
+        "Speech_Recognition", "ASR_Error_Repair", "Low_Resource_ASR",
+        "Streaming_Dialogue", "Omni_Understanding", "Simultaneous_Speech_Translation",
+        "Target_Speech_Extraction", "Speech_Summarization", "Phonological_Knowledge",
+        "Conversation_Evaluation", "Emotion_Recognition", "Speech_Tokenization",
+        "Neural_Audio_Codec", "Speech_Enhancement", "Speech_Editing",
+        "Acoustic_Communication", "Audio_Representation_Learning",
     ],
-    "audio_lm": [
-        "Omni_Understanding", "Simultaneous_Speech_Translation", "Target_Speech_Extraction",
-        "Speech_Summarization", "Phonological_Knowledge", "ASR_Error_Repair",
-        "Low_Resource_ASR", "Conversation_Evaluation", "Streaming_Dialogue",
-        "Emotion_Recognition",
+    "speech_rl": [
+        "Speech_RL", "Audio_RL", "GRPO_Audio", "DPO_Audio",
+        "RL_for_Speech_LM", "Speech_Preference_Learning", "Reward_Calibration",
+        "Policy_Optimization_Speech", "Verifiable_Reward_Speech",
+        "Dialogue_RL", "Speech_Reward_Modeling", "Reward_Hacking",
     ],
-    "embodied": [
-        "Humanoid_Control", "Motion_Priors", "Latent_Action", "Closed_Loop_Evaluation",
-        "Whole_Body_Control", "Mobile_Manipulation", "Memory_Benchmark",
-        "Force_Control", "World_Action_Model", "Policy_Diffusion",
-        "Self_Improvement", "Loco_Manipulation",
-    ],
-    "rl_core": [
-        "TD_Learning", "Digital_Twin", "Inverse_Kinematics", "Human_Feedback_RL",
-        "Multi_Objective_RL", "Vision_Language_Control", "Policy_Regularization",
-        "Eligibility_Traces", "Reward_Shaping", "Experience_Replay",
-        "Safe_RL", "Curriculum_Learning",
-    ],
-    "rl_llm": [
-        "On_Policy_Distillation", "Process_Reward", "Rubric_Reward", "Reward_Budgeting",
-        "Multi_Turn_RL", "Token_Level_Credit", "Data_Selection", "Alignment_Tax",
-        "Conformal_Policy_Optimization", "Test_Time_Compute", "Self_Distillation",
-        "Reward_Model_Quality", "Preference_Learning",
-    ],
-    "rl_aigc": [
-        "RL_for_Video", "On_Policy_Distillation", "Few_Step_Distillation",
-        "Source_Attribution", "T2I_Evaluation", "Reward_Calibration",
-        "Image_Generation_RL", "Speech_Generation_RL", "Adversarial_Distillation",
-        "Image_Provenance", "Reward_Search",
+    "world_embodied": [
+        "Humanoid_Control", "Motion_Priors", "Latent_Action", "Whole_Body_Control",
+        "Mobile_Manipulation", "Loco_Manipulation", "Force_Control",
+        "World_Action_Model", "Policy_Diffusion", "Self_Improvement",
+        "Reward_Model_Embodied", "Embodied_Benchmark", "Scene_Reconstruction",
     ],
 }
 
@@ -162,30 +139,47 @@ POOL_EXTRA = {
         |\bpersonaliz\w+ (image|video|subject)\b|\bsubject-driven\b
         |\bicon generation\b|\bposter\b|\bfont generation\b|\btext rendering\b|\btext-rendering\b
         |\bgeneration benchmark\b|\bsynthetic data\b
+        |\b(reinforcement learning|grpo|dpo|rlhf|policy optimization|reward model\w*)\b.{0,120}?
+          \b(diffusion|image|video|visual|flow matching|3d|generation)\b
+        |\b(diffusion|image|video|visual|flow matching|generation)\b.{0,120}?
+          \b(reinforcement learning|grpo|dpo|rlhf|policy optimization|reward model\w*)\b
+        |\bpreference (optimization|alignment)\b|\bbest[- ]of[- ]n\b|\bclassifier[- ]free guidance\b
+        |\bgeneval\b|\bdrawbench\b|\bhpsv2\b|\bpickscore\b|\bimagereward\b|\baesthetic score\b
+        |\bverifiable reward\w*|\brubric\b
     """,
-    "aigc_audio": r"""
-        \btts\b|\btext-to-speech\b|\bspeech synthesis\b|\bspeech generation\b|\bvoice (cloning|conversion|design)\b
-        |\baudio (generation|synthesis|editing|codec|diffusion|watermark)\b|\bmusic (generation|synthesis|editing)\b
-        |\bsound generation\b|\bsound (design|synthesis)\b|\bvocoder\b|\bsinging\b|\bmelody\b|\blyric\b
-        |\bspeech enhancement\b|\bspeech separation\b|\bsource separation\b|\bdeepfake\b|\bwatermark\b
-        |\btranscription\b|\bspeech recognition\b|\basr\b|\bprosod\w+|\bspeech emotion\b
-        |\baudio caption\w+|\bsound event\b|\bparalinguistic\b|\bacoustic (model|scene)\b
-        |\bvideo-to-audio\b|\btext-to-audio\b|\baudio representation\b|\bself-supervised audio\b
-        |\baudio question\b|\baudio reasoning\b|\baudio understanding\b|\bspeech understanding\b
-    """,
-    "audio_lm": r"""
-        \baudio (llm|language model|foundation model)\b|\bspeech (llm|language model)\b|\blalm\b
+    "duplex_speech": r"""
+        \b(tts|text-to-speech|speech synthesis|speech generation)\b
+        |\bvoice (cloning|conversion|design|identity)\b|\bvoice (agent|assistant|interaction)\b
+        |\bduplex\b|\bhalf-duplex\b|\bfull-duplex\b|\bturn-taking\b|\bbarge-in\b|\bfloor control\b
+        |\bspeech-to-speech\b|\bs2s\b|\bspoken dialogue\b|\bspoken language\b|\bconversational (ai|system|agent)\b
+        |\baudio (llm|language model|foundation model)\b|\bspeech (llm|language model)\b|\blalm\b
         |\bomni(modal)?\b|\bomni-?model\b|\bmultimodal (llm|assistant)\b|\bvisual llm\b
-        |\bvoice (agent|assistant)\b|\bvoice interaction\b|\bconversational (ai|system|agent)\b
-        |\bduplex\b|\bturn-taking\b|\bbarge-in\b|\bfull-duplex\b|\bhalf-duplex\b
-        |\bspeech-to-speech\b|\bs2s\b|\bspoken dialogue\b|\bspoken language\b
+        |\bstream\w*\b.{0,40}\b(asr|speech recogn\w+|transducer|tts)\b|\bstreaming (speech|audio|tts)\b
+        |\breal-time speech\b|\blow-latency speech\b|\binterruptible\b
         |\baudio (understanding|question|reasoning|qa|caption\w*|retrieval|memory|agent)\b
-        |\bspeech (understanding|instruction|recognition|translation|emotion)\b|\basr\b|\bwhisper\b
-        |\bstreaming (speech|audio)\b|\breal-time speech\b|\blow-latency speech\b|\binterruptible\b
-        |\bmulti-turn\b.*\b(speech|audio|voice)\b|\b(speech|audio|voice).*\bmulti-turn\b
-        |\blistening\b|\bhearing\b|\bauditory\b|\bspeech dataset\b|\baudio dataset\b|\bbenchmark.*\b(speech|audio)\b
+        |\bspeech (understanding|instruction|recognition|translation|emotion|tokeniz\w+)\b|\basr\b|\bwhisper\b
+        |\bneural audio codec\b|\bspeech codec\b|\bvocoder\b|\bprosod\w+|\bspeech emotion\b
+        |\bspeech enhancement\b|\bspeech denoising\b|\bspeech separation\b|\bspeech editing\b
+        |\bparalinguistic\b|\bacoustic (model|scene|communication)\b
+        |\bmultilingual\b.{0,30}\bspeech\b|\bcode-switch\w+\b|\blow-resource speech\b
+        |\b(listening|hearing|auditory)\b|\bspeech dataset\b|\baudio dataset\b
     """,
-    "embodied": r"""
+    "speech_rl": r"""
+        \b(reinforcement learning|rlhf|grpo|rlaif|rlvr|dpo|ipo|kto|orpo|policy optimization|policy gradient|ppo)\b
+          .{0,140}?\b(speech|audio|tts|voice|spoken|asr|sound|acoustic|music)\b
+        |\b(speech|audio|tts|voice|spoken|asr|sound|acoustic|music)\b.{0,140}?
+          \b(reinforcement learning|rlhf|grpo|rlaif|rlvr|dpo|ipo|kto|orpo|policy optimization|policy gradient|ppo)\b
+        \b(reward model\w*|reward modeling|preference optimiz\w+|preference learning|rejection sampling|best[- ]of[- ]n)\b
+          .{0,140}?\b(speech|audio|tts|voice|spoken|asr)\b
+        \b(speech|audio|tts|voice|spoken|asr)\b.{0,140}?
+          \b(reward model\w*|reward modeling|preference optimiz\w+|preference learning|rejection sampling|best[- ]of[- ]n)\b
+        \bexploration\b.{0,40}\b(speech|audio)\b|\bentropy\b.{0,40}\b(speech|audio)\b
+        \b(dialogue policy|multi-turn spoken|spoken dialogue optimiz\w+|long-horizon dialogue)\b
+        \boveroptimiz\w+|\breward hacking\b|\blength bias\b|\blatency bias\b
+        \b(llm-as-judge|judge)\b.{0,40}\b(speech|audio)\b
+        \bself-improv\w+.{0,40}\b(speech|audio)\b
+    """,
+    "world_embodied": r"""
         \bembodied\b|\brobot\w*\b|\bhumanoid\b|\bmanipulat\w+\b|\bgrasp\w*\b|\bdexterous\b
         |\bvla\b|\bvision-language-action\b|\bworld model\b|\bjepa\b|\bnavigation\b
         |\blocomo(tion|otion)\b|\bwhole-body\b|\bmanipulator\b|\brobot arm\b|\bquadruped\b|\bdrone\b|\buav\b
@@ -194,49 +188,18 @@ POOL_EXTRA = {
         |\bhousehold\b|\bscene (understanding|reconstruction)\b|\b3d (reconstruction|scene)\b
         |\bpolicy (learning|optimization|distillation)\b|\bdiffusion polic\w+\b|\baction chunk\w*\b
         |\bplanning\b|\btrajectory (prediction|optimization)\b|\bteleoperat\w+\b|\breward model\w*.*\brobot
-    """,
-    "rl_core": r"""
-        \breinforcement learning\b|\bpolicy gradient\b|\bactor-critic\b|\bactor critic\b|\bppo\b|\bsac\b|\btd3\b|\bddpg\b
-        |\bdqn\b|\bbandit\w*\b|\bmulti-agent reinforcement\b|\bmarl\b|\bqmix\b|\bmaddpg\b|\bmappo\b
-        |\boffline rl\b|\bonline rl\b|\bmodel-based rl\b|\bmodel-free rl\b|\bmeta-rl\b|\bcontinual rl\b
-        |\bvalue function\b|\badvantage\b|\bpolicy optimization\b|\bexploration\b|\bintrinsic motivation\b
-        |\bself-play\b|\bzero-sum\b|\bmatrix game\b|\bgame-theoretic\b|\bsubgoal\b|\bhierarchical rl\b
-        |\binverse reinforcement\b|\bimitation learning\b|\bbehavior cloning\b|\bgail\b|\bcredit assignment\b
-        |\bcontrol barrier\b|\bmodel predictive control\b|\bsafe rl\b|\bconstrained rl\b|\bcurriculum\b
-        \breward (shaping|design|model\w*)\b|\bstate value\b|\btemporal difference\b|\bq-function\b
-        |\bmeta-reinforcement\b|\btask distribution\b|\bcontinual learning\b.*\brl\b
-    """,
-    "rl_llm": r"""
-        \brlhf\b|\bdlpo\b|\bdpo\b|\bgrpo\b|\brlaif\b|\brlvr\b|\bverifiable reward\w*\b
-        |\bpreference optimiz\w+\b|\bpolicy optimization\b.*\b(llm|language model)\b
-        |\breinforcement learning\b.*\b(llm|language model|reasoning)\b|\bpost-training\b
-        |\bon-policy (self-)?distillation\b|\bprocess reward model\b|\bprm\b|\bverifier\b
-        |\breinforcement learning with verifiable\b|\bgrpo-style\b|\breward model\w*\b.*\bllm\b
-        |\bagentic reinforcement learning\b|\bmulti-turn reinforcement learning\b
-        |\btest-time (compute|scaling|search)\b.*\b(llm|reasoning)\b|\bself-rewarding\b
-        \breasoning (model|policy)\b.*\breinforcement\b|\bdynamic rubric\w*\b|\brubric\b
-        \balignment\b.*\breinforcement\b|\banswer-level reward\b|\boutcome reward\b
-        \bchat model\b.*\brl\b|\bllm agent\b.*\brl\b
-    """,
-    "rl_aigc": r"""
-        \breinforcement learning\b.*\b(diffusion|flow matching|image gener|video gener|generation model)\b
-        |\b(diffusion|flow matching|image gener\w+|video gener\w+)\b.*\breinforcement learning\b
-        \bgrpo\b.*\b(diffusion|image|video)\b|\b(diffusion|image|video)\b.*\bgrpo\b
-        \breward model\w*\b.*\b(image|video|diffusion|generat)\b|\bgenerative reward model\b
-        \btest-time scaling\b.*\b(diffusion|image|video|generation)\b|\bbest-of-n\b
-        \breinforcement learning\b.*\btts\b|\btts\b.*\breinforcement learning\b
-        \bfeedback[- ]driven\b.*\b(generation|diffusion)\b|\bhuman feedback\b.*\b(video|image|diffusion)\b
-        \bdiffusion[- ]policy\b|\breinforcement fine-tuning\b.*\b(video|image)\b
-        \bpreference alignment\b.*\b(video|image|diffusion)\b|\bdpo\b.*\b(diffusion|image|video)\b
-        \brl\b.*\bprompt (engineering|enhancement|optimization)\b.*\bgenerat\w+\b
+        \b(reinforcement learning|policy optimization|policy gradient|sim-to-real|domain randomization|reward shaping|reward model\w*)\b
+          .{0,120}?\b(robot|manipulat\w+|embodied|vla|locomotion|grasping|humanoid|dexterous|simulation|simulator)\b
+        |\b(robot|manipulat\w+|embodied|vla|locomotion|grasping|humanoid|dexterous)\b.{0,120}?
+          \b(reinforcement learning|policy optimization|policy gradient|reward shaping|reward model\w*|sim-to-real)\b
     """,
 }
 
 META_ASSIGN = {
-    "meta_a": ["aigc_visual", "aigc_audio"],
-    "meta_b": ["audio_lm", "embodied"],
-    "meta_c": ["rl_core", "rl_llm"],
-    "meta_d": ["rl_aigc"],
+    "meta_a": ["aigc_visual"],
+    "meta_b": ["duplex_speech"],
+    "meta_c": ["speech_rl"],
+    "meta_d": ["world_embodied"],
 }
 
 
@@ -495,8 +458,12 @@ def cmd_select(a) -> int:
         selection[t] = out
         shortlist[t] = [r["id"] for r in out]
 
-    if len(all_ids) != 70:
-        raise SystemExit(f"[FATAL] {len(all_ids)} papers != 70")
+    for t in TRACKS:
+        n = len(selection[t])
+        if n < 1:
+            raise SystemExit(f"[FATAL] {t}: no papers selected")
+        if n > QUOTA:
+            raise SystemExit(f"[FATAL] {t}: {n} papers > quota {QUOTA}")
     dupes = {i for i in all_ids if all_ids.count(i) > 1}
     if dupes:
         raise SystemExit(f"[FATAL] duplicate ids: {dupes}")
@@ -584,10 +551,10 @@ def cmd_checkmeta(a) -> int:
     if extra:
         errs.append(f"meta contains ids not in selection: {sorted(extra)}")
 
-    print(f"\nmeta entries: {len(meta)} / 70")
+    print(f"\nmeta entries: {len(meta)} / {len(PID_TRACK)}")
     for t in TRACKS:
         ids = [r["id"] for r in sel["selection"][t]]
-        print(f"  {t}: {sum(1 for i in ids if i in meta)}/10")
+        print(f"  {t}: {sum(1 for i in ids if i in meta)}/{len(ids)}")
     if warns:
         print(f"\nWARNINGS ({len(warns)}):")
         for w in warns:
@@ -668,9 +635,12 @@ def cmd_render(a) -> int:
             for para in parts[1:]:
                 L.append(para)
                 L.append("")
+        else:
+            L.append("**Wild-card**: 0（本线本批次够格供给充足，未启用补位名额）")
+            L.append("")
         L.append("---")
         L.append("")
-        L.append(f"## Top 10 - {cn}")
+        L.append(f"## Top {len(rows)} - {cn}")
         L.append("")
         for i, row in enumerate(rows, 1):
             pid = row["id"]
@@ -756,13 +726,16 @@ def cmd_verify(a) -> int:
     errs, warns = [], []
 
     all_ids = [r["id"] for t in TRACKS for r in sel["selection"][t]]
-    if len(all_ids) != 70:
-        errs.append(f"selection total {len(all_ids)} != 70")
+    if not all_ids:
+        errs.append("selection is empty")
     if len(set(all_ids)) != len(all_ids):
         errs.append(f"duplicate ids: {[i for i in set(all_ids) if all_ids.count(i) > 1]}")
     for t in TRACKS:
-        if len(sel["selection"][t]) != 10:
-            errs.append(f"{t}: {len(sel['selection'][t])} papers != 10")
+        n = len(sel["selection"][t])
+        if n < 1:
+            errs.append(f"{t}: no papers selected")
+        if n > QUOTA:
+            errs.append(f"{t}: {n} papers > quota {QUOTA}")
         sc = [r["score"] for r in sel["selection"][t]]
         if sc != sorted(sc, reverse=True):
             errs.append(f"{t}: scores not descending")
@@ -783,22 +756,23 @@ def cmd_verify(a) -> int:
         ids = [r["id"] for r in sel["selection"][t]]
         wild = [r["id"] for r in sel["selection"][t] if r["wild"]]
 
+        n = len(ids)
         heads = re.findall(r"^### (\d+)\. ", rtxt, re.M)
-        if len(heads) != 10 or [int(h) for h in heads] != list(range(1, 11)):
+        if len(heads) != n or [int(h) for h in heads] != list(range(1, n + 1)):
             errs.append(f"{t} report: bad '### N.' headings {heads}")
         for block in ("**arXiv**:", "**Authors**:", "**Affiliation**:", "**Abstract**",
                       "**Key findings**", "**Why this ranks #"):
-            if rtxt.count(block) != 10:
-                errs.append(f"{t} report: block {block} count {rtxt.count(block)} != 10")
+            if rtxt.count(block) != n:
+                errs.append(f"{t} report: block {block} count {rtxt.count(block)} != {n}")
         for b in rtxt.split("\n### ")[1:]:
             head = b.split("\n", 1)[0][:60]
             if ("**Key figures**" in b) != ("![" in b and "res/" in b):
                 errs.append(f"{t} report: figure block/image mismatch in '{head}'")
         for lbl in ("Finding", "Inference", "Recommendation"):
-            if rtxt.count(f"- **{lbl}**:") != 10:
-                errs.append(f"{t} report: {lbl} count != 10")
+            if rtxt.count(f"- **{lbl}**:") != n:
+                errs.append(f"{t} report: {lbl} count != {n}")
         rscores = [float(x) for x in re.findall(r"\*\*Score\*\*: ([0-9.]+)", rtxt)]
-        if len(rscores) != 10 or rscores != sorted(rscores, reverse=True):
+        if len(rscores) != n or rscores != sorted(rscores, reverse=True):
             errs.append(f"{t} report: scores {rscores}")
         rep_ids = re.findall(r"\[(\d{4}\.\d{4,5})\]\(https://arxiv\.org/abs/", rtxt)
         if rep_ids != ids:
@@ -808,11 +782,11 @@ def cmd_verify(a) -> int:
             r"\((https://arxiv\.org/abs/[0-9.]+)\)", etxt)]
         if ent != ids:
             errs.append(f"{t} entry: arxiv id order mismatch")
-        if etxt.count("+ **") != 10:
-            errs.append(f"{t} entry: {etxt.count('+ **')} title lines != 10")
+        if etxt.count("+ **") != n:
+            errs.append(f"{t} entry: {etxt.count('+ **')} title lines != {n}")
         for lbl in ("architecture", "task", "organization"):
-            if etxt.count(f"![{lbl}]") != 10:
-                errs.append(f"{t} entry: {lbl} badge count != 10")
+            if etxt.count(f"![{lbl}]") != n:
+                errs.append(f"{t} entry: {lbl} badge count != {n}")
         for tb in re.findall(r"!\[task\]\(https://img\.shields\.io/badge/([^)]+?)-magenta\)", etxt):
             if tb not in TRACK_TASK[t]:
                 errs.append(f"{t} entry: task badge {tb!r} not in {t} vocabulary")

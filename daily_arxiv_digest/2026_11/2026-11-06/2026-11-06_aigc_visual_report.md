@@ -1,58 +1,28 @@
-# ArXiv Daily Digest - 2026-11-06 (AIGC 视觉生成, 10 papers)
+# ArXiv Daily Digest - 2026-11-06 (AIGC 视觉生成与编辑, 10 papers)
 
-**Generated**: 2026-11-06 17:30 CST
+**Generated**: 2026-11-09 17:30 CST
 
 **Source**: arXiv cs.CV, cs.SD, eess.AS, cs.CL, cs.AI, cs.RO, cs.LG submissions, listing day 2026-11-05 (announced 2026-11-06 00:00 UTC)
 
-**Batch window**: 2026-11-04T18:00:00Z .. 2026-11-05T18:00:00Z（arXiv 公告批次横跨两个 UTC 日：前一日 18:00 UTC 起算，当日 17:59:59 UTC 截止）
+**Batch window**: 2026-11-04T19:00:00Z .. 2026-11-05T19:00:00Z（arXiv 公告批次横跨两个 UTC 日：从前一日的美东 14:00 截止时刻起算（EDT 为 18:00Z，EST 为 19:00Z），到当日的同一时刻为止）
 
-**Track**: aigc_visual (top 10 of 510 papers scanned, 70 full reads)
+**Track**: aigc_visual (top 10 of 535 papers scanned, 29 full reads)
 
-**Scope**: 图像 / 视频 / 3D / 4D 内容的生成与编辑，含扩散与流匹配模型的训练方法、加速与评测基准
+**Scope**: 图像 / 视频 / 3D / 4D 内容的生成与编辑，含扩散与流匹配模型的训练方法、加速、评测基准，以及面向视觉生成的 RL / 偏好优化与奖励模型
 
----
-
-## Top 10 - AIGC 视觉生成
-
-### 1. Training-Free Predictive Spatio-Temporal Token Pruning for Few-Step Autoregressive Video Diffusion
-
-**arXiv**: [2611.07551](https://arxiv.org/abs/2611.07551) | **Score**: 9.7 (relevance 10 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, token-pruning, video-diffusion, few-step-generation, training-free, University of Hong Kong | **Categories**: cs.CV | **Pages**: 19
-
-**Authors**: Jia Li; Xurui Peng; Xing Wang; Hayden Kwok-Hay So
-
-**Affiliation**: The University of Hong Kong; ByteDance Seed
-
-**Abstract**
-
-> Few-step autoregressive (AR) video diffusion models generate videos chunk by chunk and have made efficient video generation practical. However, further accelerating these models toward real-time generation remains challenging, as few-step distillation leaves little cross-step redundancy for existing training-free caching methods to exploit. We revisit this regime and identify two token-level redundancy patterns: cross-frame redundancy from static content shared across adjacent frames, and cross-step redundancy from tokens that converge early during denoising. Crucially, we find that early clean estimates along the model's own denoising trajectory provide an effective online signal for locating both patterns, requiring no retraining, auxiliary predictor, or reference video. Based on these findings, we propose PreSTP (Predictive Spatio-Temporal Token Pruning), a training-free framework that constructs a unified token-wise redundancy mask from cross-frame similarity and cross-step convergence. Tokens marked as redundant skip subsequent computation under a consistent last-computed-value restoration rule, and a content-adaptive mask reuse strategy further reduces dense probing cost. On 5-second generation, PreSTP achieves 1.52x-3.20x speedups and a better efficiency-fidelity trade-off than coarse-grained caching baselines such as TeaCache and FlowCache. On 30-second generation, it reaches up to 1.96x speedup while improving VBench-Long and suppressing long-horizon drift. Notably, it continues to reduce inference cost even in the extreme one-step regime, where cross-step redundancy vanishes entirely and coarse step-wise caching is no longer applicable.
-
-**Key findings**
-
-- **Finding**: PreSTP 由跨帧相似度与跨步收敛构造统一的 token 级冗余掩码，被标记的 token 跳过后续计算并按一致性规则恢复上一次计算值，在 5 秒生成上把 CausVid、Self-Forcing、AnyFlow 加速 1.52x-3.20x，30 秒生成最高 1.96x，同时改善 VBench-Long 并抑制长程漂移。
-- **Inference**: 少步蒸馏已经把去噪步数压到个位数、跨步冗余被吃干，此时继续沿时间轴做 token 级剪枝比再压步数更划算。
-- **Recommendation**: 视频扩散加速方向的工程师优先读方法一节与速度-保真曲线，注意它依赖模型自身轨迹上的早期 clean 估计，需要首帧稠密预热。
-
-**Key figures**
-
-*Framework - Token-level redundancy analysis on Self-Forcing.*
-
-![Training-Free Predictive Spatio-Temporal Token Pruning for Few-Step Autoregressive Video Diffusion - framework](res/2611.07551_framework.png)
-
-*Result - Overview of PreSTP. After the dense first-frame warm-up, the step-0 clean estimate is compared with the previous-frame reference to predict Ms. At each later denoising step, consecutive clean*
-
-![Training-Free Predictive Spatio-Temporal Token Pruning for Few-Step Autoregressive Video Diffusion - result](res/2611.07551_result.png)
-
-**Why this ranks #1**: 本线第 1 名：免训练的 PreSTP 用模型自身早期 clean 估计在线定位跨帧与跨步冗余，5 秒生成上把 CausVid、Self-Forcing、AnyFlow 加速 1.52x-3.20x 且速度-保真曲线优于 TeaCache、FlowCache，30 秒长视频最高 1.96x，在 one-step 极端设定下仍能继续降本。
+**Wild-card**: 0（本线本批次够格供给充足，未启用补位名额）
 
 ---
 
-### 2. WeLM-Image: A Unified Image Generation Model towards Visual Intelligence
+## Top 10 - AIGC 视觉生成与编辑
 
-**arXiv**: [2611.07392](https://arxiv.org/abs/2611.07392) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, unified-image-generation, mixture-of-transformers, mixture-of-experts, few-step-distillation, WeChat Vision | **Categories**: cs.AI, cs.CV | **Pages**: 44
+### 1. WeLM-Image: A Unified Image Generation Model towards Visual Intelligence
+
+**arXiv**: [2611.07392](https://arxiv.org/abs/2611.07392) | **Score**: 9.7 (relevance 10 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, unified-image-model, mixture-of-transformers, mixture-of-experts, few-step-distillation, text-rendering, WeChat Vision (Tencent Inc.) | **Categories**: cs.AI, cs.CV | **Pages**: 44
 
 **Authors**: Canmiao Fu; Chen Li; Guohui Zhang; Hao Lu; Hongyang Wei; Huadong Wu; Huaisong Zhang; Hubery Yin; Liyuan Cui; Qixin Yan; Tong Shao; Xiaoqiang Zhou
 
-**Affiliation**: WeChat Vision, Tencent Inc.
+**Affiliation**: WeChat Vision (Tencent Inc.)
 
 **Abstract**
 
@@ -60,9 +30,9 @@
 
 **Key findings**
 
-- **Finding**: 论文用 Mixture-of-Transformers 加 Mixture-of-Experts 骨干把模型存储参数扩到 31.7B、每个目标 latent token 仅激活约 5.4B 生成参数，MeanFlow 少步蒸馏出的 Turbo 版在单张 NVIDIA H20 上以 8 步无引导采样用 4.98 秒生成 1024x1024 图像，相对 50 步基座模型提速 11.4 倍。
-- **Inference**: 消费级产品真正要的是单卡吞吐而不是榜单上限，「稀疏激活的 30B 级骨干 + 少步蒸馏」刚好把这两件事同时兑现。
-- **Recommendation**: 做单卡部署的图像生成同学优先复用其 token 打包与少步蒸馏配置，评测时把 QPM/GPU 与单图质量一起看，别只盯榜单分数。
+- **Finding**: 1536 分辨率模型在 PRISM-Bench、Qwen-Image-Bench、UnicBench 上均位列所测开源模型第一；WeLM-Image-Turbo 用 8 步无引导在单卡 H20 上 4.98 秒生成 1024×1024 图像，比带 CFG 的 50 步基线快 11.4 倍，对 1-4 张输入图的编辑耗时 6.78-13.17 秒。
+- **Inference**: 把理解与生成放进同一个 MoT 序列、并用 MoE 做稀疏激活，既保住了 31.7B 的知识容量，又把每个目标 latent token 的激活量压到约 5.4B，说明统一的多模态图像基座在单卡消费级部署上可行。
+- **Recommendation**: 需要单卡多图输入编辑或多参考合成的团队可直接评估 WeLM-Image-Turbo 的 8 步无引导配置；若要二次训练，先对齐其 rubric/checklist 分任务奖励与噪声感知在线蒸馏这两段后训练流程。
 
 **Key figures**
 
@@ -74,13 +44,73 @@
 
 ![WeLM-Image: A Unified Image Generation Model towards Visual Intelligence - result](res/2611.07392_result.png)
 
-**Why this ranks #2**: 本线第 2 名：MoT-MoE 骨干把存储参数做到 31.7B、每个目标 latent token 只激活约 5.4B 生成参数，蒸馏版 WeLM-Image-Turbo 在单张 NVIDIA H20 上 8 步无引导采样 4.98 秒出 1024x1024 图像、较 50 步基座提速 11.4 倍，1536 分辨率模型在 PRISM-Bench、Qwen-Image-Bench、UnicBench 上居开源模型首位。
+**Why this ranks #1**: 把多模态理解与文生图、指令编辑、多参考合成统一进一条交错序列的 MoT+MoE 基座：31.7B 存储参数、每个目标 latent token 仅激活约 5.4B 生成参数；Turbo 版在单张 H20 上 8 步无引导 4.98 秒出 1024×1024 图，较带 CFG 的 50 步基线快 11.4 倍。
 
 ---
 
-### 3. Householder Motion Embedding: Noise Modulation for Motion-Controllable Video Generation
+### 2. Generator-Aligned Reward Modeling with Target-Aware Bounded Optimization for Visual Generation
 
-**arXiv**: [2611.07294](https://arxiv.org/abs/2611.07294) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, noise-modulation, motion-control, householder-transform, video-diffusion, Australian National University | **Categories**: cs.CV | **Pages**: 23
+**arXiv**: [2611.07648](https://arxiv.org/abs/2611.07648) | **Score**: 9.7 (relevance 10 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, generator-aligned-reward, bounded-reward-optimization, target-aware-grpo, reward-overoptimization, attribute-control, China Telecom TeleAI | **Categories**: cs.CV | **Pages**: 24
+
+**Authors**: Ziqiao Weng; Yuanzhi Liang; Haibin Huang; Weidong Cai; Xuelong Li
+
+**Affiliation**: China Telecom TeleAI; The University of Sydney
+
+**Abstract**
+
+> Post-training aims to enhance desired attributes in visual generative models while preserving their general generation capabilities. Reward-guided post-training faces two challenges: real training data may mismatch the generator's output distribution, and attribute supervision may be confounded by unrelated content. Unbounded reward maximization can also cause overoptimization and degrade generation quality. We propose a framework combining Generator-Aligned Reward Modeling (GARM) and Target-Aware Bounded Optimization (TABO). GARM mitigates distribution mismatch through generator-support matching and reduces content confounding using content-matched real contrasts, yielding generator-relevant, attribute-focused reward supervision. TABO maps the learned reward to a smooth, upper-bounded function calibrated from real target-positive examples. This transformation is independent of the optimization algorithm and supports both direct reward-gradient and policy-based optimization. We further introduce Target-Aware GRPO (TA-GRPO), an adaptation of Flow-GRPO that combines fixed stage-wise advantage scaling, a generator-to-target curriculum, and timestep-balanced credit assignment for flow-based video optimization. Experiments show that GARM improves target-attribute expression while maintaining competitive generation quality. TABO better balances attribute enhancement and visual quality than unconstrained reward maximization, while TA-GRPO improves target enhancement over vanilla Flow-GRPO and reduces unintended attribute leakage on neutral prompts. These results highlight the importance of generator-aligned reward supervision and controlled, data-calibrated optimization for targeted visual generation.
+
+**Key findings**
+
+- **Finding**: GARM 通过固定生成器检查点与采样配置、只改目标条件构造 Base/Target 锚点对，并在 VAE latent 空间做支撑匹配；TABO 把奖励映射为平滑上界函数，低于由真实 target-positive 样例标定的目标水平时保持敏感度，接近或超过该水平时逐步压缩边际收益。
+- **Inference**: 奖励引导的过优化，本质是奖励尺度失控而非监督方向错误，因此把标定与变换从奖励模型里独立出来，同一套变换就能同时服务 VADER 这类直接奖励梯度方法和 TA-GRPO 这类策略优化方法。
+- **Recommendation**: 做属性定向增强时，先用生成器自己的 Base/Target 对构造锚点、用真实正例标定目标水平，再选直接奖励梯度或分组策略优化；切勿沿用无界奖励最大化，以免在中性 prompt 上出现属性泄漏。
+
+**Key figures**
+
+*Framework - Targeted attribute enhancement with largely preserved general generation performance. Top: Base vs. Ours across four attributes (Vintage Faded, Oil Painting, Muscular, and 2D Japanese anime*
+
+![Generator-Aligned Reward Modeling with Target-Aware Bounded Optimization for Visual Generation - framework](res/2611.07648_framework.png)
+
+*Result - Overview of our framework. GARM aligns real supervision with the generator-relevant regions defined by paired Base/Target anchors and introduces content-matched negatives to form an attribut*
+
+![Generator-Aligned Reward Modeling with Target-Aware Bounded Optimization for Visual Generation - result](res/2611.07648_result.png)
+
+**Why this ranks #2**: 把「奖励监督是否对得上生成器」与「奖励该被优化到多强」拆成两个独立问题：GARM 用生成器原生的 Base/Target 锚点做支撑集匹配并检索内容匹配的真实对比样本，TABO 再用真实 target-positive 样例标定出平滑上界奖励；TA-GRPO 以固定分阶段优势缩放保住被组内归一化抹掉的目标尺度，图像与视频两条线均已验证。
+
+---
+
+### 3. FewStepRL: Fine-tuning Few-step Diffusion Models with Reinforcement Learning
+
+**arXiv**: [2611.08240](https://arxiv.org/abs/2611.08240) | **Score**: 9.7 (relevance 10 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, reinforcement-learning, few-step-diffusion, flow-matching, geneval2, modular-objectives, Tencent Hunyuan | **Categories**: cs.CV, cs.LG | **Pages**: 86
+
+**Authors**: Haitao Lin; Minsi Ren; Yang Li; Xingtong Ge; Zheyuan Hu; Peiyan Hu; Tailin Wu
+
+**Affiliation**: Tencent Hunyuan; Westlake University; University of Chinese Academy of Sciences
+
+**Abstract**
+
+> Reinforcement learning (RL) has become a standard post-training method for diffusion models, but most RL objectives roll out the current policy at every iteration, and with a many-step sampler these rollouts typically dominate the cost of training. Few-step models cut this cost, yet they model an average velocity over an interval, whereas existing RL objectives are built for an instantaneous velocity with a many-step sampler. We adapt RL objectives to few-step models systematically in three phases, namely a transformation, a decomposition and an adaptation. The transformation to $x$-space expresses each objective we consider through a common policy prediction, at the clean end by default and at an explicitly marked level for transition or flow-map objectives, so that objectives stated over densities, velocities or rewards become comparable. The decomposition writes the gradient of each of these objectives as the sum of a self-regression toward a reference and a reward augmentation, so that a method reduces, at the gradient level, to a choice of anchors and weights. The adaptation computes each anchor from a few-step model at the end of its transport or along its tangent, with the instantaneous velocity recovered from the network itself or from an auxiliary network. This yields few-step versions of FlowGRPO, AWM, DiffusionNFT, DiffusionOPSD and ReFL in one modular codebase. In our experiments, reward-gradient-based methods are the most effective when the reward is differentiable and its gradient is affordable; otherwise DiffusionNFT-style methods generally reach high rewards in relatively few iterations despite a sometimes higher per-iteration cost. Extra inference steps show no systematic aggregate benefit in our experiments, although selected outputs visibly improve with two to four times as many sampling steps as in training.
+
+**Key findings**
+
+- **Finding**: 原文 Figure 1 的留出 GenEval2 曲线显示，把蒸馏少步模型的平均速度直接代入 FlowGRPO、AWM、DiffusionNFT 都会低于本文对应的少步改编版，三组差距分别是最好检查点 +0.005 与 +0.003，以及 +0.005（最好）与 +0.013（第 400 轮）。
+- **Inference**: 少步模型建模的是区间平均速度而非瞬时速度，因此直接套用多步 RL 目标会同时搞错该对哪个网络求导、参考策略如何评估、区间哪一段参与训练这三件事，属于目标定义层面的错配而非调参问题。
+- **Recommendation**: 在少步扩散/流匹配模型上做 RL 后训练时，采用先变换到 x-space、再分解梯度、最后重算锚点的三阶段流程；奖励可微且梯度代价可接受时优先选奖励梯度类方法，否则用 DiffusionNFT 式方法以较少迭代拿高奖励。
+
+**Key figures**
+
+*Framework - Held-out GenEval2 against the RL iteration in the mixed-reward setting of §6.1, from the shared pre-RL few-step checkpoint. Dashed: the original objective applied to the distilled model with*
+
+![FewStepRL: Fine-tuning Few-step Diffusion Models with Reinforcement Learning - framework](res/2611.08240_framework.png)
+
+**Why this ranks #3**: 系统性地把为多步采样器写的 RL 目标改造成少步模型版本：先做 x-space 变换，再把每个目标的梯度分解为「朝参考的自回归项 + 奖励增广项」，最后在少步模型上重算锚点，一个代码库同时给出 FewStepGRPO、MeanFlowAWM、MeanFlowNFT 等实现；在 AnyFlow 蒸馏的 SD3.5-Medium 上，直接把平均速度当瞬时速度会让 FlowGRPO 的留出 GenEval2 低于本文改编版。
+
+---
+
+### 4. Householder Motion Embedding: Noise Modulation for Motion-Controllable Video Generation
+
+**arXiv**: [2611.07294](https://arxiv.org/abs/2611.07294) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, householder-transform, motion-control, noise-modulation, video-diffusion, orthogonal-transform, Australian National University | **Categories**: cs.CV | **Pages**: 23
 
 **Authors**: Tao Jun Lin; Jinhong Ni; Ruyi Zha; Yifu Wang; Xibin Song; Pan Ji; Hongdong Li
 
@@ -92,9 +122,9 @@
 
 **Key findings**
 
-- **Finding**: HME 把运动信号编码成作用于每个位置通道向量的 Householder 反射序列，在仅用 100K 视频微调的情况下于 45 个 DAVIS 视频上十项指标全面超过六个基线，gamma=0.5 时 Flow EPE 从 5.644 降到 4.486、CoTracker mIoU 从 0.464 升到 0.548、PSNR 从 14.748 升到 15.162 dB。
-- **Inference**: 噪声搬运会破坏帧内 i.i.d. 高斯结构才需要 Jacobian 修正，而通道维正交变换天然保高斯，所以精度和开销可以同时拿到。
-- **Recommendation**: 做运动可控视频生成的工程同学重点看反射数 K 与延迟表，默认 K=2 是速度与质量的折中点，换更大 K 前先确认显存预算。
+- **Finding**: 反射数消融显示运动贴合度随 K 增大而提升、收益递减：K=1 时 Flow EPE 4.868 最差，K=2 到 K=8 从 4.433 降到 4.144，K=12 时 CoTracker mIoU 0.558、PSNR 15.581 dB；运行时间则从 K=1 的 2.27 ms/latent 增至 K=12 的 14.78 ms/latent。
+- **Inference**: 每个 Householder 反射都是保范数、保高斯的正交变换，多个反射复合后仍在每个位置保持 i.i.d. 高斯结构，因此可以用构造性正确性取代昂贵的分布修正与噪声上采样。
+- **Recommendation**: 运动迁移、相机轨迹控制与拖拽交互可统一用同一套 HME 实现，默认取 K=2 的速度/质量折中；只有当运动贴合度确实不够时再加大 K，因为运行时间随 K 近似线性增长。
 
 **Key figures**
 
@@ -106,13 +136,77 @@
 
 ![Householder Motion Embedding: Noise Modulation for Motion-Controllable Video Generation - result](res/2611.07294_result.png)
 
-**Why this ranks #3**: 本线第 3 名：HME 用 Householder 反射构造通道维正交变换，精确保持帧内高斯结构同时注入跨帧相关性，在 45 个 DAVIS 视频上十项指标全面超过六个基线，噪声处理比 GWTF 快 2.7 倍、比 HIWYN 快 13.6 倍，额外显存仅 0.5-6 MB。
+**Why this ranks #4**: 用通道空间的 Householder 反射把运动信号写进噪声，构造上就精确保持每帧的空间高斯性，无需 Jacobian 校正：默认 K=2 时 2.80 ms/latent，比 GWTF 快 2.7 倍、比 HIWYN 快 13.6 倍，额外峰值显存仅 0.5-6 MB，而 GWTF 为 76 MB、InfRes 为 285 MB、HIWYN 高达 49384 MB。
 
 ---
 
-### 4. ArtCrafter: Feed-Forward Generation of Articulated 3D Object with Analytic Joint Derivation
+### 5. ArtiVidRM: Verifiable Artifact-as-Rubric Reward Modeling for Explicit Quality Articulation in Video Generation
 
-**arXiv**: [2611.07658](https://arxiv.org/abs/2611.07658) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, articulated-3d, slot-attention, urdf-derivation, feed-forward, Qualcomm AI Research | **Categories**: cs.CV | **Pages**: 25
+**arXiv**: [2611.07301](https://arxiv.org/abs/2611.07301) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, reward-model, artifact-rubric, video-generation, verifiable-reward, flow-grpo, Southeast University | **Categories**: cs.CV | **Pages**: 18
+
+**Authors**: Caorui Li; Yangguang Ji; Shuxia Lin; Yu Chen; YiCheng Xiao; Yongliang Wu; Zhenxiang Jiang; Licheng Tang; Deng Li; Zhuxuanzi Wang; Jiahao Sun; Chonghan Liu
+
+**Affiliation**: Southeast University; Opus AI Research; Institute of Automation, Chinese Academy of Sciences; University of Illinois Urbana-Champaign
+
+**Abstract**
+
+> Reinforcement learning has become an effective approach for improving video generation, but its success depends heavily on reliable reward models. Existing methods either map videos directly to opaque scalar scores or generate free-form rationales that are not explicitly optimized as the basis of the final judgment. We propose ArtiVidRM, a verifiable, artifact-as-rubrics video reward model that follows an observe-then-score paradigm. It first identifies visible generation artifacts and organizes them into a structured artifact list, then uses these artifacts as explicit rubrics for quality assessment. This intermediate representation grounds each score in concrete video-level evidence, making the reward more interpretable and informative for optimization. We further introduce a multi-reward reinforcement learning strategy to jointly optimize artifact prediction and quality assessment. The reward decomposes into complementary objectives that evaluate artifact prediction quality, including semantic coverage and prediction efficiency, together with a pairwise preference objective that supervises quality ranking through score differences. By jointly optimizing the intermediate artifact representation and the downstream preference prediction, the model learns to produce informative artifact lists while improving the accuracy of video quality assessment. Experiments show that ArtiVidRM achieves state-of-the-art performance on video preference benchmarks, provides effective signals for video diffusion optimization, and enables artifact-guided refinement of closed-source video generators.
+
+**Key findings**
+
+- **Finding**: 伪影标注流水线从 22,640 对视频偏好数据出发，两名检查员的候选合并（仅一方支持的伪影权重减一），再由 Qwen3-VL-32B 做视频接地复核删除 26.8% 候选、最终每视频平均 6.11 条；六名专家对 50 个视频各标 50 条的对照给出召回 87.84%、精确 84.37%，20 个共享视频的 Fleiss' κ 为 0.78。
+- **Inference**: 把评分锚定在可见伪影这一中间表示上，既让每个分数都有视频级证据可查，也让训练信号落到具体缺陷而非一个不透明标量，因此对偏好排序与 RL 优化都更有信息量。
+- **Recommendation**: 训视频奖励模型时可照搬「先伪影后打分」的范式并配多目标 RL（伪影语义覆盖 + 长度效率 + 成对偏好）；若只能用闭源生成器，可把伪影清单转成自然语言反馈追加到原提示词做第二轮精修。
+
+**Key figures**
+
+*Framework - Overview of ArtiVidRM. By explicitly predicting structured artifact lists before quality scoring, ArtiVidRM enables (1) accurate video preference prediction, (2) reward-guided optimiza- tion*
+
+![ArtiVidRM: Verifiable Artifact-as-Rubric Reward Modeling for Explicit Quality Articulation in Video Generation - framework](res/2611.07301_framework.png)
+
+*Result - Overview of the artifact-augmented preference data construction pipeline.*
+
+![ArtiVidRM: Verifiable Artifact-as-Rubric Reward Modeling for Explicit Quality Articulation in Video Generation - result](res/2611.07301_result.png)
+
+**Why this ranks #5**: 把视频质量评分改成「先列可验证的伪影清单、再按清单打分」：Qwen3-VL-32B 接地复核剔除 26.8% 的候选伪影、每个视频平均保留 6.11 条，专家抽检召回 87.84%、精确率 84.37%、Fleiss' κ=0.78；用它给 Wan2.1-1.3B 做 Flow-GRPO 后运动平滑度 97.41%→98.38%、成像质量 61.31%→63.85%。
+
+---
+
+### 6. Training-Free Predictive Spatio-Temporal Token Pruning for Few-Step Autoregressive Video Diffusion
+
+**arXiv**: [2611.07551](https://arxiv.org/abs/2611.07551) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, token-pruning, training-free, autoregressive-video, few-step-diffusion, feature-caching, University of Hong Kong | **Categories**: cs.CV | **Pages**: 19
+
+**Authors**: Jia Li; Xurui Peng; Xing Wang; Hayden Kwok-Hay So
+
+**Affiliation**: The University of Hong Kong; ByteDance Seed
+
+**Abstract**
+
+> Few-step autoregressive (AR) video diffusion models generate videos chunk by chunk and have made efficient video generation practical. However, further accelerating these models toward real-time generation remains challenging, as few-step distillation leaves little cross-step redundancy for existing training-free caching methods to exploit. We revisit this regime and identify two token-level redundancy patterns: cross-frame redundancy from static content shared across adjacent frames, and cross-step redundancy from tokens that converge early during denoising. Crucially, we find that early clean estimates along the model's own denoising trajectory provide an effective online signal for locating both patterns, requiring no retraining, auxiliary predictor, or reference video. Based on these findings, we propose PreSTP (Predictive Spatio-Temporal Token Pruning), a training-free framework that constructs a unified token-wise redundancy mask from cross-frame similarity and cross-step convergence. Tokens marked as redundant skip subsequent computation under a consistent last-computed-value restoration rule, and a content-adaptive mask reuse strategy further reduces dense probing cost. On 5-second generation, PreSTP achieves 1.52x-3.20x speedups and a better efficiency-fidelity trade-off than coarse-grained caching baselines such as TeaCache and FlowCache. On 30-second generation, it reaches up to 1.96x speedup while improving VBench-Long and suppressing long-horizon drift. Notably, it continues to reduce inference cost even in the extreme one-step regime, where cross-step redundancy vanishes entirely and coarse step-wise caching is no longer applicable.
+
+**Key findings**
+
+- **Finding**: 5 秒生成表格显示 PreSTP 相对原模型的延迟与加速为 CausVid 7.86→4.65 s（1.69×）、Self-Forcing 7.92→5.21 s（1.52×）、AnyFlow 26.21→8.19 s（3.20×），VBench 总分分别变化 −0.06、−0.07、−0.24，而同场景 TeaCache 的退化是 −0.26、−0.25、−0.38。
+- **Inference**: 少步蒸馏几乎抹平了跨步特征冗余，但相邻帧共享的静态内容与去噪早期就已收敛的 token 仍然大量冗余，而模型自身去噪轨迹上的早期干净估计恰好能在线定位这两类模式，无需重训、辅助预测器或参考视频。
+- **Recommendation**: 给少步自回归视频模型提速时可直接接入 PreSTP 的 token 级冗余掩码，并用跨帧静态 token 比例作为静态掩码复用的门控；由于质量损失极小，可先在 5 秒短片验证再推广到长时生成。
+
+**Key figures**
+
+*Framework - Token-level redundancy analysis on Self-Forcing.*
+
+![Training-Free Predictive Spatio-Temporal Token Pruning for Few-Step Autoregressive Video Diffusion - framework](res/2611.07551_framework.png)
+
+*Result - Overview of PreSTP. After the dense first-frame warm-up, the step-0 clean estimate is compared with the previous-frame reference to predict Ms. At each later denoising step, consecutive clean*
+
+![Training-Free Predictive Spatio-Temporal Token Pruning for Few-Step Autoregressive Video Diffusion - result](res/2611.07551_result.png)
+
+**Why this ranks #6**: 少步自回归视频扩散里粗粒度缓存几乎无处下手，本文改到 token 级剪枝：5 秒生成上 CausVid 从 7.86 s 降到 4.65 s（1.69×）、Self-Forcing 达 1.52×、AnyFlow 从 26.21 s 降到 8.19 s（3.20×），VBench 总分仅掉 0.06/0.07/0.24，优于 TeaCache 与 FlowCache 的速度-画质折中；30 秒场景最高 1.96×，且 VBench-Long 总分从 81.08 提到 81.36。
+
+---
+
+### 7. ArtCrafter: Feed-Forward Generation of Articulated 3D Object with Analytic Joint Derivation
+
+**arXiv**: [2611.07658](https://arxiv.org/abs/2611.07658) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, articulated-3d, slot-attention, analytic-joint-derivation, urdf, feed-forward, Qualcomm AI Research | **Categories**: cs.CV | **Pages**: 25
 
 **Authors**: Minh Canh Tu; Quang-Binh Nguyen; Khoi Nguyen
 
@@ -124,9 +218,9 @@
 
 **Key findings**
 
-- **Finding**: ArtCrafter 把两个输入图像编码为状态特征，条件化 1+2N 个噪声 latent slot（1 个共享 base slot 加 N 对 rest/open slot），在单次前向中同时生成两个状态下的部件网格，并用 Triplet Attention 与解码点云上的 repulsion loss 维持跨状态几何一致与部件互不穿透，URDF 的关节类型、轴、原点与范围由 rest/open 对的刚体变换解析推导。
-- **Inference**: 把关节参数从「回归网络」改成「几何解析推导」，意味着关节语义不会随数据分布漂移，也更容易被仿真器直接消费。
-- **Recommendation**: 做机器人仿真资产生成的同学优先看 Triplet Attention 与解析关节推导两节，评估时几何 CD 与关节误差两类指标要一起看。
+- **Finding**: 在 URDF-Anything+ 测试集上，ArtCrafter 整物体 CD 0.004、F1 0.721，部件级 CD 0.007、F1 0.698，关节类型准确率 0.890、关节原点误差 0.283；用真值部件数 N 的版本几乎相同（部件级 F1 0.700），同设定的 DIPO 则为整物体 F1 0.519、部件级 0.462。
+- **Inference**: 让 rest/open 两种状态的槽位经共享基座槽绑定到同一运动学部件，再由配对网格的刚体变换解析求出关节轴与原点，几何与运动学就能互为约束，而不必依赖学习式的关节参数回归。
+- **Recommendation**: 手上有一对静息态/张开态图像时可用 ArtCrafter 一次性拿到可执行的 URDF 铰接资产；比较方法时务必匹配相同输入设定，并把 VLM 估计的部件数 N 与真值 N 两列结果一并对照。
 
 **Key figures**
 
@@ -138,77 +232,13 @@
 
 ![ArtCrafter: Feed-Forward Generation of Articulated 3D Object with Analytic Joint Derivation - result](res/2611.07658_result.png)
 
-**Why this ranks #4**: 本线第 4 名：ArtCrafter 用 1+2N slot 布局在单次前向中同时生成静息态与开合态的部件网格，Triplet Attention 加 repulsion loss 保证跨状态几何一致与部件不互穿，URDF 关节参数由 rest/open 对的刚体变换解析推导，同设定下 F1 相对 DIPO 提升约 18%-21%。
+**Why this ranks #7**: 用 1+2N 个槽位（1 个共享基座槽 + N 对 rest/open 槽）在单次前向里同时生成铰接物体两种状态的部件级网格，并以 Triplet Attention 与排斥损失保证跨状态一致与部件互不穿透；URDF 关节参数由两状态间的刚体变换解析反推，URDF-Anything+ 测试集上整物体 F1 达 0.721，比同输入设定的 DIPO 高约 18-21%。
 
 ---
 
-### 5. StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing
+### 8. Bri3D: Bridging the Object-Scene Gap in Single-Image 3D Generation via Scene-Anchor
 
-**arXiv**: [2611.07922](https://arxiv.org/abs/2611.07922) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, depth-prior, layer-wise-probing, lora, image-editing, Hong Kong University of Science and | **Categories**: cs.CV | **Pages**: 14
-
-**Authors**: Qin Guo; Dan Xu
-
-**Affiliation**: The Hong Kong University of Science and Technology
-
-**Abstract**
-
-> Text-guided image editing with diffusion models struggles with spatial edits (e.g. manipulating objects, changing viewpoints, manipulating occlusions) that depend on the 3D structure understanding of a scene. Marigold and follow-up work demonstrate that a pretrained diffusion backbone already harbors strong geometric priors that can be activated for depth estimation, yet how to redirect these priors toward editing remains unresolved. Through per-layer gradient probing, we discover that the editing and depth objectives are compatible in early transformer layers but actively conflict in late layers, explaining why naive depth-conditioned editing either ignores geometry or degrades visual quality. We present StitchEdit, which first activates the backbone's geometric capability via a lightweight depth-denoising adapter, then selectively fine-tunes this adapter for editing using a probe-guided per-layer learning rate schedule that preserves depth knowledge where it helps and prunes it where it conflicts. On the proposed StitchEditBench, a benchmark of 150 geometry-dependent edits spanning spatial transformation, occlusion manipulation, and viewpoint change, StitchEdit consistently surpasses both instruction-based and depth-conditioned baselines on perceptual quality and geometric fidelity.
-
-**Key findings**
-
-- **Finding**: 逐层梯度探测显示深度与编辑目标的兼容性在早期 transformer 层强正、中段衰减、晚期转负；据此得到的 Probe-Guided 调度在 150 例几何相关编辑的 StitchEditBench 上取得 0.10 LPIPS、0.92 DCS 与 0.81 CLIP-Dir，而直接条件化目标深度真值的 ControlNet oracle 只有 0.90 DCS 与 0.79 CLIP-Dir。
-- **Inference**: 深度先验与编辑指令的冲突是分层定位而非全局问题，所以按层裁剪加按层降学习率比统一微调或显式深度条件更划算。
-- **Recommendation**: 调深度条件编辑的同学可直接复用这套探测加调度的两段式流程，先跑一遍探测确认自己骨干的层间兼容曲线再定冻结边界。
-
-**Key figures**
-
-*Framework - Top: Challenging 3D-aware edits generated by STITCHEDIT conditioned on text in- structions. The model accurately handles complex object repositions and occlusions while strictly preserving v*
-
-![StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing - framework](res/2611.07922_framework.png)
-
-*Result - Overview of STITCHEDIT. Stage 1: Depth activation via a frozen-backbone LoRA adapter. Per-layer gradient probing reveals the layer-wise compatibility between the depth and editing objectives*
-
-![StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing - result](res/2611.07922_result.png)
-
-**Why this ranks #5**: 本线第 5 名：逐层梯度探测发现深度与编辑目标在浅层兼容、深层冲突，据此设计的 Probe-Guided 调度在 150 例 StitchEditBench 上取得 0.10 LPIPS、0.92 DCS、0.81 CLIP-Dir，优于直接拿到目标深度真值的 ControlNet oracle（0.90 DCS、0.79 CLIP-Dir）。
-
----
-
-### 6. IDPrior: Decoupling Identity Generation from Facial Image Synthesis
-
-**arXiv**: [2611.07941](https://arxiv.org/abs/2611.07941) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, face-synthesis, diffusion-prior, synthetic-data, identity-decoupling, Fraunhofer Institute for Computer | **Categories**: cs.CV | **Pages**: 18
-
-**Authors**: Fadi Boutros; Meriç Demirörs; Darian Tomašević; Vitomir Štruc; Naser Damer
-
-**Affiliation**: Fraunhofer Institute for Computer Graphics Research IGD; University of Ljubljana; TU Darmstadt
-
-**Abstract**
-
-> Large-scale identity-labeled face datasets are essential for training modern face recognition models, yet collecting and annotating such data is costly and raises privacy and ethical concerns. Existing synthetic face generation methods typically derive identities from predefined class labels, unconditional image generation, or predefined latent sampling strategies, without explicitly modeling the underlying distribution of facial identities. In this paper, we propose IDPrior, a two-stage framework that decouples identity generation from image synthesis. We first learn a diffusion prior in the embedding space of a pretrained face recognition model to model the distribution of facial identities and generate novel identity embeddings. These embeddings are then used to condition a pretrained identity-conditioned diffusion model (DM), enabling the synthesis of multiple images of the same identity. This modular design provides a scalable approach to identity generation while remaining compatible with existing and future identity-conditioned DMs. Experiments indicate that IDPrior generates diverse and well-separated identities while maintaining a closer correspondence to the distribution of authentic identities. Face recognition models trained on datasets generated using IDPrior-generated identities achieve competitive or improved performance compared with existing synthetic-data-based methods across multiple face verification benchmarks. Code and generated datasets are publicly available at https://github.com/fdbtrs/IDperturb.
-
-**Key findings**
-
-- **Finding**: IDPrior 先在预训练人脸识别模型的嵌入空间学扩散先验并生成新身份嵌入，再条件化预训练的身份条件扩散模型，在 10K 生成身份上取得最低 ID-FID 0.0261 与次低 U-ID-FID 0.0557，并在余弦阈值 0.30 下保留 99.91% 唯一性；用其 4.0M 张图训练的人脸识别模型在六个基准上平均准确率 95.13%。
-- **Inference**: 身份唯一性与分布保真在以往方法里往往此消彼长，先验加解码的两段式把二者解耦，说明先定身份分布再采图像比先采图像再聚类更贴近真实身份分布。
-- **Recommendation**: 需要合成人脸训练识别模型的团队优先看 ID-FID 与 U-ID-FID 两个指标，它们比图像级 FID 更能反映身份分布是否真的可用。
-
-**Key figures**
-
-*Framework - Overview of IDPrior, a dual diffusion framework that decouples identity generation from image synthesis. Stage 1: A diffusion prior is learned on FR embeddings to model the distribution of f*
-
-![IDPrior: Decoupling Identity Generation from Facial Image Synthesis - framework](res/2611.07941_framework.png)
-
-*Result - Identity uniqueness as a function of the cosine-similarity threshold. We report the percentage of unique identities among 10K generated identities. As the threshold becomes stricter, ID- Pri*
-
-![IDPrior: Decoupling Identity Generation from Facial Image Synthesis - result](res/2611.07941_result.png)
-
-**Why this ranks #6**: 本线第 6 名：IDPrior 把身份生成与人脸合成解耦，在人脸识别嵌入空间学扩散先验，10K 生成身份上取得最低 ID-FID 0.0261、次低统一 U-ID-FID 0.0557 且在 r=0.30 阈值下保留 99.91% 唯一性，用其 4.0M 图训练识别模型在六个基准上平均 95.13%。
-
----
-
-### 7. Bri3D: Bridging the Object-Scene Gap in Single-Image 3D Generation via Scene-Anchor
-
-**arXiv**: [2611.07961](https://arxiv.org/abs/2611.07961) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, compositional-3d, scene-layout, voxel-anchor, single-image, Hong Kong University of Science and | **Categories**: cs.CV | **Pages**: 22
+**arXiv**: [2611.07961](https://arxiv.org/abs/2611.07961) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, single-image-3d, scene-anchor, voxel-scaffold, layout-reasoning, frozen-prior, Hong Kong University of Science and | **Categories**: cs.CV | **Pages**: 22
 
 **Authors**: Hongye Hou; Shuai Zhang; Hongjie Li; Zhuoxiao Li; Haiping Wang; Yuan Liu; Wufan Zhao
 
@@ -220,9 +250,9 @@
 
 **Key findings**
 
-- **Finding**: Bri3D 先预测彩色编码的场景脚手架编码物体粗几何与空间排布，再把每个实例抽成场景锚点并细化为保位姿的体素支撑，由冻结的物体生成器补细节，在 300 个场景上取得最优的场景级 Chamfer 距离 0.87、物体级 1.72 与 BBox IoU 0.7540，1-10 物体场景的脚手架预测仅 5.1 秒、完整生成 42.6 秒，物体碰撞率 4%。
-- **Inference**: 场景组织与物体细节解耦后，训练只需关注空间排布并复用预训练物体先验，这正是物体到场景迁移时几何退化的根因。
-- **Recommendation**: 做单图生成组合式 3D 场景的同学可以直接接入其场景脚手架接口，注意完整生成耗时仍是脚手架预测的 8 倍以上。
+- **Finding**: 3D-FRONT 测试集上 Bri3D 的场景级/物体级 Chamfer 距离为 0.87/1.72，F-Score 96.12%/95.33%，BBox IoU 0.7540，次优的 SAM3D 为 2.11/2.76、92.34%/89.72%、0.6271；布局对比表中 Bri3D 脚手架阶段 5.1 秒、完整生成 42.6 秒，SAM3D 为 64.1 秒与 179.6 秒，碰撞率 4% 对 SAM3D 34%、MIDI 14%、SceneGen 38%。
+- **Inference**: 直接把以物体为中心的生成器扩展到整场景会同时破坏几何与实例尺度，而先用粗粒度场景脚手架固定空间组织、再把每个实例细化成保位姿的体素支撑并交给冻结的物体生成器补细节，正好把两类先验解耦。
+- **Recommendation**: 单图生成复合 3D 场景时优先采用「先布局后细节」的粗到细两段式；评估时除几何指标外还应统计物体碰撞率与脚手架阶段耗时，因为前者反映布局质量、后者反映是否真比端到端基线快。
 
 **Key figures**
 
@@ -234,99 +264,71 @@
 
 ![Bri3D: Bridging the Object-Scene Gap in Single-Image 3D Generation via Scene-Anchor - result](res/2611.07961_result.png)
 
-**Why this ranks #7**: 本线第 7 名：Bri3D 用实例感知的体素场景锚点把场景级结构推理与物体级生成先验接起来，在 300 个场景上取得最优的场景级 Chamfer 距离 0.87、物体级 1.72 与 BBox IoU 0.7540，场景脚手架预测仅 5.1 秒、远快于 SAM3D 的 64.1 秒与 SceneGen 的 135.0 秒。
+**Why this ranks #8**: 用实例感知的体素场景锚点把场景结构推理与物体生成先验接起来：3D-FRONT 测试集上场景级 Chamfer 距离 0.87、场景 F-Score 96.12%、BBox IoU 0.7540，均优于 SAM3D 的 2.11/92.34/0.6271；场景脚手架预测仅 5.1 秒（完整生成 42.6 秒），物体碰撞率 4%，远低于 MIDI 的 14% 与 SceneGen 的 38%。
 
 ---
 
-### 8. LongBanana: An Expert-Verified Benchmark for Long-Context Multi-Reference Image Synthesis
+### 9. StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing
 
-**arXiv**: [2611.06856](https://arxiv.org/abs/2611.06856) | **Score**: 8.3 (relevance 8 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, benchmark, multi-reference, agentic-generation, human-verification, South China Normal University | **Categories**: cs.CL, cs.CV | **Pages**: 45
+**arXiv**: [2611.07922](https://arxiv.org/abs/2611.07922) | **Score**: 8.3 (relevance 8 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, depth-prior, per-layer-probing, lora-pruning, geometry-aware-editing, learning-rate-schedule, Hong Kong University of Science and | **Categories**: cs.CV | **Pages**: 14
 
-**Authors**: Haoxiang Cao; Yuxuan Zhang; Penghui Du; Bo Li; Jiajiong Cao; Yingying Fan; Zimeng Wu; Yifu Luo; Mingzhe Zheng; Junwen Miao; Huaisong Zhang; Yang Yao
+**Authors**: Qin Guo; Dan Xu
 
-**Affiliation**: South China Normal University; University of British Columbia; Vector Institute; Canada CIFAR AI Chair; Carnegie Mellon University; University of Waterloo; KlingAI Research; University of Maryland; Tsinghua University; HKUST; HKU
+**Affiliation**: The Hong Kong University of Science and Technology
 
 **Abstract**
 
-> We introduce LongBanana, to our knowledge the first expert-designed and expert-verified benchmark for long-context multi-reference image synthesis in the age of agent-driven image generation. The task requires retrieving dispersed visual evidence, rejecting distractors, binding entities and relations, and composing one coherent final image from multiple references. LongBanana contains 90 carefully designed tasks organized by a 3-by-3 taxonomy; each task includes about 32 reference images, 20 constraints, and 50 evaluation items, yielding 4,670 expert-specified atomic evaluation items in total. Its graph-grounded evaluation design instantiates each task with reference images and an entity-relation graph, then converts node, edge, and whole-graph obligations into checklist items for Content Fidelity, Relational Binding, and Global Constraint Satisfaction. Reviewed expert labels include a 15% double-labeled subset with 89.4% exact agreement and 0.83 quadratic weighted kappa. We further introduce LongBanana-Gen, an agent-harness framework for long-horizon image generation; experiments show that minimal agent harnesses improve over direct generation, while a ReAct-Plan-Exec-Reflect (RPR) workflow yields harness-dependent gains by strengthening evidence grounding and repair. Together, LongBanana provides an auditable testbed for measuring dense visual evidence use and a shared target for developing stronger agent-driven image-generation systems. Code and data are available at the project page: https://long-banana.com/.
+> Text-guided image editing with diffusion models struggles with spatial edits (e.g. manipulating objects, changing viewpoints, manipulating occlusions) that depend on the 3D structure understanding of a scene. Marigold and follow-up work demonstrate that a pretrained diffusion backbone already harbors strong geometric priors that can be activated for depth estimation, yet how to redirect these priors toward editing remains unresolved. Through per-layer gradient probing, we discover that the editing and depth objectives are compatible in early transformer layers but actively conflict in late layers, explaining why naive depth-conditioned editing either ignores geometry or degrades visual quality. We present StitchEdit, which first activates the backbone's geometric capability via a lightweight depth-denoising adapter, then selectively fine-tunes this adapter for editing using a probe-guided per-layer learning rate schedule that preserves depth knowledge where it helps and prunes it where it conflicts. On the proposed StitchEditBench, a benchmark of 150 geometry-dependent edits spanning spatial transformation, occlusion manipulation, and viewpoint change, StitchEdit consistently surpasses both instruction-based and depth-conditioned baselines on perceptual quality and geometric fidelity.
 
 **Key findings**
 
-- **Finding**: LongBanana 含 90 个专家设计的任务并按 3x3 分类法组织，每个任务约 32 张参考图、20 条约束与 50 个评测项，合计 4670 个专家指定的原子评测项；其中 15% 为双标注样本，专家之间完全一致率 89.4%、二次加权 kappa 0.83。
-- **Inference**: 评测项从整体好不好看下沉到节点、边与全图义务后，长上下文参考图能力才可被逐条审计，否则模型只抓最相关的一张图也能拿高分。
-- **Recommendation**: 要评估 agent 式多参考图生成的团队可直接用它把实体关系图转成 checklist，并沿用其 ReAct-Plan-Exec-Reflect 工作流做对照实验。
+- **Finding**: 在 Qwen-Image-Edit（60 个 DiT 块、LoRA rank 64）上用 1K 对做梯度探针测得临界边界 ls=20、le=45：l≤ls 的相容区 ρ≈1、l≥le 的冲突区 ρ<0；StitchEditBench 150 例上 StitchEdit 为 LPIPS 0.10、DCS 0.92、CLIP-Dir 0.81、用户偏好 58%，Uniform FT 为 0.14/0.80/0.76/12%，Nano-Banana 为 0.13/0.74/0.78/16%。
+- **Inference**: 深度条件编辑之所以要么无视几何、要么画质崩坏，是因为深度与编辑目标在深层反向冲突；均匀微调会在冲突层覆盖掉深度能力，而按探针剖面剪枝加分级学习率只微调相容与过渡层，能保住几何先验。
+- **Recommendation**: 往预训练扩散骨干上嫁接几何先验时，先测逐层梯度对齐再决定冻结哪几层；冲突区直接丢弃适配器权重并对过渡层用余弦倍率衰减学习率，比全层均匀微调更稳。
 
 **Key figures**
 
-*Framework - LONGBANANA task overview. (a) Each case pairs a heterogeneous reference set and structured synthesis prompt with the generated image under evaluation. (b) LONGBANANA-Eval converts graph-grou*
+*Framework - Top: Challenging 3D-aware edits generated by STITCHEDIT conditioned on text in- structions. The model accurately handles complex object repositions and occlusions while strictly preserving v*
 
-![LongBanana: An Expert-Verified Benchmark for Long-Context Multi-Reference Image Synthesis - framework](res/2611.06856_framework.png)
+![StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing - framework](res/2611.07922_framework.png)
 
-*Result - The 3 × 3 taxonomy used to organize LONGBANANA. Rows group cases into Scene Composition, Visual Appearance, and Reference Reasoning, while columns expose subclass-level demands used for diag*
+*Result - Overview of STITCHEDIT. Stage 1: Depth activation via a frozen-backbone LoRA adapter. Per-layer gradient probing reveals the layer-wise compatibility between the depth and editing objectives*
 
-![LongBanana: An Expert-Verified Benchmark for Long-Context Multi-Reference Image Synthesis - result](res/2611.06856_result.png)
+![StitchEdit: Stitching Depth Priors into Image Editors via Per-Layer Gradient Probing - result](res/2611.07922_result.png)
 
-**Why this ranks #8**: 本线第 8 名：LongBanana 是首个专家设计与专家校验的长上下文多参考图合成基准，90 个任务按 3x3 分类法组织、每任务约 32 张参考图与 20 条约束，合计 4670 个原子评测项，15% 样本双标注下专家完全一致率 89.4%、二次加权 kappa 0.83。
+**Why this ranks #9**: 用逐层梯度探针把深度与编辑目标的冲突定位到具体层：60 层骨干上探得 ls=20、le=45，冲突层直接剪掉 LoRA，自建的 150 例 StitchEditBench 上 DCS 0.92、LPIPS 0.10、用户偏好 58%；而同样经过深度预训练但均匀微调的基线 DCS 仅 0.80、用户偏好 12%。
 
 ---
 
-### 9. FFMT: Frequency-Factorized Multi-Rate Tokenization for Music-to-Dance Generation
+### 10. IDPrior: Decoupling Identity Generation from Facial Image Synthesis
 
-**arXiv**: [2611.07384](https://arxiv.org/abs/2611.07384) | **Score**: 8.3 (relevance 8 x 0.7 + quality 9 x 0.3) | **Tags**: AIGC-visual, motion-tokenizer, frequency-factorization, music-to-dance, autoregressive, Hong Kong University of Science and | **Categories**: cs.CV, cs.SD | **Pages**: 5
+**arXiv**: [2611.07941](https://arxiv.org/abs/2611.07941) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, face-synthesis, identity-embedding, diffusion-prior, synthetic-data, face-recognition, Fraunhofer Institute for Computer | **Categories**: cs.CV | **Pages**: 18
 
-**Authors**: Qirong Guo; Ruijie Li; Zeyan Li; Sicheng Shu; Guanzhi Ding; Weihang Ding
+**Authors**: Fadi Boutros; Meriç Demirörs; Darian Tomašević; Vitomir Štruc; Naser Damer
 
-**Affiliation**: The Hong Kong University of Science and Technology (Guangzhou); Shanghai Jiao Tong University; Duke University; University of California, Berkeley
-
-**Abstract**
-
-> Dance motion combines slowly varying body configurations with rapid local movements. We investigate how explicit temporal-frequency decomposition can guide the temporal resolution and codebook capacity of discrete motion representations. We introduce frequency-factorized motion tokenization (FFMT), which separates root-relative motion into a low-frequency choreographic scaffold and a complementary high-frequency residual. FFMT uses a lower token rate and a smaller codebook for the low-frequency component, and a higher token rate and a larger codebook for the high-frequency residual. This representation further induces a plan-then-articulate autoregressive factorization: low-frequency tokens establish coarse choreography, while high-frequency tokens realize local motion details conditioned on the generated plan and music. Experiments on AIST++ and FineDance show strong distributional fidelity while preserving realistic diversity and music--motion synchronization. Ablations consistently support frequency factorization, asymmetric temporal allocation, and low-to-high conditioning.
-
-**Key findings**
-
-- **Finding**: FFMT 把根相对运动分解为低频编舞骨架与高频残差，低频用更低 token 率与更小码本 128、高频用更高 token 率与更大码本 512，每个 4 秒窗口低高频各 20 与 40 个 token，在 AIST++ 上取得最低 FIDk/FIDg 9.91/7.02、在 FineDance 上为 35.21/27.66。
-- **Inference**: 消融中掩掉低频上下文会让 FID 退化最大，说明先定编舞计划再填局部细节的先低后高条件化才是收益来源，而非单纯提高时间分辨率。
-- **Recommendation**: 做舞蹈或人体动作生成的工程师可复用这套频率分解加非对称码本配方，先在自己数据集上确认低频 token 率与码本容量的分配。
-
-**Key figures**
-
-*Framework - Overview of FFMT. (a) Frequency-factorized tokeniza- tion assigns different temporal resolutions and codebook sizes to low-frequency structure and high-frequency residuals, with separate upper*
-
-![FFMT: Frequency-Factorized Multi-Rate Tokenization for Music-to-Dance Generation - framework](res/2611.07384_framework.png)
-
-**Why this ranks #9**: 本线第 9 名：FFMT 把根相对运动拆成低频编舞骨架与高频残差并非对称分配 token 率与码本（128 与 512），在 AIST++ 上取得最低 FIDk/FIDg 9.91/7.02、FineDance 上为 35.21/27.66，每个 4 秒窗口低高频各 20/40 个 token。
-
----
-
-### 10. TRACEMARK: Editor-Aware Watermarking for User Attribution in Text-Guided Image Editing
-
-**arXiv**: [2611.07632](https://arxiv.org/abs/2611.07632) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Tags**: AIGC-visual, watermarking, user-attribution, image-editing, editor-aware, Queen's University | **Categories**: cs.CV | **Pages**: 14
-
-**Authors**: Xiaodong Wu; Xiangman Li; Jianbing Ni; Rongxing Lu
-
-**Affiliation**: Queen's University; School of Computing, Queen's University
+**Affiliation**: Fraunhofer Institute for Computer Graphics Research IGD; University of Ljubljana; TU Darmstadt
 
 **Abstract**
 
-> An image editing service records which user requests each edit, but the edited image itself does not contain this account information. Once the image is downloaded and shared, the service cannot identify the requesting user from the image alone. Embedding a user-specific watermark could enable such attribution, but semantic editing may erase the signal. We propose Tracemark, an editor-aware watermarking framework for identifying users from edited images. A shared encoder embeds a user-specific signal before editing, and a shared detector recovers the user by comparing features of the edited image with learned reference vectors. Both components are trained jointly through an editor with fixed parameters. User identification errors encourage the encoder to produce watermarks that survive editing, while fidelity losses limit changes to the input image and intended edit. Each image domain and editing instruction uses a separately trained model shared across registered users. Experiments on three image domains show that editor-aware training improves user recovery with both reference-vector matching and binary watermark decoding. Separately trained models reach 87.5% mean identification accuracy among 500 users. When tested with a different editor without retraining, the watermark modules still recover user information. These results demonstrate that learning watermarks through the editing process enables user attribution without modifying the editor.
+> Large-scale identity-labeled face datasets are essential for training modern face recognition models, yet collecting and annotating such data is costly and raises privacy and ethical concerns. Existing synthetic face generation methods typically derive identities from predefined class labels, unconditional image generation, or predefined latent sampling strategies, without explicitly modeling the underlying distribution of facial identities. In this paper, we propose IDPrior, a two-stage framework that decouples identity generation from image synthesis. We first learn a diffusion prior in the embedding space of a pretrained face recognition model to model the distribution of facial identities and generate novel identity embeddings. These embeddings are then used to condition a pretrained identity-conditioned diffusion model (DM), enabling the synthesis of multiple images of the same identity. This modular design provides a scalable approach to identity generation while remaining compatible with existing and future identity-conditioned DMs. Experiments indicate that IDPrior generates diverse and well-separated identities while maintaining a closer correspondence to the distribution of authentic identities. Face recognition models trained on datasets generated using IDPrior-generated identities achieve competitive or improved performance compared with existing synthetic-data-based methods across multiple face verification benchmarks. Code and generated datasets are publicly available at https://github.com/fdbtrs/IDperturb.
 
 **Key findings**
 
-- **Finding**: TRACEMARK 的共享编码器在编辑前嵌入用户特定信号、共享检测器用学习到的参考向量比对编辑后图像恢复用户，两者经固定参数编辑器联合训练，在 500 用户规模下取得 87.5% 的平均识别率，并在 90 个编辑任务、三个未见编辑通道、统一 256 像素分辨率下超过四个已发布水印；身份、JPEG 与高斯模糊仍至少留 42.2 bit 码本余量、对应识别率不低于 0.970。
-- **Inference**: 水印必须在编辑之后才可恢复，所以让编辑器参与训练比让编辑器去适配既有水印更贴合真实服务链路。
-- **Recommendation**: 做生图服务溯源的工程师应把水印评测放到目标编辑链路上跑，并注意 512 像素与 256 像素模型的对比结论不能互相套用。
+- **Finding**: 在 100 万生成身份、相似度阈值 r=0.3 下 IDPrior 仍保留 91.63% 分离良好的身份；10K 身份上 IDPrior (DDPM) 的 ID-FID 0.0261、U-ID-FID 0.0557、r=0.30 唯一性 99.91%，而 VIGFace 与随机采样的 U-ID-FID 高达 0.9987 与 0.3210；把 0.5M/1M/4M 合成身份与真实 CASIA-WebFace 混训，平均验证准确率从 94.63% 升至 95.56%/95.81%/96.28%。
+- **Inference**: 身份分布本身就是合成人脸数据的独立瓶颈，把身份先验单独训成可插拔模块后，能在不改动既有身份可控扩散模型的前提下替换其身份采样方式，并同时改善下游人脸识别精度。
+- **Recommendation**: 需要大规模合成人脸训练数据时，优先学一个覆盖真实身份分布的嵌入空间先验，再接到现成的身份可控扩散模型上；评估时除唯一性外必须看 ID-FID 与 U-ID-FID，否则均匀随机采样会给出虚高的分离度。
 
 **Key figures**
 
-*Framework - System and watermark-integration paths for user attribution in text- guided image editing.*
+*Framework - Overview of IDPrior, a dual diffusion framework that decouples identity generation from image synthesis. Stage 1: A diffusion prior is learned on FR embeddings to model the distribution of f*
 
-![TRACEMARK: Editor-Aware Watermarking for User Attribution in Text-Guided Image Editing - framework](res/2611.07632_framework.png)
+![IDPrior: Decoupling Identity Generation from Facial Image Synthesis - framework](res/2611.07941_framework.png)
 
-*Result - Registered-user identification (a) and capacity margin from bit recovery (b) for three released 100-bit watermarks.*
+*Result - Identity uniqueness as a function of the cosine-similarity threshold. We report the percentage of unique identities among 10K generated identities. As the threshold becomes stricter, ID- Pri*
 
-![TRACEMARK: Editor-Aware Watermarking for User Attribution in Text-Guided Image Editing - result](res/2611.07632_result.png)
+![IDPrior: Decoupling Identity Generation from Facial Image Synthesis - result](res/2611.07941_result.png)
 
-**Why this ranks #10**: 本线第 10 名：TRACEMARK 把共享编码器与共享检测器通过固定参数编辑器联合训练，在 500 用户规模下取得 87.5% 的平均识别率，并在 90 个编辑任务、三个未见编辑通道、统一 256 像素分辨率下优于四个已发布水印方案。
+**Why this ranks #10**: 把身份生成与图像合成解耦：在人脸识别模型的嵌入空间里学扩散先验来生成新身份嵌入，再条件化预训练的身份可控扩散模型；DDPM 先验在 100 万身份、r=0.3 时仍保留 91.63% 的良好分离度，ID-FID 0.0261 与 U-ID-FID 0.0557 为各先验最优，且混入 0.5M/1M/4M 合成身份把真实 CASIA-WebFace 的平均验证准确率从 94.63% 提到 95.56%/95.81%/96.28%。
 
 ---
 

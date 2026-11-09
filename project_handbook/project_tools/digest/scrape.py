@@ -222,6 +222,13 @@ class Fetcher:
 # final per-paper scoring/ranking is still authored per run in render.py.
 # --------------------------------------------------------------------------
 TRACKS = {
+    # ---- skill v0.4.0: 4 tracks -------------------------------------------
+    # aigc_visual   = AIGC image/video/3D/4D generation & editing
+    #                 + RL / preference optimization for visual generation
+    # duplex_speech = full-duplex / real-time / streaming speech LMs, TTS
+    # speech_rl     = RL / preference optimization for speech & audio LMs
+    # world_embodied= world models + embodied AI / VLA / robot learning
+    #                 + RL used for embodied work
     "aigc_visual": [
         (r"\btext-to-image\b|\bimage synthesis\b|\bimage generation\b", 3),
         (r"\bdiffusion (model|transformer|modeling)\b|\bdiffusion transformer\b|\bmmdit\b", 2),
@@ -232,7 +239,7 @@ TRACKS = {
         (r"\bnerf\b|\bneural radiance field\b|\bnovel view synthesis\b|\bmesh generation\b", 2),
         (r"\bimage editing\b|\bvideo editing\b|\b3d editing\b|\binpainting\b|\boutpainting\b|\bediting\b", 3),
         (r"\bcontrollable generation\b|\binstruction-based editing\b|\bdrag-based\b|\bstylization\b", 2),
-        (r"\bpersonaliz\w+|\bsubject-driven\b|\bidentity preservation\b|\bmulti-subject\b|\breward model\w*\b", 2),
+        (r"\bpersonaliz\w+|\bsubject-driven\b|\bidentity preservation\b|\bmulti-subject\b", 2),
         (r"\bconsistency model\b|\bdistillation\b|\bdistill\w+ (model|step)|\bone-step\b|\bfew-step\b", 1),
         (r"\bvisual generation\b|\bsynthesiz\w+ (image|video|scene)", 1.5),
         (r"\b4d generation\b|\bdynamic 3d\b|\b4d reconstruction\b|\b4d\b", 2),
@@ -240,36 +247,60 @@ TRACKS = {
         (r"\bmotion (generation|synthesis|transfer)\b|\bhuman motion\b|\bmotion customization\b", 1),
         (r"\bwatermark\w*|\bprovenance\b|\bdeepfake\b", 1),
         (r"\bcache\b.*\b(diffusion|denois)|\bacceleration\b|\bsparse attention\b|\baccelerat\w+\b", 1),
+        # RL / preference optimization for visual generation (folded in from the
+        # removed rl_aigc track) - conjunctions only, so text-only RL stays out.
+        (r"\bdpo\b|\bdiffusion[- ]dpo\b|\bpreference optimiz\w+|\bpreference alignment\b", 3),
+        (r"\bverifiable reward\w*|\brubric\b|\bprocess reward\w*|\bartifact-as-rubric\b", 2.5),
+        (r"\bbest[- ]of[- ]n\b|\brejection sampling\b|\bclassifier[- ]free guidance\b|\bcfg\b", 2),
+        (r"\bgeneval\b|\bdrawbench\b|\bhpsv2\b|\bpickscore\b|\bimagereward\b|\baesthetic score\b", 2.5),
+        (r"(?s)\b(reinforcement learning|rlhf|grpo|policy optimization|policy gradient|"
+         r"reward model|preference optimization|reward-weighted)\b.{0,120}?"
+         r"\b(diffusion|image|video|visual|flow matching|3d|4d|generative|generation)\b", 4),
+        (r"(?s)\b(diffusion|image|video|visual|flow matching|generative|generation)\b.{0,120}?"
+         r"\b(reinforcement learning|rlhf|grpo|policy optimization|reward model|"
+         r"preference optimization|reward-weighted)\b", 4),
     ],
-    "aigc_audio": [
-        (r"\btext-to-audio\b|\btext-to-music\b|\btext-to-speech\b|\btts\b|\bspeech synthesis\b", 3),
-        (r"\bmusic generation\b|\bsound generation\b|\baudio generation\b|\baudio synthesis\b", 3),
-        (r"\baudio diffusion\b|\blatent audio\b|\bmusic diffusion\b|\baudio codec\b|\bneural audio codec\b", 2.5),
-        (r"\bvoice cloning\b|\bvoice conversion\b|\bvoice design\b|\bsinging voice\b|\bvoice anonymiz\w+|\btimbre\b", 3),
-        (r"\bspeech enhancement\b|\bspeech denoising\b|\bspeech separation\b|\bsource separation\b", 2),
-        (r"\bsound event\b|\baudio caption\w+|\bsound (design|synthesis)\b|\baudio scene\b", 1.5),
-        (r"\baudio morphing\b|\bexpressive (audio|speech)\b|\bemotion control\b|\bstyle (control|planning)\b", 2),
-        (r"\bmusic (editing|restoration|separation|transcription|evaluation)\b|\bsoundtrack\b|\bambient\b|\bchoral\b", 2),
-        (r"\bsinging\b|\bvocoder\b|\blyric\b|\bmelody\b|\binstrument\b", 1.5),
-        (r"\bspeech emotion\b|\bprosod\w+|\bparalinguistic\b", 1.5),
-    ],
-    "audio_lm": [
+    "duplex_speech": [
+        (r"\bduplex\b|\bhalf-duplex\b|\bfull-duplex\b|\bturn-taking\b|\bbarge-in\b|\bfloor control\b", 3.5),
+        (r"\bspeech-to-speech\b|\bs2s\b|\bspoken dialogue\b|\bvoice agent\b|\bvoice assistant\b", 3),
         (r"\baudio (llm|language model|foundation model)\b|\bspeech (llm|language model)\b", 3),
         (r"\blarge audio model\b|\bomni-modal\b|\bmulti-modal audio\b|\bmulti-modal llm\b|\bvisual llm\b|\blalm\b", 2),
-        (r"\bspeech-to-speech\b|\bs2s\b|\bspoken dialogue\b|\bvoice agent\b|\bvoice assistant\b", 3),
-        (r"\bduplex\b|\bhalf-duplex\b|\bfull-duplex\b|\bturn-taking\b|\bbarge-in\b|\bfloor control\b", 3.5),
         (r"\bconversational (ai|system)\b|\bspeech assistant\b|\bdialogue system\b|\bspoken (dialog|assistant)", 2.5),
-        (r"\binterruptible\b|\bstreaming (speech|audio)\b|\blow-latency speech\b|\breal-time speech\b", 2),
+        (r"\binterruptible\b|\bstreaming (speech|audio|tts)\b|\blow-latency speech\b|\breal-time speech\b", 2.5),
+        (r"\btext-to-speech\b|\btts\b|\bspeech synthesis\b|\btts\b", 3),
+        (r"\bvoice cloning\b|\bvoice conversion\b|\bvoice design\b|\bvoice identity\b|\btimbre\b", 3),
+        (r"\bexpressive (tts|speech)\b|\bprosod\w+|\bspeech emotion\b|\bparalinguistic\b", 2),
+        (r"\bneural audio codec\b|\bspeech codec\b|\bspeech tokeniz\w+|\baudio tokeniz\w+|\bvocoder\b", 2.5),
+        (r"\bstream\w*\b.{0,40}\b(asr|speech recogn\w+|transducer)\b|\btransducer\b|\bspeech recognition\b|\basr\b", 2),
+        (r"\bword error rate\b|\bcharacter error rate\b|\bwhisper\b|\bphoneme\b|\bspeaker embedding\b", 1.5),
+        (r"\bspeech enhancement\b|\bspeech denoising\b|\bspeech separation\b|\bspeech editing\b|\bspeech restoration\b", 2),
         (r"\baudio understanding\b|\baudio question\b|\baudio reasoning\b|\bspeech understanding\b", 2),
-        (r"\bspeech instruction\b|\baudio instruction\b|\bspeech translation\b|\bspoken language understanding\b", 1.5),
-        (r"\bphoneme\b|\bspeaker embedding\b|\bspeech representation\b|\bspeech recognition\b|\basr\b|\bwhisper\b", 1.5),
-        (r"\bdialect\b|\bcode-switch\w+\b|\blanguage identification\b|\blid\b|\baccent\b", 1.5),
-        (r"\bspeech deepfake\b|\bacoustic foundation model\b|\bspeaker verification\b|\blong-term memory\b", 1.5),
+        (r"\bvoice assistant\b|\bvoice agent\b|\bcall center\b|\bvoice pipeline\b", 2),
+        (r"\bmultilingual\b.{0,30}\bspeech\b|\bcode-switch\w+\b|\blow-resource speech\b", 1.5),
+        # music / general sound synthesis: no longer a tracked interest, kept
+        # at low weight so it can only surface as a wild card
+        (r"\bmusic generation\b|\btext-to-music\b|\bsound generation\b|\bsource separation\b", 0.8),
     ],
-    "embodied": [
+    "speech_rl": [
+        (r"(?s)\b(reinforcement learning|rlhf|grpo|rlaif|rlvr|dpo|ipo|kto|orpo|"
+         r"policy optimization|policy gradient|ppo|reward model\w*|reward modeling|"
+         r"preference optimiz\w+|preference learning|rejection sampling|best[- ]of[- ]n)\b"
+         r".{0,140}?\b(speech|audio|tts|voice|spoken|asr|sound|acoustic|music)\b", 5),
+        (r"(?s)\b(speech|audio|tts|voice|spoken|asr|sound|acoustic|music)\b.{0,140}?"
+         r"\b(reinforcement learning|rlhf|grpo|rlaif|rlvr|dpo|ipo|kto|orpo|"
+         r"policy optimization|policy gradient|ppo|reward model\w*|reward modeling|"
+         r"preference optimiz\w+|preference learning|rejection sampling|best[- ]of[- ]n)\b", 5),
+        (r"\bexploration\b.{0,40}\bspeech\b|\bentropy\b.{0,40}\bspeech\b|\bexploration\b.{0,40}\baudio\b", 2.5),
+        (r"\bdialogue policy\b|\bmulti-turn spoken\b|\bspoken dialogue optimiz\w+|\blong-horizon dialogue\b", 3),
+        (r"\boveroptimiz\w+|\breward hacking\b|\blength bias\b|\blatency bias\b", 2),
+        (r"\bllm-as-judge\b.{0,40}\b(speech|audio)\b|\bjudge\b.{0,40}\b(speech|audio)\b", 2),
+        (r"\bverifiable reward\w*", 1),
+        (r"\bself-improv\w+.{0,40}\b(speech|audio)\b", 2),
+    ],
+    "world_embodied": [
         (r"\bembodied (ai|agent|intelligence)\b|\bembodied\b", 3),
         (r"\brobot(ic)? (learning|policy|policies|manipulation|navigation)\b|\bmanipulation\b|\bgrasping\b", 3),
-        (r"\bvla\b|\bvision-language-action\b|\bvtla\b", 3.5),
+        (r"\bvla\b|\bvision-language-action\b|\bvtla\b|\bgeneralist robot\b", 3.5),
         (r"\bworld model\b|\bworld models\b|\blatent dynamics\b|\bjepa\b|\bv-jepa\b|\bdino-wm\b", 3.5),
         (r"\bvisual navigation\b|\bvisual exploration\b|\bnavigation\b|\bembodied navigation\b", 2),
         (r"\bmobile manipulation\b|\bhousehold task\b|\bopen x-embodiment\b|\bhumanoid\b|\bdexterous\b", 3),
@@ -279,21 +310,14 @@ TRACKS = {
         (r"\bteleoperat\w+|\bquadruped\b|\bdrone\b|\buav\b|\brobot arm\b", 1.5),
         (r"\btactile\b|\bvisuotactile\b|\bforce (feedback|control|sensing)\b|\bcontact\b", 2),
         (r"\bmodel-based planning\b|\bplanning\b|\btrajectory (prediction|optimization)\b", 1.5),
-    ],
-    "rl": [
-        (r"\breinforcement learning\b|\brl algorithm\b|\bpolicy gradient\b", 3),
-        (r"\bppo\b|\bsac\b|\btd3\b|\bdqn\b|\bactor-critic\b|\bflow (policy|reinforcement)|\bgrpo\b", 3),
-        (r"\boffline rl\b|\bmodel-free rl\b|\bmodel-based rl\b|\bonline rl\b", 3),
-        (r"\brlhf\b|\bdpo\b|\bgrpo\b|\bpreference optimiz\w+|\bverifiable reward\w*|\brlvr\b", 3.5),
-        (r"\breward model\w*\b|\balignment\b|\bprocess reward\w*|\bprocess supervision\b|\brubric\b", 2.5),
-        (r"\bmulti-agent reinforcement\b|\bmarl\b|\bqmix\b|\bmaddpg\b|\bmappo\b|\bcooperative rl\b", 3.5),
-        (r"\bexploration\b|\bintrinsic motivation\b|\bcount-based\b|\bcuriosity\b|\bnovelty\b|\bentropy\b", 2.5),
-        (r"\bhierarchical rl\b|\boptions framework\b|\bsubgoal\b", 2),
-        (r"\binverse reinforcement\b|\bimitation learning\b|\bbehavioral cloning\b|\bbehavior cloning\b|\bgail\b", 2.5),
-        (r"\bmeta-rl\b|\bfew-shot rl\b|\bcontinual rl\b|\btest-time\b.*\brl\b|\bcredit assignment\b", 2.5),
-        (r"\bvalue function\b|\badvantage\b|\bpolicy optimization\b|\bactor\b", 2),
-        (r"\bself-play\b|\bzero-sum game\b|\bmatrix game\b|\bgame-theoretic\b|\bself-improv\w+\b", 2),
-        (r"\brl agent\w*|\bagentic rl\b|\bswe agent\w*|\bweb agent\w*|\bvlm\b.*\brl\b", 2),
+        # RL used for embodied work (folded in from the removed rl_core track)
+        (r"(?s)\b(reinforcement learning|rl|policy optimization|policy gradient|sim-to-real|"
+         r"domain randomization|reward shaping|reward model\w*|offline rl|model-based rl)\b"
+         r".{0,120}?\b(robot|manipulat\w+|embodied|vla|locomotion|grasping|humanoid|"
+         r"dexterous|simulation|simulator)\b", 4),
+        (r"(?s)\b(robot|manipulat\w+|embodied|vla|locomotion|grasping|humanoid|dexterous)\b"
+         r".{0,120}?\b(reinforcement learning|policy optimization|policy gradient|"
+         r"reward shaping|reward model\w*|sim-to-real)\b", 4),
     ],
 }
 
