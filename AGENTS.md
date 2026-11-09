@@ -37,26 +37,34 @@ Daily arXiv paper collection, filtering, summarization, and reading notes.
 ## 项目结构
 
 本项目收纳**每日 arXiv 论文日报**：抓取 7 个分类（cs.CV / cs.SD / eess.AS / cs.CL /
-cs.AI / cs.RO / cs.LG）的最新公告批次，按 **7 条研究线**各出 top-10 排名报告与条目目录。
+cs.AI / cs.RO / cs.LG）的最新公告批次，按 **4 条研究线**各出排名报告与条目目录。
 
-7 条研究线（`mine-arxiv-daily-digest` skill v0.3.0 起的划分）：
+4 条研究线（`mine-arxiv-daily-digest` skill v0.4.0 起的划分）：
 
 | track | 覆盖范围 |
 | --- | --- |
-| `aigc_visual` | AIGC 图像 / 视频 / 3D 生成与编辑 |
-| `aigc_audio` | 音频生成、TTS、音乐（仅生成，不含语音理解/LM） |
-| `audio_lm` | 音频与语音语言模型、双工语音助手 |
-| `embodied` | 具身智能与世界模型 |
-| `rl_core` | RL 算法与理论、多智能体 RL、sim-to-real |
-| `rl_llm` | LLM 后训练的 RL：RLHF / DPO / GRPO / RLAIF / RLVR |
-| `rl_aigc` | 生成式内容模型的 RL：扩散/流匹配 RL、生成式奖励模型 |
+| `aigc_visual` | AIGC 图像 / 视频 / 3D / 4D 生成与编辑，**并入**面向视觉生成的 RL、偏好优化与奖励模型 |
+| `duplex_speech` | 全双工 / 实时 / 流式语音 LM、speech-to-speech、语音助手；TTS / 语音克隆 / 语音转换 |
+| `speech_rl` | 语音 / 音频 LM 的 RL 与偏好优化（RLHF / GRPO / DPO、语音奖励模型、语音质量打分） |
+| `world_embodied` | 世界模型 + 具身 AI / VLA / 机器人学习，**并入**面向具身任务的 RL |
 
-**方法学优先**：RL 论文归方法学线，不归领域线——音频 LM 上的 GRPO 归 `rl_llm`，
-视频扩散上的 RL 归 `rl_aigc`，机器人操作的 sim-to-real RL 归 `rl_core`。
+**口径变更（2026-11-06 起）**：skill v0.3.0 的 7 条线（`aigc_visual` / `aigc_audio` /
+`audio_lm` / `embodied` / `rl_core` / `rl_llm` / `rl_aigc`）合并为上表的 4 条线——
+原 `rl_aigc` 并入 `aigc_visual`、原 `rl_core` 并入 `world_embodied`、
+`rl_llm` 与纯文本 LLM 的 RL 退出跟踪范围，语音合成并入 `duplex_speech`，
+纯音乐生成降级为 wild-card。2026-11-05 及更早的日报仍是 7 线版，未改写。
+
+**方法学优先（仅语音 RL 保留）**：语音 LM 上的 GRPO / DPO 归 `speech_rl`，
+语音质量奖励模型归 `speech_rl`；视频扩散上的 RL 归 `aigc_visual`，
+机器人操作的 sim-to-real RL 归 `world_embodied`；纯文本 LLM 的 RL 属 off-topic。
+
+**配额**：每条线最多 10 篇，**够格多少发多少**——`speech_rl` 本就供给很薄，
+发不满是正常结果，不得凑数；wild-card 每线 1-2 条（`world_embodied` 1-3 条），
+须在报告开头声明数量与原因，并逐条标注 `[wild-card=yes]`。
 
 ```
 daily_arxiv_digest/<YYYY_MM>/<YYYY-MM-DD>/
-├── <date>_<track>_report.md   # 10 篇/线，含摘要、作者机构、关键图表
+├── <date>_<track>_report.md   # 每线 ≤10 篇，含摘要、作者机构、关键图表
 ├── <date>_<track>_entry.md    # shields.io 条目目录（mine-create-paper-entry 格式）
 └── res/                       # 论文原图，命名 <arxiv_id>_{framework,result}.png
 index.md                       # 累计索引：每日一行摘要 + 各日详情章节
