@@ -738,6 +738,7 @@ def cmd_render(a) -> int:
     wild_summary = src.get("wild_summary", {})
     wild_reason = src.get("wild_reasons", {})
     dir_summaries = src.get("direction_summaries", {})
+    axis_notes = src.get("axis_notes", {})
     day_total = sel["day_total"]
 
     for ax in AXES:
@@ -763,7 +764,9 @@ def cmd_render(a) -> int:
             f"{d} ({len(sel['selection'][d])})" for d in dirs))
         L.append("")
         L.append(f"**Selection**: {len(rows_all)} papers ranked by relevance x quality, "
-                 f"with {len(wc)} wild-card slot{'s' if len(wc) != 1 else ''}")
+                 f"with {len(wc)} wild-card slot{'s' if len(wc) != 1 else ''}"
+                 if rows_all else
+                 "**Selection**: 0 papers（本批次该 axis 无够格论文，按规则不凑数）")
         L.append("")
         L.append(f"**Day total**: {day_total} papers across 4 axes (target {DAILY_TOTAL})")
         L.append("")
@@ -776,8 +779,14 @@ def cmd_render(a) -> int:
             for para in parts[1:]:
                 L.append(para)
                 L.append("")
-        else:
+        elif rows_all:
             L.append("**Wild-card**: 0（本 axis 本批次够格供给充足，未启用补位名额）")
+            L.append("")
+        else:
+            L.append("**Wild-card**: 0（本 axis 本批次供给断供，未启用任何补位名额）")
+            L.append("")
+        for para in axis_notes.get(ax, []):
+            L.append(para)
             L.append("")
         L.append("---")
         L.append("")
@@ -873,6 +882,14 @@ def cmd_render(a) -> int:
                     E.append(f"[![project](https://img.shields.io/badge/project-blue)]({m['proj']})")
                 E.append(f"[![note](https://img.shields.io/badge/note-mediumorchid)]() "
                          f'<p style="font-size: 14px;">**{m["entry_desc"]}**</p>')
+                E.append("")
+        if not rows_all:
+            E.insert(0, f"<!-- axis: {ax} · 本批次 0 篇（供给断供，未做补位）-->")
+            E.insert(1, "")
+            E.insert(2, f"**{cn}**：本批次无够格论文，按「薄方向让出名额而不是被填充」的口径发 0 篇。")
+            E.insert(3, "")
+            for para in axis_notes.get(ax, []):
+                E.append(para)
                 E.append("")
         (out_dir / f"{a.date}_{ax}_entry.md").write_text("\n".join(E) + "\n", encoding="utf-8")
 
