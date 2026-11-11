@@ -142,6 +142,7 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 
 | 日期 | 扫描量 | AIGC 视觉 | LLM/VLM | 全双工语音 | 具身/世界模型 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- |
+| [2026-11-12](daily_arxiv_digest/2026_11/2026-11-12/) | 501 | 15 | 18 | 12 | 15 | [KV cache 跨模型更新能复用，但保不住新模型的行为](https://arxiv.org/abs/2611.14051) · [RLVR 只是个过滤器，奖励黑客率被原样继承](https://arxiv.org/abs/2611.13218) · [让 T2I 学会看钟表，四个预训练模型里不到 1% 做得到](https://arxiv.org/abs/2611.13172) |
 | [2026-11-10](daily_arxiv_digest/2026_11/2026-11-10/) | 105 | 5 | 20 | 0 | 14 | [多模态推理的视觉工作区在空转，扰动一下几乎不影响答案](https://arxiv.org/abs/2611.10423) · [双臂灵巧从物体目标里自己长出来，80 次试验成功 61 次](https://arxiv.org/abs/2611.10410) · [过程奖励要解耦出验证器，HotpotQA 从 57.73 推到 60.18](https://arxiv.org/abs/2611.10305) |
 | [2026-11-09](daily_arxiv_digest/2026_11/2026-11-09/) | 484 | 15 | 20 | 10 | 15 | [把空间尺度当成模态，像素空间多尺度扩散把 FID 4.39 压到 1.43](https://arxiv.org/abs/2611.08802) · [通用 AI 模型直接指挥机械臂，零样本 85.6% 打败 VLA 与 WAM](https://arxiv.org/abs/2611.09892) · [流式 RL 真正缺的是「卸载」信号](https://arxiv.org/abs/2611.09175) |
 
@@ -178,6 +179,70 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
+
+## 2026-11-12
+
+- **arXiv 批次窗口**：**2026-11-10 listing day** = 2026-11-09 19:00:00Z – 2026-11-10 18:59:59Z
+  （美东 11 月起进入冬令时（EST, UTC-5），14:00 ET 的投稿截止对应 **19:00Z**；
+  本批次窗口按夏令时感知口径计算，覆盖前一日 19:00Z 起至当日 19:00Z 止）
+- **扫描**：711 条原始 / **501 篇去重**（cs.LG 200 / cs.AI 189 / cs.CV 124 / cs.CL 92 / cs.RO 64 / cs.IR 16 / cs.SD 15 / eess.AS 11）
+- **全文精读**：60 篇，抽取作者机构与论文原图
+- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **60 篇**，全局无重复
+  - `aigc_visual` 15 篇（aigc_generation 11 / aigc_editing 4 / aigc_rl **0**），base 15 —— `aigc_rl` 断供，让出 3 个名额给 `aigc_generation`
+  - `llm_vlm` 18 篇（llm_core 7 / vlm_core 5 / llm_vlm_rl 6），base 18 —— `llm_core` 让出 1 个名额给 `llm_vlm_rl`
+  - `duplex_speech` 12 篇（duplex_speech_core 12 / speech_rl **0**），base 12 —— `speech_rl` 断供，让出 4 个名额给 `duplex_speech_core`
+  - `world_embodied` 15 篇（world_model 7 / embodied_ai 8），base 15 —— 两个 direction 正好达到基准
+- **Wild-card**：本批 **0 篇** —— 三个让渡方向的名额全部由同轴内**同方向**的够格论文吸收，
+  没有需要用邻接选题补位的空位，因此不启用任何 wild-card 名额
+- **机构标注**：60 篇逐篇核对 PDF 首页，机构行内编号已拆开、跨行脚注已合并；无法确认的标 `[unverified]`，未编造
+
+> ⚠️ **本批次有两个方向完全断供**。`aigc_rl`（面向视觉生成的 RL / 偏好优化）与 `speech_rl`
+> （语音与音频 LM 的 RL）在全批 501 篇里都没有够格论文：双向扫描——「RL / GRPO / DPO / RLHF /
+> 策略优化 / 奖励模型 / 偏好优化」与「图像 / 视频 / 视觉 / 扩散 / 3D / 流匹配」在 150 字符窗口内
+> 共现的只有 4 篇，唯一真正属于视觉 RL 的 2611.14436（Metric-Aligned GRPO）按方法学归属改落在
+> `llm_vlm_rl` 的 `Multimodal_GRPO`；与「语音 / 音频 / TTS / 音色 / 口说 / ASR」共现的则是 **0 篇**。
+> 按 skill「薄方向让出名额而不是被填充」的口径，这两个方向发 0 篇、不凑数，让出的名额由同轴的
+> 兄弟方向按候选富余量吸收，于是当天总量仍然打满 60 篇。
+
+### 各 axis
+
+| axis | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 15 | [报告](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_aigc_visual_entry.md) |
+| LLM / VLM 与其强化学习 | 18 | [报告](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_llm_vlm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_llm_vlm_entry.md) |
+| 全双工语音与语音 LM（含语音 RL） | 12 | [报告](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_duplex_speech_entry.md) |
+| 具身智能与世界模型 | 15 | [报告](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-12/2026-11-12_world_embodied_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[Can KV Cache Be Reused Across Model Updates? A DeepSeek-V4-Flash Case Study](https://arxiv.org/abs/2611.14051)**（llm_vlm · llm_core #1）
+   — **「模型换了，缓存还能用」这件事，答案比想象的一半要悲观。**
+   KV cache 跨模型更新复用的收益很直接：源缓存已在手时，三个长前缀 QA 基准上中位首 token 延迟
+   加速 **2.10–5.08 倍**。但作者在 DeepSeek-V4-Flash → Flash-0731 的四次更新上测出另一半——
+   **缓存能保住任务信息，却保不住更新后模型的行为**：检索准确率在四次更新之间从接近原生一路掉到大幅损失。
+   为了说清这层差别，论文提出 Functional Cache Divergence，直接比较复用缓存与原生缓存下的
+   next-token 分布；结论是复用缓存在自然文本续写上更贴近原生行为，而在单 token 检索任务上
+   **前缀越长、兼容性退化越厉害**。
+   **对做 KV cache 复用的人，这是一篇必须先读的对齐论文**：它把「能不能复用」从工程问题
+   变成了「复用到什么程度、哪些任务上会静默失配」的可测量问题。
+
+2. **[Wrong the Same Way: Cross-Prompt Sharing Both Suppresses and Amplifies Reward Hacking in RLVR](https://arxiv.org/abs/2611.13218)**（llm_vlm · llm_vlm_rl #1）
+   — **奖励黑客到底是「继承来的」还是「RL 放大出来的」？这篇说：两者同时成立，取决于验证器漏得多广。**
+   两种说法一直并存：这篇在一个小到可以精确算出完整响应分布的环境里同时测了两个变量——
+   **同一条错误响应被多少 prompt 接受**（漏洞的普适性）与**验证器的静态假正率**。
+   结论落在 KL 正则最优点上：**RLVR 在那里只是一个过滤器，它重排接受集合却不改变集合的组成，
+   奖励黑客率被原样继承**；而当漏洞足够普适时，同一条错误路径会被跨 prompt 放大。
+   **对做 RLVR 的人，这篇提供了一个可复现的判据**：奖励黑客的规模由验证器的「普适性 × 假正率」
+   共同决定，而不是训练强度决定的。
+
+3. **[Continuous Angular Control in Text-to-Image Generation via Geometric Token Encoding](https://arxiv.org/abs/2611.13172)**（aigc_visual · aigc_generation #3）
+   — **让 T2I 学会「看钟表」，四个预训练模型里不到 1% 做得到。**
+   作者先量了一个很朴素的能力缺口：在四个预训练 T2I 模型上要求生成指定时刻的钟面，
+   **能同时把两根指针都落在请求时刻 6° 内的样本不到 1%**。解法不是加条件，而是换编码——
+   用周期性的 sin-cos 做**几何 token 编码**，把「角度」这件事直接写进 token 的几何结构里，
+   让模型学的是角度关系而不是像素纹理。
+   **对做可控生成的人，这篇的方法论价值在于**：它先用一个「人类一眼就会、模型就是不会」的
+   任务把缺口量出来，再证明补上正确的几何归纳偏置比堆条件更有效。
 
 ## 2026-11-10
 

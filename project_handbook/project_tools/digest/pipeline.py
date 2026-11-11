@@ -780,8 +780,18 @@ def cmd_render(a) -> int:
                 L.append(para)
                 L.append("")
         elif rows_all:
-            L.append("**Wild-card**: 0（本 axis 本批次够格供给充足，未启用补位名额）")
-            L.append("")
+            # an axis can enable zero wild-cards yet still have a thin direction
+            # that yielded its slots; let the authored wild_summary describe it
+            parts = list(wild_summary.get(ax, []))
+            if parts:
+                L.append(f"**Wild-card**: {parts[0]}")
+                L.append("")
+                for para in parts[1:]:
+                    L.append(para)
+                    L.append("")
+            else:
+                L.append("**Wild-card**: 0（本 axis 本批次够格供给充足，未启用补位名额）")
+                L.append("")
         else:
             L.append("**Wild-card**: 0（本 axis 本批次供给断供，未启用任何补位名额）")
             L.append("")
