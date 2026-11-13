@@ -348,6 +348,16 @@ def dir_section(rtxt: str, direction: str) -> str:
     return rest[: nxt.start()] if nxt else rest
 
 
+def wc_body(s: str) -> str:
+    """Strip an authored leading label from a wild-card summary line.
+
+    `selection_input.json` authors often write the whole header themselves
+    ("**Wild-card**: 0 —— ...").  The renderer composes the label itself, so
+    keeping the authored label would print "**Wild-card**: **Wild-card**: 0".
+    """
+    return re.sub(r"^\s*(?:⚠️\s*)?\*\*Wild-card\*\*\s*[:：]\s*", "", str(s or "")).strip()
+
+
 def load_meta(work: Path) -> dict:
     meta: dict = {}
     for name in META_ASSIGN:
@@ -774,7 +784,7 @@ def cmd_render(a) -> int:
         L.append("")
         if wc:
             parts = list(wild_summary.get(ax, []))
-            L.append(f"⚠️ **Wild-card**: {parts[0] if parts else f'{len(wc)} 篇'}")
+            L.append(f"⚠️ **Wild-card**: {wc_body(parts[0]) if parts else f'{len(wc)} 篇'}")
             L.append("")
             for para in parts[1:]:
                 L.append(para)
@@ -784,7 +794,7 @@ def cmd_render(a) -> int:
             # that yielded its slots; let the authored wild_summary describe it
             parts = list(wild_summary.get(ax, []))
             if parts:
-                L.append(f"**Wild-card**: {parts[0]}")
+                L.append(f"**Wild-card**: {wc_body(parts[0])}")
                 L.append("")
                 for para in parts[1:]:
                     L.append(para)
@@ -793,8 +803,18 @@ def cmd_render(a) -> int:
                 L.append("**Wild-card**: 0（本 axis 本批次够格供给充足，未启用补位名额）")
                 L.append("")
         else:
-            L.append("**Wild-card**: 0（本 axis 本批次供给断供，未启用任何补位名额）")
-            L.append("")
+            # a zero-paper axis may still carry an authored explanation of why
+            # it is empty; prefer it over the generic boilerplate
+            parts = list(wild_summary.get(ax, []))
+            if parts:
+                L.append(f"**Wild-card**: {wc_body(parts[0])}")
+                L.append("")
+                for para in parts[1:]:
+                    L.append(para)
+                    L.append("")
+            else:
+                L.append("**Wild-card**: 0（本 axis 本批次供给断供，未启用任何补位名额）")
+                L.append("")
         for para in axis_notes.get(ax, []):
             L.append(para)
             L.append("")
