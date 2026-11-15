@@ -126,6 +126,25 @@ UTC 18:00；美东自 2026-11-01 起进入冬令时（EST, UTC-5），同一时�
   **因此每轮除 `--auto 6` 外，还要显式回探前一个 listing 日窗口**，
   确认规模是否还在增长；已发过的论文要从后续批次里排除，避免重复。
   跨窗口合并批次用 `--days <较早那天>,<较晚那天>` 一次抓全。
+- 📅 **官方公告日程**（<https://arxiv.org/help/availability.html>，判定「何时该有下一批」
+  的唯一权威依据）：arXiv 「typically posted publicly Sunday through Thursday,
+  with no announcements Friday or Saturday」。
+
+  | 投稿收到区间（美东 ET） | 公告时刻（美东 ET） |
+  | --- | --- |
+  | Monday 14:00 – Tuesday 14:00 | Tuesday 20:00 |
+  | Tuesday 14:00 – Wednesday 14:00 | Wednesday 20:00 |
+  | Wednesday 14:00 – Thursday 14:00 | Thursday 20:00 |
+  | **Thursday 14:00 – Friday 14:00** | **Sunday 20:00** |
+  | **Friday 14:00 – Monday 14:00** | **Monday 20:00** |
+
+  注意「周五 14:00 ET 截止的队列要到**周日 20:00 ET** 才公告」，而「周六/周日/周一截止的
+  队列要到**周一 20:00 ET** 才一起公告」。所以 cron 在**周日 10:00 CST** 运行时，
+  通常只能看到 listing day 到周四为止；且**紧贴公告时刻的那一轮（公告后 1 小时）
+  只会看到约 20% 的规模**，是索引回填而非批次残缺——此时不要当完整批次发布。
+  联邦假日会让相邻两天的队列合并成一个批次（2026 年：10-12、**11-11**、11-26、12-25、
+  12-31，另有 2027-12-31 等），需回查 <https://arxiv.org/localtime> 与
+  <https://status.arxiv.org>。
 
 命名口径：
 
