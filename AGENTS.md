@@ -94,7 +94,18 @@ codex_temp/<date>/             # 每次运行的临时目录，报告写完后�
   （shortlist 由当次运行写入 `codex_temp/<date>/shortlist.json`）
 - `pipeline.py` — axis/direction 维度的选稿与渲染器。子命令依次为
   `pool`（建候选池与 task 词表）→ `vocab` → `select`（两级配额校验）→
-  `spec`（生成 `meta_spec.md` 与分工文件）→ `checkmeta` → `render` → `verify`。
+  `spec`（生成 `meta_spec.md` 与分工文件）→ `checkmeta` → `render` → `verify`；
+  `index` 把 `codex_temp/<date>/index_section.md`（须含 `<!--SPLIT-->` 分隔符）
+  插入 `index.md` 的目录表与详情章节。
+
+⚠️ **arXiv API 会按主机限流**（2026-11-16 实测）：`https://export.arxiv.org/api/query`
+可持续返回 `429 Rate exceeded.`，而 `https://arxiv.org/api/query` 与
+`http://export.arxiv.org/api/query` 正常返回且**字节一致**。
+`scrape.py` 已内置三主机轮换 + 退避（三主机全 429 才长退避 15→120s，上限 20 次尝试），
+`read.py` 的 PDF 下载也已加 429/503 退避重试（原来直接丢论文）。
+**若某轮抓到 0 篇，先怀疑限流而不是当天无批次** —— 换主机重试即可。
+REST API 全被限流时的备选通道是 OAI-PMH：
+`http://export.arxiv.org/oai2?verb=ListRecords&set=cs&from=YYYY-MM-DD&until=YYYY-MM-DD&metadataPrefix=arXiv`。
 
 每次运行的**相关性打分、排名与报告分析**是人工撰写的：选稿输入在
 `codex_temp/<date>/selection_input.json`，分析元数据由 5 个 `meta_*.py` 模块产出，

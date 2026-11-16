@@ -34,6 +34,18 @@ from datetime import date, datetime, timedelta, timezone, time as _time
 from pathlib import Path
 
 API = "https://export.arxiv.org/api/query"
+# arXiv throttles per host, and the throttle is NOT always shared across
+# hosts.  On 2026-11-16 the HTTPS export endpoint answered "Rate exceeded."
+# (HTTP 429) for every single request while https://arxiv.org/api/query served
+# byte-identical payloads.  So rotate through the list on 429 instead of
+# giving up, and keep a generous backoff budget: a throttle must never be
+# mistaken for a missing batch.
+API_BASES = [
+    "https://export.arxiv.org/api/query",
+    "https://arxiv.org/api/query",
+    "http://export.arxiv.org/api/query",
+]
+_API_PREF = 0
 RATE = 5.0
 PAGE = 300
 # arXiv closes submissions at 14:00 US Eastern and announces at 20:00 ET.
@@ -79,25 +91,45 @@ def deadline_utc(d: date) -> datetime:
     return datetime.combine(d, _time(14, 0, 0)) - timedelta(hours=offset)
 
 
-def fetch(url: str, label: str) -> bytes:
-    """GET with arXiv-friendly backoff. 429/503 are throttles, not failures."""
-    wait = 20.0
-    for attempt in range(1, 6):
+def fetch(path: str, label: str) -> bytes:
+    """GET with arXiv-friendly backoff. 429/503 are throttles, not failures.
+
+    `path` is the query part only; the host is chosen here so a 429 can be
+    answered by rotating to another endpoint (see API_BASES).  The host that
+    succeeds last is kept for the following requests.
+    """
+    global _API_PREF
+    wait = 15.0
+    throttled_in_row = 0
+    for attempt in range(1, 21):
+        base = API_BASES[_API_PREF % len(API_BASES)]
+        url = base + path
         try:
             req = urllib.request.Request(
                 url, headers={"User-Agent": "arxiv-daily-digest/0.2 (daily paper digest)"})
             with urllib.request.urlopen(req, timeout=120) as r:
                 return r.read()
         except urllib.error.HTTPError as exc:
-            if exc.code in (429, 503) and attempt < 5:
-                print(f"  throttle [{label}] attempt {attempt}: HTTP {exc.code}; "
-                      f"sleep {wait:.0f}s", file=sys.stderr)
+            if exc.code not in (429, 503):
+                raise
+            throttled_in_row += 1
+            _API_PREF += 1  # rotate to the next host
+            if throttled_in_row >= len(API_BASES):
+                # every host throttled -> back off before trying the row again
+                throttled_in_row = 0
+                if attempt >= 19:
+                    raise
+                print(f"  throttle [{label}] attempt {attempt}: HTTP {exc.code} on all "
+                      f"{len(API_BASES)} hosts; sleep {wait:.0f}s", file=sys.stderr)
                 time.sleep(wait)
                 wait = min(wait * 2, 120)
-                continue
-            raise
+            else:
+                nxt = API_BASES[_API_PREF % len(API_BASES)]
+                print(f"  throttle [{label}] attempt {attempt}: HTTP {exc.code} on "
+                      f"{base}; rotate -> {nxt}", file=sys.stderr)
+                time.sleep(3)
         except Exception as exc:
-            if attempt >= 5:
+            if attempt >= 19:
                 raise
             print(f"  retry {attempt} [{label}]: {exc}", file=sys.stderr)
             time.sleep(wait)
@@ -136,8 +168,9 @@ def parse(b: bytes, day: str) -> list[dict]:
 
 
 def url_for(cat: str, start: int = 0, n: int = PAGE) -> str:
+    """Query part only -- fetch() prepends the host so it can rotate on 429."""
     query = f"cat:{cat}"
-    return (f"{API}?search_query={urllib.parse.quote(query)}"
+    return (f"?search_query={urllib.parse.quote(query)}"
             f"&sortBy=submittedDate&sortOrder=descending&max_results={n}&start={start}")
 
 

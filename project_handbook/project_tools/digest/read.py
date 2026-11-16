@@ -23,6 +23,7 @@ import json
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -235,20 +236,41 @@ def main() -> int:
         print(f"[{n}/{len(ids)}] {bid}", flush=True)
         pdf = DL / f"{bid}.pdf"
         if not (pdf.exists() and pdf.stat().st_size > 20000):
-            try:
-                req = urllib.request.Request(f"https://arxiv.org/pdf/{bid}",
-                                             headers={"User-Agent": "arxiv-daily-digest/0.2"})
-                with urllib.request.urlopen(req, timeout=90) as r:
-                    data = r.read()
-                if len(data) < 20000:
-                    print(f"  [dl-skip] {bid}")
-                    time.sleep(RATE)
-                    continue
-                pdf.write_bytes(data)
-            except Exception as exc:
-                print(f"  [dl-fail] {bid}: {exc}")
+            data = b""
+            for attempt in range(1, 6):
+                try:
+                    req = urllib.request.Request(f"https://arxiv.org/pdf/{bid}",
+                                                 headers={"User-Agent": "arxiv-daily-digest/0.2"})
+                    with urllib.request.urlopen(req, timeout=90) as r:
+                        data = r.read()
+                    break
+                except urllib.error.HTTPError as exc:
+                    if exc.code not in (429, 503) or attempt >= 5:
+                        print(f"  [dl-fail] {bid}: {exc}")
+                        data = b""
+                        break
+                    # arXiv throttles PDF downloads too; a throttle is not a
+                    # missing paper, so back off instead of dropping the paper.
+                    wait = 10.0 * (2 ** (attempt - 1))
+                    print(f"  [dl-throttle] {bid}: HTTP {exc.code}; sleep {wait:.0f}s",
+                          flush=True)
+                    time.sleep(wait)
+                except Exception as exc:
+                    if attempt >= 5:
+                        print(f"  [dl-fail] {bid}: {exc}")
+                        data = b""
+                        break
+                    wait = 10.0 * (2 ** (attempt - 1))
+                    print(f"  [dl-retry] {bid}: {exc}; sleep {wait:.0f}s", flush=True)
+                    time.sleep(wait)
+            if not data:
                 time.sleep(RATE)
                 continue
+            if len(data) < 20000:
+                print(f"  [dl-skip] {bid}")
+                time.sleep(RATE)
+                continue
+            pdf.write_bytes(data)
             time.sleep(RATE)
 
         doc = pymupdf.open(pdf)
