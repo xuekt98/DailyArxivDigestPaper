@@ -73,6 +73,14 @@ cs.AI / cs.RO / cs.LG / cs.IR）的最新公告批次，按 **4 个 axis × 10 �
   薄 direction **让出名额而不是被填充**（`speech_rl` 发不满是正常结果，不得凑数）。
 - **wild-card**：每 direction 1–2 条，须在报告开头声明数量与原因，
   并逐条标注 `[wild-card=yes]`。
+- ⚠️ **`relevance >= 9` 必进与基准配额冲突时，先在同 axis 内让位**（2026-11-17 实测）：
+  `llm_vlm_rl` 出现 9 篇 relevance≥9（基准只有 5），必进规则让该 direction 超基准 4 个名额。
+  这 4 个名额由**同 axis 内候选更充裕的 direction 让出**（`llm_core` 让 3、`vlm_core` 让 1），
+  **不能转给别的 axis**——axis 仍在基准上时，转出去会同时违反
+  `dir_over ≤ max(dir_under, axis_surplus)` 与 `AXIS_CAP`。
+  判据：`select` 的校验是 `dir_over ≤ max(dir_under, axis_surplus)`，
+  其中 `axis_surplus = axis_count − dir_base_sum`；因此「某 direction 超基准」时，
+  同 axis 必须有等量的 under 才放得过。
 - 评分 `final = 0.7 × relevance + 0.3 × quality`；`relevance >= 9` 必进。
 
 ```
