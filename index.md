@@ -297,6 +297,7 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 
 | 日期 | 扫描量 | AIGC 视觉 | LLM/VLM | 全双工语音 | 具身/世界模型 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- |
+| [2026-11-19](daily_arxiv_digest/2026_11/2026-11-19/) | 587 | 17 | 20 | 3 | 20 | [给世界模型配一张并行场景图，长时程漂移降 11–28%](https://arxiv.org/abs/2611.22543) · [核化注意力实测：FlashAttention 在训练侧仍然赢](https://arxiv.org/abs/2611.22947) · [三段式公开配方：多教师 on-policy 蒸馏做多模态后训练](https://arxiv.org/abs/2611.23034) |
 | [2026-11-18](daily_arxiv_digest/2026_11/2026-11-18/) | 1372 | 13 | 18 | 9 | 20 | [世界模型不用防塌缩了：只学有向距离就能分出可逆与不可逆](https://arxiv.org/abs/2611.19796) · [Transformer 不必串行：多分支并行跑完整块再融合](https://arxiv.org/abs/2611.19800) · [VLM 幻觉要按 token 分流：该强化的地方强化，该压住的地方压住](https://arxiv.org/abs/2611.19388) |
 | [2026-11-17](daily_arxiv_digest/2026_11/2026-11-17/) | 1147 | 15 | 18 | 12 | 15 | [纯仿真零示教就能训出会用真机的 27B 推理模型](https://arxiv.org/abs/2611.18562) · [视频扩散搬回像素域：去掉 VAE 后 DiT 就够了](https://arxiv.org/abs/2611.18549) · [可验证奖励训模型，诚实与吹牛之间有条阈值线](https://arxiv.org/abs/2611.15779) |
 | [2026-11-16](daily_arxiv_digest/2026_11/2026-11-16/) | 382 | 15 | 20 | 5 | 20 | [给 T2I 奖励模型补视觉推理监督，偏好微调不再把能力磨掉](https://arxiv.org/abs/2611.17585) · [吨级液压装载机真机落地：训练只随机化 2° 却能扛起整机](https://arxiv.org/abs/2611.18365) · [把工作流搬出语言模型：状态机 + 验收门让无人值守完成率翻倍](https://arxiv.org/abs/2611.17696) |
@@ -339,6 +340,106 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
+
+## 2026-11-19
+
+- **arXiv 批次窗口**：**listing day 2026-11-17 单窗**
+  = 2026-11-16 19:00:00Z – 2026-11-17 19:00:00Z
+  （美东 11 月起为冬令时（EST, UTC-5），14:00 ET 的投稿截止对应 **19:00Z**；
+  该队列属「周一 14:00 – 周二 14:00 ET」，于 **2026-11-17 20:00 ET = 2026-11-18 01:00 UTC** 公告）
+- **扫描**：单窗口 **834 篇原始 / 587 篇去重**；扣除历史日报已发过的论文后，
+  候选池 = **587 篇从未出现在任何日报里的论文**（本窗口与历史日报 **零重复**）
+- **全文精读**：**60 篇**，抽取作者机构与论文原图
+- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **60 篇**，全局无重复
+  - `aigc_visual` 17 篇（aigc_generation 10 / aigc_editing 4 / aigc_rl 3），base 15
+  - `llm_vlm` 20 篇（llm_core 8 / vlm_core 5 / llm_vlm_rl **7**），base 18，**撞到 axis 上限 20**
+  - `duplex_speech` **3 篇**（duplex_speech_core 2 / speech_rl 1），base 12，**供给断供**
+  - `world_embodied` 20 篇（world_model 7 / embodied_ai **13**），base 15，**撞到 axis 上限 20**
+- **Wild-card**：本批 **0 篇** —— 四个轴的空位要么来自真实供给缺口（语音轴），要么配额已达上限，未启用任何补位名额
+- **机构标注**：60 篇逐篇核对 PDF 首页与作者脚注，机构行内编号已拆开、跨行脚注已合并、作者行与版权行已剔除；
+  **2 篇**（2611.21946、2611.22360）PDF 全文没有任何机构行，按「不得编造」标 `[unverified]`，未据邮箱域名反推
+- **去重**：已排除历史日报发过的 **1887 篇**
+
+> ⚠️ **这一份日报的文件夹是 2026-11-19，不是 2026-11-18 —— 原因写在下面，便于日后改名与审计**。
+> `daily_arxiv_digest/2026_11/2026-11-18/` 已被 11-18 12:51 那份日报占用，它覆盖的是 listing day 11-13 ~ 11-16 四个窗口。
+> 本轮拿到的是**从未被任何日报覆盖过的 listing day 2026-11-17**，而项目规则是「已存在的日期文件夹不要覆盖」「不要擅自改写已发布的历史日报」，
+> 因此按**运行日 11-19** 另起目录。这与「日报目录名 = 运行当天 = 公告日 = listing 日 + 1」的口径一致：
+> listing day 11-17 的公告在 **11-18 01:00 UTC = 11-18 09:00 CST** 发出，本轮 cron 在 11-18 23:01 CST 触发、跨过了 00:00，于是归入 11-19。
+> 若日后要改回 11-18，只需同时改目录名与本节的链接，报告正文里的日期字段不用动。
+
+> ⚠️ **listing day 2026-11-16 复查过，但唯一论文层面没有增长，所以没有重跑**。
+> 11-18 那份日报评估的是 listing 11-13 ~ 11-16 四个窗口，11-16 窗口当时索引到 **696 篇原始**；
+> 本轮重抓同一窗口拿到 **719 篇原始**，但**去重后仍是 535 篇**——新增的 23 条是同一批论文的重复条目，唯一论文集合没有变化，
+> 那 12 篇不会被重复评估。11-17 窗口则是 **834 篇原始 / 587 篇去重**，属于全新批次。
+
+> ⚠️ **本轮 `relevance >= 9` 的 19 篇全部入选，一个都没被配额挤掉 —— 这是最近几轮里少见的「无冲突」**。
+> 587 篇候选里 rel≥9 的正好 **19 篇**、rel≥8 的有 **128 篇**；
+> 两级弹性配额求解（枚举各轴目标量 × 轴内 direction 计数向量，逐个校验 `dir_over ≤ max(dir_under, axis_surplus)`，
+> 取「rel≥9 入选数最大」为第一目标、总分次之）给出的解是 **19/19 全进**，总分 495.4。
+> 落选的 **68 篇全部是 rel = 8**（final 8.0 或 7.7），按 direction 分布：
+> `llm_core` 21 / `vlm_core` 17 / `world_model` 9 / `embodied_ai` 7 / `llm_vlm_rl` 6 / `aigc_generation` 4 / `aigc_editing` 4。
+
+> ⚠️ **本轮唯一的结构性缺口是 `duplex_speech`：3 篇 vs 基准 12，缺 9 个名额**。
+> 证据链是完整的：587 篇候选里 primary 落在 `duplex_speech_core` 的只有 **9 篇**、`speech_rl` 的只有 **1 篇**；
+> 按 relevance≥5 下限过滤后只剩 6 篇与 1 篇，rel≥8 的只剩 2 篇与 1 篇，rel≥9 的**只有** `speech_rl` 的 2611.22627 一篇。
+> 按「薄 direction 让出名额而不是被填充」的口径，这 9 个名额按富余量分给 `aigc_visual`(+2)、`llm_vlm`(+2)、`world_embodied`(+5)，后两轴因此撞上 AXIS_CAP = 20。
+> **缺口的方向也很明确**：本轴 3 篇里没有一篇是全双工 / 实时语音对话本体——2 篇 `duplex_speech_core` 都落在语音增强与声码器侧
+> （二值化神经声码器、Mel 谱生成式增强），1 篇 `speech_rl` 是多说话人 ASR 加联合分离的 GRPO。
+> 这不是筛选过严，而是该窗口内语音方向的供给本来就薄。
+
+> ⚠️ **`llm_vlm_rl` 与 `embodied_ai` 的超基准部分都在同轴内让位解决，没有跨轴外溢**。
+> `llm_vlm_rl` 拿到 7 篇（基准 5，超 2），由同轴 `llm_core`（8 / 8）与 `vlm_core`（5 / 5）让出的名额承接——两者都刚好停在各自基准上；
+> `embodied_ai` 拿到 13 篇（基准 8，超 5），此时 `axis_surplus = 20 − 15 = 5` 恰好等于其超出量，因此放行。
+> 判据统一是 `dir_over ≤ max(dir_under, axis_surplus)`，其中 `axis_surplus = axis_count − dir_base_sum`。
+
+### 各 axis
+
+| axis | 篇数 | 报告 |
+| --- | --- | --- |
+| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 17 | [报告](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_aigc_visual_entry.md) |
+| LLM / VLM 与其强化学习 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_llm_vlm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_llm_vlm_entry.md) |
+| 全双工语音与语音 LM（含语音 RL） | 3 | [报告](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_duplex_speech_entry.md) |
+| 具身智能与世界模型 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-19/2026-11-19_world_embodied_entry.md) |
+
+### 当天最值得读的 3 篇
+
+1. **[JointGV: Structure-Aware Correction of Visual World Models with Parallel Graph Dynamics for Long-Horizon Modeling](https://arxiv.org/abs/2611.22543)**（world_embodied · world_model #1，9.0）
+   — **世界模型长时程跑偏，不一定要重训视觉主干，旁边并行跑一张场景图就够了。**
+   问题出在递归误差：视觉世界模型每一步都在预测下一帧，实体姿态与空间关系的误差会一步步累积，
+   所以短看还行、越长越飘。JointGV 的想法很轻：让**任务条件场景图**和视觉世界模型**并行 rollout**，
+   把两边的「变化量」耦合起来，算一个**有界残差**去校正视觉侧的漂移——视觉模型本身一个字都不用改。
+   数字很硬：**32 步 rollout 的联合位置误差降 11–28%**；
+   真机倒立摆上，DINO-WM 的 **32 步杆角误差从 12.56° 降到 6.69°**，DreamerV3 与 LeWorldModel 同样改善；
+   最有说服力的是仿真控制：**用校正过的 rollout 训出的 actor 完成 46/50 回合，而用原始 rollout 是 0/50**。
+   **对做具身世界模型的人，这篇值得先读**：它把「漂移」从一个要重训的问题，
+   换成了一个可以在推理侧外挂校正的问题。
+
+2. **[The Kernel Reality Check: Benchmarking and Distilling Efficient Attention at Scale](https://arxiv.org/abs/2611.22947)**（llm_vlm · llm_core #2，9.0）
+   — **「把 O(N²) 换成 O(N)」这个五年的主线，在工程上被实测打回来了。**
+   核化注意力一直是热点，论文这次做了统一基准，两头都泼了冷水。
+   **效率侧**：FlashAttention 在训练和视觉 Transformer 上比 SOTA 核化方法**内存更低、墙钟更快**（除极长序列 ≥32K）；
+   线性注意力唯一明确的胜场是**因果语言模型推理时的 prefill 与自回归生成内存**。
+   论文还发现，**很多已报告的效率增益在现代基线下根本复现不出来**。
+   **质量侧**：统一蒸馏协议下，核化方法落后 softmax **2–10 分**，而且**模型规模变大也补不上这个差距**。
+   好消息是这差距**不是核化本身带来的**：作者提出的 LARA++ 最多追回 **99% 的 softmax 精度**；
+   坏消息是它继承了 LARA 的巨大计算开销，**仍然翻不过效率那道墙**。
+   **对做高效注意力的人，这篇值得先读**：它把「渐近复杂度优势 ≠ 实际加速」这件事，
+   从社区直觉变成了带数字的对照实验。
+
+3. **[M3OPD-Reasoner: An Open Recipe for Post-Training Multimodal Reasoning with Multi-Teacher On-Policy Distillation](https://arxiv.org/abs/2611.23034)**（llm_vlm · llm_vlm_rl #1，9.0）
+   — **多模态后训练终于有了一份「照着做就能复现」的公开配方，而且它用的是多教师 on-policy 蒸馏。**
+   配方分三段：**三个 domain 教师各用 GSPO 训**（image STEM / image perception / video）→
+   **MOPD 把三个教师蒸成一个学生** → **在 MOPD 学生上再跑一轮 MixRL**。
+   数据是 **M3OPD-SFT-1.35M** 与 **M3OPD-RL-193K**（带可验证奖励），
+   评测覆盖 **21 个 image STEM / image perception / video 基准**，而且**训练数据全部对着这 21 个基准做了去污染**。
+   结论很明确：**教师直接从 Qwen3.5-9B 用 GSPO 训（不经 SFT warm-up）是最佳配方**——
+   GSPO 教师 Overall **75.2** → +MOPD **75.2** → +MixRL（即 **M3OPD-Reasoner-9B**）**75.9**；
+   分 domain 是 Image STEM **77.1** / Image perception **81.9** / Video **64.1**，
+   与已发布的推理 VLM 相比，21 个基准上几乎全是最好或次好，且**三个 domain 各自都拿到最好**。
+   论文还论证了一个容易被忽略的点：**MOPD 学生已经合并了各 domain 能力，所以它是比基座更好的 RL 起点**——
+   在它上面继续 MixRL 不会塌。数据、训练代码、每一阶段的 checkpoint 全部放出。
+   **对做多模态 RL 的人，这篇值得先读**：它把「先混训还是先分训再蒸」这个问题，
+   用一整条可复现的流水线回答了。
 
 ## 2026-11-18
 
