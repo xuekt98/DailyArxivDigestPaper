@@ -297,6 +297,7 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 
 | 日期 | 扫描量 | AIGC 视觉 | LLM/VLM | 全双工语音 | 具身/世界模型 | 当天最值得读 |
 | --- | --- | --- | --- | --- | --- | --- |
+| [2026-11-18](daily_arxiv_digest/2026_11/2026-11-18/) | 1372 | 13 | 18 | 9 | 20 | [世界模型不用防塌缩了：只学有向距离就能分出可逆与不可逆](https://arxiv.org/abs/2611.19796) · [Transformer 不必串行：多分支并行跑完整块再融合](https://arxiv.org/abs/2611.19800) · [VLM 幻觉要按 token 分流：该强化的地方强化，该压住的地方压住](https://arxiv.org/abs/2611.19388) |
 | [2026-11-17](daily_arxiv_digest/2026_11/2026-11-17/) | 1147 | 15 | 18 | 12 | 15 | [纯仿真零示教就能训出会用真机的 27B 推理模型](https://arxiv.org/abs/2611.18562) · [视频扩散搬回像素域：去掉 VAE 后 DiT 就够了](https://arxiv.org/abs/2611.18549) · [可验证奖励训模型，诚实与吹牛之间有条阈值线](https://arxiv.org/abs/2611.15779) |
 | [2026-11-16](daily_arxiv_digest/2026_11/2026-11-16/) | 179 | 10 | 20 | 3 | 15 | [给 T2I 奖励模型补视觉推理监督，偏好微调不再把能力磨掉](https://arxiv.org/abs/2611.17585) · [把工作流搬出语言模型：状态机 + 验收门让无人值守完成率翻倍](https://arxiv.org/abs/2611.17696) · [同一批视频，线性探针能读出速度而 VLM 在随机水平](https://arxiv.org/abs/2611.17831) |
 | [2026-11-14](daily_arxiv_digest/2026_11/2026-11-14/) | 814 | 15 | 20 | 10 | 15 | [全双工口语对话不必重写语言模型，词级轮次也能拿到](https://arxiv.org/abs/2611.14774) · [视频扩散搬回像素空间：分辨率翻倍不再等于 token 翻四倍](https://arxiv.org/abs/2611.17336) · [把规划器的成功经验蒸馏给 VLA，它就能自己导航](https://arxiv.org/abs/2611.16246) |
@@ -338,6 +339,58 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 | [2026-10-07](daily_arxiv_digest/2026_10/2026-10-07/) | 531 | 10 | 10 | 10 | 10 | 10 | [World Models' Last Exam 实测物理一致性](https://arxiv.org/abs/2610.08791) · [QF3 首个从零训练人形策略的离策略流 RL](https://arxiv.org/abs/2610.08789) · [PERSIST 记忆要区分「原本」与「现在」](https://arxiv.org/abs/2610.07725) |
 | [2026-10-06](daily_arxiv_digest/2026_10/2026-10-06/) | 879 | 10 | 10 | 10 | 10 | 10 | [EvoMem-VLA 记忆存错了东西](https://arxiv.org/abs/2610.05418) · [H-JEPA 分层世界模型 18%→73%](https://arxiv.org/abs/2610.06805) · [S2PD 物理一致性来自串行深度](https://arxiv.org/abs/2610.06847) |
 | [2026-10-05](daily_arxiv_digest/2026_10/2026-10-05/) | 648 | 10 | 10 | 10 | 10 | 10 | [ID-Forcing (长视频 KV-provenance)](https://arxiv.org/abs/2610.03120) · [JEPA 可规划性诊断](https://arxiv.org/abs/2610.03137) · [AURAL 隐式推理降延迟 11.8x](https://arxiv.org/abs/2610.01560) |
+
+## 2026-11-18
+
+- **arXiv 批次窗口**：**listing day 2026-11-13 / 11-14 / 11-15 / 11-16 四个窗口**
+  = 2026-11-12 19:00:00Z – 2026-11-17 19:00:00Z
+  （美东 11 月起为冬令时（EST, UTC-5），14:00 ET 的投稿截止对应 **19:00Z**；listing day 11-15 / 11-16 属「周四 14:00 – 周一 14:00 ET」的合并队列，于 **2026-11-16 20:00 ET = 2026-11-17 01:00 UTC** 公告）
+- **扫描**：四个窗口合计 **1444 篇去重**（11-13 窗口 535 篇 / 11-14 窗口 382 篇 / 11-15 窗口 354 篇 / 11-16 窗口 696 篇 / 11-17 窗口 0 篇）；扣除历史日报已发过的 **72 篇**后，候选池 = **1372 篇从未出现在任何日报里的论文**（11-13 窗口 341 篇 / 11-14 窗口 261 篇 / 11-15 窗口 248 篇 / 11-16 窗口 522 篇）
+- **全文精读**：**60 篇**，抽取作者机构与论文原图
+- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **60 篇**，全局无重复
+  - `aigc_visual` 13 篇（aigc_generation 9 / aigc_editing 3 / aigc_rl **1**），base 15
+  - `llm_vlm` 18 篇（llm_core 4 / vlm_core 3 / llm_vlm_rl **11**），base 18
+  - `duplex_speech` 9 篇（duplex_speech_core 8 / speech_rl 1），base 12
+  - `world_embodied` 20 篇（world_model 7 / embodied_ai 13），base 15，**撞到 axis 上限 20**
+- **Wild-card**：本批 **0 篇** —— 四个 axis 都按基准分配满，没有需要用邻接选题补位的空位
+- **机构标注**：60 篇逐篇核对 PDF 首页，机构行内编号已拆开、跨行脚注已合并、作者行与邮箱行已剔除；**1 篇**（2611.21077 MORE）PDF 全文只有 `alumni.tohoku.ac.jp` 邮箱、无机构行，按「不得编造」标 `[unverified]`，未据邮箱域名反推
+- **去重**：已排除历史 31 份日报发过的 **1780 篇**
+
+> ⚠️ **本轮是「补发 + 新批次」合并的一轮，把上周漏掉的三个窗口一次补齐**。
+> 1. **listing day 2026-11-14 昨天只索引到 78 篇，今天已是 275 篇**，新增约 **197 篇**；
+> 2. **listing day 2026-11-15 从 0 篇涨到 248 篇** —— 昨天的日报只能标成空窗；
+> 3. **listing day 2026-11-16 是全新批次，522 篇**；
+> 4. **listing day 2026-11-13 又回填了 19 篇**（380 → 399）。
+> 5. **listing day 2026-11-17 本轮仍为 0 篇**：该批次已于 2026-11-18 09:00 CST（= 01:00 UTC）公告，但 arXiv 的检索索引尚未回填，本轮不等待，**明天继续补**。
+
+> ⚠️ **本轮最特殊的一次配额冲突：`relevance >= 9` 必进的有 71 篇，但一天只有 60 个名额**。
+> 根因在 `world_embodied` 一个轴就有 **31 篇** rel≥9（world_model 10 + embodied_ai 21），而 `AXIS_CAP = 20`，即使把整个轴塞满也装不下。
+> 做法是对全部可行分配做**全局搜索**（枚举 axis 目标量 × 轴内 direction 计数向量，逐个校验 `dir_over ≤ max(dir_under, axis_surplus)`），取「rel≥9 入选数最大」为第一目标、总分次之，结论是 **59 篇 rel≥9 全部入选**，已是无冲突下能达到的上限。
+> 落选的 12 篇 rel≥9 全部因为 `world_embodied` 触顶或同轴让位，按 final 分从低到高落选：
+> - 2611.20565（llm_core，rel 9 / q 7，final 8.4）—— Memory-Efficient Speculative Decoding with Quantized
+> - 2611.19183（world_model，rel 9 / q 7，final 8.4）—— WA-JEPA: Goal-Aware Predictive Feedback Action Refin
+> - 2611.19771（world_model，rel 9 / q 7，final 8.4）—— JEPA4R: Embodied JEPA World Models with 4D Point Pla
+> - 2611.19803（world_model，rel 9 / q 7，final 8.4）—— Pros4D: Modeling Evolving 4D Worlds in Latent Space 
+> - 2611.21607（embodied_ai，rel 9 / q 8，final 8.7）—— ScaleVLA: Scaling Vision-Language-Action Models to 5
+> - 2611.19138（embodied_ai，rel 9 / q 7，final 8.4）—— SuperGlance: Driving at a Glance with a Vision-Langu
+> - 2611.20719（embodied_ai，rel 9 / q 7，final 8.4）—— ACiT: Proprioceptive-Prior Action Chunking with Inve
+> - 2611.18003（embodied_ai，rel 9 / q 6，final 8.1）—— Reusing Locomotion Training Recipes Across Humanoids
+> - 2611.19081（embodied_ai，rel 9 / q 6，final 8.1）—— RoboCoEvo: Expanding Robot Capabilities through Agen
+> - 2611.20100（embodied_ai，rel 9 / q 6，final 8.1）—— EgoSwarm: Learning Decentralized Robot Swarm Intelli
+> - 2611.20244（embodied_ai，rel 9 / q 6，final 8.1）—— Right Goal, Wrong Body: Re-grounding Frozen VLAs und
+> - 2611.20465（embodied_ai，rel 9 / q 6，final 8.1）—— ReRead: Wrong Predictions, Useful Representations - 
+
+> ⚠️ **`llm_vlm_rl` 出现 11 篇 rel≥9，方向基准只有 5**。按 skill v0.8.0 的判据，必进规则与基准配额冲突时**在同 axis 内让位**，不转给别的 axis：
+> `llm_core` 让出 4 个名额（5 → 4）、`vlm_core` 让出 2 个（5 → 3），`llm_vlm_rl` 因此拿到 11 篇。
+> 没转给别的 axis 的原因是 `llm_vlm` 整轴仍在基准 18 上；即便打到 axis 上限 20，也容不下 11 + 8 + 5 的组合（`dir_over` 会超过 `max(dir_under, axis_surplus)`）。
+
+> ⚠️ **本轮扫描口径与往日的差别：关键词只用来排序，不用来筛人**。
+> 先按 axis 关键词建池（`pool.json`，958 篇），再对全部 1372 篇做**逐 direction 的全量关键词扫描**（817 篇命中），两者并集 1005 篇；剩余 367 篇关键词一条没命中的也照样排进读单。
+> 最终 **1372 篇全部由 6 个 reader 逐篇读标题+摘要打分**，入选与否只看 reader 给的 relevance / quality。
+> 这带来两个实测结论：
+> 1. **纯关键词筛会漏**：`2611.19446`（深度循环 LM 架构 + 循环 KV 重放）与 `2611.19223`（ProSing 歌声技巧转换）两条轴级关键词一个都没命中，全靠逐篇读摘要捞出来，最终都进了日报；
+> 2. **补采不等于增益**：逐 direction 扫描比 axis 池多捞出 133 篇（10 / 58 / 12 / 53），但这 133 篇**最终一篇都没入选**——它们多是蹭关键词的擦边论文。
+> 也就是说，先建池再补扫这套流程的价值不在「捞到漏网的」，而在**把 1372 篇按轴分组排好序**，让 reader 能分批读完；真正决定入选的是逐篇读摘要。
 
 ## 2026-11-17
 
