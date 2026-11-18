@@ -15,65 +15,47 @@
 ![organization](https://img.shields.io/badge/University_of_New_South_Wales-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**CarryOn 用紧凑执行状态加细粒度可溯源证据管理长程 agent 上下文，学习式选择器无需额外 LLM 调用即可完成取舍；三 benchmark 三 Actor 上宏平均成功率 75.7%，比最强基线高 6.7 个百分点，同时平均每成功任务的归一化开销最低。**</p>
 
++ **Disentangling Forgetting from Utility: Lightweight LLM Unlearning via Orthogonal Null-Space Projection**
+[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17864)
+![architecture](https://img.shields.io/badge/UUE_Null_Space_Projection_Unlearning-red)
+![task](https://img.shields.io/badge/Model_Editing-magenta)
+![organization](https://img.shields.io/badge/Zhejiang_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**UUE 把大模型遗忘重述为可控的模型编辑：把参数更新投影到保留知识表征的左零空间，并推导出把遗忘集嵌入推向对跖点的凸无目标闭式解，在 TOFU forget01 上把 ROUGE-L 遗忘分从 0.9530 压到 0.3178 而保留分仅从 0.9290 降到 0.9228。**</p>
+
++ **Soteria: Formally Verified Planning with Runtime Enforcement for Safe LLM Agents**
+[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17880)
+![architecture](https://img.shields.io/badge/Soteria_Verified_Hierarchical_Planning-red)
+![task](https://img.shields.io/badge/Agent-magenta)
+![organization](https://img.shields.io/badge/Princeton_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**Soteria 在任何工具调用前先形式验证分层计划，再在运行期强制执行规格，在三个基准 207 个任务上对四个模型全部达成 100% 一致性与零规格违反，任务成功率平均为最强基线的 1.7 倍，并靠可复用子计划把计划中位长度从 11 个状态压到 8 个。**</p>
+
++ **LACCO: Local Accumulation with Computation--Communication Overlap**
+[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17991)
+![architecture](https://img.shields.io/badge/LACCO_Local_Accumulation_Overlap-red)
+![task](https://img.shields.io/badge/Training_Infrastructure-magenta)
+![organization](https://img.shields.io/badge/Sorbonne_Université_ISIR-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**LACCO 用前瞻加主两阶段把全局通信与本地计算重叠，同时让所有副本共享全局聚合更新而不引入外层陈旧性，在 FineWeb 上预训练 134M 至 500M 模型时与 DDP 的差距不超过 1.77%，0.5B 模型在 0.5 Gbps 带宽下端到端加速最高 1.89 倍。**</p>
+
++ **VelServe: Taming Decode Jitters in LLM Inference with Tail-Calibrated Scheduling**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18392)
+![architecture](https://img.shields.io/badge/VelServe_Tail_Calibrated_Scheduling-red)
+![task](https://img.shields.io/badge/Inference_Efficiency-magenta)
+![organization](https://img.shields.io/badge/Microsoft-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**VelServe 用自身迭代延迟的实测尾部校准每步解码可承担的预填充预算，把解码抖动转成可控裕量，在 Qwen3-8B 与 DeepSeek-V4-Flash 上把 SLO goodput 提到最强基线的 2.4–2.9 倍，在 DeepSeek-V2-Lite 上至少 4.4 倍。**</p>
+
++ **Callo: Serving Cache-Miss Requests with Speculative Decoding on Invalidated KV under Prefill-Decode Disaggregation**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18459)
+![architecture](https://img.shields.io/badge/Callo_Invalidated_KV_Speculation-red)
+![task](https://img.shields.io/badge/Speculative_Decoding-magenta)
+![organization](https://img.shields.io/badge/Duke_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**Callo 在预填充-解码分离部署下复用被上下文编辑作废的 KV 做推测草稿，提交前再用精确 KV 校验：草稿下一 token 与精确 KV 在 98.3% 的位置一致，32 token 窗口在 65% 的 miss 请求中整窗接受，双 GPU 上全请求加速 1.05–1.19 倍。**</p>
+
 + **Alignment with Reflect-Reasoning: Learning How To Follow Principles**
 [![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17398)
 ![architecture](https://img.shields.io/badge/Reflect_Reasoning-red)
 ![task](https://img.shields.io/badge/Safety_Alignment-magenta)
 ![organization](https://img.shields.io/badge/Duke_University-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**Reflect-Reasoning 用 SFT 加 GRPO 两阶段训练模型「如何对原则做反思推理」，无需人工标注数据；五个模型在留出原则上的成对胜率达 82.5%–94.7%，并泛化到医疗与金融两个分布外领域，同时降低罕见严重违规且不损伤原有安全工程。**</p>
-
-+ **Interpreting Coding Agents Through Their Behavioral Trajectories**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17440)
-![architecture](https://img.shields.io/badge/Rule_Based_Behavior_Parser-red)
-![task](https://img.shields.io/badge/Code_Agent-magenta)
-![organization](https://img.shields.io/badge/Nebius-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**论文用规则解析器把 143,209 条 coding agent 执行轨迹映射为检索、编辑、测试等高层动作，并在 500 个事件上对照六模型共识做审计；125 种配置、117 个模型中解题率相近者行为差异显著，可跨仓库检索对应 agent 栈。**</p>
-
-+ **Unfinished-Bench: Measuring Rule Violations by Persistent Agents in Realistic Work Environments**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17460)
-![architecture](https://img.shields.io/badge/Unfinished_Bench-red)
-![task](https://img.shields.io/badge/LLM_Evaluation-magenta)
-![organization](https://img.shields.io/badge/NAVER_AI_Lab-green)
-[![project](https://img.shields.io/badge/project-blue)](https://francis21c.github.io/unfinished-bench/)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**Unfinished-Bench 在 7 个组织、7 类风险、97 个情景中让持久化 agent 无人监督地完成与内部文档规则冲突的任务：文档规则违反率由 32.2% 升至 43.6%，是用户口述同一规则 8.5% 的五倍，且 98.3% 的违反发生在规则展示之后。**</p>
-
-+ **More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17610)
-![architecture](https://img.shields.io/badge/Multi_Agent_Baseline_Ladder-red)
-![task](https://img.shields.io/badge/Multi_Agent-magenta)
-![organization](https://img.shields.io/badge/University_of_Nevada_Reno-green)
-[![project](https://img.shields.io/badge/project-blue)](https://github.com/mahmoudsajjadi/pace)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**论文综合 9 项主评测、516 种多智能体配置，用 6 维资源向量与 4 级基线阶梯把协作收益和采样效应拆开：与样本量或预算对齐的基线相比平均精度差 −0.042，474 次可比对照中 74% 不优于基线。**</p>
-
-+ **LuthorSQL: A One-Pass Text-to-SQL Model as System 1 for a Slower LLM Agent**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17780)
-![architecture](https://img.shields.io/badge/Luthor_SQL-red)
-![task](https://img.shields.io/badge/Inference_Efficiency-magenta)
-![organization](https://img.shields.io/badge/UC_Irvine-green)
-[![project](https://img.shields.io/badge/project-blue)](https://github.com/IAMIbrahimmemon/luthorsql)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**LuthorSQL 用 7B 非自回归模型做 text-to-SQL 的 System 1，单次前向给最多 32 个候选查询计划打分并由验证器选答案：BIRD 隐藏测试集 68.03% 执行准确率、每题 0.84 秒、8-bit 仅占 9 GB，与慢速 agent 级联后 API 成本下降 33.3% 且准确率持平。**</p>
-
-+ **Can Agents Keep Up with Time? An Empirical Analysis of Temporal Adaptation After a Conversational Hiatus**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17806)
-![architecture](https://img.shields.io/badge/Session_Rekindling-red)
-![task](https://img.shields.io/badge/Agent-magenta)
-![organization](https://img.shields.io/badge/Peoples_Public_Security_University_of_China-green)
-[![project](https://img.shields.io/badge/project-blue)](https://github.com/Adoreu2/session-rekindling-benchmark)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**论文把长程 agent 的时间能力定义为时间状态感知，五个模型路线 × 五种时间信息条件下发现：agent 能取到当前时间却常常不用，过期框架率 58.9%、建议正确率仅 46.6%，而直接给出已算好的日期关系可完全消除该错误。**</p>
-
-+ **Fuse-All MoE Inference Kernel with Load Balancing on TPUs**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17857)
-![architecture](https://img.shields.io/badge/Fuse_All_MoE-red)
-![task](https://img.shields.io/badge/MoE-magenta)
-![organization](https://img.shields.io/badge/Meta_SuperIntelligence_Lab-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**Fuse-All MoE 为 TPU7x 融合 token 收集、专家计算、门控激活与输出写回，专家中间结果留在 VMEM：倾斜 EP16 prefill 耗时由平衡参考的 2.3 倍降到 1.09 倍，对称 EP8TP2 解码延迟最多降 21.3%，服务吞吐最高提升 34.5%。**</p>
-
-+ **RAG-FGO: Dynamic Optimization of Query-Rewriting Agents for Generative RAG**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17788)
-![architecture](https://img.shields.io/badge/RAG_FGO-red)
-![task](https://img.shields.io/badge/RAG-magenta)
-![organization](https://img.shields.io/badge/Kyung_Hee_University-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**RAG-FGO 把查询改写看成离散提示与连续解码参数混合的黑箱优化，用全局搜索加局部扰动与精英记忆池稳定迭代：六个 QA benchmark 上 GPT-4o-mini 平均 F1 达 77.1，比直接检索的 47.6 高出近 30 分，并可跨任务迁移。**</p>
 
 <!-- direction: vlm_core -->
 
@@ -84,6 +66,14 @@
 ![organization](https://img.shields.io/badge/unverified-green)
 [![project](https://img.shields.io/badge/project-blue)](https://github.com/small-code-cat/double_take)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**DoubleTake 用「两次阅读加一次聚焦核验」在冻结 Qwen3-VL-8B-Instruct 上免训练地提升长文档问答：四个 benchmark 共 4,816 题的微平均准确率 66.76%，高于 MDocAgent 的 65.16%，且同页面同调用次数下问聚焦事实优于重复原问题。**</p>
+
++ **MMFlash: Faster Speculative Decoding for Vision-Language Models**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18482)
+![architecture](https://img.shields.io/badge/MMFlash_Visual_Dependence_Drafter-red)
+![task](https://img.shields.io/badge/MLLM-magenta)
+![organization](https://img.shields.io/badge/National_University_of_Singapore-green)
+[![project](https://img.shields.io/badge/project-blue)](https://fscdc.github.io/MMFlash/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**MMFlash 面向视觉语言模型提出扩散草稿器，用有与无视觉输入的 next-token 分布 KL 度量视觉依赖度并对草稿器预测差的视觉相关 token 加权，配合稀疏注意力把长视频上下文压到约 1.6K，实现最高 3.58 倍无损解码加速。**</p>
 
 + **ParseBench-2: Severity-Aware Evaluation of Document Parsing**
 [![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17400)
@@ -146,6 +136,14 @@
 ![task](https://img.shields.io/badge/Agent_RL-magenta)
 ![organization](https://img.shields.io/badge/Meituan-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**用感知器、提案器与编排器组成的多智能体系统接管 GRPO 训练的过程级监督，在 Qwen3-4B 上九个基准全面超过静态配方，AIME 2024 提升 20.00 个百分点，并支撑起 14.7 天无人值守训练。**</p>
+
++ **G-CAST: Governed Continual Self-Training for E-Commerce Agents under Evolving Demands**
+[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17814)
+![architecture](https://img.shields.io/badge/GCAST_Governed_Continual_Self_Training-red)
+![task](https://img.shields.io/badge/Reward_Modeling-magenta)
+![organization](https://img.shields.io/badge/Alibaba_Group-green)
+[![project](https://img.shields.io/badge/project-blue)](http://cai.1688.com/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**G-CAST 把部署电商 agent 的每日生产证据按奖励路由成 SFT、RL 与回归监控三条分支，用 token 级熵做组内优先级，并配上受治理的奖励演化与累积评估闸门，第 4 轮累积奖励做到 0.8078，高于 AutoTrainess 的 0.7911 且保留期奖励不降反升。**</p>
 
 + **PaperCritic: Training AI Reviewers to Assess the Soundness of Papers**
 [![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17834)

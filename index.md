@@ -299,9 +299,9 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 | --- | --- | --- | --- | --- | --- | --- |
 | [2026-11-18](daily_arxiv_digest/2026_11/2026-11-18/) | 1372 | 13 | 18 | 9 | 20 | [世界模型不用防塌缩了：只学有向距离就能分出可逆与不可逆](https://arxiv.org/abs/2611.19796) · [Transformer 不必串行：多分支并行跑完整块再融合](https://arxiv.org/abs/2611.19800) · [VLM 幻觉要按 token 分流：该强化的地方强化，该压住的地方压住](https://arxiv.org/abs/2611.19388) |
 | [2026-11-17](daily_arxiv_digest/2026_11/2026-11-17/) | 1147 | 15 | 18 | 12 | 15 | [纯仿真零示教就能训出会用真机的 27B 推理模型](https://arxiv.org/abs/2611.18562) · [视频扩散搬回像素域：去掉 VAE 后 DiT 就够了](https://arxiv.org/abs/2611.18549) · [可验证奖励训模型，诚实与吹牛之间有条阈值线](https://arxiv.org/abs/2611.15779) |
-| [2026-11-16](daily_arxiv_digest/2026_11/2026-11-16/) | 179 | 10 | 20 | 3 | 15 | [给 T2I 奖励模型补视觉推理监督，偏好微调不再把能力磨掉](https://arxiv.org/abs/2611.17585) · [把工作流搬出语言模型：状态机 + 验收门让无人值守完成率翻倍](https://arxiv.org/abs/2611.17696) · [同一批视频，线性探针能读出速度而 VLM 在随机水平](https://arxiv.org/abs/2611.17831) |
+| [2026-11-16](daily_arxiv_digest/2026_11/2026-11-16/) | 382 | 15 | 20 | 5 | 20 | [给 T2I 奖励模型补视觉推理监督，偏好微调不再把能力磨掉](https://arxiv.org/abs/2611.17585) · [吨级液压装载机真机落地：训练只随机化 2° 却能扛起整机](https://arxiv.org/abs/2611.18365) · [把工作流搬出语言模型：状态机 + 验收门让无人值守完成率翻倍](https://arxiv.org/abs/2611.17696) |
 | [2026-11-14](daily_arxiv_digest/2026_11/2026-11-14/) | 814 | 15 | 20 | 10 | 15 | [全双工口语对话不必重写语言模型，词级轮次也能拿到](https://arxiv.org/abs/2611.14774) · [视频扩散搬回像素空间：分辨率翻倍不再等于 token 翻四倍](https://arxiv.org/abs/2611.17336) · [把规划器的成功经验蒸馏给 VLA，它就能自己导航](https://arxiv.org/abs/2611.16246) |
-| [2026-11-13](daily_arxiv_digest/2026_11/2026-11-13/) | 77 | 0 | 18 | 3 | 13 | [任务越走越糟，奖励黑客就越近：内部状态能提前预警](https://arxiv.org/abs/2611.14996) · [扩散 LM 的长上下文外推，缺的是掩码图样这个信号](https://arxiv.org/abs/2611.15029) · [数百台 VLA 机器人同场跑，推理服务还能再挤出 3.75 倍](https://arxiv.org/abs/2611.14969) |
+| [2026-11-13](daily_arxiv_digest/2026_11/2026-11-13/) | 360 | 12 | 20 | 8 | 20 | [任务越走越糟，奖励黑客就越近：内部状态能提前预警](https://arxiv.org/abs/2611.14996) · [看视频学操作还得会听：音视频双通道把 OSWorld 成功率推到 49.99%](https://arxiv.org/abs/2611.18747) · [只学小幅动作修正，世界模型在测试时就能自我精修](https://arxiv.org/abs/2611.15011) |
 | [2026-11-12](daily_arxiv_digest/2026_11/2026-11-12/) | 501 | 15 | 18 | 12 | 15 | [KV cache 跨模型更新能复用，但保不住新模型的行为](https://arxiv.org/abs/2611.14051) · [RLVR 只是个过滤器，奖励黑客率被原样继承](https://arxiv.org/abs/2611.13218) · [让 T2I 学会看钟表，四个预训练模型里不到 1% 做得到](https://arxiv.org/abs/2611.13172) |
 | [2026-11-10](daily_arxiv_digest/2026_11/2026-11-10/) | 105 | 5 | 20 | 0 | 14 | [多模态推理的视觉工作区在空转，扰动一下几乎不影响答案](https://arxiv.org/abs/2611.10423) · [双臂灵巧从物体目标里自己长出来，80 次试验成功 61 次](https://arxiv.org/abs/2611.10410) · [过程奖励要解耦出验证器，HotpotQA 从 57.73 推到 60.18](https://arxiv.org/abs/2611.10305) |
 | [2026-11-09](daily_arxiv_digest/2026_11/2026-11-09/) | 484 | 15 | 20 | 10 | 15 | [把空间尺度当成模态，像素空间多尺度扩散把 FID 4.39 压到 1.43](https://arxiv.org/abs/2611.08802) · [通用 AI 模型直接指挥机械臂，零样本 85.6% 打败 VLA 与 WAM](https://arxiv.org/abs/2611.09892) · [流式 RL 真正缺的是「卸载」信号](https://arxiv.org/abs/2611.09175) |
@@ -514,62 +514,70 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
 - **arXiv 批次窗口**：**2026-11-13 listing day** = 2026-11-12 19:00:00Z – 2026-11-13 19:00:00Z
   （美东 11 月起为冬令时（EST, UTC-5），14:00 ET 的投稿截止对应 **19:00Z**；
   该批次于 **2026-11-16 01:00 UTC** = 11-15 20:00 ET 公告）
-- **扫描**：11-13 窗口 **242 条原始 / 170 篇去重**；另回收上一批（11-11 + 11-12）索引回填晚到的 **9 篇**，候选池共 **179 篇**
-- **全文精读**：**48 篇**，抽取作者机构与论文原图（85 张）
-- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **48 篇**，全局无重复
-  - `aigc_visual` 10 篇（aigc_generation 6 / aigc_editing 3 / aigc_rl **1**），base 15 —— 供给不足，让出 5 个名额
-  - `llm_vlm` 20 篇（llm_core 10 / vlm_core 5 / llm_vlm_rl 5），base 18 —— 打满 axis 上限 20
-  - `duplex_speech` 3 篇（duplex_speech_core 2 / speech_rl 1），base 12 —— **严重断供，让出 9 个名额**
-  - `world_embodied` 15 篇（world_model 5 / embodied_ai 10），base 15 —— 两个 direction 各让出 2 个名额给同轴兄弟
-- **Wild-card**：本批 **3 篇** —— `aigc_generation` 2 篇（3D 侧供给缺口）、`duplex_speech_core` 1 篇
-- **机构标注**：48 篇逐篇核对 PDF 首页，机构行内编号已拆开、跨行脚注已合并；
-  1 篇（2611.17853 DoubleTake）PDF 全文无任何机构字样，标 `[unverified]`，未编造
-- **去重**：已排除 2026-11-14 那份日报发过的 60 篇（同一批次，本轮为增量）
+- **扫描**：按完整窗口重抓，**536 条原始 / 399 篇去重**
+  （cs.AI 161 / cs.LG 160 / cs.CV 98 / cs.CL 61 / cs.RO 37 / cs.IR 7 / cs.SD 6 / eess.AS 6）；
+  扣除历史日报已发过的 **65 篇**后，候选池 = **334 篇从未出现在任何日报里的论文**
+  \+ 本日报原先已发的 48 篇 = **382 篇**
+- **全文精读**：**60 篇**（本轮新读 28 篇 PDF，其余 32 篇沿用已核对的卡片与机构），抽取作者机构与论文原图（**106 张**）
+- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **60 篇**，全局无重复
+  - `aigc_visual` 15 篇（aigc_generation 10 / aigc_editing 4 / aigc_rl 1），base 15 —— 正好打满基准
+  - `llm_vlm` 20 篇（llm_core 8 / vlm_core 6 / llm_vlm_rl 6），base 18 —— 打满 axis 上限 20
+  - `duplex_speech` 5 篇（duplex_speech_core 4 / speech_rl 1），base 12 —— 仍远低于基准，让出 7 个名额
+  - `world_embodied` 20 篇（world_model 7 / embodied_ai 13），base 15 —— 打满 axis 上限 20
+- **Wild-card**：本批 **0 篇** —— 补跑后候选供给充裕，原来的 3 条 wild-card 都不再满足
+  「比够格论文更该进」的前提，按口径取消
+- **机构标注**：60 篇逐篇核对 PDF 首页，机构行内编号已拆开、跨行脚注已合并、作者行与邮箱行已剔除；
+  **2 篇** PDF 全文确无机构行，按「不得编造」标 `[unverified]`，未据邮箱域名反推：
+  2611.17853（DoubleTake）、2611.18026（Constraint Space）
+- **去重**：已排除历史日报发过的 **65 篇**（含本日报原先发过的 48 篇）
 
-> ⚠️ **本轮是一个「部分批次」——公告后 1 小时就跑了，arXiv API 的检索索引只回填了窗口的前半段**。
-> listing day 2026-11-13 的批次在 **2026-11-16 01:00 UTC** 公告，而 cron 在 **10:00 CST（= 02:00 UTC）**
-> 就启动，只比公告晚 **1 小时**。实测该窗口 `published` 的时间戳只到 **2026-11-13T08:47Z**，
-> 窗口最后的约 **10 小时（09:00Z – 19:00Z）尚未进入检索索引**，
-> 因此实得 170 篇（242 条原始）**远不是完整批次**。
-> 这与 11-13 → 11-14 实测的规律一致（+1 h 只索引到约 20%，+25 h 才 100%）。
-> **下一轮（2026-11-17）必须补发这个窗口的后半段。**
+> ⚠️ **本轮是对 2026-11-16 那份日报的完整重跑，不是增量补发**。
+> 当初那一轮在公告后 **1 小时**（cron 10:00 CST = 02:00 UTC）就跑了，
+> 实测该窗口 `published` 的时间戳只到 **2026-11-13T08:47Z**，
+> 窗口最后约 10 小时（09:00Z – 19:00Z）尚未进入检索索引，因此只抓到 170 篇（242 条原始）。
+> 按完整窗口重抓后是 **399 篇**，候选池从 179 篇变成 **382 篇**，
+> 当天篇数从 **48 篇补到 60 篇**，图从 85 张增到 **106 张**。
 
-> ⚠️ **上一批（11-11 + 11-12）的 9 篇是回填晚到的，这改变了上一份日报的终稿数字**。
-> 本轮回探发现：11-11 窗口从 393 篇涨到 **395 篇**，11-12 窗口从 421 篇涨到 **428 篇**，
-> 增量精确对应 id 序号大于 2611.17336 的 **9 篇**：
-> 2611.17377 / .17381 / .17388 / .17390 / .17391 / .17394 / .17395 / .17398 / .17400。
-> **这意味着 [2026-11-14](daily_arxiv_digest/2026_11/2026-11-14/) 那份日报记的「814 篇」不是终稿，实际是 823 篇。**
-> 本轮已把这 9 篇纳入候选（其中 2611.17394 / .17398 / .17400 三篇入选本日报）。
-
-> ⚠️ **6 篇回填晚到的论文本轮因配额未覆盖，列入下一轮补发清单**：
-> 2611.17377（对抗鲁棒性评测的结构性视角）/ 2611.17381（ProdPilot，面向生产就绪的 MCP 分层协议）/
-> 2611.17388（SWE agent 层次代码图的时间一致性评测）/ 2611.17390（后验支持的先验枚举）/
-> 2611.17391（蛋白质功能预测的结构置信度选择）/ 2611.17395（LLM 能否写入后门）。
-> 落选原因不是质量，而是 `llm_core` 已打满 10 篇的方向配额、且这几篇处于该方向候选池的边缘位置。
-
-> ⚠️ **`duplex_speech` 严重断供（3 篇 vs base 12）是批次未回填完整造成的，不是筛选过严**。
-> 全批 179 篇里语音/音频方向相关的一共只有 9 篇，逐篇回读摘要后只有 3 篇够格：
-> 2611.17686（76 语言的自监督语音编码器句义探针）、2611.17895（工业声学异常检测，wild-card 补位）、
+> ⚠️ **`duplex_speech` 仍然断供（5 篇 vs base 12），但这次是供给本身稀少，不是回填不全**。
+> 完整窗口 399 篇里语音/音频相关只有 11 篇过筛，逐篇回读后够格的 5 篇是：
+> 2611.18064（端侧音频 agent 的内存与延迟账）、2611.17686（76 语言的自监督语音编码器句义探针）、
+> 2611.18561（手机级脑到文本解码）、2611.17573（低资源变体的口语 NLI 可信边界）、
 > 2611.17644（CoTTAGE，用 Thurstone 偏好目标做语音 RL 的可解释评审器）。
-> 窗口后半段回填后这一档大概率会显著变厚。
+> 原报告里 2611.17895（工业声学异常检测）是 wild-card 补位，完整批次重跑后 relevance 只有 5，被挤出。
 
-> ⚠️ **`aigc_rl` 全批只有 1 篇**。用「RL 类词 × 视觉生成类词 140 字符窗口共现」严格扫过 179 篇，
-> 命中共现 19 篇，**逐篇回读原文后只有 2611.17585 真正属于面向视觉生成的 RL**
-> （T2I 奖励模型：GenEval best-of-n **+4.0%**、RL 后训练 **+5.5%**，用 6 倍数量的偏好对超过 HPSv3）。
-> 另有 2611.17739 / 2611.17539 虽带 RL，但做的是晶体结构求解（verifiable pXRD），归 `llm_vlm_rl`。
+> ⚠️ **原报告的 3 条 wild-card 全部取消**：2611.17629 与 2611.17752（两条 3D 侧补位）relevance 均为 6、
+> 2611.17895 relevance 为 5，而 MacroGS 等新候选 relevance 为 8。
+> wild-card 的前提是「比够格论文更该进」，候选供给变充裕后这个前提不再成立。
 
-> ⚠️ **一个方向完全断供**。`aigc_rl` 的名额缺口无法用相邻方向填满，
-> 因此 `aigc_visual` 只发 10 篇；`aigc_generation` 的 2 条 wild-card 全部落在 3D 侧
-> （2611.17629 多视图 3D transformer 的免训练加速、2611.17752 稀疏视角 3DGS 的 lineage-aware dropout）。
+> ⚠️ **16 篇已发布论文被置换、28 篇新论文入选**，这是规则强制的结果而不是任意删减。
+> `llm_vlm` 侧有 **11 篇 rel ≥ 9**（llm_core 7 / vlm_core 2 / llm_vlm_rl 2）、
+> `embodied_ai` 侧有 **7 篇 rel ≥ 9**，而这两个 axis 都被 `AXIS_CAP = 20` 顶死：
+> 按 `dir_over ≤ max(dir_under, axis_surplus)`，`llm_core` 让出 7 个位置、`embodied_ai` 让出 6 个位置。
+> **本批 rel ≥ 9 的候选 20 篇全部入选，0 篇因配额落选**；
+> 被置换的 16 篇 relevance 均为 8 或 7，没有一篇必进论文被挤掉。
+
+> ⚠️ **落选审计（可逐条核对）**：
+> - 被置换的 16 篇已发布论文：2611.17629 / 2611.17752（aigc_generation，原 wild-card，rel 6）、
+>   2611.17895（duplex_speech_core，原 wild-card，rel 5）、
+>   2611.17658 / 2611.17755 / 2611.17549 / 2611.17631 / 2611.17730 / 2611.17751（embodied_ai，rel 7）、
+>   2611.17440 / 2611.17460 / 2611.17610 / 2611.17780 / 2611.17806 / 2611.17857 / 2611.17788（llm_core，rel 8）
+> - rel ≥ 9 但未入选：**0 篇**（候选池 20 篇 rel ≥ 9 全部入选）
+> - 其余落选候选：候选池中 relevance 5–8 的论文按 final 分排序落在 60 名之外，不逐一列举
+
+> ⚠️ **上一批（11-11 + 11-12）的 9 篇回填晚到论文，本轮仍然只有 3 篇入选**。
+> 2611.17394 / 2611.17398 / 2611.17400 三篇都是 rel ≥ 9，留在本日报；
+> 2611.17377（rel 5）与 2611.17381（rel 7）落在 listing 11-11 窗口，
+> 进入 [2026-11-13](daily_arxiv_digest/2026_11/2026-11-13/) 那份日报的 326 篇候选池，本轮未入选；
+> 2611.17388 / 2611.17390 / 2611.17391 / 2611.17395 不在本次重抓的 listing 11-11 / 11-13 两个窗口内。
 
 ### 各 axis
 
 | axis | 篇数 | 报告 |
 | --- | --- | --- |
-| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 10 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_aigc_visual_entry.md) |
+| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 15 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_aigc_visual_entry.md) |
 | LLM / VLM 与其强化学习 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_llm_vlm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_llm_vlm_entry.md) |
-| 全双工语音与语音 LM（含语音 RL） | 3 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_duplex_speech_entry.md) |
-| 具身智能与世界模型 | 15 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_world_embodied_entry.md) |
+| 全双工语音与语音 LM（含语音 RL） | 5 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_duplex_speech_entry.md) |
+| 具身智能与世界模型 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-16/2026-11-16_world_embodied_entry.md) |
 
 ### 当天最值得读的 3 篇
 
@@ -585,7 +593,19 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
    效果上 GenEval 的 best-of-n 提升 **4.0%**、RL 后训练提升 **5.5%**，
    并用**多 6 倍的偏好对**超过了 HPSv3。
 
-2. **[Co-Sight Harness: Externalized Control Assets and Deterministic Enforcement for Long-Horizon Business Agents](https://arxiv.org/abs/2611.17696)**（llm_vlm · llm_core #1，8.7）
+2. **[Heavy Metal Acrobatics: Learning Dynamic Control for Skid-Steer Loaders](https://arxiv.org/abs/2611.18365)**（world_embodied · embodied_ai #1，9.0）
+   — **sim-to-real 第一次落到真正的吨级液压机械上，而且它诚实地报出了失败在哪。**
+   这篇在真实的 **5 吨 John Deere 332G 滑移装载机**上做两轮起立、轮上越野与原地旋转，
+   机械臂的可行角区间是 **[28°, 34°]**，训练时却只在 **29°–31°** 之间随机化——
+   实测 28° 与 31° 时分别 **11/11、12/12 全部成功**，抬到 34° 时降到 **11/14（78.6%）**，
+   而且 **3 次失败全是铲斗触地**。
+   作者对失败的解释很有信息量：臂抬高之后系统惯量变大、摆起后更难减速，
+   所以**残余 sim-to-real 差距主要来自没有被随机化的惯量参数，而不是策略本身不够好**。
+   **对做机器人迁移的人，这篇值得先读**：它把「sim-to-real 还差多少」变成一个可以定位到参数的诊断问题，
+   并且给出了一条可操作的修法——把臂位这类改变惯量的构型参数一并纳入训练随机化，
+   同时用「训练分布内 / 分布外」分组成功率而不是单一成功率来评估策略。
+
+3. **[Co-Sight Harness: Externalized Control Assets and Deterministic Enforcement for Long-Horizon Business Agents](https://arxiv.org/abs/2611.17696)**（llm_vlm · llm_core #1，8.7）
    — **长流程 agent 不可靠，可能不是因为语言模型不够强，而是因为流程定义还留在模型里。**
    这篇把「流程定义、状态与领域知识」从模型里搬出来，放进**版本化的控制资产**，
    用状态机和可机器检查的验收门在执行期强制执行，再由独立审计器给轨迹打分，
@@ -596,18 +616,6 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
    **对做长流程 agent 的人，这篇的价值是它给出了一个可迁移的分工**：
    模型负责生成，资产负责约束，二者解耦之后收益是可验收的，
    而且另外两个域由**没有参与资产编写**的团队接管，分别用 4 天和 7 天完成。
-
-3. **[V-JEPA-LM: Video-Language Models That Read Dynamics Beyond Static, Text-Aligned Representations](https://arxiv.org/abs/2611.17831)**（world_embodied · world_model #1，8.7）
-   — **世界模型编码器学到的动态，视频语言模型基本没用上。**
-   V-JEPA 这类编码器只从视频里就学会了方向、速度、顺序、状态；但接上语言模型之后，
-   每个 caption 和问题只点名片段里少数几个属性，模型于是学会「检索那几个属性」而不是「读这个片段」。
-   证据很直接：**在同一批样本上，线性探针能从冻结的 V-JEPA 特征里读出速度（87%），而 VLM 却在随机水平。**
-   这篇进一步定位了动态藏在哪里：对 V-JEPA 这类预测式编码器，它在一个跨视频共享的子空间里；
-   而对 SigLIP 这类逐帧、文本对齐的编码器，就没有这个共享分量。
-   修法是**反事实监督**——用像素变换把公开视频变成答案平衡的变体，答案只由变换决定，
-   从而强迫语言模型去读动态。单阶段训练、4.53M 公开样本、每帧 32 个视觉 token。
-   **对做世界模型的人，这篇值得先读**：它把「世界模型学到的动态有没有被用上」
-   变成一个可以量化诊断的问题，**87% vs 随机水平**这个对比就是诊断仪本身。
 
 ## 2026-11-14
 
@@ -684,39 +692,58 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
   （美东 11 月起为冬令时（EST, UTC-5），14:00 ET 的投稿截止对应 **19:00Z**；
   本批次是退伍军人节后的**合并批次**——2026-11-11 当天 arXiv 不发布任何公告，
   11-10 14:00 ET ~ 11-12 14:00 ET 收到的投稿统一在 **2026-11-13 01:00 UTC** 一次性公告）
-- **扫描**：100 条原始 / **77 篇去重**（cs.AI 34 / cs.LG 13 / cs.CL 11 / cs.RO 5 / cs.CR 5 / cs.CV 4，其余零散）
-- **全文精读**：34 篇，抽取作者机构与论文原图
-- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **34 篇**，全局无重复
-  - `aigc_visual` **0 篇**（aigc_generation 0 / aigc_editing 0 / aigc_rl 0），base 15 —— 三个方向**全部断供**
-  - `llm_vlm` 18 篇（llm_core 11 / vlm_core 4 / llm_vlm_rl 3），base 18 —— 正好打满
-  - `duplex_speech` 3 篇（duplex_speech_core 3 / speech_rl **0**），base 12 —— `speech_rl` 断供
-  - `world_embodied` 13 篇（world_model 3 / embodied_ai 10），base 15 —— `embodied_ai` 富余
-- **Wild-card**：本批 **0 篇** —— 让出的名额全部由同轴内**同方向**的够格论文吸收，
-  没有需要用邻接选题补位的空位，因此不启用任何 wild-card 名额
-- **机构标注**：34 篇逐篇核对 PDF 首页，机构行内编号已拆开、跨行脚注已合并；
-  其中 2 篇（Genie Sim Benchmark、DIVAL）首页确实没有机构行，标 `[unverified]`，未编造
+- **扫描**：按完整窗口重抓，**560 条原始 / 404 篇去重**
+  （cs.AI 157 / cs.LG 148 / cs.CV 109 / cs.CL 65 / cs.RO 51 / cs.SD 14 / cs.IR 9 / eess.AS 7）；
+  扣除历史日报已发过的 **78 篇**后，候选池 = **326 篇从未出现在任何日报里的论文**
+  \+ 本日报原先已发的 34 篇 = **360 篇**
+- **全文精读**：**60 篇**（本轮新读 38 篇 PDF，其余 22 篇沿用已核对的卡片与机构），抽取作者机构与论文原图（**101 张**）
+- **研究线**：**4 个 axis × 10 个 direction**（skill v0.8.0 口径），当天目标 **60 篇**，实际 **60 篇**，全局无重复
+  - `aigc_visual` 12 篇（aigc_generation 5 / aigc_editing 5 / aigc_rl 2），base 15 —— 三个方向全部低于基准，让出 3 个名额
+  - `llm_vlm` 20 篇（llm_core 10 / vlm_core 5 / llm_vlm_rl 5），base 18 —— 打满 axis 上限 20
+  - `duplex_speech` 8 篇（duplex_speech_core 8 / speech_rl **0**），base 12 —— `speech_rl` 仍断供，让出 4 个名额
+  - `world_embodied` 20 篇（world_model 7 / embodied_ai 13），base 15 —— 打满 axis 上限 20
+- **Wild-card**：本批 **0 篇** —— 补跑后每个 direction 都有足量够格论文，没有需要用邻接选题补位的空位
+- **机构标注**：60 篇逐篇核对 PDF 首页，机构行内编号已拆开、跨行脚注已合并、作者行与邮箱行已剔除；
+  **4 篇** PDF 全文确无机构行，按「不得编造」标 `[unverified]`，未据邮箱域名反推：
+  2611.15020、2611.14918、2611.15143、2611.15296
+- **去重**：已排除历史日报发过的 **78 篇**（含本日报原先发过的 34 篇）
 
-> ⚠️ **这是一个残缺的合并批次，总量只有 77 篇**。所有 v1 时间戳只落在
-> `[2026-11-10T22:38:53Z, 2026-11-11T05:10:32Z]` 这 **6.5 小时**里，arXiv id 区间为
-> `2611.14801 .. 2611.15044`——退伍军人节无公告日造成的一刀切截断。
-> 按 skill「薄方向让出名额而不是被填充」的口径，当天发 **34 篇**而不是硬凑 60 篇：
-> 缺的是供给，不是筛选力度。
+> ⚠️ **本轮是对 2026-11-13 那份日报的完整重跑，不是增量补发**。
+> 当初那一轮只索引到批次的前 6.5 小时（`[2026-11-10T22:38:53Z, 2026-11-11T05:10:32Z]`，共 77 篇），
+> 退伍军人节无公告造成的一刀切截断；按完整窗口重抓后是 **404 篇**，
+> 候选池从 77 篇变成 **360 篇**（326 篇新候选 + 34 篇原已发布），
+> 当天篇数从 **34 篇补到 60 篇**，图从 33 张增到 **101 张**。
 
-> ⚠️ **AIGC 视觉整条线发 0 篇**。对全批 77 篇做正则扫描（text-to-image / text-to-video /
-> image|video generation / 3D|4D generation / image|video editing / inpainting /
-> instruction editing / diffusion model / flow matching / gaussian splatting / novel view /
-> subject-driven / reward model for image|video / GRPO 与视觉类词共现 / best-of-N / HPSv2 /
-> GenEval / DrawBench 等），**命中 0 篇**；唯一一条命中是 2611.15040《Moving Beyond the DRW Model》
-> （用生成模型建模类星体光学连续谱变异性），属天体物理伪阳性。面向视觉生成的 RL 同样为 0 篇。
+> ⚠️ **AIGC 视觉整条线从 0 篇补到 12 篇**，是本轮变化最大的轴。
+> 原来对 77 篇做正则扫描命中 0 篇 AIGC 论文；完整批次里 AIGC 侧有 **16 篇**过筛，
+> relevance ≥ 5 的 12 篇全部入选：`aigc_generation` 5、`aigc_editing` 5、`aigc_rl` 2。
+> 但整轴 12 篇仍低于基准 15，让出的 3 个名额按富余量交给了 `llm_vlm` 与 `world_embodied`。
+
+> ⚠️ **12 篇已发布论文被置换、38 篇新论文入选**，这是规则强制的结果而不是任意删减。
+> `llm_vlm` 侧有 **10 篇 rel ≥ 9 的新论文**（llm_core 6 / vlm_core 3 / llm_vlm_rl 1）挤进本 axis，
+> 而该轴同时被 `AXIS_CAP = 20` 顶死：按 `dir_over ≤ max(dir_under, axis_surplus)`，
+> `llm_core` 让出 7 个位置、`vlm_core` 让出 2 个位置。
+> **唯一一篇 rel ≥ 9 仍然落选的是 2611.14924（Edge-Native Multimodal RAG）**——
+> `llm_core` 在 axis 上限下最多容纳 10 篇，而该方向有 11 篇 rel ≥ 9 争这 10 个位置，
+> 2611.14924 与 2611.14850 同为 final 8.70，按 id 排序落在后面。
+> 其余 11 篇被置换的论文 relevance 均为 8 或 7，落选明细见下面的审计表。
+
+> ⚠️ **落选审计（可逐条核对）**：
+> - 被置换的 12 篇已发布论文：2611.14895 / 2611.14958 / 2611.14918（embodied_ai）、
+>   2611.14924 / 2611.14910 / 2611.14960 / 2611.14980 / 2611.14997 / 2611.15006 / 2611.14844（llm_core）、
+>   2611.14931 / 2611.14970（vlm_core）
+> - rel ≥ 9 但未入选：**2611.14924**（llm_core，rel 9 / q 8，final 8.7，1 篇）
+> - 其余落选候选：候选池中 relevance ≥ 9 但受 `AXIS_CAP = 20` 限制未进前 60 的共 1 篇；
+>   relevance ≤ 8 的候选按 final 分排序落在 60 名之外，不逐一列举
 
 ### 各 axis
 
 | axis | 篇数 | 报告 |
 | --- | --- | --- |
-| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 0 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_aigc_visual_entry.md) |
-| LLM / VLM 与其强化学习 | 18 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_llm_vlm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_llm_vlm_entry.md) |
-| 全双工语音与语音 LM（含语音 RL） | 3 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_duplex_speech_entry.md) |
-| 具身智能与世界模型 | 13 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_world_embodied_entry.md) |
+| AIGC 图像/视频/3D/4D 生成与编辑（含面向视觉生成的 RL） | 12 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_aigc_visual_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_aigc_visual_entry.md) |
+| LLM / VLM 与其强化学习 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_llm_vlm_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_llm_vlm_entry.md) |
+| 全双工语音与语音 LM（含语音 RL） | 8 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_duplex_speech_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_duplex_speech_entry.md) |
+| 具身智能与世界模型 | 20 | [报告](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_world_embodied_report.md) · [条目](daily_arxiv_digest/2026_11/2026-11-13/2026-11-13_world_embodied_entry.md) |
 
 ### 当天最值得读的 3 篇
 
@@ -730,27 +757,28 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
    而且方向与 hacking 的关系**跨模型不一致**，这既是警告也是研究入口。
    **对做 reward hacking 防御的人，这篇提供的是一个可测量的先行指标，而不是事后归因。**
 
-2. **[Mask-Pattern Position Augmentation: Training-Free Long-Context Extrapolation for Diffusion LLMs](https://arxiv.org/abs/2611.15029)**（llm_vlm · llm_core #3，9.0）
-   — **自回归模型的长上下文外推方案直接搬到扩散 LM 上会漏掉一个信号：掩码图样。**
-   dLLM 靠迭代解掩码生成，RoPE 仍把它锁死在预训练窗口内。已有的免训练外推
-   （如 LongLLaDA）照搬 AR 的 NTK 式 RoPE 缩放，对每个位置、每个去噪步都套同一个
-   与长度有关的静态变换——**这恰恰丢掉了 dLLM 独有的信息：部分解码序列的掩码图样**。
-   MPPA 的做法是先线性插值索引进预训练窗口，再按累计掩码密度给每个位置、每一步
-   加一个偏移，把插值压掉的旋转相位分辨率补回来；token 落定后偏移自然收缩，
-   所以后期步骤看到的是近乎干净的插值几何。**在 LLaDA-8B-Instruct 上把窗口外推 2×，
-   8192 token 处的困惑度从标准解码的 19.51 降到 3.12（低于窗口内数值），
-   passkey 检索 100% 通过，needle-in-a-haystack 准确率不变。**
-   **对做扩散 LM 长上下文的人，这篇的启发是：位置编码要为「掩码」这个状态建模，而不只是为长度建模。**
+2. **[Video-as-Experience: Learning Computer Use via Audio-Visual Understanding](https://arxiv.org/abs/2611.18747)**（llm_vlm · vlm_core #1，9.0）
+   — **让 agent 学会用电脑，光看屏幕不够，还得让它听见讲解。**
+   这篇把两种经验来源统一成同一个音视频输入：一边是**看教程视频学操作**，
+   一边是**回看自己执行后的录像做自检**。9B 的 video-SALMONN-VEX 在 OSWorld-Verified 上总体成功率
+   **49.99%**（骨干 Qwen3.5-9B 为 41.15%，相对提升 22%），
+   CUA-Gym 的 220 任务子集上 **26.26%** 对 18.33%（提升 43%）。
+   **最关键的一个消融是：去掉音频模态，OSWorld 掉到 46.42%、CUA-Gym 掉到 24.16%**
+   ——教程里的口头讲解承载了大部分可执行步骤，光看画面是不够的。
+   另一条线索是双 LoRA 的 AGGO 比单 LoRA 高 6.27 个百分点：
+   「引导生成」与「动作预测」两种能力需要分开承载，合并成一个适配器会互相拖累。
+   **对做 computer-use agent 的人，这篇值得先读**：
+   它把「给 agent 喂什么数据」这个问题从「更多高质量轨迹」换成了「**音频通道别丢**」。
 
-3. **[Scaling VLA Serving Under Robotic Execution Constraints](https://arxiv.org/abs/2611.14969)**（world_embodied · embodied_ai #2，9.0）
-   — **这批论文里唯一一篇来自生产环境的：数百台 VLA 机器人已经在真实仓库里跑着。**
-   难点不是「怎么把一次推理跑快」，而是**机器人在等动作**：延迟超预算就直接影响抓取节拍，
-   所以真正的指标是「一张 GPU 能同时服务多少台机器人」（effective robot capacity，ERC），
-   而不是 tokens/s。XINFER 的做法是把**异构 VLA 计算**与**不断变化的机器人响应需求**协同调度，
-   利用计算并行性、同时管理干扰——放行一个新阶段可能反过来拖慢正在跑的阶段。
-   **在三个 VLA 模型、production-derived 负载下，ERC 达到当时 SOTA 系统的 1.26–3.75 倍。**
-   **对做机器人服务系统的人，这篇把「VLA 部署」从推理优化问题变成了一个带物理执行约束的调度问题；
-   实现已开源（`github.com/X-Square-Robot/xinfer`）。**
+3. **[Fast Inference-Time Policy Refinement via Action-Affine World Models](https://arxiv.org/abs/2611.15011)**（world_embodied · world_model #1，9.0）
+   — **冻结的扩散策略不需要重训也能变强，只要世界模型学会「小幅动作修正会怎么改变结果」。**
+   A²WM 只学这一局部响应，把名义轨迹与线性修正项一起预测，线上只需**一次模型评估加一次凸 QP 求解**。
+   在 OneLeg、RoundTable、Lamp、PushT 四个仿真操作任务上，
+   平均成功率从冻结扩散策略的 **27.18% 提到 59.51%**（OneLeg 75.26%、PushT 78.78%），
+   每个控制步的额外开销只有 **3.80 ms**——同任务上的 GPC-OPT 在 PushT 上需要 346.47 ms。
+   **对做世界模型与扩散策略的人，这篇值得先读**：
+   它把「规划期误差校正」这件事从「在线再训练或在线树搜索」换成了
+   「**名义轨迹 + 线性响应 + 凸 QP**」这一可离线准备、线上近乎零成本的结构。
 
 ## 2026-11-12
 

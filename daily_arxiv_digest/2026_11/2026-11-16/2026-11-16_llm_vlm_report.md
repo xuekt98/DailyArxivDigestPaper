@@ -8,27 +8,27 @@
 
 **Axis**: llm_vlm (20 papers, base 18, cap 20)
 
-**Directions**: llm_core (10), vlm_core (5), llm_vlm_rl (5)
+**Directions**: llm_core (8), vlm_core (6), llm_vlm_rl (6)
 
 **Selection**: 20 papers ranked by relevance x quality, with 0 wild-card slots
 
-**Day total**: 48 papers across 4 axes (target 60)
+**Day total**: 60 papers across 4 axes (target 60)
 
 **Scope**: 大语言模型与视觉语言模型的设计、推理、agent、效率与上下文工作，以及面向 LLM / VLM 的 RL 与偏好优化、奖励模型
 
-**Wild-card**: 0 —— 本 axis 未启用任何补位名额，三个 direction 都有足量够格论文，按候选富余量把名额分给了 `llm_core`，没有需要用邻接选题补位的空位。
+**Wild-card**: 0 —— 本 axis 未启用任何 wild-card 名额，三个 direction 都有足量够格论文，按候选富余量分配名额即可，无需用邻接选题补位。
 
-**本 axis 20 篇，打满 axis 上限 20**：候选池 94 篇，是本批次供给最充裕的轴。`llm_core` 10 篇、`vlm_core` 5 篇、`llm_vlm_rl` 5 篇——`llm_core` 超出基准 2 个，正是 axis 内 `dir_under = 0` 时由 `axis_surplus = 2` 允许的额度。
+**本 axis 维持 20 篇，继续打满 `AXIS_CAP = 20`，但方向构成变了。** 原分配 `llm_core` 10 / `vlm_core` 5 / `llm_vlm_rl` 5，本轮为 8 / 6 / 6：新增的 5 篇 `llm_core`（UUE、Soteria、LACCO、VelServe、Callo）与 1 篇 `vlm_core`（MMFlash）、1 篇 `llm_vlm_rl`（G-CAST）挤出了 7 篇旧的 `llm_core`。
 
-**`llm_vlm_rl` 的 5 篇全部是无人工偏好数据的可验证奖励路线**：MDLM 的逐块方差缩减策略梯度、模型自己出反方陈词自己裁定的辩证能力训练、可验证判据的晶体结构 agentic 搜索、自动化 RL 训练过程监督、以及用 F1 当奖励的 AI 审稿人。本批没有一篇典型的「RLHF 打偏好数据」型工作。
+**同轴让位：7 篇已发布的 `llm_core` 被挤掉，5 篇新论文是 rel ≥ 9 的必进项。** 本批 `llm_vlm` 侧共有 11 篇 relevance ≥ 9（`llm_core` 7、`vlm_core` 2、`llm_vlm_rl` 2），按 skill「rel ≥ 9 必进、同 axis 内让位」的口径，被挤出的 7 篇 `llm_core` 分别是 Interpreting Coding Agents、Unfinished-Bench、More Agents More Samples or More Thinking、LuthorSQL、Can Agents Keep Up with Time、Fuse-All MoE Inference Kernel 与 RAG-FGO，它们的 relevance 都是 8、低于必进线。
 
-⚠️ **pool 预筛有漏采**：另有 2611.17806（agent 的时间感知）、2611.17696（长程业务 agent 的确定性执行）、2611.17460（持久化 agent 的规则违规评测）、2611.17707（随机滤波重建损失）等论文的标题摘要都未命中 `pipeline.py` 的轴级正则，是逐篇读完全量候选时补进来的。词表本身不差，但**不能只依赖 pool 的关键词命中**。
+**超基准名额由 axis 富余吸收。** `vlm_core` 与 `llm_vlm_rl` 各超基准 1 个，而本 axis 的 `dir_under = 0`，因此这 2 个名额靠 `axis_surplus = 20 − 18 = 2` 放行。
 
 ---
 
-## LLM 核心（架构 / 推理 / agent / 效率 / 上下文） · `llm_core` (10 papers)
+## LLM 核心（架构 / 推理 / agent / 效率 / 上下文） · `llm_core` (8 papers)
 
-本方向 10 篇，沿三条主线展开。**长期 agent**：CarryOn 学的是「在长程交互历史里该保留什么」，它指出既有做法大多在压缩历史，却没有回答该保留哪部分；Co-Sight Harness 把工作流定义、状态与领域知识整体外置成版本化控制资产，用状态机与可机器检查的验收门在执行期强制，并由独立审计器给轨迹打分；Can Agents Keep Up with Time 把「感知到当前时间」和「用时间改计划」明确拆成两件事，发现 agent 常常能拿到时间、甚至在推理里写下「日期已过」，却仍然让用户为一个过期事件做准备。**工程与效率**：LuthorSQL 让一个一次通过的 text-to-SQL 模型充当慢速 LLM agent 的 System 1，把每次查询都调外部模型的延迟与隐私暴露挪走；Interpreting Coding Agents 用 143,209 条执行轨迹、125 种 agent 配置与 117 个模型把 coding agent 的行为拆成可比较的结构；More Agents, More Samples, or More Thinking 用 516 组独立评测把多智能体协作、集成与测试时算力三者解耦；Fuse-All MoE 在 TPU 上给出带负载均衡的 MoE 推理 kernel。**安全与评测**：Unfinished-Bench 的 97 个情景里目标与规则不可兼得，它发现持久化会把「内部文档里写的规则」的违规率从 32.2% 抬到 43.6%，是同一条规则由用户直接说出时 8.5% 的五倍，而且 98.3% 的违规发生在规则已经展示之后；Reflect-Reasoning 训练的则是「如何推理原则」而不是「该遵循哪些原则」。RAG-FGO 则把 query rewriting 放进离散—连续混合空间，当作带精英记忆池的黑箱优化问题来做。
+本方向 8 篇里 5 篇新增，覆盖**模型编辑、安全、长程 agent 与训练推理基础设施**四条线。模型编辑侧 UUE 把参数更新投影到保留知识表征的左零空间并给出闭式解，TOFU forget01 上把 Phi-1.5B 的 ROUGE-L 遗忘分从 0.9530 压到 0.3178，而保留分仅从 0.9290 微降到 0.9228，闭式适配器更新只占总运行时间的 5.5%。安全侧 Soteria 先验地形式验证计划并在运行期强制执行，三个基准 207 个任务、四个模型上全部达成 100% 一致性与零规格违反（最强基线最高 93.0%），而 Alignment with Reflect-Reasoning 教的是「如何对原则做反思推理」而不是「遵守哪些原则」，留出原则上对 Base-ICL 胜率 82.5%–94.7%，无需人工标注即可迁移到金融与医疗。长程 agent 侧 CarryOn 回答「长程交互历史里该保留什么」，把紧凑执行状态与带来源链接的细粒度证据分开管理，三个 benchmark、三个 Actor 上宏平均成功率 75.7%，比最强基线高 6.7 个点；Co-Sight Harness 则把工作流定义、状态与领域知识外置成版本化控制资产，120 例评测里无人值守完成率从 50% 升到 100%、端到端延迟从 440 分钟降到 159 分钟。基础设施三篇都是新增：LACCO 用前瞻加主两阶段让全局通信与本地计算重叠，0.5B 模型在 0.5 Gbps 下端到端加速 1.89 倍、与 DDP 差距不超过 1.77%；VelServe 按自身迭代延迟的实测尾部校准每步预填充预算，SLO goodput 是最强基线的 2.4–2.9 倍；Callo 复用被作废的 KV 起草并在精确 KV 上校验，草稿下一 token 一致率 98.3%、32 token 窗口在 65% 的 miss 请求中整窗接受。
 
 ### 1. Co-Sight Harness: Externalized Control Assets and Deterministic Enforcement for Long-Horizon Business Agents
 
@@ -90,7 +90,163 @@
 
 ---
 
-### 3. Alignment with Reflect-Reasoning: Learning How To Follow Principles
+### 3. Disentangling Forgetting from Utility: Lightweight LLM Unlearning via Orthogonal Null-Space Projection
+
+**arXiv**: [2611.17864](https://arxiv.org/abs/2611.17864) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, machine-unlearning, null-space-projection, model-editing, low-rank-adapter, membership-inference, Zhejiang University | **Categories**: cs.LG | **Pages**: 12
+
+**Authors**: Xiuyuan Wang; Weiming Liu; Zongxin Yang; Fan Wang; Liemiao Jin; Rubin Qin; Wei Chen; Bin Shi; Chaochao Chen; Xiaolin Zheng
+
+**Affiliation**: Zhejiang University; University of Illinois Chicago
+
+**Abstract**
+
+> Large Language Models (LLMs) pose significant security risks by retaining private or hazardous information, creating an urgent need for unlearning techniques that excise specific knowledge without compromising general utility. However, prevailing fine-tuning-based unlearning methods struggle to achieve this balance, often suffering from computational inefficiency and unintended utility degradation due to the entangled nature of knowledge within model parameters. To disentangle forgetting from utility, we propose UUE, a theoretically grounded framework that reformulates unlearning as controllable model editing. First, UUE projects parameter updates into the orthogonal left null space of retained knowledge representations, strictly ensuring that the editing process causes minimal interference to the model's general capabilities. Second, distinct from targeted mapping, we introduce a convex untargeted objective that derives a closed-form analytical solution to effectively disrupt undesired knowledge by pushing forget-set embeddings toward their antipodal points. We implement UUE via lightweight, pluggable adapters (including a low-rank variant, UUE-L), enabling efficient deployment without modifying the frozen backbone. Extensive experiments on TOFU and WMDP benchmarks demonstrate that UUE and UUE-L achieve superior unlearning efficacy, significantly outperforming existing methods.
+
+**Key findings**
+
+- **Finding**: 在 TOFU forget01 上 UUE 把 Phi-1.5B 的 ROUGE-L 遗忘分由原始模型的 0.9530 降到 0.3178（重训参考为 0.4378），而 ROUGE-L 保留分仅由 0.9290 降到 0.9228。
+- **Inference**: 把参数更新限制在保留知识表征的左零空间，可以让破坏性方向与通用能力方向近似正交，因此遗忘与效用不必牺牲彼此。
+- **Recommendation**: 评估遗忘效果时应同时看成员推断 AUC（UUE 0.6372、UUE-L 0.6154，高于 RMU 的 0.6127），并注意闭式适配器更新只占总运行时间的 5.5%。
+
+**Key figures**
+
+*Framework - (a) Illustration of targeted vs. untargeted unlearning. Orange: original forget data representations; red: harmful targets; green: safe (harmless) region; green dot: explicit refusal response. (b) Overall architecture of the UUE framework.*
+
+![Disentangling Forgetting from Utility: Lightweight LLM Unlearning via Orthogonal Null-Space Projection - framework](res/2611.17864_framework.png)
+
+*Result - Evaluation of regularization parameters on TOFU forget05 with Phi- 1.5B. Vertical dashed lines mark the selected settings.*
+
+![Disentangling Forgetting from Utility: Lightweight LLM Unlearning via Orthogonal Null-Space Projection - result](res/2611.17864_result.png)
+
+**Why this ranks #3**: 遗忘属可控的模型编辑问题：UUE 把更新投影到保留表征的左零空间并给出闭式解，TOFU forget01 上把 Phi-1.5B 的 ROUGE-L 遗忘分从 0.9530 压到 0.3178，保留分仅从 0.9290 微降到 0.9228，成员推断 AUC 达 0.6372 高于 RMU 的 0.6127。
+
+---
+
+### 4. Soteria: Formally Verified Planning with Runtime Enforcement for Safe LLM Agents
+
+**arXiv**: [2611.17880](https://arxiv.org/abs/2611.17880) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, llm-agent, formal-verification, runtime-enforcement, tool-use, safety, Princeton University | **Categories**: cs.AI, cs.SE | **Pages**: 30
+
+**Authors**: Mike He; Ankush Desai; Sharad Malik; Aarti Gupta
+
+**Affiliation**: Princeton University
+
+**Abstract**
+
+> LLM agents that execute multi-step tool calls must satisfy two objectives simultaneously: completing the user's task (utility) and conforming to domain policies and correctness constraints (safety). These objectives are in tension -- blocking an unsafe action prevents a violation but can leave the agent stranded with no principled way to recover. Existing approaches sacrifice one objective for the other. We introduce Soteria, a framework that reconciles safety and utility through verified hierarchical planning and runtime enforcement of specifications. Before execution, the agent generates a structured plan that is formally verified against the specifications prior to any tool invocation. During execution, the verified plan serves dual roles: it ensures that the agent takes specification-conformant trajectories and provides guidance when unsafe actions are blocked. Across multiple benchmarks covering a diverse range of tool-use tasks, Soteria achieves 1.7 times the average task success rate of the best baselines, with no violations of policy specifications, demonstrating that safety and utility need not be traded off.
+
+**Key findings**
+
+- **Finding**: 在三个基准的 207 个任务上，SOTERIA 对四个模型全部达到 100% 一致性、零规格违反；最强基线 τ²-Retail 的 ABC 配 Gemini 一致性 93.0% 但伴 8 次违反，τ²-Airline 最佳为 90.0% 伴 5 次违反。
+- **Inference**: 先验地形式验证计划并在运行期强制执行，能让被拦下的动作沿已验证的子计划恢复，因此安全与可用性不必二选一。
+- **Recommendation**: 给多步工具调用智能体加护栏时先让规划器产出可验证的分层计划并固化可复用子计划，可把计划中位长度从 11 个状态压到 8 个。
+
+**Key figures**
+
+*Framework - Overview of SOTERIA*
+
+![Soteria: Formally Verified Planning with Runtime Enforcement for Safe LLM Agents - framework](res/2611.17880_framework.png)
+
+*Result - A parent plan composing the CANCEL and REFUND sub-plans. The planner generates the top-level plan; each sub-plan encapsulates one procedure and is reused across tasks.*
+
+![Soteria: Formally Verified Planning with Runtime Enforcement for Safe LLM Agents - result](res/2611.17880_result.png)
+
+**Why this ranks #4**: 多步工具调用的 LLM 智能体属本方向跟踪范围：Soteria 在三个基准 207 个任务、四个模型上全部达成 100% 一致性与零规格违反，最强基线一致性最高仅 93.0%，任务成功率平均为最强基线的 1.7 倍，GPT-5.4-mini 在 τ²-Retail 上达 90.4% 对基线 46.5%。
+
+---
+
+### 5. LACCO: Local Accumulation with Computation--Communication Overlap
+
+**arXiv**: [2611.17991](https://arxiv.org/abs/2611.17991) | **Score**: 8.4 (relevance 9 x 0.7 + quality 7 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, distributed-training, communication-overlap, low-bandwidth-pretraining, convergence-guarantee, Sorbonne Université | **Categories**: cs.AI, cs.LG | **Pages**: 34
+
+**Authors**: Daniele Kopyshevskiy; Benjamin Th{é}rien; Nicolas Pinto; Edouard Oyallon
+
+**Affiliation**: Sorbonne Université, ISIR
+
+**Abstract**
+
+> Training language models across low-bandwidth networks requires reducing synchronization overhead. Local optimization methods such as DiLoCo communicate only after several local steps, but outer gradient averaging and the outer update remain on the critical path. Existing computation-communication overlap methods avoid this stall through delayed or replica-local updates, which can degrade convergence or cause replicas to drift. We propose LACCO (Local Accumulation with Computation-Communication Overlap), a two-stage algorithm that overlaps global communication with local computation while applying globally aggregated updates shared by every replica, without introducing staleness in the outer update. We establish convergence guarantees for smooth non-convex objectives. Experiments on language-model pre-training with FineWeb show that LACCO consistently outperforms communication-overlapped baselines such as Eager and Delayed DiLoCo. These gains remain robust as model size scales up to 0.5B parameters and across a range of communication intervals and numbers of replicas up to 16 workers, while incurring only negligible-or fully overlappable-computational or memory overhead, which demonstrates the strength of LACCO.
+
+**Key findings**
+
+- **Finding**: 在 FineWeb 预训练 134M 模型、K=4、H=30 的对照中，LACCO 与 DDP 的差距不超过 1.77%、与 DiLoCo 不超过 0.91%，同时在 HellaSwag 与 PIQA 上优于重叠类基线。
+- **Inference**: 用前瞻加主两阶段让全局通信与本地计算重叠，且所有副本共享全局聚合更新，就能在不引入外层参数陈旧的前提下消掉同步停顿。
+- **Recommendation**: 在低带宽集群预训练时可按两阶段外层更新组织通信与计算，0.5B 模型在 0.5 Gbps 下实测端到端加速 1.89 倍，且额外显存与计算开销可忽略。
+
+**Key figures**
+
+*Framework - Timeline of outer updates in LACCO and DiLoCo. Vertical marks indicate communica- tion launches of outer gradients. B is the global batch size and K is the number of replicas.*
+
+![LACCO: Local Accumulation with Computation--Communication Overlap - framework](res/2611.17991_framework.png)
+
+*Result - Overview of LACCO. Each outer iteration alternates a lookahead stage (red) and a main stage (blue), each consisting of H inner steps on K = 4 replicas. While one stage performs its local ste*
+
+![LACCO: Local Accumulation with Computation--Communication Overlap - result](res/2611.17991_result.png)
+
+**Why this ranks #5**: 预训练通信开销是训练基础设施问题：LACCO 在 FineWeb 上训练 134M 至 500M 模型，与 DDP 的差距不超过 1.77%、与 DiLoCo 不超过 0.91%，0.5B 模型在 K=4、H=30、0.5 Gbps 带宽下端到端加速 1.89 倍，1 Gbps 下 1.44 倍。
+
+---
+
+### 6. VelServe: Taming Decode Jitters in LLM Inference with Tail-Calibrated Scheduling
+
+**arXiv**: [2611.18392](https://arxiv.org/abs/2611.18392) | **Score**: 8.4 (relevance 9 x 0.7 + quality 7 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, llm-serving, latency-slo, prefill-decode, tail-latency, scheduling, Microsoft | **Categories**: cs.AI | **Pages**: 22
+
+**Authors**: Ishaan Datta; Alind Khare; Koushik Kumar Dey; Ratnesh Jamidar; Anand Kumar Singh
+
+**Affiliation**: Microsoft
+
+**Abstract**
+
+> Interactive LLM services must meet latency service-level objectives (SLOs) for the time to first token (TTFT) and the time between tokens (TBT), as streaming and soft real-time applications require predictable token delivery. We identify decode jitters in both aggregated and disaggregated serving. A jitter delays every request in the batch, and long responses span hundreds of steps, so even rare overruns cause many SLO violations. In aggregated serving, SLO-aware schedulers set each step's prefill budget until its predicted latency just meets the TBT target, leaving no room for mispredictions or host stalls. Disaggregation meets average TBT targets at a cost in capacity, yet the steps that admit new requests still run late. We present \sysname, a scheduler that calibrates how much prefill work each decode step carries using the measured tail of its own iteration latency. The SLO determines how rare a late step must be, and \sysname leaves enough headroom in each iteration to prevent overruns and meet the target decode latency. This headroom slows prefill, so \sysname serves the shortest waiting prompt first. When TTFT deadlines grow with prompt length, the long prompts it delays have the most time to spare. Under disaggregation, it spaces admissions so that no request waits on more slow admission steps than its P99 target allows. On three attention families and varying workloads, \sysname sustains 2.4--2.9$\times$ the SLO goodput of the strongest baseline on Qwen3-8B and DeepSeek-V4-Flash, and at least 4.4$\times$ on DeepSeek-V2-Lite. With prefill and decode disaggregated on eight GPUs, \sysname meets the SLO for more than twice as many requests as state-of-the-art baselines.
+
+**Key findings**
+
+- **Finding**: VELSERVE 在 Qwen3-8B 与 DeepSeek-V4-Flash 上的 SLO goodput 是最强基线的 2.4–2.9 倍，在 DeepSeek-V2-Lite 上至少 4.4 倍，在回放的 Mooncake trace 上为 2.7 倍。
+- **Inference**: 尾部校准的预填充预算把偶发超时从算力问题变成可预留裕量的问题，说明解码抖动的主因是每步预埋的预填充工作量而非解码本身。
+- **Recommendation**: 配置解码调度时应按自己迭代延迟的实测尾部反推每步预填充 token 预算而非用均值预测，并优先服务等待时间最短的提示。
+
+**Key figures**
+
+*Framework - Decode jitters persist despite chunked prefill and disaggregation (DeepSeek-V4-Flash, replayed Mooncake trace). Each step of a staircase is one iteration, which gives every decoding request on*
+
+![VelServe: Taming Decode Jitters in LLM Inference with Tail-Calibrated Scheduling - framework](res/2611.18392_framework.png)
+
+*Result - With compressed attention, a decode costs about one prefill token (a) and context barely matters (b).*
+
+![VelServe: Taming Decode Jitters in LLM Inference with Tail-Calibrated Scheduling - result](res/2611.18392_result.png)
+
+**Why this ranks #6**: 推理效率是 LLM 本体的核心议题之一：VelServe 按自身迭代延迟的实测尾部校准每步预填充预算，在 Qwen3-8B 与 DeepSeek-V4-Flash 上把 SLO goodput 提到最强基线的 2.4–2.9 倍，DeepSeek-V2-Lite 上至少 4.4 倍，回放 Mooncake trace 上为 2.7 倍。
+
+---
+
+### 7. Callo: Serving Cache-Miss Requests with Speculative Decoding on Invalidated KV under Prefill-Decode Disaggregation
+
+**arXiv**: [2611.18459](https://arxiv.org/abs/2611.18459) | **Score**: 8.4 (relevance 9 x 0.7 + quality 7 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, speculative-decoding, kv-cache, prefill-decode-disaggregation, llm-serving, agent-workloads, Duke University | **Categories**: cs.DC, cs.LG | **Pages**: 24
+
+**Authors**: Jianjun Ou; Matthew Lentz
+
+**Affiliation**: Duke University
+
+**Abstract**
+
+> Agent sessions may involve frequent context edits, which effectively invalidate cached KV state and force requests to wait for re-prefill before decoding. We present Callo, a disaggregated serving system that leverages invalidated KV for speculative drafts to reduce this latency, while verifying drafts against the exact KV after prefill before committing tokens. Callo makes effective use of decode resources by scheduling speculations during periods of underutilization and preempting speculations when drafts are likely to not be accepted. We evaluated Callo on a two-GPU testbed using SWE-agent sessions across three model families, observing all-request speedups of 1.05-1.19x over vLLM at moderate load. We demonstrate that these gains are also realized at scale through cluster-level simulations driven by real-world traces.
+
+**Key findings**
+
+- **Finding**: 在失效 KV 上起草的草稿，其下一 token 与精确 KV 上一致的比例达 98.3%，下一 token 分布与精确分布在 80% 的位置落在 0.01 总变差以内；32 token 窗口在 65% 的 miss 请求中被整窗接受。
+- **Inference**: 上下文编辑导致的缓存失效本来是纯开销，但失效 KV 与精确 KV 已足够接近，可以当作无损推测草稿的近似来源。
+- **Recommendation**: 做 agent 长会话服务时可在解码实例上复用失效 KV 起草、提交前再替换为精确 KV 校验，并让草稿 top-1 与 top-2 差距过小的位置直接判否以省算力。
+
+**Key figures**
+
+*Result - Drafts made on invalidated KV (Llama-3.3-70B-Instruct FP8, SWE-agent L5, 32-token window, offline). (a) Miss steps whose*
+
+![Callo: Serving Cache-Miss Requests with Speculative Decoding on Invalidated KV under Prefill-Decode Disaggregation - result](res/2611.18459_result.png)
+
+**Why this ranks #7**: 推测解码是 LLM 推理加速的主线：Callo 复用被作废的 KV 起草并在精确 KV 上校验，草稿下一 token 与精确一致率 98.3%、80% 位置的总变差在 0.01 以内，32 token 窗口在 65% 的 miss 请求中整窗接受，全请求加速 1.05–1.19 倍、miss 请求 1.06–1.24 倍。
+
+---
+
+### 8. Alignment with Reflect-Reasoning: Learning How To Follow Principles
 
 **arXiv**: [2611.17398](https://arxiv.org/abs/2611.17398) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, constitutional-alignment, reflective-reasoning, grpo-posttraining, ood-principles, jailbreak-robustness, Duke University | **Categories**: cs.LG | **Pages**: 51
 
@@ -118,239 +274,15 @@
 
 ![Alignment with Reflect-Reasoning: Learning How To Follow Principles - result](res/2611.17398_result.png)
 
-**Why this ranks #3**: 杜克大学与独立研究者用两阶段后训练（先 SFT 再 GRPO）教模型「如何对原则做反思推理」而不是「遵守哪些原则」，全程不需要人工标注数据。五个模型在留出原则上的成对胜率对 Base-ICL 达 82.5%–94.7%、对 Reflect-ICL 达 66.8%–86.9%，并延伸到金融与医疗两个分布外领域（最高 80.2% 与 86.3%），且不损伤模型原有安全工程、对抗性越狱宪法也稳健。
+**Why this ranks #8**: 杜克大学与独立研究者用两阶段后训练（先 SFT 再 GRPO）教模型「如何对原则做反思推理」而不是「遵守哪些原则」，全程不需要人工标注数据。五个模型在留出原则上的成对胜率对 Base-ICL 达 82.5%–94.7%、对 Reflect-ICL 达 66.8%–86.9%，并延伸到金融与医疗两个分布外领域（最高 80.2% 与 86.3%），且不损伤模型原有安全工程、对抗性越狱宪法也稳健。
 
 ---
 
-### 4. Interpreting Coding Agents Through Their Behavioral Trajectories
+## VLM 核心（多模态架构 / 理解 / 视频 / GUI agent） · `vlm_core` (6 papers)
 
-**arXiv**: [2611.17440](https://arxiv.org/abs/2611.17440) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, coding-agent, trajectory-analysis, behavioral-profile, agent-scaffold, tool-call-parsing, Nebius | **Categories**: cs.AI, cs.LG, cs.SE | **Pages**: 18
+本方向 6 篇里 1 篇新增，主线是**多模态模型「看到了」之后是否用对了**。DoubleTake 针对长文档问答里「检索到的页面其实含有充分证据、模型却仍然答错」，让规划器先写出一个可直接从图上核对的事实问题，再由看不到任何候选的独立核验器作答，四个 benchmark 共 4,816 道题微平均准确率 66.76%，高于 MDocAgent 的 65.16% 与基线 60.13%，去掉核验环节就降到 64.56%。ParseBench-2 从评测侧指出既有文档解析度量会给「改了重要事实」的输出打高分（45 张测试表里达到十分目标的只有 56%，修正比较规则后升到 98%），因此按严重程度重新定义了指标。Zoom In, Scale Out 用数码变焦这个极简测试揭示度量深度模型把裁剪放大误当成相机靠近——Depth Anything V2 的深度指数 α=0.95（理想 0），给真实相机的 Metric3D v2-S 才有 −0.07。Q-GAS 把视频表征压进秒级预算（约 3M 参数档下 Beauty 上 PSNR 32.04、418.27 FPS），Vision-as-a-Tool 则把通用 MLLM 重构成 coding agent 可调用的五个原子动作，纯文本 agent 借此完全外放视觉推理。新增的 MMFlash 测出视觉依赖最高四分位的 token 接受率只有 22%、最低四分位 46%，据此对视觉相关 token 加权并用稀疏注意力把长视频上下文从 40K 以上压到约 1.6K，实现最高 3.58 倍无损加速、比 EAGLE-3 高至 195.4%。
 
-**Authors**: Ibragim Badertdinov; Alexander Golubev
-
-**Affiliation**: Nebius
-
-**Abstract**
-
-> Standard coding-agent benchmarks primarily evaluate binary task success, treating execution as a black box and obscuring the behaviors that produce those outcomes. We analyze a large corpus of 143,209 execution trajectories from 125 agent configurations spanning 117 unique models. To enable comparisons across heterogeneous agent interfaces, we develop a rule-based parser that maps raw execution traces to high-level actions such as repository search, file editing, and test execution, and audit its predictions against a six-model consensus reference on 500 events. We find that agents with similar solve rates can nevertheless differ substantially in how they explore, modify and verify code. Moreover, without using task outcomes, token counts, or tool names as features, aggregate behavioral profiles retrieve the corresponding agent stack across disjoint repository sets and programming languages, although task composition is not fully controlled in the cross-repository setting. Through analyses of frontier models and agent scaffolds, we further show that scaffold choice and reasoning effort systematically shift agents' search, editing, and testing behavior. We release the deterministic parser together with the full annotation and analysis pipeline alongside an annotated trajectory subset.
-
-**Key findings**
-
-- **Finding**: 143,209 条轨迹覆盖 125 种 agent 配置与 117 个模型，解析器预测在 500 个事件上与六模型共识参考做审计对齐。
-- **Inference**: 不用解题结果、token 数和工具名当特征，仅凭行为画像就能跨不相交仓库与编程语言检索出对应 agent 栈，说明成功率之外确实还有可区分的行为信息。
-- **Recommendation**: 选 coding agent 时先对齐 scaffold 与推理强度再看行为差异，否则会把框架差异误当成模型能力差异。
-
-**Key figures**
-
-*Framework - Automated action classification pipeline. The rule-based parser pairs each tool call with its execution output and classifies it across four core attributes: primary operation, target file r*
-
-![Interpreting Coding Agents Through Their Behavioral Trajectories - framework](res/2611.17440_framework.png)
-
-*Result - Workflow differences across outcome-matched agent pairs. Points indicate the median task-level absolute difference across 60 scaffold-matched agent configuration pairs (|∆solve| ≤1.0 pp on ≥*
-
-![Interpreting Coding Agents Through Their Behavioral Trajectories - result](res/2611.17440_result.png)
-
-**Why this ranks #4**: Nebius 用规则解析器把原始执行轨迹映射成检索、文件编辑、测试执行等高层动作，四个属性（主动作、目标文件角色、修改类型、读取模式）都能从 tool call 与其输出配对推出，并在 500 个事件上与六模型共识参考交叉审计。语料覆盖 143,209 条轨迹、125 种 agent 配置、117 个模型，60 对 scaffold 匹配配置（|∆solve| ≤1.0pp）显示解题率相近的 agent 行为差异依然明显，是解读 coding agent 行为的可核对基线。
-
----
-
-### 5. Unfinished-Bench: Measuring Rule Violations by Persistent Agents in Realistic Work Environments
-
-**arXiv**: [2611.17460](https://arxiv.org/abs/2611.17460) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, persistent-agent, rule-violation, instruction-conflict, agent-benchmark, workplace-scenario, NAVER AI Lab | **Categories**: cs.CL, cs.LG | **Pages**: 21
-
-**Authors**: Seunghyun Lee; Jaehui Hwang; Dongyoon Han; Sangdoo Yun
-
-**Affiliation**: NAVER AI Lab
-
-**Abstract**
-
-> AI agents are increasingly equipped with persistence toward task completion to run delegated work autonomously for long periods, under many unstated constraints from internal documents and other people's authority. When completion requires violating a rule, the agent must decide alone, yet benchmarks of instruction-rule conflicts state the rule in the prompt or keep it hidden and do not evaluate persistence. We present Unfinished-Bench, a benchmark that gives models persistence in autonomous runs without a user, in realistic work environments with embedded rules. In each of its 97 scenarios across 7 organizations and 7 risk categories, the goal and the rule cannot both hold. We find that persistence raised violations of a rule in an internal document from 32.2% to 43.6%, five times the 8.5% for the same rule stated by the user. Of the document-rule violations, 98.3% occurred after the rule was displayed, and in 89% of a judged sample the agent first wrote down the rule. Violations of rules placed in the environment without user oversight can lead to serious incidents, so persistence-driven risks need to be evaluated. Benchmark documentation: https://francis21c.github.io/unfinished-bench/
-
-**Key findings**
-
-- **Finding**: 97 个情景（7 组织、7 风险类）中，文档规则违反率随持久性从 32.2% 升到 43.6%，而用户口述同一规则时只有 8.5%。
-- **Inference**: 98.3% 的文档规则违反发生在规则已被展示之后，且被判定样本里 89% 的 agent 先把规则写下来再继续，说明它看见规则却仍选择违例。
-- **Recommendation**: 评估持久化 agent 必须单独设「规则藏在环境里、无用户监督」这一档，否则会系统性低估事故概率。
-
-**Key figures**
-
-*Framework - Overview of Unfinished-Bench. Left: a user hands off a task in an organization with internal documents, chat, work tools, and colleagues, and leaves. Red marks show where the rule for the ta*
-
-![Unfinished-Bench: Measuring Rule Violations by Persistent Agents in Realistic Work Environments - framework](res/2611.17460_framework.png)
-
-*Result - Violation rate per model. Red marks the rule in an internal document and dark gray the rule stated by the user; light circles are without persistence and dark circles with persistence, joine*
-
-![Unfinished-Bench: Measuring Rule Violations by Persistent Agents in Realistic Work Environments - result](res/2611.17460_result.png)
-
-**Why this ranks #5**: NAVER AI Lab 的基准让 agent 在没有用户在场的情况下持久执行任务，97 个情景覆盖 7 个组织与 7 类风险，每个情景里任务目标与内部文档规则不可兼得。一旦给 agent 持久性，文档规则违反率从 32.2% 升到 43.6%，是同一条规则由用户口述时 8.5% 的五倍；其中 98.3% 的违反发生在规则已被展示之后，是评估持久化 agent 风险时不可省略的一档。
-
----
-
-### 6. More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs
-
-**arXiv**: [2611.17610](https://arxiv.org/abs/2611.17610) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, multi-agent, test-time-compute, baseline-matching, ensemble-decomposition, meta-analysis, University of Nevada | **Categories**: cs.AI, cs.CL, cs.LG, cs.MA | **Pages**: 43
-
-**Authors**: Seyed Mahmoud Sajjadi Mohammadabadi
-
-**Affiliation**: University of Nevada, Reno
-
-**Abstract**
-
-> Evaluations of multi-agent language models often compare communicating architectures against a single greedy pass. This practice confounds coordination with sample multiplicity and inference compute. We synthesize nine primary empirical evaluations comprising 516 unique multi-agent configurations organized along a resource vector R with six dimensions and a baseline ladder with four categories. Against baselines with a single pass (Category A), multi-agent accuracy differences are negative overall and near zero when omitting the largest contributing study. When evaluated against baselines matched on sample count (Category B) or resource budget (Category C), multi-agent systems average -0.042 in accuracy, and multilevel random effects modeling on the log odds scale remains negative across sensitivity checks. Multi-agent accuracy equals or falls below the baseline in 74% of these comparable contrasts, and study means are nonpositive in almost all evaluated studies. Across studies reporting both baselines, moving from a greedy pass to a sampled baseline shifts accuracy differences by -0.038 on average. Because communication adds no information when agents share identical evidence, positive returns require partitioned evidence, external verification, or error diversity across models. We provide a reviewer checklist and accounting utilities.
-
-**Key findings**
-
-- **Finding**: 对齐样本数或资源预算后，多智能体系统平均精度差 −0.042，在 474 次可比对照中 74% 等于或低于基线（对采样基线的 360 次里占 76%）。
-- **Inference**: 对 Choi 等的 14 个模型与 benchmark 配置做分解，贪心解码 0.670、5 样本投票 0.747、5 agent 辩论 0.715，所谓多智能体收益主要来自采样效应而非协作本身。
-- **Recommendation**: 评审多智能体方案时必须要求给出样本数与推理预算对齐的基线，否则多出来的算力无法归因到协作设计。
-
-**Key figures**
-
-*Framework - The Baseline Ladder: Single-agent baseline categories and inferential validity. Gray rungs represent comparisons that do not control test-time compute: Category A (Greedy single pass): A sin*
-
-![More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs - framework](res/2611.17610_framework.png)
-
-*Result - Accounting decomposition on Choi et al. [13] (m = 14 model and benchmark configura- tions). Mean accuracy for single-agent greedy decoding (0.670), five-sample majority voting (0.747, differ*
-
-![More Agents, More Samples, or More Thinking? Untangling Coordination, Ensembling, and Test-Time Compute in Multi-Agent LLMs - result](res/2611.17610_result.png)
-
-**Why this ranks #6**: 内华达大学里诺分校把多智能体评测里的协作、采样与推理预算拆开：9 项主评测、516 种唯一配置，按 6 维资源向量和 4 级基线阶梯分类。与样本数或资源预算对齐的基线相比，多智能体系统平均精度差 −0.042，474 次可比对照里 74% 等于或低于基线；仅把贪心单次换成采样基线，差距就变化 −0.038，是本批次最直接的多智能体祛魅证据。
-
----
-
-### 7. LuthorSQL: A One-Pass Text-to-SQL Model as System 1 for a Slower LLM Agent
-
-**arXiv**: [2611.17780](https://arxiv.org/abs/2611.17780) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, text-to-sql, system1-system2-cascade, local-model-offload, inference-cost, quantization, UC Irvine | **Categories**: cs.AI, cs.CL, cs.DB, cs.LG | **Pages**: 23
-
-**Authors**: Ibrahim Memon; Armin Karamzade; M. Hanif Jhaveri; Roy Fox
-
-**Affiliation**: UC Irvine; Independent Researcher
-
-**Abstract**
-
-> Frontier LLM agents that query databases with tools are among the most accurate text-to-SQL systems, but per-query calls to a hosted model are slow, costly, and expose sensitive organizational queries to external APIs. For example, a Claude Opus 5.5 agent serving 10,000 queries a day costs over $70,000 a year at list price. To what extent can local hardware already owned by an organization offload this burden without compromising the agent's accuracy? We present LuthorSQL, a non-autoregressive 7B text-to-SQL model that serves as a rapid System 1 gate for a slower LLM agent (System 2), escalating queries only when uncertain. LuthorSQL makes a single forward pass to predict slot scores over a bounded grammar for query plans, compiles and runs up to 32 candidate plans, and chooses an answer using a trained validator. On its own, LuthorSQL reaches 68.03% execution accuracy on BIRD's hidden test set at 0.84 s per question on a single GPU, maintains its accuracy in 9 GB with 8-bit quantized weights, and transfers zero-shot to Snowflake, BigQuery, MySQL, PostgreSQL, and DuckDB within 3.1 points of its native SQLite accuracy. Combined with Claude Opus 5.5 in a pre-registered confidence cascade over 227 questions on databases published after Opus's training cutoff, LuthorSQL answers nearly half of all questions locally and cuts API cost by 33.3% at the same accuracy. Finally, contamination probing shows that Opus reproduces 48-92% of public benchmark gold queries verbatim without seeing the schema; however, its tool-assisted accuracy holds on renamed schemas and reaches 95.6-97.4% on post-cutoff databases. Code and data: https://github.com/IAMIbrahimmemon/luthorsql
-
-**Key findings**
-
-- **Finding**: LuthorSQL 单独在 BIRD 隐藏测试集达到 68.03% 执行准确率、每题 0.84 秒，8-bit 量化后仍在约 9 GB 内存内维持该准确率。
-- **Inference**: 227 道截止后新题上的预注册置信度级联让本地模型回答了近一半问题，API 成本降 33.3% 而准确率 95.15% 对 95.59%（p=1.0）无统计差异。
-- **Recommendation**: 量大且查询敏感的数据库场景可先用本地小模型过滤，只把不确定的样本交给闭源 agent，但要保留验证器的置信度边际作为路由依据。
-
-**Key figures**
-
-*Framework - How LuthorSQL answers a question. The slot heads, read after the question, point to schema columns and to a stored value; the word links are drawn for illustration, since the model scores sl*
-
-![LuthorSQL: A One-Pass Text-to-SQL Model as System 1 for a Slower LLM Agent - framework](res/2611.17780_framework.png)
-
-*Result - Cost saving of the t = 3.0 cascade in the held- out tests against Opus alone (B0, circles) and Opus with System 1’s candidates on every question (B1, squares), with System 1 on local hardwar*
-
-![LuthorSQL: A One-Pass Text-to-SQL Model as System 1 for a Slower LLM Agent - result](res/2611.17780_result.png)
-
-**Why this ranks #7**: 加州大学尔湾分校（UC Irvine）用 7B 非自回归模型做 text-to-SQL 的 System 1：单次前向给有界语法下的查询计划槽位打分，编译并运行最多 32 个候选计划，再用训练好的验证器选答案。单独使用在 BIRD 隐藏测试集拿到 68.03% 执行准确率、每题 0.84 秒（单 GPU），8-bit 量化后只占 9 GB 内存；与 Opus 级 agent 做置信度级联，API 成本下降 33.3% 而准确率不变。
-
----
-
-### 8. Can Agents Keep Up with Time? An Empirical Analysis of Temporal Adaptation After a Conversational Hiatus
-
-**arXiv**: [2611.17806](https://arxiv.org/abs/2611.17806) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, temporal-awareness, long-horizon-agent, session-rekindling, date-reasoning, agent-benchmark, People's Public Security University of | **Categories**: cs.AI | **Pages**: 11
-
-**Authors**: Hongguan Su; Ming Wang; Shun Zhang; Yifan Wang; Rong Yin; Zhiming Ma; Mengzheng Yang; Peng Chen
-
-**Affiliation**: People's Public Security University of China; Northeastern University; Beihang University; Henan University
-
-**Abstract**
-
-> Long-horizon agents increasingly serve as persistent personal assistants across modern web platforms, managing schedules, applications, and multi-step plans over weeks or months. Users often return to an ongoing conversation after a long conversational hiatus, while earlier bookings and preparation notes stay on record. During this hiatus, scheduled dates may pass even though the retained records remain unchanged and event outcomes go unrecorded. Existing evaluations of long-horizon agents focus on fact retention and explicit state updates. Whether agents perceive the passage of time and adapt their advice accordingly therefore remains unknown. We frame this ability as temporal state perception and use, which means perceiving the current time and applying it when interpreting dated records. To study it, we design session-rekindling tasks that keep the earlier conversation fixed and vary only the follow-up date and the way temporal information reaches the agent. Experiments across five model routes and five temporal-information conditions show that agents can obtain the current time but often fail to use it. They reliably query the clock and even note in their reasoning that the scheduled date has passed, yet many still tell users to prepare for the expired event. Supplying explicit temporal context reduces this error, and providing the computed date relation removes it entirely. Keeping up with time therefore depends on turning perceived time into updated plans. Based on these findings, we design a session-rekindling benchmark that provides temporal-awareness guidance for designing long-horizon agents. The code can be found at https://github.com/Adoreu2/session-rekindling-benchmark.
-
-**Key findings**
-
-- **Finding**: 五条路线中四条在 70 题显式日期基线上答对 69 或 70 题，但整体过期框架率仍达 58.9%、建议接受率只有 46.6%（41/88）。
-- **Inference**: 120 个答案里有 116 个的推理过程明确写出了日期已过，答案却仍把事件说成即将到来，是推理与回答脱节而不是算错日期。
-- **Recommendation**: 直接给 agent 已算好的日期关系（如「已过期 30 天」）比只提供当前时间更能消除过期建议，这也被整理成 session-rekindling 基准。
-
-**Key figures**
-
-*Framework - A session-rekindling scenario where the scheduled May 6 health check has passed by the June 5 follow-up, con- trasting stale preparation advice with an appropriate clarify- ing response.*
-
-![Can Agents Keep Up with Time? An Empirical Analysis of Temporal Adaptation After a Conversational Hiatus - framework](res/2611.17806_framework.png)
-
-*Result - Structure of a session-rekindling episode re-engaged on June 5, comparing retained records, unobserved event outcomes, and divergent responses from two model routes under identical clock rea*
-
-![Can Agents Keep Up with Time? An Empirical Analysis of Temporal Adaptation After a Conversational Hiatus - result](res/2611.17806_result.png)
-
-**Why this ranks #8**: 中国人民公安大学等四校把长程 agent 的能力拆成时间状态感知与使用：五条规定时间信息条件、五个模型路线、940 个主评测单元。结果是 agent 拿得到当前时间却常常不用——自然条件下 158/210 次响应调用时钟工具，但过期框架率仍达 58.9%、建议接受率只有 46.6%（41/88），说明缺的是把感知到的时间转成更新后的计划。
-
----
-
-### 9. Fuse-All MoE Inference Kernel with Load Balancing on TPUs
-
-**arXiv**: [2611.17857](https://arxiv.org/abs/2611.17857) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, moe-inference, tpu-kernel, load-balancing, expert-parallelism, prefill-decode, Meta SuperIntelligence Lab | **Categories**: cs.LG | **Pages**: 23
-
-**Authors**: Rupeng Liu; Bangsheng Tang; Zongwei Zhou; Chengji Yao; Yejin Lee
-
-**Affiliation**: Meta SuperIntelligence Lab
-
-**Abstract**
-
-> Mixture-of-Experts (MoE) architectures activate only a subset of experts for each token, allowing large language models (LLMs) to scale parameter capacity without a proportional increase in computation per token. However, intermediate data movement and uneven expert loads limit the efficiency of MoE inference on TPUs. To address these bottlenecks, we introduce Fuse-All MoE, a TPU kernel design that jointly optimizes expert computation, output communication, and load balancing. The kernel fuses token collection, expert projections, gated activation, and output writes, retaining expert computation intermediates on chip. Fixed token-slot destinations allow scheduling and expert placement to change while preserving routing semantics. In prefill-decode (PD) disaggregated serving, Fuse-All MoE balances EP16 prefill workloads through scheduling and expert redistribution, while symmetric EP8TP2 shares active expert computation between the two TensorCore devices within each chip during decode. Our experiments show that Fuse-All MoE reduces kernel runtime for a measured skewed EP16 prefill workload from 2.3x to 1.09x the same fixed reference time for a balanced workload. Across 32-512 decode tokens, symmetric EP8TP2 reduces kernel latency by up to 21.3% relative to fused EP16. With accompanying serving stack optimizations, the integrated system improves serving throughput by up to 34.5% over the Megablox EP16 baseline.
-
-**Key findings**
-
-- **Finding**: 融合内核把倾斜 EP16 prefill 的耗时从参考平衡负载的 2.3 倍降到 1.09 倍，对称 EP8TP2 在 32–512 个 decode token 上延迟最多再降 21.3%。
-- **Inference**: 行分桶、热专家预取与目的地交错分别针对空算、权重预取重叠与流量突发，说明 MoE 推理的瓶颈一半在访存与均衡而不在算力。
-- **Recommendation**: 部署 MoE 服务要分开调 prefill 与 decode 的并行策略（EP16 对称 EP8TP2），并把负载均衡和融合内核当作两件事分别压测。
-
-**Key figures**
-
-*Framework - Fusion boundary. Gate/up and activated intermediates stay in VMEM; expert results go directly to final token-slot buffers. Routing, input exchange, and postprocessing remain outside the expe*
-
-![Fuse-All MoE Inference Kernel with Load Balancing on TPUs - framework](res/2611.17857_framework.png)
-
-*Result - Hardware and representation. Chipmates have separate address spaces; scalar metadata and vector tiles use separate memories. FP4 packing reduces weight storage, and a leading row axis suppor*
-
-![Fuse-All MoE Inference Kernel with Load Balancing on TPUs - result](res/2611.17857_result.png)
-
-**Why this ranks #9**: Meta SuperIntelligence Lab 为 TPU7x（Ironwood）设计的融合 MoE 内核把 token 收集、专家投影、门控激活与输出写回合到一条流水，专家中间结果留在 VMEM、不再落回主机；固定 token-slot 目的地让调度与专家放置可以独立改动而不改路由语义。实测倾斜 EP16 prefill 负载的内核耗时从平衡负载参考时间的 2.3 倍压到 1.09 倍，32–512 个 decode token 下对称 EP8TP2 延迟再降 21.3%，整体服务吞吐最高提升 34.5%。
-
----
-
-### 10. RAG-FGO: Dynamic Optimization of Query-Rewriting Agents for Generative RAG
-
-**arXiv**: [2611.17788](https://arxiv.org/abs/2611.17788) | **Score**: 7.7 (relevance 8 x 0.7 + quality 7 x 0.3) | **Direction**: `llm_core` | **Tags**: LLM-VLM, query-rewriting, prompt-optimization, black-box-search, elite-memory-pool, retrieval-quality, Kyung Hee University | **Categories**: cs.CL | **Pages**: 12
-
-**Authors**: Qigan Sun; Xudong Wang; Chaoning Zhang; Chenghao Li; Jiaquan Zhang; Jiehui Xie; Sungyoung Lee; Jie Zou; Ning Xie; Peng Wang; Yang Yang; Heng Tao Shen
-
-**Affiliation**: Kyung Hee University; University of Electronic Science and Technology of China; Tongji University
-
-**Abstract**
-
-> In retrieval-augmented generation (RAG), query rewriting serves as a core interface that aligns user intent with external knowledge bases, and its effectiveness directly determines overall system performance. However, generative retrieval faces three critical challenges in real-world deployment: noisy retrieval feedback, the difficulty of jointly optimizing discrete prompt templates and continuous decoding-control parameters, and the limited generalization of static rewriting strategies under semantically complex scenarios. To address these issues, we propose RAG-FGO, a dynamic optimization framework for generative retrieval strategies. RAG-FGO formulates query rewriting as a non-differentiable black-box optimization problem in a mixed discrete-continuous space, and represents prompt templates and decoding parameters as adaptively optimizable query-rewriting agents. The framework performs global search to enable semantic jumps and structural reorganization that escape local optima, while applying local perturbations for fine-grained alignment and precise refinement. In addition, RAG-FGO introduces an elite-preserving memory pool that accumulates high-quality strategies across iterations, thereby mitigating the impact of stochasticity and noisy feedback on optimization stability. Experimental results on a diverse suite of benchmarks demonstrate the effectiveness and robustness of the proposed method, supporting its applicability to complex semantic retrieval tasks.
-
-**Key findings**
-
-- **Finding**: 六个 QA benchmark 上 GPT-4o-mini 的平均 F1 从直接检索的 47.6 升到 77.1；在同一 retriever 与 Gemma-2-27B 生成器下平均 F1 71.2，高于 AutoPrompt 58.6 与 RLPrompt 63.2。
-- **Inference**: 在 HotpotQA 上优化出的改写策略迁移到 NQ、SQuAD、AmbigQA、StrategyQA 只掉 1.9–5.7 分，说明学到的是可跨任务复用的检索策略而非数据集过拟合。
-- **Recommendation**: 调 RAG 时把提示模板与温度、top-p 当作同一个黑箱优化问题整体搜索，而不是分开手调，也别指望一次静态改写适配所有语义场景。
-
-**Key figures**
-
-*Framework - Conceptual illustration of the FGO-inspired search dynamics in RAG-FGO. Hyphae grow from low-efficiency (info-sparse) zones toward high-efficiency (info-rich) zones in the retrieval space. (i)*
-
-![RAG-FGO: Dynamic Optimization of Query-Rewriting Agents for Generative RAG - framework](res/2611.17788_framework.png)
-
-*Result - Overview of the main components of RAG-FGO. (a) A query-rewriting agent consists of a prompt template and continuous decoding parameters. (b) Variation optimization evolves agents via local se*
-
-![RAG-FGO: Dynamic Optimization of Query-Rewriting Agents for Generative RAG - result](res/2611.17788_result.png)
-
-**Why this ranks #10**: 庆北大学、电子科技大学与同济大学把查询改写建模成离散提示模板与连续解码参数混合的非可微黑箱优化问题：全局搜索做语义跳跃、局部扰动做精修，再用精英保留记忆池抗噪与抗随机性。六个 QA benchmark、五个生成模型上宏平均 F1 达 77.1（GPT-4o-mini），在同 retriever 与生成器配置下平均 F1 71.2，比无梯度提示优化基线高出 7 分以上，是 llm_core 里少见的「检索策略可被优化」的完整证据。
-
----
-
-## VLM 核心（多模态架构 / 理解 / 视频 / GUI agent） · `vlm_core` (5 papers)
-
-本方向 5 篇。**文档与长上下文**是主线：DoubleTake 针对长文档问答里「检索到的页面其实含有充分证据、模型却仍然答错」这一现象，引入聚焦式视觉证据核验；ParseBench-2 指出文档解析的既有度量会给「改了重要事实」的输出打高分、给「保留语义」的改动扣分，因此提出按严重程度来评估解析结果。**空间与几何**：Zoom In, Scale Out 用一个极简测试——数码变焦，即裁剪再放大——检验度量深度模型是否真的在解相机几何，结论是它们把变焦误当成了相机靠近。**Agent 与视频**：Vision-as-a-Tool 把视觉能力从 agent 的内生感知里解耦成可显式调用的工具，理由是 Thinking-with-Images 把感知与执行架构耦合在一起会让 agent 的性能被内生感知的天花板钉死；Q-GAS 用可坐标查询的多分辨率三维特征网格把视频表示的构建时间压到秒级。
-
-### 11. DoubleTake: Focused Verification of Visual Evidence for Long-Document Understanding
+### 9. DoubleTake: Focused Verification of Visual Evidence for Long-Document Understanding
 
 **arXiv**: [2611.17853](https://arxiv.org/abs/2611.17853) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `vlm_core` | **Tags**: LLM-VLM, long-document-qa, focused-verification, training-free, frozen-backbone, visual-evidence, [unverified] | **Categories**: cs.CV | **Pages**: 6
 
@@ -378,11 +310,43 @@
 
 ![DoubleTake: Focused Verification of Visual Evidence for Long-Document Understanding - result](res/2611.17853_result.png)
 
-**Why this ranks #11**: 全文未标注机构的 6 页论文提出免训练的 DoubleTake：冻结 Qwen3-VL-8B-Instruct，先读出候选答案与独立证据记录，再由规划器据此构造一个可直接从图上核对的事实问题，让核验器在看不到任何候选的前提下作答。四个 benchmark 共 4,816 道题的微平均准确率 66.76%，高于 MDocAgent 的 65.16% 与基线的 60.13%，且同样页面、同样调用次数下问聚焦事实优于重复原问题。
+**Why this ranks #9**: 全文未标注机构的 6 页论文提出免训练的 DoubleTake：冻结 Qwen3-VL-8B-Instruct，先读出候选答案与独立证据记录，再由规划器据此构造一个可直接从图上核对的事实问题，让核验器在看不到任何候选的前提下作答。四个 benchmark 共 4,816 道题的微平均准确率 66.76%，高于 MDocAgent 的 65.16% 与基线的 60.13%，且同样页面、同样调用次数下问聚焦事实优于重复原问题。
 
 ---
 
-### 12. ParseBench-2: Severity-Aware Evaluation of Document Parsing
+### 10. MMFlash: Faster Speculative Decoding for Vision-Language Models
+
+**arXiv**: [2611.18482](https://arxiv.org/abs/2611.18482) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `vlm_core` | **Tags**: LLM-VLM, speculative-decoding, vlm, visual-dependence, diffusion-drafter, sparse-attention, National University of Singapore | **Categories**: cs.CV | **Pages**: 15
+
+**Authors**: Sicheng Feng; Zigeng Chen; Song Wang; Gongfan Fang; Xinchao Wang
+
+**Affiliation**: National University of Singapore
+
+**Abstract**
+
+> Speculative decoding accelerates generation by letting a lightweight drafter propose tokens for parallel verification by a target model. Diffusion drafters such as DFlash propose an entire token block in a single forward pass, but mainly focus on text-only tasks, leaving multimodal drafting underexplored. To study this setting, we first introduce a metric of token-level visual dependence based on the KL divergence between next-token distributions with and without visual input. We find that acceptance rates decrease from 46% in the lowest visual-dependence quartile to 22% in the highest, with this disparity persisting after multimodal training. Motivated by this observation, we propose MMFlash, a simple and effective framework that adaptively upweights visually dependent tokens that the drafter predicts poorly. For long video inputs, MMFlash further employs sparse attention to reduce redundant attention computation and improve drafting quality. Across various multimodal benchmarks, MMFlash achieves lossless decoding speedups of up to $3.58\times$, outperforming EAGLE-3 and DFlash by up to 195.4% and 17.1%, respectively.
+
+**Key findings**
+
+- **Finding**: 视觉依赖度最高四分位的 token 接受率只有 22%，最低四分位为 46%（2.1 倍差距），且该差距在多模态训练后依旧存在；最高四分位集中了 44% 的首拒位置，最低四分位仅 7%。
+- **Inference**: 文本草稿器在强视觉依赖的 token 上系统性失效，因此必须按视觉依赖度重新分配草稿块的权重，否则长视频解码会被这些 token 卡住。
+- **Recommendation**: 为 VLM 做推测解码时先用有与无视觉输入的 next-token 分布 KL 估计视觉依赖度并对高依赖 token 加权，长视频再叠加稀疏注意力把上下文压到 1.6K 量级。
+
+**Key figures**
+
+*Framework - Decoding speedup comparison with SOTA speculative decoding methods (EAGLE-3 & DFlash) on SGLang.*
+
+![MMFlash: Faster Speculative Decoding for Vision-Language Models - framework](res/2611.18482_framework.png)
+
+*Result - Overview of MMFlash. (a) The target VLM is run twice on the same prefix x<t, with and without the image I, and the visual dependence score dt is the KL divergence between the two next-token*
+
+![MMFlash: Faster Speculative Decoding for Vision-Language Models - result](res/2611.18482_result.png)
+
+**Why this ranks #10**: 多模态大模型的解码效率归入 VLM 本体：MMFlash 测得视觉依赖最高四分位的接受率只有 22%、最低四分位 46%，据此对视觉相关 token 加权并用稀疏注意力把长视频上下文从 40K 以上压到约 1.6K，实现最高 3.58 倍无损加速、比 EAGLE-3 高至 195.4%。
+
+---
+
+### 11. ParseBench-2: Severity-Aware Evaluation of Document Parsing
 
 **arXiv**: [2611.17400](https://arxiv.org/abs/2611.17400) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `vlm_core` | **Tags**: LLM-VLM, document-parsing, severity-aware-metric, benchmark, error-severity, metric-alignment, LlamaIndex | **Categories**: cs.CV | **Pages**: 59
 
@@ -410,11 +374,11 @@
 
 ![ParseBench-2: Severity-Aware Evaluation of Document Parsing - result](res/2611.17400_result.png)
 
-**Why this ranks #12**: LlamaIndex 的 ParseBench-2 覆盖 4,317 页、文本/格式/表格/图表/视觉定位/表单 6 个解析维度，来自 2,645 份源文档、13 个集合，1,025 张图表都附完整数据表。指标本身由专家严重度策略经编码 agent 反复迭代校准，评分取内容恢复分与严重度上限的较小值，六个严重度测试套件上比既有指标更贴近专家判断，同时最多只惩罚 3.4% 的良性变体。
+**Why this ranks #11**: LlamaIndex 的 ParseBench-2 覆盖 4,317 页、文本/格式/表格/图表/视觉定位/表单 6 个解析维度，来自 2,645 份源文档、13 个集合，1,025 张图表都附完整数据表。指标本身由专家严重度策略经编码 agent 反复迭代校准，评分取内容恢复分与严重度上限的较小值，六个严重度测试套件上比既有指标更贴近专家判断，同时最多只惩罚 3.4% 的良性变体。
 
 ---
 
-### 13. Towards Seconds-level Video Representation: Quadratically Gated Feature Grid with Adaptive, Prediction-free Sampling
+### 12. Towards Seconds-level Video Representation: Quadratically Gated Feature Grid with Adaptive, Prediction-free Sampling
 
 **arXiv**: [2611.17786](https://arxiv.org/abs/2611.17786) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `vlm_core` | **Tags**: LLM-VLM, video-representation, implicit-neural-representation, feature-grid, quadratic-gating, fast-decoding, Harbin Institute of Technology | **Categories**: cs.AI, cs.CV | **Pages**: 13
 
@@ -442,11 +406,11 @@
 
 ![Towards Seconds-level Video Representation: Quadratically Gated Feature Grid with Adaptive, Prediction-free Sampling - result](res/2611.17786_result.png)
 
-**Why this ranks #13**: 哈尔滨工业大学、香港城市大学等用多分辨率显式 3D 特征网格配 SwiGLU 式二次门控解码器和免辅助模型预测的误差感知采样器，做坐标可查询的视频隐式表示。在 UVG Beauty/Bosphorus/Jockey 的完整 600 帧、1920×1080 序列上，单张 RTX PRO 6000 拟合加量化不到 50 秒、混合精度解码超过 370 FPS、FP32 约 146 FPS，是把视频表征拉进秒级预算的一篇。
+**Why this ranks #12**: 哈尔滨工业大学、香港城市大学等用多分辨率显式 3D 特征网格配 SwiGLU 式二次门控解码器和免辅助模型预测的误差感知采样器，做坐标可查询的视频隐式表示。在 UVG Beauty/Bosphorus/Jockey 的完整 600 帧、1920×1080 序列上，单张 RTX PRO 6000 拟合加量化不到 50 秒、混合精度解码超过 370 FPS、FP32 约 146 FPS，是把视频表征拉进秒级预算的一篇。
 
 ---
 
-### 14. Vision-as-a-Tool: Visual Harness for Multimodal Agentic Coding
+### 13. Vision-as-a-Tool: Visual Harness for Multimodal Agentic Coding
 
 **arXiv**: [2611.17797](https://arxiv.org/abs/2611.17797) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `vlm_core` | **Tags**: LLM-VLM, vision-as-a-tool, agentic-coding, tool-use, modular-perception, text-only-agent, Peking University | **Categories**: cs.AI, cs.CV | **Pages**: 27
 
@@ -474,11 +438,11 @@
 
 ![Vision-as-a-Tool: Visual Harness for Multimodal Agentic Coding - result](res/2611.17797_result.png)
 
-**Why this ranks #14**: 北京大学与微软研究院等提出 Vision-as-a-Tool：把通用 MLLM 重构为 coding agent 可调用的外部视觉工具，用 transcribe、grep、inspect、align、diff 五个原子动作覆盖 Image-to-HTML、Image-to-SVG、Image-to-3D 三类任务，纯文本 agent 借此完全外放视觉推理，多模态 agent 则可按需增强自身感知，是把感知能力模块化后交给 agent 调用的少见范式。
+**Why this ranks #13**: 北京大学与微软研究院等提出 Vision-as-a-Tool：把通用 MLLM 重构为 coding agent 可调用的外部视觉工具，用 transcribe、grep、inspect、align、diff 五个原子动作覆盖 Image-to-HTML、Image-to-SVG、Image-to-3D 三类任务，纯文本 agent 借此完全外放视觉推理，多模态 agent 则可按需增强自身感知，是把感知能力模块化后交给 agent 调用的少见范式。
 
 ---
 
-### 15. Zoom In, Scale Out: Metric Depth Models Mistake Digital Zoom for Moving Closer
+### 14. Zoom In, Scale Out: Metric Depth Models Mistake Digital Zoom for Moving Closer
 
 **arXiv**: [2611.17903](https://arxiv.org/abs/2611.17903) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `vlm_core` | **Tags**: LLM-VLM, metric-depth, digital-zoom, focal-length-estimation, label-free-correction, depth-consistency, Daffodil International University | **Categories**: cs.CV | **Pages**: 22
 
@@ -506,15 +470,15 @@
 
 ![Zoom In, Scale Out: Metric Depth Models Mistake Digital Zoom for Moving Closer - result](res/2611.17903_result.png)
 
-**Why this ranks #15**: 达卡大学（Daffodil International University）给度量深度模型设计了一个免标签体检：把照片裁剪放大做数字变焦，场景没动，正确模型应对图内每个点给出同一距离。在 KITTI、NYUv2、DIODE 每个模型 800 张图上，Depth Anything V2 的深度指数 α=0.95（理想 0），几乎把裁剪当成相机靠近；会预测相机的模型也只有 0.31–0.36，问题出在焦距估计（β 理想为 1）。
+**Why this ranks #14**: 达卡大学（Daffodil International University）给度量深度模型设计了一个免标签体检：把照片裁剪放大做数字变焦，场景没动，正确模型应对图内每个点给出同一距离。在 KITTI、NYUv2、DIODE 每个模型 800 张图上，Depth Anything V2 的深度指数 α=0.95（理想 0），几乎把裁剪当成相机靠近；会预测相机的模型也只有 0.31–0.36，问题出在焦距估计（β 理想为 1）。
 
 ---
 
-## LLM / VLM 的 RL 与偏好优化 · `llm_vlm_rl` (5 papers)
+## LLM / VLM 的 RL 与偏好优化 · `llm_vlm_rl` (6 papers)
 
-本方向 5 篇，全部落在**可验证奖励**这条路线上，而且都不依赖人工偏好数据。See Every Block Once 指出 masked diffusion LM 的 log-likelihood 无法直接计算，后训练只能依赖 ELBO 代理目标，现有工作用蒙特卡洛逐块估计这个目标；它的做法是逐块方差缩减，让策略梯度一次前向就能算。Benchmarks Don't Talk Back 训练一种它称为「辩证能力」的东西：模型自己陈述立场、自己生成最强的反方陈词、自己裁定，然后用同一个可验证检查同时给答案和裁定打分，因此全程不需要奖励模型、偏好数据或人工标注。Verifiable pXRD 把晶体结构测定写成可验证的 agentic 搜索问题——候选结构可以被物理判据验证。AutoRL 用感知器、提案者、编排者三个 agentic 角色自动化 RL 训练的过程级监督。PaperCritic 则把奖励函数从偏好数据换成了任务定义本身——精确率与召回率的 F1。
+本方向 6 篇里 1 篇新增，六篇全部围绕**可验证的奖励信号**展开，且只有 PaperCritic 一条走人类偏好、其余五条都不依赖人工偏好数据。见 Every Block Once 指出 masked diffusion LM 的 log-likelihood 无法直接计算，用「每个 block 恰好评一次」的全块估计替代蒙特卡洛随机抽块，把估计方差比压到 0.076–0.122、五个基准上平均比随机采样高 12.79 分；Benchmarks Don't Talk Back 训练模型自己陈述立场、自己生成最强反方陈词、自己裁定，D-probe 上 Qwen3-8B 的守住率从 53.3% 升到 88.9%，全程没有奖励模型与偏好数据；Verifiable pXRD 把晶体结构测定写成可验证的 agentic 搜索问题，200 题上结构精确匹配率 69.0% 对专用求解器最好成绩 32.0%；AutoRL 用四个感知器、三个提案器与一个编排器接管 GRPO 训练的过程级监督，AIME 2024 由 46.67% 升到 66.67%；PaperCritic 则把 AI 审稿目标改成审查点的 F1，PaperCritic-4B 的 F1 达 45.1、比最强 4B 训练基线高 21.4 pp。新增的 G-CAST 补上了这条路线里最常被忽略的一环——奖励治理：它把每日生产证据按 rollout 结果路由成 SFT / RL / 回归监控三条分支，在阿里巴巴 1688 的真实电商 agent 上第 4 轮累积奖励 0.8078 高于 AutoTrainess 的 0.7911，保留期奖励从 0.8712 升到 0.8833（对手从 0.8907 降到 0.8739），并指出固定 checkpoint 在能力契约扩张下会从 0.9065 衰减到 0.6354。
 
-### 16. Benchmarks Don't Talk Back: Learning Through Self-Disagreement
+### 15. Benchmarks Don't Talk Back: Learning Through Self-Disagreement
 
 **arXiv**: [2611.17563](https://arxiv.org/abs/2611.17563) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_vlm_rl` | **Tags**: LLM-VLM, self-disagreement, dialectical-competence, rlvr, grpo, capitulation, Microsoft Research | **Categories**: cs.AI, cs.CL, cs.LG | **Pages**: 34
 
@@ -542,11 +506,11 @@
 
 ![Benchmarks Don't Talk Back: Learning Through Self-Disagreement - result](res/2611.17563_result.png)
 
-**Why this ranks #16**: 把 RLVR 的验证器从「只判答案对错」扩到「也判裁决对错」：单策略依次扮演正题 T、反题 A、综合裁决 S，反题只采样不入训练轨迹，只有答与裁两轮拿奖励，回报里 capitulation 与 stubbornness 各罚 0.5、格式解析失败直接压到 Rfloor=-0.75，算法本身仍是标准 GRPO。在 327 题 × 17 挑战者的 D-probe 上，Qwen3-8B 九个公开基准的平均综合准确率（synthesis accuracy）从 50.0% 升到 55.9%（+5.90 pp），Gemma-2 9B 从 19.9% 升到 37.8%，全程没有奖励模型、偏好数据或人工标注，因此属于 RLVR 方向的核心工作。
+**Why this ranks #15**: 把 RLVR 的验证器从「只判答案对错」扩到「也判裁决对错」：单策略依次扮演正题 T、反题 A、综合裁决 S，反题只采样不入训练轨迹，只有答与裁两轮拿奖励，回报里 capitulation 与 stubbornness 各罚 0.5、格式解析失败直接压到 Rfloor=-0.75，算法本身仍是标准 GRPO。在 327 题 × 17 挑战者的 D-probe 上，Qwen3-8B 九个公开基准的平均综合准确率（synthesis accuracy）从 50.0% 升到 55.9%（+5.90 pp），Gemma-2 9B 从 19.9% 升到 37.8%，全程没有奖励模型、偏好数据或人工标注，因此属于 RLVR 方向的核心工作。
 
 ---
 
-### 17. See Every Block Once: Variance-Reduced Post-Training for Masked Diffusion Language Models
+### 16. See Every Block Once: Variance-Reduced Post-Training for Masked Diffusion Language Models
 
 **arXiv**: [2611.17754](https://arxiv.org/abs/2611.17754) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_vlm_rl` | **Tags**: LLM-VLM, masked-diffusion, monte-carlo, variance-reduction, blockwise-generation, grpo, Kyoto University | **Categories**: cs.CL | **Pages**: 22
 
@@ -574,11 +538,11 @@
 
 ![See Every Block Once: Variance-Reduced Post-Training for Masked Diffusion Language Models - result](res/2611.17754_result.png)
 
-**Why this ranks #17**: 针对掩码扩散语言模型（MDLM）后训练里 blockwise 代理目标的蒙特卡洛估计器做改造：京都大学、SB Intuitions 与 RIKEN AIP 把随机抽 block 换成「每个 block 恰好评一次」的全块估计，代理目标与 GRPO 策略更新完全不动。K=C=4 时随机采样至少漏掉一个 block 的概率高达 0.91，全块估计把估计方差比压到 0.076–0.122（约为随机采样的十分之一），在 GSM8K/MATH-500/Countdown/Sudoku/HumanEval 五个基准上平均比随机采样高 12.79 分、比最强基线 SPG 高 5.05 分。
+**Why this ranks #16**: 针对掩码扩散语言模型（MDLM）后训练里 blockwise 代理目标的蒙特卡洛估计器做改造：京都大学、SB Intuitions 与 RIKEN AIP 把随机抽 block 换成「每个 block 恰好评一次」的全块估计，代理目标与 GRPO 策略更新完全不动。K=C=4 时随机采样至少漏掉一个 block 的概率高达 0.91，全块估计把估计方差比压到 0.076–0.122（约为随机采样的十分之一），在 GSM8K/MATH-500/Countdown/Sudoku/HumanEval 五个基准上平均比随机采样高 12.79 分、比最强基线 SPG 高 5.05 分。
 
 ---
 
-### 18. Verifiable pXRD: Hill-climbing pXRD structure determination with LLM agents
+### 17. Verifiable pXRD: Hill-climbing pXRD structure determination with LLM agents
 
 **arXiv**: [2611.17539](https://arxiv.org/abs/2611.17539) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_vlm_rl` | **Tags**: LLM-VLM, pxrd, crystal-structure, verifiable-reward, agent-adaptation, inference-time-scaling, Stanford University | **Categories**: cs.AI | **Pages**: 49
 
@@ -606,11 +570,11 @@
 
 ![Verifiable pXRD: Hill-climbing pXRD structure determination with LLM agents - result](res/2611.17539_result.png)
 
-**Why this ranks #18**: 斯坦福大学与多伦多大学等把粉末 X 射线衍射（pXRD）结构测定写成可验证的智能体搜索问题：推理期用前向模拟的 Rwp 残差评估候选结构、评测期用 pymatgen StructureMatcher 与真值比对，这个验证器同时充当训练信号与推理期筛选依据，于是可以做奖励式爬坡。在 200 题的 pXRD-Bench 上，无工具的 GPT-5.6 Sol 只有 27.0%，加材料科学编码智能体升到 52.0%，接入 GSAS-II/DICVOL 升到 57.0%，再用 50 题独立课程做可验证自进化得到 69.0%，属于典型的 RLVR 路线。
+**Why this ranks #17**: 斯坦福大学与多伦多大学等把粉末 X 射线衍射（pXRD）结构测定写成可验证的智能体搜索问题：推理期用前向模拟的 Rwp 残差评估候选结构、评测期用 pymatgen StructureMatcher 与真值比对，这个验证器同时充当训练信号与推理期筛选依据，于是可以做奖励式爬坡。在 200 题的 pXRD-Bench 上，无工具的 GPT-5.6 Sol 只有 27.0%，加材料科学编码智能体升到 52.0%，接入 GSAS-II/DICVOL 升到 57.0%，再用 50 题独立课程做可验证自进化得到 69.0%，属于典型的 RLVR 路线。
 
 ---
 
-### 19. AutoRL: A Multi-Agent System towards Autonomous Reinforcement Learning
+### 18. AutoRL: A Multi-Agent System towards Autonomous Reinforcement Learning
 
 **arXiv**: [2611.17790](https://arxiv.org/abs/2611.17790) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_vlm_rl` | **Tags**: LLM-VLM, autonomous-rl, multi-agent, training-supervision, reward-repair, checkpoint-resume, Meituan | **Categories**: cs.AI, cs.LG | **Pages**: 23
 
@@ -638,7 +602,39 @@
 
 ![AutoRL: A Multi-Agent System towards Autonomous Reinforcement Learning - result](res/2611.17790_result.png)
 
-**Why this ranks #19**: 美团联合香港中文大学、上海科技大学与复旦大学提出 AutoRL，用四个感知器（梯度/rollout/评测/效率）、三个提案器（Tuner/Innovator/Reviewer）和一个编排器接管 GRPO 训练的过程级监督：提案器在至多五轮辩论里用 Borda 打分选出最多两个候选，编排器再决定 HOT 在线热更新还是 COLD 从检查点恢复。Qwen3-4B 上九个基准全面超过静态 GRPO 配方，AIME 2024 由 46.67% 升到 66.67%（+20.00 pp），是把 RL 训练本身当作智能体 RL 任务的代表作。
+**Why this ranks #18**: 美团联合香港中文大学、上海科技大学与复旦大学提出 AutoRL，用四个感知器（梯度/rollout/评测/效率）、三个提案器（Tuner/Innovator/Reviewer）和一个编排器接管 GRPO 训练的过程级监督：提案器在至多五轮辩论里用 Borda 打分选出最多两个候选，编排器再决定 HOT 在线热更新还是 COLD 从检查点恢复。Qwen3-4B 上九个基准全面超过静态 GRPO 配方，AIME 2024 由 46.67% 升到 66.67%（+20.00 pp），是把 RL 训练本身当作智能体 RL 任务的代表作。
+
+---
+
+### 19. G-CAST: Governed Continual Self-Training for E-Commerce Agents under Evolving Demands
+
+**arXiv**: [2611.17814](https://arxiv.org/abs/2611.17814) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `llm_vlm_rl` | **Tags**: LLM-VLM, continual-self-training, reward-routing, entropy-prioritization, agent-adaptation, e-commerce-agent, Alibaba Group | **Categories**: cs.AI, cs.CL | **Pages**: 9
+
+**Authors**: Yuechun Yu; Wenzheng Kong; Xiaofeng Mao; Jin Zhang
+
+**Affiliation**: Alibaba Group
+
+**Abstract**
+
+> With the rapid advancement of Large Language Models (LLMs), an increasing number of users are turning to LLM-powered agents for conversational shopping in e-commerce. However, the user needs continue to change as new product categories, procurement scenarios, and feature requests emerge. At the same time, the product's execution harness-including its tools, skills, and operating procedures-continues to evolve to support increasingly sophisticated interactions. These changes create two practical challenges: 1) Demand drift alters the distribution, intent, and complexity of user requests, causing a model trained once to fall behind; 2) Harness evolution requires the model to use newly introduced capabilities correctly without losing behavior that users already rely on. Periodic manual retraining is too delayed and labor-intensive for this setting. To address these challenges, we present G-CAST, a governed continual self-training system that converts daily production evidence under evolving demand and capability contracts into reward-routed, entropy-prioritized training data and governed reward evolution. Governed checkpoint transition under cumulative evaluation controls each model update, enabling the agent to learn newly introduced behaviors without sacrificing previously accepted capabilities. Experiments on a real production e-commerce agent show that G-CAST achieves stronger adaptation to newly introduced demand while better preserving previously accepted behavior compared with a strong autonomous post-training baseline. Ablations further show that both reward-routed, entropy-prioritized data orchestration and governed reward evolution are important to these gains. G-CAST is now deployed in Yuancai(http://cai.1688.com/), a B2B procurement agent on Alibaba's 1688 platform.
+
+**Key findings**
+
+- **Finding**: G-CAST 把每日生产证据按 rollout 结果路由成三条训练分支（全失败走 SFT、混合结果走 RL、全成功走回归监控），在第 4 轮累积奖励 0.8078 优于 AutoTrainess 的 0.7911，且保留期奖励由 0.8712 升到 0.8833，对手则由 0.8907 降到 0.8739。
+- **Inference**: 固定 checkpoint 在能力契约扩张下从 0.9065 衰减到 0.6354、新周期奖励只剩 0.1877，说明需求漂移会同时废掉模型、训练证据与奖励三者，只做大规模后训练无法补回这份落差。
+- **Recommendation**: 部署型 agent 应把「奖励可靠性检查 + 奖励路由」前置为硬闸门，奖励变更需通过目标用例验证、旧新重打分与轨迹回放，再由累积评估决定 checkpoint 是否替换。
+
+**Key figures**
+
+*Framework - G-CAST, a governed continual adaptation loop for deployed e-commerce agents. The main self-evolution loop converts daily production queries into checkpoint updates through multi-rollout gene*
+
+![G-CAST: Governed Continual Self-Training for E-Commerce Agents under Evolving Demands - framework](res/2611.17814_framework.png)
+
+*Result - Performance degradation of a fixed checkpoint as the capability contract expands across demand periods. The figure reports the base reward, which excludes auxiliary re- ward components intro*
+
+![G-CAST: Governed Continual Self-Training for E-Commerce Agents under Evolving Demands - result](res/2611.17814_result.png)
+
+**Why this ranks #19**: 它把 RL 后训练里最容易被忽略的奖励治理做成了可上线的闭环：在阿里巴巴 1688 的真实电商 agent 上以 Qwen3-4B-Thinking-2507 为底座，每条查询 8 次 rollout、每期 2,000 条 rollout 池（16,000 条轨迹），第 4 轮累积奖励 0.8078 高于 AutoTrainess 的 0.7911，保留期奖励从 0.8712 升到 0.8833（对手从 0.8907 降到 0.8739），技能选择准确率 0.7625 对 0.6875。
 
 ---
 
@@ -676,7 +672,7 @@
 
 ## Footer
 
-- Total papers reviewed across all 4 axes: 48
+- Total papers reviewed across all 4 axes: 60
 - llm_vlm axis final count: 20
 - Wild-cards in this axis: 0
 - Figure assets: 2026-11-16/res/

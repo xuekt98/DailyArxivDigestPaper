@@ -37,7 +37,30 @@
 [![project](https://img.shields.io/badge/project-blue)](https://github.com/Fisher-007/Ego2Flow)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**提出闭环交通基准 Ego2Flow：借交通信息图与迭代反馈把 Argoverse 2 观测蒸馏为 6 张 CARLA 地图，六城平均 ADE 0.7966 m，用于评估驾驶策略对车流效率、安全与能耗的系统级影响。**</p>
 
++ **Recovered or Memorized? Investigating Dynamical Consistency and Faithfulness in World Model Latents**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18807)
+![architecture](https://img.shields.io/badge/ARC_Discrete_Frechet_Certification-red)
+![task](https://img.shields.io/badge/Latent_Dynamics-magenta)
+![organization](https://img.shields.io/badge/Southern_Alberta_Institute_of_Technology-green)
+[![project](https://img.shields.io/badge/project-blue)](https://github.com/jfran03/dynamical-investigation)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**ARC 用离散 Fréchet 距离为世界模型划出记忆型 null 的地板与真值天花板，检验 TD-MPC2 学到的是钟摆动力学还是轨迹记忆：k=10 时 7 个约束平均全部越界、校正后 6 个显著，k=25 则一个都无法认证。**</p>
+
++ **When to Trust Simulated Patient Responses:Support-Gated World Models for Vasopressor Decision Support**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18458)
+![architecture](https://img.shields.io/badge/SGWM_Support_Gated_Clinical_Sim-red)
+![task](https://img.shields.io/badge/World_Model-magenta)
+![organization](https://img.shields.io/badge/Sun_Yat-sen_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**SG-WM 在 propose–simulate–refine 临床 agent 前加了一层支撑与分歧双闸门，只在有观测支撑且集成一致时放行预测，其余显式弃权：在 eICU-CRD 上覆盖 62.0% 的转移把 MAP 误差从 9.2 降到 7.3 mmHg，同时把无支撑动作选择率从 12.0% 清零。**</p>
+
 <!-- direction: embodied_ai -->
+
++ **Heavy Metal Acrobatics: Learning Dynamic Control for Skid-Steer Loaders**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18365)
+![architecture](https://img.shields.io/badge/SSL_Acrobatic_SimToReal_Policy-red)
+![task](https://img.shields.io/badge/Sim_to_Real-magenta)
+![organization](https://img.shields.io/badge/Robotic_Systems_Lab_RSL_ETH_Zürich-green)
+[![project](https://img.shields.io/badge/project-blue)](https://sites.google.com/leggedrobotics.com/heavy-metal-acrobatics)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**该文在仿真里用 RL 训练策略，再迁移到真实 5 吨 John Deere 332G 滑移装载机，完成两轮起立、轮上越野、原地旋转与铲斗摆动：臂角 28° 与 31° 时 11/11、12/12 全成功，抬到 34° 时降到 78.6%。**</p>
 
 + **Agentic-Teacher: An Agentic Data Engine for Failure-Driven VLA Post-Training**
 [![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17394)
@@ -53,6 +76,37 @@
 ![organization](https://img.shields.io/badge/AgiBot_X-Lab_Boson_Lab-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**人形机器人长程导航全链路系统：MELIOR 只用内置 RGB 相机，X-Navarch 把指令拆成子任务并显式避障；灵犀 X2 上跑完 96.6 米跨楼任务，R2R-CE 成功率 70.5%。**</p>
 
++ **Reusing Locomotion Training Recipes Across Humanoids via Body-Aligned Virtual Joints**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18003)
+![architecture](https://img.shields.io/badge/BodyAligned_Virtual_Joint_Interface-red)
+![task](https://img.shields.io/badge/Humanoid_Control-magenta)
+![organization](https://img.shields.io/badge/Center_for_Humanoid_Research_Korea_Institute_of_Science_and_Technology-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**该文在原生传动层之上插入身体对齐的虚拟关节坐标层，让同一套未改动的训练配方跨 Unitree G1、PND Adam 与自建平台都能跑：Adam 上脚步朝向角从 4.8° 降到 0.5%，G1 真机上偏航漂移从 5.31 降到 0.89 度每秒。**</p>
+
++ **When Will You Hand It Over? A Hidden Start Delay Makes Self-Play Handover Robust to Unfamiliar Partners**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18491)
+![architecture](https://img.shields.io/badge/HSD_Hidden_Start_Delay_Handover-red)
+![task](https://img.shields.io/badge/Manipulation-magenta)
+![organization](https://img.shields.io/badge/Toyota_Motor_North_America-green)
+[![project](https://img.shields.io/badge/project-blue)](https://github.com/mkhoshnam/Selfplay-PPO-handover)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**该文诊断出自博弈交接策略在陌生伙伴上崩溃的原因是对方起手时机（延迟 1 秒就让成功率从 95% 掉到 6%），再用接收方看不见的隐藏起始延迟随机化修复：再训 300 步后对陌生脚本伙伴的成功率从 31% 升到 80%。**</p>
+
++ **PROOF: Perceptive Robustness via Out-of-Distribution Fallback for Legged Locomotion**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18305)
+![architecture](https://img.shields.io/badge/PROOF_Uncertainty_Gated_Locomotion-red)
+![task](https://img.shields.io/badge/Robot_Learning-magenta)
+![organization](https://img.shields.io/badge/Southern_University_of_Science_and_Technology-green)
+[![project](https://img.shields.io/badge/project-blue)](https://syw-robotics.github.io/proof-loco/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**PROOF 用带不确定度头的教师-学生蒸馏，让 Unitree Go2 在深度视觉失效时自动退回纯本体感知：强视觉扰动下五类地形通过率 99–100%，没有教师掩码的基线全部为 0%，真机上只剩强运动模糊的两档速度仍会失败。**</p>
+
++ **Gamer: A Generalist Vision-Language-Action Foundation Model for Long-Horizon Real-Time Game Agent**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18397)
+![architecture](https://img.shields.io/badge/Gamer_Generalist_Game_VLA-red)
+![task](https://img.shields.io/badge/VLA_Model-magenta)
+![organization](https://img.shields.io/badge/miHoYo_Honkai_AI_R&D_Team-green)
+[![project](https://img.shields.io/badge/project-blue)](https://mihoyo-gamer.github.io/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**Gamer 是面向长时程交互的通用视觉-语言-动作基础模型：用数万小时键鼠操作做继续预训练、统一成 5 Hz 观测加 30 Hz 动作序列，配合记忆压缩与时序感知 GRPO，把跨游戏操作与长程任务放进同一套训练与部署管线。**</p>
+
 + **Racing the Clock: Teaching VLNs Budget-Conditioned Object Search**
 [![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17442)
 ![architecture](https://img.shields.io/badge/Budget_Conditioned_Bellman_Expert-red)
@@ -67,47 +121,33 @@
 ![organization](https://img.shields.io/badge/Stanford_University-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**用 880 税元件手套的实测触觉重建 MuJoCo 回放，补上视觉重建缺失的力信息：抓握力从 0.31 倍修正到 0.99 倍记录值，留出录像 20/20，接触漏检从 32.2% 降到 13.1%。**</p>
 
-+ **Imitation Policies Learn a Proprioceptive Anchor: A Predictive Law for Perception Noise and Its Closed Loop Cost**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17658)
-![architecture](https://img.shields.io/badge/Proprioceptive_Anchor_Law-red)
-![task](https://img.shields.io/badge/Imitation_Learning-magenta)
-![organization](https://img.shields.io/badge/Arizona_State_University-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**揭示模仿策略对噪声读数的折价定律 α=V/(V+s²)，锚点方差一次实测即可预测 10 组留出灵敏度（平均绝对误差 0.025，经典 EIV 为 0.37），但闭环下 15 个策略的偏移响应全部超过 α。**</p>
++ **Vision-Language-Action Models: A Life-Cycle Survey of Design, Training and Deployment**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18372)
+![architecture](https://img.shields.io/badge/VLA_LifeCycle_Survey-red)
+![task](https://img.shields.io/badge/Robot_Foundation_Model-magenta)
+![organization](https://img.shields.io/badge/Department_of_Computer_Science_University_of_Huddersfield-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**该综述沿七条生命周期轴梳理 2022 年 12 月至 2026 年 10 月的 88 篇 VLA 工作并逐轴分析 22 个主模型，给出三条趋势：数据从 π0 的一万小时扩到两万人类视频、参数分成 3–7B 与 1B 以下两派、同时操作与导航的通用 VLA 开始出现。**</p>
 
-+ **VACO: Vertex-Aligned Decoding for Dense Hand Contact Estimation from a Single Image**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17755)
-![architecture](https://img.shields.io/badge/VACO_Vertex_Aligned_Decoder-red)
-![task](https://img.shields.io/badge/Tactile_Sensing-magenta)
-![organization](https://img.shields.io/badge/Zhejiang_University-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**顶点对齐解码器 VACO：每个 MANO 顶点在自己的投影位置采样多尺度图像特征再预测接触，五个基准上单检查点即达 SOTA，Hi4D 上 F1 0.860，相对最强直接预测器提升 20.7 个百分点。**</p>
-
-+ **Talk to Act: A Synthetic Multi-Turn Dialogue Benchmark for Human Intent Extraction and Action Planning in Robotics**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17549)
-![architecture](https://img.shields.io/badge/Tool_Calling_Intent_Parser-red)
-![task](https://img.shields.io/badge/Embodied_Agent-magenta)
-![organization](https://img.shields.io/badge/Reutlingen_University-green)
-[![project](https://img.shields.io/badge/project-blue)](https://huggingface.co/datasets/deepukr007/hri_human_intent_from_conversation)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**合成多轮人机对话数据集并把意图抽取化为结构化函数调用：270M 到 8B 的开权重模型在无微调下可用，Gemma4:E4B 目标准确率 63.6%、动作级 F1 74.2%，为端侧对话机器人给出基线。**</p>
-
-+ **On the Utility of Pre-Trained Visual Representations for Policy Learning of Contact-Rich Insertion Tasks**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17631)
-![architecture](https://img.shields.io/badge/Contact_Centric_Feature_Policy-red)
++ **Grounding Object-to-Object Hazard Reasoning into 3D Risk Fields for Task-Conditioned Safety**
+[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17566)
+![architecture](https://img.shields.io/badge/VLM_Hazard_Risk_Field_Framework-red)
 ![task](https://img.shields.io/badge/Manipulation-magenta)
-![organization](https://img.shields.io/badge/University_of_Pennsylvania_GRASP_Laboratory-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**把接触密集插入任务放大镜化评测视觉表征：真值接触特征在全部设定下最优，DINOv2 与 Theia 在仿真书插上反而不及从零训练、在真实书插上却有效，说明表征效用高度依赖任务条件。**</p>
+![organization](https://img.shields.io/badge/Department_of_Computer_Science_McGill_University-green)
+[![project](https://img.shields.io/badge/project-blue)](https://vlm-hazard-riskfield.github.io)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**该框架让 VLM 先判断任务是否必须拒接、再定位可预防的物体对危害，并用开放词汇分割与深度把危害落成 3D 风险场交给避障模块修正轨迹：可预防危险上成功率与安全成功率同为 90.9%，纯几何避障的安全成功率则是 0。**</p>
 
-+ **ERA: Error-Resistant Autonomous Object Navigation with Predicted Depth**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17730)
-![architecture](https://img.shields.io/badge/ERA_Revisable_Occupancy_Navigation-red)
-![task](https://img.shields.io/badge/Visual_Navigation-magenta)
-![organization](https://img.shields.io/badge/Shanghai_Jiao_Tong_University-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**免训练的无深度传感器物体导航系统：用可修正占据加可达视点探索对冲预测深度的视相关误差，把 VLFM 在预测深度下的成功率从 10.8% 抬到 61.7%，ERA 本身达 70.1%。**</p>
++ **A Generalizable Approach to Safety-Aware Robotic Behavior Planning with an Explicit Constraint Space**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18026)
+![architecture](https://img.shields.io/badge/ConstraintSpace_Safety_Planning-red)
+![task](https://img.shields.io/badge/Manipulation-magenta)
+![organization](https://img.shields.io/badge/unverified-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**该框架把安全规则存成显式的 Constraint Space，由查询条件化双塔模型按任务与环境选约束，再让多模态 Safety Inspector 闭环纠错：在 93 条规则、150 条留出查询上召回 37.48% 对 24.32%，检验器判定准确率最高 97.7%。**</p>
 
-+ **When Does Cross-View Consistency Matter in Multi-View Appearance Augmentation? A Controlled Study for Visuomotor Policies**
-[![paper](https://img.shields.io/badge/Arxiv_2611.17-blue)](https://arxiv.org/abs/2611.17751)
-![architecture](https://img.shields.io/badge/State_Replay_Cross_View_Augmentation-red)
-![task](https://img.shields.io/badge/Imitation_Learning-magenta)
-![organization](https://img.shields.io/badge/Peking_University-green)
-[![project](https://img.shields.io/badge/project-blue)](https://github.com/PKUJZX/xview-consistency-augmentation)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**用状态回放受控拆解多视角增强里的跨视角耦合：七个 LIBERO 任务上外观耦合对扩散策略代价近乎为零（可信区间上端 2.55 个百分点），几何反耦合却掉 3.30 个百分点。**</p>
++ **Objectives as Policies: Vision-Language Model Cost Programs for Contact-Rich Manipulation**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18298)
+![architecture](https://img.shields.io/badge/ObjectivesAsPolicies_Cost_Program-red)
+![task](https://img.shields.io/badge/Manipulation-magenta)
+![organization](https://img.shields.io/badge/University_of_Illinois_Chicago-green)
+[![project](https://img.shields.io/badge/project-blue)](https://zihaolu001.github.io/oap-project/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**OaP 用可编辑的目标程序把预训练 VLM 与采样式 MPC 接起来：每个程序按阶段组合代价库中的运行与终端项，VLM 依据仿真 rollout 迭代修改程序，四个桌面任务上 2 轮反馈拿到 36/40（90%），真机迁移 32/40（80%）。**</p>
 

@@ -1,4 +1,4 @@
-# Mine Arxiv Daily Digest - 2026-11-13 (具身智能与世界模型 Axis, 13 papers)
+# Mine Arxiv Daily Digest - 2026-11-13 (具身智能与世界模型 Axis, 20 papers)
 
 **Generated**: 2026-11-13 10:46 CST
 
@@ -6,25 +6,27 @@
 
 **Batch window**: 2026-11-10T19:00:00Z .. 2026-11-11T19:00:00Z（arXiv 公告批次横跨两个 UTC 日：从前一日的美东 14:00 截止时刻起算（EDT 为 18:00Z，EST 为 19:00Z），到当日的同一时刻为止）
 
-**Axis**: world_embodied (13 papers, base 15, cap 20)
+**Axis**: world_embodied (20 papers, base 15, cap 20)
 
-**Directions**: world_model (3), embodied_ai (10)
+**Directions**: world_model (7), embodied_ai (13)
 
-**Selection**: 13 papers ranked by relevance x quality, with 0 wild-card slots
+**Selection**: 20 papers ranked by relevance x quality, with 0 wild-card slots
 
-**Day total**: 34 papers across 4 axes (target 60)
+**Day total**: 60 papers across 4 axes (target 60)
 
 **Scope**: 世界模型、学习型模拟器与具身智能，含移动操作、人形控制、触觉反射、VLA 策略与面向具身任务的强化学习
 
-**Wild-card**: 0 —— 本 axis 未启用任何 wild-card 名额，`world_model` 让出的名额由 `embodied_ai` 内**同方向**的够格论文吸收。
+**Wild-card**: 0 —— 本 axis 20 篇全部是够格论文，未启用任何 wild-card 名额。
 
-**本 axis 13 篇（低于 axis 基准 15 篇）**：`world_model` 只有 3 篇够格（后验-先验认知鸿沟、动作仿射世界模型的推理时精炼、Dreamer 式网络防御），`embodied_ai` 有 10 篇（基准 8 篇，超出 2 个）吸收了让出的名额。轴内没有出现需要邻接选题补位的空位，因此未启用 wild-card 名额。
+**本 axis 从 13 篇补到 20 篇，打满 `AXIS_CAP = 20`。** `world_model` 刚好打满基准 7 篇（新增 4 篇），`embodied_ai` 吸收其余名额到 13 篇、超基准 5 个。
+
+**5 个超基准名额只能由 `embodied_ai` 承担。** 按 `pipeline.py select` 的判据 `dir_over ≤ max(dir_under, axis_surplus)`，axis 超过基准时同轴内每个 direction 都必须不低于自己的基准；本批 `world_model` 过筛的新候选只有 5 篇（relevance 7、7、5、5、5），最多补到 7 篇，因此 `embodied_ai` 必须承担全部 5 个超基准名额，其中 3 篇是 rel ≥ 9 的必进论文。
 
 ---
 
-## 世界模型与学习型模拟器 · `world_model` (3 papers)
+## 世界模型与学习型模拟器 · `world_model` (7 papers)
 
-本方向 3 篇，主线是**「世界模型到底把任务信息带到了没有」**。The Posterior-Prior Epistemic Gap 是一个单种子案例研究：在 CARLA 驾驶模拟器上用循环状态空间模型（RSSM）世界模型配合主动推断规划，作者发现后验（经观测滤波）状态保留的障碍物信息会在想象 rollout 的状态里逐步丢失——监督式障碍物探针在后验上达到 AUC 0.85，而在先验 rollout 上则显著下降，这一落差被命名为**后验-先验认知鸿沟**。Fast Inference-Time Policy Refinement via Action-Affine World Models 换了个切入点：既然模仿策略的执行误差会累积，而精炼往往需要额外的在线学习或昂贵的在线规划，那就不去学全局动力学，而是只学「小动作修正如何改变结果」这一局部响应，把它写成易于优化的动作仿射形式。FOE-Dreamer 则是把 Dreamer 式的部署高效学习搬到网络防御域——直接在真实网络里学策略可以消除仿真器保真度鸿沟，但每次交互都很慢，于是要在部署效率与样本效率之间取平衡。
+本方向 7 篇里 4 篇新增。Fast Inference-Time Policy Refinement via Action-Affine World Models 以 9.0 居首：只学「小幅动作修正如何改变结果」这一局部响应，再解一个凸 QP，四个仿真操作任务平均成功率从冻结扩散策略的 27.18% 提到 59.51%，每控制步额外开销仅 3.80 ms。The Posterior-Prior Epistemic Gap 则把世界模型的失效量化：同一障碍物探针在后验状态上 AUC 0.85，在 15 步想象状态上单调衰减到 0.71、logit 间隔下降 57%，而规划器自带的 5 头集成分歧做障碍分类只有 AUC 0.52——失败不会被自己察觉。新增里 FloCOS 把周围车辆未来占据集的非凸并集直接写进轨迹优化的碰撞约束（Waymo 1000 个测试场景上全时域覆盖率 99.3%、交互完成率 85.6% 对 DOS-Ellipse 的 59.1%）；TyphoonWorld 用 47.2M 参数的残差 token 世界模型做台风预报，220 K 以下深对流区的 CRPS 相对所有其他集合降低 14% 到 39%、离散度与误差相关 0.78（外部风暴残差只有 0.21）；From Forecasting to World Modeling 提醒预测精度与干预响应精度是两个问题（Double ML 反事实 WMAPE 0.046，而 TabPFN 喂原始工具变量时从 0.094 恶化到 0.193）；Multi-View 3D Reconstruction Using V-JEPA Features 则老实报告了 JEPA 特征迁移到重建后收益与原始几何恶化的并存（原始 Chamfer 从 3.5535 涨到 4.4374）。
 
 ### 1. Fast Inference-Time Policy Refinement via Action-Affine World Models
 
@@ -114,11 +116,139 @@
 
 ---
 
-## 具身智能与机器人学习 · `embodied_ai` (10 papers)
+### 4. FloCOS: Predicting Compact Forward Occupancy Sets of Surrounding Vehicles via Conditional Flow Matching
 
-本方向 10 篇，主线是**「把机器人策略放到真实执行约束下」**。XInfer 来自**生产环境**——数百台 VLA 机器人已经在真实世界运行，需要一套服务系统来摊薄大规模部署的推理基础设施成本，它把异构 VLA 计算与不断变化的响应需求协同调度。Learning Low-Latency Action Verification for Frozen VLA Models 直指一个部署痛点：采样出的动作序列可能无效，而用昂贵的验证器评估备选方案会在每次策略查询上叠加延迟，于是提出 HDH——用冻结 VLA 自己部署时留下的**事后信息（hindsight）**来训练轻量动作验证器。Genie Sim Benchmark 用配对的真实-仿真任务与系统辨识研究量化 real-to-sim 保真度：跨 22 个机器人-任务对、16 个任务名，用真实机器人数据微调的 π0.5 策略与仿真评分之间的相关性达到 0.9686（MAE 0.0405、RMSE 0.0520），仿真-真实差值落在 -0.110 到 +0.080。ILA 处理人形机器人在受限环境或人机交互中的**柔顺**动作跟踪，在没有专用交互传感器的前提下用机器人自身观测适配动作参考；Can I join you? 则用扩展社会力模型加预测控制与障碍函数，解决人群中有人加入或穿过时群体重排的社会合理性；SPIRE 用递归脉冲神经元从动作-结果证据推断潜在情境并在线学习情境专属运动基元，实现无任务标签、无边界假设的具身持续学习；其余几篇分别落在单张 RGB 图到机器人执行的度量场景对齐与接触引导重定向、单目深度估计在新场景中的视差精化与机器人自运动适配、头戴设备上体坐标系朝向分解的神经惯性里程计，以及非完整约束机器人的微分同胚向量场对齐运动规划。
+**arXiv**: [2611.15488](https://arxiv.org/abs/2611.15488) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `world_model` | **Tags**: embodied, flow-matching, occupancy-prediction, motion-prediction, trajectory-planning, waymo-open-motion, School of Future Science and Engineering | **Categories**: cs.RO | **Pages**: 8
 
-### 4. Learning Low-Latency Action Verification for Frozen Vision-Language-Action Models
+**Authors**: Chuansheng Dong; Yinxiao Zhan; Zongdian Li; Peng Hou; Jin Wang; Jiayu Fan
+
+**Affiliation**: School of Future Science and Engineering, Soochow University; College of Control Science and Engineering, Zhejiang University; State Key Laboratory of Blockchain and Data Security, Zhejiang University
+
+**Abstract**
+
+> Existing methods for predicting surrounding vehicles' forward occupancy may under-approximate the ground-truth occupancy, exposing the ego vehicle to collision risk, or produce overly conservative regions that unnecessarily restrict feasible space and cause planning failures. To address these issues, we propose FloCOS, a conditional flow-matching framework that predicts compact forward occupancy sets with high occupancy coverage. FloCOS represents the forward occupancy set as a time-varying union of half-space convex polygons parameterized by temporal basis coefficients. Conditional flow matching captures the conditional distribution of these coefficients to govern the temporal evolution of the convex components, trained under coverage and union-area losses that penalize missed occupancy and excess area. For downstream trajectory optimization, the predicted nonconvex union is directly incorporated into hyperplane-based collision-avoidance constraints. Evaluations on the Waymo Open Motion Dataset show that FloCOS generates compact forward occupancy sets with high coverage and achieves a higher interaction completion rate than evaluated baselines. Real-world vehicle experiments further confirm its ability to support collision-free planning in interactive scenarios.
+
+**Key findings**
+
+- **Finding**: 在 Waymo Open Motion Dataset 的 1000 个测试场景上，FloCOS 全时域同时占据覆盖率 99.3%（DOS-Ellipse 98.8%），面积比从 3.98 降到 3.10，交互完成率从 59.1% 提到 85.6%；FORCE-OPT 完成率 85.2% 但覆盖率只有 69.7%，Traffic-Rule Set Prediction 面积比 8.59 而完成率仅 3.1%。
+- **Inference**: 规划可行性同时取决于「覆盖得住」与「不占地」两个条件，只看完成率会被 FORCE-OPT 这类覆盖不足的方法误导；把预测目标从轨迹改成规划器可直接使用的凸包并集，才可能同时优化这两个量。
+- **Recommendation**: 把运动预测接入规划时，先在同批场景上同时报覆盖率与面积比，再把非凸并集直接写进碰撞约束，不要退化成单个凸包或事后轨迹缓冲；消融可参考本文 Traj-CFM 变体，其 2 秒覆盖率掉到 66.1%、完成率仅 9.6%。
+
+**Key figures**
+
+*Framework - Effects of occupancy prediction on planning. All three panels use the same observation history and ego state. Left: undercoverage leaves part of the surrounding vehicle’s ground-truth occupanc*
+
+![FloCOS: Predicting Compact Forward Occupancy Sets of Surrounding Vehicles via Conditional Flow Matching - framework](res/2611.15488_framework.png)
+
+*Result - FloCOS generates temporal geometry coefficients from vehicle histories and map features and decodes them into sequences of convex components. The rightmost column shows the union of all eight*
+
+![FloCOS: Predicting Compact Forward Occupancy Sets of Surrounding Vehicles via Conditional Flow Matching - result](res/2611.15488_result.png)
+
+**Why this ranks #4**: 作为本 direction 并列第 3 位（分数 7.0）的一篇：它学的是周围车辆未来占据分布的生成模型，并把这个非凸占据并集直接写进轨迹优化的碰撞约束。Waymo 1000 个测试场景上全时域覆盖率 99.3%、面积比 3.10、交互完成率 85.6%（同族基线 DOS-Ellipse 为 98.8%、3.98、59.1%），属于「学到的未来模型直接服务于规划」的典型形态。
+
+---
+
+### 5. TyphoonWorld: A Residual Token World Model for Probabilistic Forecasting of Typhoon Imagery
+
+**arXiv**: [2611.18740](https://arxiv.org/abs/2611.18740) | **Score**: 6.7 (relevance 7 x 0.7 + quality 6 x 0.3) | **Direction**: `world_model` | **Tags**: embodied, world-model, residual-modeling, discrete-token, ensemble-forecasting, satellite-imagery, Nanyang Technological University | **Categories**: cs.CV, cs.LG | **Pages**: 15
+
+**Authors**: Xiaoyu Chen; Tianyi Li; Xuanyi Zhang
+
+**Affiliation**: Nanyang Technological University; National Academy of Governance; PBC School of Finance
+
+**Abstract**
+
+> A satellite forecast of a typhoon should give a low-error picture of the next two days, together with an ensemble whose members are coherent fields and whose spread responds to the storm at hand. A small direct regression network already gives the lowest squared error on held-out storms, so a generative model has to earn its cost through the part of the future that the regression smooths away. We present TyphoonWorld, a discrete-token world model that generates only that part. Conditioned on tokens of the regression forecast, the latest frames and the best-track state at forecast time, it samples residual fields lead by lead, and members add these residuals to the regression center. We compare it under one protocol with per-pixel Gaussian networks, a diffusion model of the same residuals, residuals from other storms and an unconditional token world model, on 276 forecast windows from 46 held-out storms of Digital Typhoon. TyphoonWorld matches the squared error of the regression, lowers the CRPS of the area colder than 220 K, a direct measure of deep convection, by 14 to 39% against every other ensemble, and ties its spread to forecast error as closely as the Gaussian network, with a correlation of 0.78 across windows. It uses 56% of the parameters of the unconditional world model.
+
+**Key findings**
+
+- **Finding**: 直接 U-Net 回归中心只有 2.21M 参数、48 小时 MSE 0.0242（比 ConvLSTM 低 34%，比 token 采样均值低 17%）；TyphoonWorld 残差动力学 47.2M 参数，匹配该 MSE，并把 220 K 以下区域 CRPS 相对每一种其他集合降低 14%–39%、240 K 以下降低 21%–43%，离散度-误差相关 0.78（其他风暴残差 0.21）。
+- **Inference**: 当一个小的确定性回归器已经拿到最低平方误差时，生成模型的正当性不在于复现整体未来，而在于专门采样被回归平滑掉的那部分误差；把生成能力对准残差，才能让扩散度与真实误差对应起来。
+- **Recommendation**: 评估生成式预报器时，除平方误差外必须同时报深对流区的 CRPS 与「离散度-误差」相关系数，并检查参数量是否与无条件基线同量级；若集合只会输出一张平滑图，就没有提供额外信息。
+
+**Key figures**
+
+*Framework - Overview of TyphoonWorld. A direct U-Net estimates the mean at every lead (a). A residual world model reads tokens of the center, two recent frames and the initial state, and samples residua*
+
+![TyphoonWorld: A Residual Token World Model for Probabilistic Forecasting of Typhoon Imagery - framework](res/2611.18740_framework.png)
+
+*Result - Skill by lead time on all test windows. TyphoonWorld holds the error of the regression center in (a), stays level with the best energy scores in (b), has the lowest CRPS of the area colder t*
+
+![TyphoonWorld: A Residual Token World Model for Probabilistic Forecasting of Typhoon Imagery - result](res/2611.18740_result.png)
+
+**Why this ranks #5**: 分数 6.7，排本 direction 第 5 位。它是名副其实的离散 token 世界模型：47.2M 参数的残差动力学在 46 个留出风暴、276 个预报窗口上，把 220 K 以下深对流区的 CRPS 相对所有其他集合降低 14%–39%，离散度与误差的相关系数 0.78（外部风暴残差只有 0.21），参数量却只有无条件 token 世界模型 129.2M 的 56%。
+
+---
+
+### 6. From Forecasting to World Modeling: Can Temporal Foundation Models Recover Causal Response?
+
+**arXiv**: [2611.15009](https://arxiv.org/abs/2611.15009) | **Score**: 5.3 (relevance 5 x 0.7 + quality 6 x 0.3) | **Direction**: `world_model` | **Tags**: embodied, causal-inference, foundation-model, forecasting, instrumental-variables, benchmark, Seoul National University | **Categories**: cs.LG | **Pages**: 15
+
+**Authors**: Juwon Hong; Minha Hwang; Venkatesh Shankar
+
+**Affiliation**: Seoul National University; Microsoft
+
+**Abstract**
+
+> A model that forecasts sales accurately can still mislead a retailer about how sales respond to a price change. We evaluate released tabular and time-series foundation models, as well as a foundation model pretrained specifically to estimate causal effects. We report three findings. First, forecast accuracy does not indicate the accuracy of the predicted effect of price, both on simulated data in which the true effect is known and on real retail sales records. Second, for the tabular foundation models, additional context improves forecasts but not the predicted effect of price. Third, instrumental variables, the standard remedy in econometrics, reduce this error only when supplied in a specific form and increase it for every model under confounding when supplied as raw instruments.
+
+**Key findings**
+
+- **Finding**: 混杂面板下 LightGBM 反事实 WMAPE 为无工具变量 0.092、控制函数残差 0.064、原始工具变量 0.153，TabPFN 对应 0.094/0.052/0.193、TabICLv2 0.077/0.052/0.179；真实零售记录上 Double ML 预测误差更高（零食饼干 WMAPE 0.463 对 Chronos-2 的 0.368）却在每一行都正确判断降价方向。
+- **Inference**: 拟合出的斜率是真实效应 β 减去 βδ·Var(ξ)/Var(log p)，更多同分布数据只会锐化这个被污染的估计；因此预测精度与干预响应精度是两个不同的问题，不能互相替代，也不能靠按预测误差选模型来自动选对工具变量形式。
+- **Recommendation**: 把时序基础模型当世界模型评测时，除了预测误差必须额外测「干预响应误差」；工具变量要以控制函数残差形式喂入，并在混杂强度不为零的数据上检查反事实 WMAPE 是否低于「预测不变」基线，否则应直接采用双机器学习。
+
+**Key figures**
+
+*Framework - More data improve forecasts, but counterfactuals only without confounding. Panel A uses the confounded data (δ = 0.30) and Panel B the unconfounded data (δ = 0). The horizontal axis is the a*
+
+![From Forecasting to World Modeling: Can Temporal Foundation Models Recover Causal Response? - framework](res/2611.15009_framework.png)
+
+*Result - Overview of how the CausalDemand datasets are generated.*
+
+![From Forecasting to World Modeling: Can Temporal Foundation Models Recover Causal Response? - result](res/2611.15009_result.png)
+
+**Why this ranks #6**: 分数 5.3，并列本 direction 末位。它不提出新模型，而是用 CausalDemand 模拟零售数据（混杂强度 δ=0.30、32 个 ±10% 价格干预）系统检验时序基础模型能否当世界模型用：Double ML 反事实 WMAPE 0.046，而 TabPFN 在喂原始工具变量时从 0.094 恶化到 0.193，比「预测价格不变」的 0.144 基线还差。
+
+---
+
+### 7. Multi-View 3D Reconstruction Using V-JEPA Features
+
+**arXiv**: [2611.15143](https://arxiv.org/abs/2611.15143) | **Score**: 5.3 (relevance 5 x 0.7 + quality 6 x 0.3) | **Direction**: `world_model` | **Tags**: embodied, jepa, multi-view-reconstruction, camera-estimation, depth-error, pointmap, [unverified] | **Categories**: cs.AI, cs.CV | **Pages**: 29
+
+**Authors**: Anwar Shamim; Jeffrin Sam
+
+**Affiliation**: [unverified]
+
+**Abstract**
+
+> Predictive video encoders provide dense visual representations, but adapting them to 3D reconstruction requires accurate depth, camera poses, and cross-view geometry. We study supervised RGB-only multi-view reconstruction using an architecture that combines video-pretrained features, camera estimation, scene aggregation, epipolar transport, and residual pointmaps. Experiments compare global and spatial camera regression with joint relative objectives on CO3D, alongside an independently trained TUM RGB-D model. On 168 CO3D five-view windows, the spatial-camera configuration achieves 29.3% lower absolute trajectory error than the global-camera configuration, but performs worse than identity poses in trajectory error and worse than the global configuration in depth error. The joint relative-objective configuration improves normalized intrinsics error and similarity-aligned Chamfer distance from 0.6447 to 0.5573, but increases raw Chamfer distance from 3.5535 to 4.4374. On 163 indoor windows, camera error is 0.3063 m versus 0.3694 m for identity poses, while depth error is 0.4279 versus 0.2516 for constant median depth. Refinement worsens indoor camera error, and additional experiments show competing depth and pose effects. Overall, the results distinguish representation adaptation, aligned shape, and raw reconstruction, highlighting the need for isolated component and encoder comparisons before attributing reconstruction gains to predictive video pretraining.
+
+**Key findings**
+
+- **Finding**: 168 个 CO3D 五视图窗口上，空间相机配置把相机绝对轨迹误差比全局配置降低 29.3%（旋转相对位姿误差从 30.43° 降到 22.67°），但仍比单位位姿基线高 10.03%；联合相对目标把对齐 Chamfer 从 0.6447 降到 0.5573、对齐 F@0.20 从 0.3943 升到 0.4476，同时原始 Chamfer 从 3.5535 涨到 4.4374、原始 F@0.20 从 0.0333 掉到 0.0265。
+- **Inference**: 拟合一个参考导出的相似变换后误差下降，可以与首视图坐标系下的原始几何变差并存，因此「对齐后更准」并不等于「重建更准」；论文自己也强调架构、监督与选型准则同时变化，无法把增益归因到预测式视频预训练本身。
+- **Recommendation**: 评估预测式视频特征带来的重建收益时，必须同时报原始与对齐后的 Chamfer，并保留单位位姿、常数深度、常数标定这三条朴素基线做对照；不要用单一的相似对齐误差下结论，也不要把置信度或潜向量余弦相似度当作几何正确的证据。
+
+**Key figures**
+
+*Framework - Our reconstruction architecture. Video-pretrained features are extracted separately from each image. Explicit camera estimation and epipolar transport provide multi-view geometry. Dashed arr*
+
+![Multi-View 3D Reconstruction Using V-JEPA Features - framework](res/2611.15143_framework.png)
+
+*Result - CO3D geometric trade-offs. The spatial-camera configuration has lower camera ATE than the global-camera configuration. The relative-objective configuration has lower intrinsics and aligned-s*
+
+![Multi-View 3D Reconstruction Using V-JEPA Features - result](res/2611.15143_result.png)
+
+**Why this ranks #7**: 分数 5.3，与上一篇并列本 direction 末位。骨干用的是 V-JEPA 2.1 稠密视频特征，属 JEPA 系；论文用 168 个 CO3D 五视图窗口与 163 个 TUM 室内窗口逐组件拆解收益：空间相机配置轨迹误差比全局配置低 29.3%，但联合相对目标在原始 Chamfer 上从 3.5535 恶化到 4.4374，室内深度 AbsRel 0.4279 反而差于常数深度基线的 0.2516。
+
+---
+
+## 具身智能与机器人学习 · `embodied_ai` (13 papers)
+
+本方向 13 篇是当天最大的方向，新增 6 篇且多为真机工作：Autonomous Trail Racing 用车载语义高程图把「找路」写进训练地形，苏黎世 1 公里非结构化山道全程自主通过、平均 3.26 m/s 峰值超 5 m/s，比遥控策略快 2.3 倍；EMS-Nav 以「区域」为组织单元统一感知、空间理解与导航，18628 条覆盖物体／房间／区域／实例四类目标的指令上首次成功率比最强基线高 9.39 个百分点，并在 RTX 4060 Ti 上跑到 5.19 FPS；DroneDiffusion 把感知可靠性图当作扩散规划器的一等条件量（真实机碰撞率 14.71% 降到 7.77%，不安全路点 20.52% 降到 12.89%）；APG-Planner 用解析策略梯度训练视觉轨迹规划器，稀疏林地成功率 94%、均速 8.16 m/s，去掉跨重规划步的时序梯度后成功率不变但均速塌到 2.46 m/s（PPO 只有 60%）；CARE-Drive 把 VLA 轨迹精修拆成位置与航向两个物理专家交替优化（NAVSIM PDMS 86.462 提到 88.837）；CrowdMAPS 则证明真机采集预算受限时把动作宽度从 K=1 提到 K=10 比追加遥操作轨迹更有效（五个任务平均成功率 38.7% 升到 74.2%，等密度高斯噪声基线只有 43.3%）。已发布部分里 Learning Low-Latency Action Verification 用终局成败训小验证器（三个真机任务 44.7% 提到 67.3%，中位时延只涨 5.4%）、Scaling VLA Serving 的 ERC 达 vLLM-Omni 的 1.26 到 3.75 倍，仍是本方向最高分两篇。
+
+### 8. Learning Low-Latency Action Verification for Frozen Vision-Language-Action Models
 
 **arXiv**: [2611.14834](https://arxiv.org/abs/2611.14834) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, vla, action-verifier, hindsight-learning, success-prediction, real-robot, University of California | **Categories**: cs.AI, cs.CV, cs.RO | **Pages**: 10
 
@@ -146,11 +276,11 @@
 
 ![Learning Low-Latency Action Verification for Frozen Vision-Language-Action Models - result](res/2611.14834_result.png)
 
-**Why this ranks #4**: 用冻结 VLA 自己的自主 rollout 终局成败做监督，训一个轻量动作验证器给候选动作块打分选优：LIBERO-10 四个任务平均成功率 78.8%→82.3%，三个真机任务（每任务 50 次试验）从 44.7% 提到 67.3%、毛绒玩具摆放 64%→94%；每次策略查询的中位时延只从基线 681 ms 涨到 718 ms（+5.4%），而 GPT-5 验证器要到 27,674 ms。分数 9.0，与 XInfer 并列本 direction 第一。
+**Why this ranks #8**: 用冻结 VLA 自己的自主 rollout 终局成败做监督，训一个轻量动作验证器给候选动作块打分选优：LIBERO-10 四个任务平均成功率 78.8%→82.3%，三个真机任务（每任务 50 次试验）从 44.7% 提到 67.3%、毛绒玩具摆放 64%→94%；每次策略查询的中位时延只从基线 681 ms 涨到 718 ms（+5.4%），而 GPT-5 验证器要到 27,674 ms。分数 9.0，与 XInfer 并列本 direction 第一。
 
 ---
 
-### 5. Scaling VLA Serving Under Robotic Execution Constraints
+### 9. Scaling VLA Serving Under Robotic Execution Constraints
 
 **arXiv**: [2611.14969](https://arxiv.org/abs/2611.14969) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, vla-serving, inference-systems, scheduling, robot-fleet, gpu-utilization, X Square Robot | **Categories**: cs.DC, cs.RO | **Pages**: 20
 
@@ -178,11 +308,11 @@
 
 ![Scaling VLA Serving Under Robotic Execution Constraints - result](res/2611.14969_result.png)
 
-**Why this ranks #5**: 生产环境已有数百台 VLA 机器人，XInfer 用异步执行引擎加执行感知的跨阶段调度，把异构 VLA 算力与机器人响应需求耦合调度：在 VLA-2B、π0.5、Wall-OSS-0.5 三个模型与生产衍生负载上，单卡有效机器人容量（ERC）达 vLLM-Omni 的 1.26–3.75 倍（XInfer 为 18 台 VLA-2B 与 24 台 π0.5，vLLM-Omni 仅 10 与 15 台，Robion 为 19 台 π0.5）；异构响应预算下 XInfer ERC 18 台，对 Slack-Gate 15、FIFO 14、EDF 12，ERC 判据为响应 P50<150 ms 且零请求错误。
+**Why this ranks #9**: 生产环境已有数百台 VLA 机器人，XInfer 用异步执行引擎加执行感知的跨阶段调度，把异构 VLA 算力与机器人响应需求耦合调度：在 VLA-2B、π0.5、Wall-OSS-0.5 三个模型与生产衍生负载上，单卡有效机器人容量（ERC）达 vLLM-Omni 的 1.26–3.75 倍（XInfer 为 18 台 VLA-2B 与 24 台 π0.5，vLLM-Omni 仅 10 与 15 台，Robion 为 19 台 π0.5）；异构响应预算下 XInfer ERC 18 台，对 Slack-Gate 15、FIFO 14、EDF 12，ERC 判据为响应 P50<150 ms 且零请求错误。
 
 ---
 
-### 6. ILA: A Transferable Interface-Level Adapter for Compliant Humanoid Motion Tracking
+### 10. ILA: A Transferable Interface-Level Adapter for Compliant Humanoid Motion Tracking
 
 **arXiv**: [2611.14985](https://arxiv.org/abs/2611.14985) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, humanoid, motion-tracking, compliance, reference-adaptation, sim-to-real, Harbin Institute of Technology | **Categories**: cs.RO | **Pages**: 8
 
@@ -210,11 +340,11 @@
 
 ![ILA: A Transferable Interface-Level Adapter for Compliant Humanoid Motion Tracking - result](res/2611.14985_result.png)
 
-**Why this ranks #6**: 把「顺从引导」做成可插拔的接口层模块：ILA 只根据机器人观测历史预测参考动作的修正量，接在三个预训练人形运动跟踪器前，适配器与跟踪器权重全部冻结、也不加专用力传感器，指导目标误差在 MimicLite 上降 63.6%、Sonic 降 75.4%，而硬件实验中无外力时的跟踪误差只上升 0.5%。适配器完全在仿真里训练，分数 8.7 排 embodied_ai 第三。
+**Why this ranks #10**: 把「顺从引导」做成可插拔的接口层模块：ILA 只根据机器人观测历史预测参考动作的修正量，接在三个预训练人形运动跟踪器前，适配器与跟踪器权重全部冻结、也不加专用力传感器，指导目标误差在 MimicLite 上降 63.6%、Sonic 降 75.4%，而硬件实验中无外力时的跟踪误差只上升 0.5%。适配器完全在仿真里训练，分数 8.7 排 embodied_ai 第三。
 
 ---
 
-### 7. Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation
+### 11. Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation
 
 **arXiv**: [2611.15020](https://arxiv.org/abs/2611.15020) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, sim-to-real, benchmark, system-identification, manipulation, policy-evaluation, [unverified] | **Categories**: cs.RO | **Pages**: 27
 
@@ -242,11 +372,103 @@
 
 ![Genie Sim Benchmark: Real-to-Sim Fidelity and Evaluation - result](res/2611.15020_result.png)
 
-**Why this ranks #7**: 一份以「真机—仿真配对」为核心的双轨评测基准：22 个机器人-任务对、16 个任务名（G1 Omnipicker 8、G2 Swiftpicker 6、G2 Wuji 1、Arx X5 7），用真机数据微调的 π0.5 策略在仿真与真机上的 Score 相关系数 0.9686、MAE 0.0405、RMSE 0.0520，逐对差值 −0.110~+0.080；另用一段独立的 32.6503 s 遥操作轨迹做标定，两臂逐关节位置 RMSE 0.00614–0.03522 rad、力矩 RMSE 0.73545–4.00099 N·m。
+**Why this ranks #11**: 一份以「真机—仿真配对」为核心的双轨评测基准：22 个机器人-任务对、16 个任务名（G1 Omnipicker 8、G2 Swiftpicker 6、G2 Wuji 1、Arx X5 7），用真机数据微调的 π0.5 策略在仿真与真机上的 Score 相关系数 0.9686、MAE 0.0405、RMSE 0.0520，逐对差值 −0.110~+0.080；另用一段独立的 32.6503 s 遥操作轨迹做标定，两臂逐关节位置 RMSE 0.00614–0.03522 rad、力矩 RMSE 0.73545–4.00099 N·m。
 
 ---
 
-### 8. SPIRE: Task-agnostic embodied continual learning through autonomous situation inference and causal motor-primitive reuse
+### 12. Autonomous Trail Racing with a Bicycle Robot
+
+**arXiv**: [2611.15280](https://arxiv.org/abs/2611.15280) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, robot-learning, off-road-navigation, semantic-mapping, sim-to-real, locomotion, Robotics and AI Institute (RAI) | **Categories**: cs.RO | **Pages**: 35
+
+**Authors**: Fabian Jenelten; Deepana Ishtaweera; Pablo Garcia; Liana Margolese; Igor Bogoslavskyi; Luca Buonocore; Jan Migliazza; Aleksandrs Ecins; Annika Wollschlaeger; Dario Bellicoso; Gabriel Nelson; Abel Gawel
+
+**Affiliation**: Robotics and AI Institute (RAI), Zurich; Robotic Systems Lab, ETH Zurich; Robotics and AI Institute (RAI), Cambridge, MA
+
+**Abstract**
+
+> Navigating off-road trails on a mountain bike requires diverse locomotion skills, including aerial maneuvers, cornering, and slip recovery, paired with sophisticated perception for scene understanding. Translating these capabilities to autonomous, two-wheeled robots remains a formidable challenge. We show that autonomous, high-speed trail navigation can be achieved through a single idea: encoding the trail as a semantic layer of the terrain. In simulation, this layer embeds the navigation task into the training environment; during deployment, it is reconstructed onboard from camera and LiDAR data. First, we introduce a unified learning framework that treats local navigation and locomotion as a joint optimization problem, bypassing the twist or pose command interface of classical control hierarchies. With fixed reward weights, the same framework produces both trail racing and agile parkour, shaped only through terrain semantics and episode length. Second, our perception pipeline combines a frozen vision foundation model with a lightweight dual-head decoder that predicts per-pixel terrain semantics and confidence scores, which are fused with LiDAR range measurements into an egocentric semantic elevation map at 30 Hz onboard an NVIDIA AGX Orin. We validate our framework on the Ultra Mobility Vehicle (UMV), a bicycle robot that autonomously raced across all sections of a kilometer-long, unstructured mountain bike trail at speeds exceeding 5 m/s and averaging 3.26 m/s. In simulation, our policy fails up to an order of magnitude less often than hierarchical baselines while driving faster.
+
+**Key findings**
+
+- **Finding**: 语义管线刷新率从 50 Hz 提到约 90 Hz，RGB 逐帧处理后与 LiDAR 测距在 NVIDIA AGX Orin 上以 30 Hz 融合成 15×15 m、格距 0.1 m 的自车语义高程图；训练环境用 1000 块随机地形拼出超过 46 km 可通行赛道、约 450 万顶点，新环境只需 20 张标注图即可在机器人本机上数分钟内适配。
+- **Inference**: 把可通行路径编码成地形网格的一个语义层，等于把「找路」问题从策略的在线推理负担转移到离线可程序化生成的环境里；部署端只需重建同一个语义层，就能让同一套奖励权重在越野竞速与跑酷之间切换。
+- **Recommendation**: 做户外高速机器人时，优先把任务语义写进训练用的地形表示并保留一个可重建的在线版本；评估要以真实平均速度与失败率对标分层基线（本文 3.26 m/s 对 2.3 倍差距），同时准备 20 张左右标注图的快速适配流程。
+
+**Key figures**
+
+*Framework - The Ultra Mobility Vehicle (UMV) autonomously navigates a mountain-bike trail in Zurich. Left: The robot corners a curve. Right: The robot traverses pump-track waves.*
+
+![Autonomous Trail Racing with a Bicycle Robot - framework](res/2611.15280_framework.png)
+
+*Result - Autonomous trail racing and dynamic parkour. (A) The UMV autonomously navigates a mountain bike trail in Zurich at speeds exceeding 5 m/s, relying exclusively on onboard perception and compu*
+
+![Autonomous Trail Racing with a Bicycle Robot - result](res/2611.15280_result.png)
+
+**Why this ranks #12**: 分数 8.7，并列本 direction 第 3 位。它把「局部导航 + 运动控制」合并成一个强化学习优化问题，绕过经典控制层里 twist/pose 的命令接口，并用车载语义高程图在线重建那条语义层：苏黎世 1 公里非结构化山道全程自主通过，平均 3.26 m/s、峰值超 5 m/s，比遥控策略快 2.3 倍，仿真失败率比分层基线低最多一个数量级。
+
+---
+
+### 13. EMS-Nav: Embodied Multi-Scale Navigation
+
+**arXiv**: [2611.15589](https://arxiv.org/abs/2611.15589) | **Score**: 8.7 (relevance 9 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, scene-graph, language-goal-navigation, on-device, region-parsing, embodied-ai, Tsinghua University | **Categories**: cs.AI, cs.CV, cs.RO | **Pages**: 30
+
+**Authors**: Zenghui Yang; Xinan Wang; Danyang Li; Zhe Xu; Zheng Yang; Jingao Xu; Qiang Ma
+
+**Affiliation**: Tsinghua University
+
+**Abstract**
+
+> Industrial inspection robots must reach work areas and specific equipment. These destinations span spatial scales from regions to objects, so robots must relate each target to its surroundings to interpret the task and determine where to go. Existing methods support multi-scale navigation through rich environment representations, but at substantial computational and storage cost. These costs limit deployment where wireless coverage is incomplete and robots must rely on onboard computation to keep navigating. We introduce EMS-Nav, a biologically inspired multi-scale navigation framework for online, on-device operation. Its core innovation is to organize perception, spatial understanding, and navigation around regions, making local spaces the basic units of both environmental understanding and computation. EMS-Nav groups objects and their relationships into functionally meaningful spaces and builds a hierarchy from local areas to the broader environment. This organization supports efficient map construction alongside the interpretation and execution of language goals at different scales. In multi-scale navigation experiments, EMS-Nav achieves the highest success rates across all four target categories: objects, rooms, regions, and specific instances. It outperforms state-of-the-art open-vocabulary mapping and navigation methods, improving overall first-attempt success by 9.39 percentage points over the strongest baseline while reducing mapping overhead and language-model input size. Local deployment in real indoor environments further demonstrates its applicability to on-device embodied navigation. By establishing regions as the organizing basis for perception, spatial understanding, and language-guided action, EMS-Nav provides a system that combines multi-scale understanding with computational efficiency to support diverse language goals on resource-constrained robots.
+
+**Key findings**
+
+- **Finding**: 评测覆盖 18628 条指令、目标分物体/房间/区域/具体实例四类，EMS-Nav 首次成功率比最强基线高 9.39 个百分点且四类全部领先；实时部署在 RTX 4060 Ti 上峰值 5.19 FPS，同时压缩了建图开销与送入语言模型的输入规模；候选关联只在超点包围盒 1 m 内的区域内进行。
+- **Inference**: 「先重建对象、再推断空间关系」的对象优先范式会随地图增长反复重算无关区域，而区域优先把在线更新与周期解析都限制在局部空间内，因此既能降低算力，又能把「目标在哪个功能空间里」这一多尺度语义问题显式化。
+- **Recommendation**: 资源受限的机器人若要支持多尺度语言目标，应先把地图组织单元从对象换成区域：在线用局部关系证据做分区、周期性解析只重算变化区域及其父节点，并在选模型时以「同硬件上的处理帧率 + 语言模型输入长度」为联合指标，而不是只看成功率。
+
+**Key figures**
+
+*Result - EMS-Nav uses regions to connect online mapping with multi-scale spatial parsing. Left: posed RGB-D*
+
+![EMS-Nav: Embodied Multi-Scale Navigation - result](res/2611.15589_result.png)
+
+**Why this ranks #13**: 分数 8.7，与上一篇并列本 direction 第 3 位。EMS-Nav 用「区域」这一仿生学组织把感知、空间理解与导航统一起来：在线用高斯空间交互场引导关系提议与动态 Louvain 分区，周期性多尺度解析把区域组成语义层级，在 18628 条覆盖物体/房间/区域/实例四类目标的指令上首次成功率比最强基线高 9.39 个百分点，并在 RTX 4060 Ti 上跑到 5.19 FPS。
+
+---
+
+### 14. DroneDiffusion: Uncertainty-Guided Diffusion Path Planner for UAV Navigation
+
+**arXiv**: [2611.15277](https://arxiv.org/abs/2611.15277) | **Score**: 8.4 (relevance 9 x 0.7 + quality 7 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, diffusion-policy, uav-navigation, perceptual-safety, sim-to-real, chomp-guidance, Intelligent Space Robotics Laboratory | **Categories**: cs.RO | **Pages**: 6
+
+**Authors**: Ivan Valuev; Iana Zhura; Valerii Serpiva; Miguel Altamirano Cabrera; Dzmitry Tsetserukou
+
+**Affiliation**: Intelligent Space Robotics Laboratory, Skolkovo Institute of Science and Technology
+
+**Abstract**
+
+> We present DroneDiffusion, a perception-aware diffusion planner for local 3-D UAV trajectory generation that explicitly models and avoids failure zones caused by lens flare, overexposure, and reflective surfaces. A vision-language perceptual safety estimator produces a pixel-aligned reliability map that highlights regions of degraded sensing. A denoising diffusion probabilistic model (DDPM) is conditioned on this map together with the onboard RGB image, goal point, and initial velocity to generate egocentric 3-D trajectories. To enforce obstacle avoidance at inference time without retraining, we apply training-free CHOMP guidance over a 3-D Euclidean signed distance field. The model is trained entirely in simulation and deployed zero-shot on a real drone. Reliability conditioning raises the mean perceptual reliability along generated trajectories to 0.71, compared with 0.63 for a geometric baseline, while guidance halves the collision rate of the learned prior from 14.7% to 7.8%. Perceptual safety conditioning and geometric guidance are therefore complementary: treating sensor reliability as a first-class signal reduces incursions into unreliable regions while maintaining competitive navigation performance.
+
+**Key findings**
+
+- **Finding**: 真实无人机观测上，完整方法的碰撞率 7.770±1.150%、最小间隙 0.618 m、平均可靠性 0.714±0.016、目标误差 0.723 m；去掉几何引导碰撞率升到 14.710±2.270%，去掉引导与可靠性后为 13.320±1.320%、平均可靠性 0.689，而 APF 基线碰撞率 6.650% 但平均可靠性仅 0.626、不安全路点 20.52%。
+- **Inference**: 感知可靠性与几何间隙是两套独立的失效来源：APF 能靠几何约束把碰撞压到最低，却在过曝/眩光/镜面区域里留下 20.52% 的不安全路点，而可靠性条件化把这一项压到 12.89%，说明两者互补而非可替代。
+- **Recommendation**: 室内无人机规划应把传感器可靠性当作一等条件量接进扩散去噪器，并在推理期用免训练的 ESDF 成本引导兜底；但要同时优化延迟——本文端到端 181.36 ms 中 AnyTraverse 占 122.14 ms（67.35%），需要蒸馏或替换该估计器才能进实时闭环。
+
+**Key figures**
+
+*Framework - Perception failures in indoor UAV flight. Left: RGB observation with severe lens flare. Middle: corresponding depth map with missing and phantom geometry in the corrupted region. Right: our sa*
+
+![DroneDiffusion: Uncertainty-Guided Diffusion Path Planner for UAV Navigation - framework](res/2611.15277_framework.png)
+
+*Result - DroneDiffusion pipeline. Left: the corrupted trajectory xt is denoised over n reverse-diffusion steps by a conditional 1-D U-Net, conditioned on the RGB observation, the AnyTraverse reliabilit*
+
+![DroneDiffusion: Uncertainty-Guided Diffusion Path Planner for UAV Navigation - result](res/2611.15277_result.png)
+
+**Why this ranks #14**: 分数 8.4，排本 direction 第 7 位。它是标准的扩散规划器（1D U-Net 去噪 24 个 10 Hz 的 4-DoF 路点），但把「感知可靠性图」当成与 RGB、目标点、初速度并列的一等条件量：真实机评测里轨迹上的平均感知可靠性 0.714 对几何基线 0.626，不安全路点比例 12.89% 对 20.52%，训练无关的 CHOMP 引导把碰撞率从 14.71% 降到 7.77%。
+
+---
+
+### 15. SPIRE: Task-agnostic embodied continual learning through autonomous situation inference and causal motor-primitive reuse
 
 **arXiv**: [2611.14840](https://arxiv.org/abs/2611.14840) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, continual-learning, spiking-network, motor-primitives, context-inference, transfer, University College London | **Categories**: cs.LG, cs.RO | **Pages**: 14
 
@@ -270,11 +492,11 @@
 
 ![SPIRE: Task-agnostic embodied continual learning through autonomous situation inference and causal motor-primitive reuse - framework](res/2611.14840_framework.png)
 
-**Why this ranks #8**: 任务无标签的具身持续学习：SPIRE 用递归脉冲网络从动作—结果证据推断潜在情境，成熟的 motor actor 被保护起来与目标情境残差组合驱动脉冲运动种群。在坐标、三关节与隐藏力三类控制上，达到标准所需的平均交互次数从匹配全新控制器的 109.25 次降到 66.00 次（约 40%），先修学习优势是最强合格无任务替代方法的 2.4 倍。分数 8.0。
+**Why this ranks #15**: 任务无标签的具身持续学习：SPIRE 用递归脉冲网络从动作—结果证据推断潜在情境，成熟的 motor actor 被保护起来与目标情境残差组合驱动脉冲运动种群。在坐标、三关节与隐藏力三类控制上，达到标准所需的平均交互次数从匹配全新控制器的 109.25 次降到 66.00 次（约 40%），先修学习优势是最强合格无任务替代方法的 2.4 倍。分数 8.0。
 
 ---
 
-### 9. Can I join you? Extended Social Force Based Model with Predictive Control and Barrier Functions for Humanoid Group Repositioning Amidst Obstacles
+### 16. Can I join you? Extended Social Force Based Model with Predictive Control and Barrier Functions for Humanoid Group Repositioning Amidst Obstacles
 
 **arXiv**: [2611.14853](https://arxiv.org/abs/2611.14853) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, social-force, model-predictive-control, control-barrier-function, humanoid, social-navigation, Simon Fraser University | **Categories**: cs.HC, cs.RO | **Pages**: 8
 
@@ -302,11 +524,75 @@
 
 ![Can I join you? Extended Social Force Based Model with Predictive Control and Barrier Functions for Humanoid Group Repositioning Amidst Obstacles - result](res/2611.14853_result.png)
 
-**Why this ranks #9**: 把社会力场、MPC 与控制障碍函数串成一条安全链：ESFFM 生成名义加速度，MPC 做前瞻规划，CBF 做安全过滤。在空旷、拥挤房间、电梯、走廊四类 Gazebo 布局共 8 个条件的消融中，含 CBF 的两种控制器有 7 个零碰撞，对比 ESFFM+MPC 的 5 个、纯 ESFFM 的 4 个、SFFM 的 1 个，平均 jerk 相对下降 1.22%–39.63%，另有 40 人在线用户研究支持其社交恰当性。分数 8.0。
+**Why this ranks #16**: 把社会力场、MPC 与控制障碍函数串成一条安全链：ESFFM 生成名义加速度，MPC 做前瞻规划，CBF 做安全过滤。在空旷、拥挤房间、电梯、走廊四类 Gazebo 布局共 8 个条件的消融中，含 CBF 的两种控制器有 7 个零碰撞，对比 ESFFM+MPC 的 5 个、纯 ESFFM 的 4 个、SFFM 的 1 个，平均 jerk 相对下降 1.22%–39.63%，另有 40 人在线用户研究支持其社交恰当性。分数 8.0。
 
 ---
 
-### 10. From a Single RGB Image to Robot Execution: Metric Scene Alignment and Contact-Guided Retargeting
+### 17. APG-Planner: Learning Vision-Based High-Speed Trajectory Planning via Analytic Policy Gradient
+
+**arXiv**: [2611.15296](https://arxiv.org/abs/2611.15296) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, analytic-policy-gradient, trajectory-planning, differential-flatness, vision-based-flight, reinforcement-learning, [unverified] | **Categories**: cs.RO | **Pages**: 8
+
+**Authors**: Jinwoo Lee; Geunsik Bae; Changseung Kim; Jiwoo Kim; Woojae Shin; Hyondong Oh
+
+**Affiliation**: [unverified]
+
+**Abstract**
+
+> Vision-based high-speed navigation requires a trajectory planner that can reactively generate smooth, collision-free trajectories from onboard visual observations. Deep reinforcement learning offers a promising approach to vision-based trajectory planning, as it enables the optimization of sequential decision-making policies in complex environments. However, model-free policy gradient methods rely on sample-based policy gradient estimation, which yields noisy gradient estimates and inefficient training. To this end, we propose a framework for learning trajectory planning policies using the analytic policy gradient (APG) method and use it to train APG-Planner, a vision-based high-speed trajectory planner. The proposed framework leverages differential flatness to analytically reconstruct vehicle states from planned trajectories, thereby enabling differentiable trajectory-level state transitions without requiring an explicit low-level dynamics model. By iteratively performing trajectory planning and differentiable state transitions, we construct a differentiable episode rollout and analytically compute policy gradients from episode-level losses, improving both training efficiency and policy performance. After approximately 30 minutes of training on a single GPU, APG-Planner demonstrates comparable or superior performance to existing baseline methods in simulation and achieves speeds of up to 11\,m/s in real-world flight experiments. We further validate the proposed framework on a skid-steer ground robot, demonstrating its applicability to differentially flat robotic systems beyond quadrotors.
+
+**Key findings**
+
+- **Finding**: 同一训练配置下对比三种优化方式，稀疏林地 APG 成功率 94%、均速 8.16 m/s，去掉时序梯度后成功率 94% 但均速只有 2.46 m/s，PPO 成功率 60%、均速 5.14 m/s；密集林地对应为 92%/7.47 m/s、88%/2.05 m/s、64%/5.11 m/s。训练在单张 RTX 4080 SUPER 上约 30 分钟、10000 次迭代、64 个并行环境。
+- **Inference**: 不做时序梯度传播时，模型会优先满足逐步平滑而牺牲持续朝目标推进，这在高速飞行里直接体现为均速塌到 2 m/s 量级；解析梯度把跨重规划步的长期代价一次性算清，比采样估计既稳又便宜。
+- **Recommendation**: 训练视觉轨迹规划策略时优先用解析策略梯度加微分平坦性重建状态，把跨重规划步的时序梯度打开；对照实验务必同时报成功率和实际均速，只看成功率会掩盖「慢但稳」的退化，并可用同一套框架迁移到滑移转向等微分平坦平台。
+
+**Key figures**
+
+*Framework - Policy inference (bottom) and the resulting trajectory (top). The network outputs terminal conditions, from which the trajectory is constructed.*
+
+![APG-Planner: Learning Vision-Based High-Speed Trajectory Planning via Analytic Policy Gradient - framework](res/2611.15296_framework.png)
+
+*Result - Comparison of state-transition models. Top: simulation advances the state through hardware-specific physics and actuator dynamics. Bottom: the transition in Eq. (3) evaluates the trajectory at*
+
+![APG-Planner: Learning Vision-Based High-Speed Trajectory Planning via Analytic Policy Gradient - result](res/2611.15296_result.png)
+
+**Why this ranks #17**: 分数 8.0，并列本 direction 第 8 位。它用解析策略梯度训练视觉轨迹规划策略，靠微分平坦性在轨迹层面重建状态，因此不需要可微动力学模型：稀疏林地成功率 94%、均速 8.16 m/s，去掉跨重规划步的时序梯度后成功率虽仍 94% 但均速掉到 2.46 m/s，PPO 只有 60%；单卡约 30 分钟训练，真实飞行峰值 11 m/s。
+
+---
+
+### 18. CARE-Drive: Coupled Alternating Refinement for Ego-trajectories
+
+**arXiv**: [2611.15360](https://arxiv.org/abs/2611.15360) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, vla, autonomous-driving, trajectory-refinement, grpo, world-model, NEXTAI Research Institute | **Categories**: cs.AI, cs.CV | **Pages**: 18
+
+**Authors**: Xiao Ma; Yijun Chen; Zhiquan Hu; Jicheng Zhao; Ran Ji; Yuming Li; Chuang Dai
+
+**Affiliation**: NEXTAI Research Institute, Chery Group
+
+**Abstract**
+
+> Vision-language-action (VLA) models bring multimodal understanding and world knowledge to end-to-end autonomous driving. To further improve the quality of predicted trajectories, existing studies introduce candidate refinement, residual denoising, and token correction. However, these methods typically focus on unified refinement of the entire trajectory, paying limited attention to the distinct physical quantities and their interactions. We further investigate physical specialization and coordination in trajectory refinement, centering on position and heading for simpler and more intuitive correction modeling. To this end, we propose CARE-Drive (Coupled Alternating Refinement for Ego-trajectories), which decomposes trajectory refinement into waypoint residual correction and position-conditioned heading generation. Through imitation learning and a future-token auxiliary task, the backbone provides predictive representations and a base trajectory. The position expert predicts bounded metric waypoint residuals, while the heading expert reconstructs vehicle orientation from adjacent angular increments conditioned on the corrected path. With the backbone frozen, the two experts are optimized alternately through supervised initialization and reinforcement fine-tuning. This design simplifies refinement through clear physical specialization while preserving conditional coupling during prediction and optimization. On NAVSIM v1, CARE-Drive achieves 88.8 PDMS, improving by 2.4 points over the unrefined base trajectories generated by the same backbone. Ablation studies further support the effectiveness of specialized experts and staged training.
+
+**Key findings**
+
+- **Finding**: 完整精修管线把 PDMS 从 86.462 提到 88.837（+2.375），其中先上航向专家到 87.562（+1.100）、位置专家在冻结初步航向下到 88.672（+1.110）、最后航向适配再加 0.165；训练用 92614 个场景共 28965 次优化器更新、16 张 Ascend 910 约 19 小时；专家每个约 78.42M 参数。
+- **Inference**: 把「整条轨迹统一修正」拆成有明确物理量的位置残差与航向增量后，各自的监督信号可以被单独监督初始化再交替做强化微调，因此精修收益主要来自建模上的物理分工而非更大的骨干。
+- **Recommendation**: 要给已有 VLA 骨干加轨迹精修，优先按物理量拆专家并冻结骨干交替优化（先航向、后位置、再回适配航向），按此顺序与论文一致；同时注意视觉塔在本文配置下解冻会掉 5.101 分，位置与航向的量化边界（±5 m / ±3 m、0.1° 步长）应按数据残差分布再核对。
+
+**Key figures**
+
+*Framework - CARE-Drive overview. (a) The predictive backbone produces shared action features and an initial trajectory; a frozen video teacher provides future-feature supervision during training. (b) Th*
+
+![CARE-Drive: Coupled Alternating Refinement for Ego-trajectories - framework](res/2611.15360_framework.png)
+
+*Result - Qualitative comparison of backbone and complete-system predictions. Columns show straight driving, a left turn, a right turn, and a lane change. Green denotes the reference trajectory, dashe*
+
+![CARE-Drive: Coupled Alternating Refinement for Ego-trajectories - result](res/2611.15360_result.png)
+
+**Why this ranks #18**: 分数 8.0，并列本 direction 第 8 位。它是 VLA 侧的轨迹精修：Qwen3-VL-2B 骨干加位置与航向两个专家，在 NAVSIM v1 的 12146 个 navtest 场景上把 PDMS 从 86.462 提到 88.837（AutoVLA 88.026、CoWorld-VLA 报告 90.0），其中未来 token 辅助任务单独贡献 2.490 分，而解冻视觉塔反而掉 5.101 分。
+
+---
+
+### 19. From a Single RGB Image to Robot Execution: Metric Scene Alignment and Contact-Guided Retargeting
 
 **arXiv**: [2611.14981](https://arxiv.org/abs/2611.14981) | **Score**: 7.7 (relevance 8 x 0.7 + quality 7 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, single-image-reconstruction, motion-retargeting, humanoid, metric-alignment, sim-to-real, Beijing University of Chemical Technology | **Categories**: cs.RO | **Pages**: 8
 
@@ -334,110 +620,46 @@
 
 ![From a Single RGB Image to Robot Execution: Metric Scene Alignment and Contact-Guided Retargeting - result](res/2611.14981_result.png)
 
-**Why this ranks #10**: 单张 RGB 图到可执行人形动作参考的完整管线：SAM 3D Objects 重建并注册米制场景，JMIR 在重定向前校正人—场景几何错配，GMR 之后用 CGRR 修正机器人特异的支撑误差。相比 GRAIL 精修时间从 480 s 降到 87 s（5.5×），完整管线仿真成功率 89%、Unitree G1 上 50 次物理试验成功率 70%，支撑误差 0.21 cm、局部逐关节位置误差 38.2 mm。分数 7.7。
+**Why this ranks #19**: 单张 RGB 图到可执行人形动作参考的完整管线：SAM 3D Objects 重建并注册米制场景，JMIR 在重定向前校正人—场景几何错配，GMR 之后用 CGRR 修正机器人特异的支撑误差。相比 GRAIL 精修时间从 480 s 降到 87 s（5.5×），完整管线仿真成功率 89%、Unitree G1 上 50 次物理试验成功率 70%，支撑误差 0.21 cm、局部逐关节位置误差 38.2 mm。分数 7.7。
 
 ---
 
-### 11. HeadIO: Body-Frame Heading Decomposition for Neural Inertial Odometry on Head-Mounted Devices
+### 20. CrowdMAPS: Crowdsourcing Multiple Actions per State for Real-World Imitation Learning
 
-**arXiv**: [2611.14895](https://arxiv.org/abs/2611.14895) | **Score**: 7.3 (relevance 7 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, inertial-odometry, head-mounted, mamba, equivariance, wearable-sensing, Northwestern University | **Categories**: cs.CV, cs.RO | **Pages**: 8
+**arXiv**: [2611.15078](https://arxiv.org/abs/2611.15078) | **Score**: 7.7 (relevance 8 x 0.7 + quality 7 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, imitation-learning, crowdsourcing, real-robot-data, action-densification, diffusion-policy, University of Minnesota | **Categories**: cs.RO | **Pages**: 28
 
-**Authors**: Taeyoung Yeon; Yiquan Li; Chenfeng Gao; Vasco Xu; Karan Ahuja
+**Authors**: Yilong Song; Harshvardhan Chandirasekar; Karthik Desingh; Chen Zhu-Tian
 
-**Affiliation**: Northwestern University; University of Chicago
-
-**Abstract**
-
-> Inertial odometry (IO) using only Inertial Measurement Units (IMUs) enables camera-free head tracking in head-mounted devices such as VR headsets, AR glasses, and earbuds. Prior IO methods operate in a gravity-aligned world frame, which is not yaw-equivariant. Yaw augmentation improves robustness but does not guarantee equivariance; learned equivariant layers achieve it, but EqNIO's full pipeline costs nearly 3$\times$ the FLOPs of ours. While raw body-frame IMU inputs are inherently yaw-invariant, head tilt redistributes both gravity and motion signals across device axes, making the representation tilt-variant. We propose HeadIO, which combines a body-frame heading decomposition with a bidirectional Mamba backbone for head-mounted inertial odometry. Our decomposition achieves tilt invariance by separating gravity-aligned and horizontal components using only the tilt component of device orientation. We evaluate on four head-mounted datasets and find that HeadIO improves RTE-5s by 8.1% (0.260 m $\to$ 0.239 m) over world-frame methods with learned equivariant layers on Nymeria, the largest benchmark dataset, at nearly 3$\times$ lower FLOPs and 8$\times$ fewer parameters. HeadIO achieves state-of-the-art performance on our primary metric, RTE-5s, on all Aria-glasses datasets, which natively provide body-frame semantics for our decomposition method. We further evaluate the IMU-only deployment scenario on Nymeria, where HeadIO remains state-of-the-art. We show that our method relies mainly on tilt accuracy, which can be obtained from the gravity signal; for yaw, a single-coefficient gyroscope correction removes 11.6% of the yaw error and improves RTE-5s by 2.5%, and sparse external yaw corrections (for example, one every 30 s) can improve RTE-5s by 12.0%. Our decomposition is lightweight, composes with any backbone, and is suitable for real-time deployment on head-mounted devices.
-
-**Key findings**
-
-- **Finding**: 四个头戴数据集上，HeadIO 在 Nymeria 的 RTE-5s 从 EqNIO 的 0.260 m 降到 0.239 m（改善 8.1%，ATE 由 0.093 降到 0.086 m）；模型 0.97M 参数、3 s 窗口 444 MFLOPs，而 EqNIO 为 7.59M 参数与 1227 MFLOPs，即少 7–8× 参数、算力低 2.8×；单系数陀螺修正可消除 11.6% 偏航误差并使 RTE-5s 再提升 2.5%，每 30 s 一次的稀疏外部偏航修正可提升 12.0%。
-- **Inference**: 该方法把等变性从网络结构挪到输入表示上，因此可与任意骨干组合；误差主要来自倾斜估计而非偏航，这也解释了为什么低频的稀疏偏航锚点收益远大于持续做陀螺修正。
-- **Recommendation**: 做头戴或随身惯导时，先把 IMU 输入转到机体系并按重力对齐与水平分量拆开、再选骨干（本文用双向 Mamba），可省下等变层的算力；若偏航是主要误差源，优先加每 30 s 一次的外部偏航锚点，收益比持续做陀螺修正更明显。
-
-**Key figures**
-
-*Framework - Invariance properties of the body-frame heading decomposition. (a) Body-frame IMU inputs are heading-invariant: the same walking motion produces identical IMU readings regardless of which dire*
-
-![HeadIO: Body-Frame Heading Decomposition for Neural Inertial Odometry on Head-Mounted Devices - framework](res/2611.14895_framework.png)
-
-*Result - Body-frame heading decomposition. (A) When the head is upright, the body-frame up axis (+y) aligns with gravity direction eg, and the forward axis fb coincides with eh1. (B) When the head tilt*
-
-![HeadIO: Body-Frame Heading Decomposition for Neural Inertial Odometry on Head-Mounted Devices - result](res/2611.14895_result.png)
-
-**Why this ranks #11**: 头戴设备的无摄像头惯性里程计：HeadIO 用机体系 heading 分解消掉头部倾斜时重力与运动信号在设备轴向的混叠，再接双向 Mamba 骨干。在 Nymeria 上把 RTE-5s 从等变方法 EqNIO 的 0.260 m 降到 0.239 m（改善 8.1%），参数量 0.97M 对 EqNIO 的 7.59M（约 1/8），算力 444 MFLOPs 对 1227 MFLOPs（2.8× 更省）。属可穿戴具身设备的自运动感知，故入 embodied_ai，分数 7.3。
-
----
-
-### 12. Adapting Monocular Depth Estimation in Novel Scenes through Disparity Refinement and Robot Ego-Motion
-
-**arXiv**: [2611.14958](https://arxiv.org/abs/2611.14958) | **Score**: 7.3 (relevance 7 x 0.7 + quality 8 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, monocular-depth, online-adaptation, disparity-refinement, ego-motion, metric-scale, University of California | **Categories**: cs.CV, cs.RO | **Pages**: 17
-
-**Authors**: Dimitrios Chatziparaschis; Georgios Georgakis; Adnan I. Ansar; Shehryar Khattak; Konstantinos Karydis
-
-**Affiliation**: University of California, Riverside; Jet Propulsion Laboratory, California Institute of Technology
+**Affiliation**: University of Minnesota, Twin Cities
 
 **Abstract**
 
-> The geometric understanding of a scene is a crucial component for safe and efficient robotic operations in novel and unstructured environments. The recent emergence of foundation models for Monocular Depth Estimation (MDE) has provided an opportunity to enrich robotic perception capabilities with dense long-range depth predictions, replacing expensive onboard hardware (e.g., LiDARs and stereo cameras). However, these offline models are primarily trained on affine-invariant depth representations, and their generalization to novel scenes remains unclear. In this work we present EM-ViT, a monocular depth estimation model that learns to adapt online relative depth inputs from a foundation model prior to the metric scale with observations collected during robotic operations. Motivated by the stereo camera parameterization, our method decomposes depth prediction via dense disparity refinement to recover the scene's relative structure and an effective baseline scalar prediction to determine the missing metric scale. The learning process leverages sparse LiDAR points and, optionally, the robot's Ego-Motion (EM) to rapidly train a lightweight Vision Transformer (ViT), while an internal gradient matching loss preserves the fine-grained semantic structure of the input disparity in real-time. We demonstrate the efficacy of our method on publicly available sequences, such as KITTI, and show that our online learning pipeline can adapt to novel scenes faster and with higher accuracy than existing MDE foundation models. The code and supplementary materials will be publicly available at https://emvit-mde.github.io.
+> Real-world robot imitation learning is often limited by the cost of collecting physical demonstrations, which typically yield only one action label per visited state. We present CrowdMAPS, a web-based crowdsourcing paradigm for augmenting real-robot datasets with Multiple Actions per State (MAPS). After or during standard robot data collection, CrowdMAPS distributes visited robot states to remote annotators through a web-based 3D interface, where they specify alternative valid actions without requiring access to physical robot hardware. This expands robot datasets along a complementary "width" dimension--by increasing the number of actions per visited state--rather than only by collecting more trajectories. We evaluate CrowdMAPS using keyframe-centric goal-pose annotations supplied by non-expert annotators and train imitation policies on the resulting MAPS data. Across five real-world manipulation tasks, increasing MAPS width from one to ten actions per state improves sample efficiency and increases average success rates by 35.6 percentage points for keypose policies and 33.0 percentage points for trajectory policies. These results show that software-mediated human annotations can augment physical robot data to afford denser supervision, establishing CrowdMAPS as a scalable digital layer for real-robot data collection.
 
 **Key findings**
 
-- **Finding**: KITTI 场景上 EM-ViT 的 δ1 为 0.822、AbsRel 0.14、RMSE 3.46、总训练时间 57.48 s，而在线 DAV2 ViT-S 为 0.666/0.24/4.20/67.75 s、FusionDepth 为 0.618/0.24/5.4/68.81 s；车库场景 δ1 0.910（对照 0.859）、总训练时间 82.37 s（对照 100.38 s）；柑橘园场景总训练时间 35.91 s（对照 40.42 s）；全部指标在 NVIDIA AGX Orin 64GB 上测得，图像采样率 0.75 Hz、时序窗口 10 s。
-- **Inference**: 把「相对结构」与「绝对尺度」拆成两个预测头，等于把仿射不变基座模型给不出的尺度信息单独交给一个标量补齐，因此在线适配只需少量稀疏 LiDAR 观测就能收敛，而不必重训整个深度网络。
-- **Recommendation**: 机器人只能拿到稀疏 LiDAR 观测时，可按「稠密视差精化 + 有效基线标量」两头来搭轻量 ViT，并把梯度匹配损失加进在线循环以防细结构被尺度分支冲掉；评测务必在自家算力平台上测在线适配耗时（本文 57 s 级别是在 Jetson AGX Orin 上得到的）。
+- **Finding**: 47 名参与者中 78.7% 没有机械臂经验，提交中位耗时 7–12 秒，各任务接收率 51%–98%；关键位姿策略把动作宽度从 K=1 加到 K=10，平均成功率从 38.7% 升到 74.2%（+35.6 个百分点），而等密度的加性高斯噪声基线只有 43.3%；轨迹策略在 K=10 时五任务全部最优（抽屉 76、插装 40、倒液 92、分类 88、开关 70），优于追加专家轨迹的 56/24/80/52/54。
+- **Inference**: 增益来自在已访问状态上把有效动作分布采样得更密，而不是单纯增加标签噪声或轨迹条数；因为未执行动作没有对应的后继观测，标注必须被限制在研究者选定的策略内并按动作类型加权，否则会引入 MAPS 分布偏移。
+- **Recommendation**: 预算受限于真机采集时，优先做「动作致密化」而不是加采轨迹：每条轨迹挑关键帧让远程标注者补 5–10 个目标位姿，并给执行动作设最高权重；对照实验一定要包含等密度的高斯噪声基线，否则无法区分收益来自标注多样性还是来自标签平滑。
 
 **Key figures**
 
-*Framework - Real-time and onboard MDE metric adaptation. Sparse image frames and corresponding point cloud views collected during exploration are used to refine an affine- invariant relative depth map int*
+*Framework - CrowdMAPS overview. After standard real-robot data collection (a), CrowdMAPS (b) distributes visited states to remote annotators, who provide unexecuted alternative actions through a web int*
 
-![Adapting Monocular Depth Estimation in Novel Scenes through Disparity Refinement and Robot Ego-Motion - framework](res/2611.14958_framework.png)
+![CrowdMAPS: Crowdsourcing Multiple Actions per State for Real-World Imitation Learning - framework](res/2611.15078_framework.png)
 
-*Result - Self-supervised virtual stereo system for online metric adaptation in MDE. Based on an affine-invariant inverse depth input da and camera’s focal length f, our Ego Motion (EM)-ViT framework de*
+*Result - Standard trajectory data vs. keyframe-centric MAPS data. A standard real-robot trajectory records one executed action at for each visited observation ot. CrowdMAPS preserves the executed tra*
 
-![Adapting Monocular Depth Estimation in Novel Scenes through Disparity Refinement and Robot Ego-Motion - result](res/2611.14958_result.png)
+![CrowdMAPS: Crowdsourcing Multiple Actions per State for Real-World Imitation Learning - result](res/2611.15078_result.png)
 
-**Why this ranks #12**: 把仿射不变的单目相对深度在线适配成米制深度：EM-ViT 按立体相机参数化拆成稠密视差精化与一个有效基线标量两个头，用稀疏 LiDAR 点与可选的机器人自运动训练轻量 ViT，并用内部梯度匹配损失保住输入视差的细粒度结构。KITTI 场景上 δ1 0.822（在线 DAV2 为 0.666）、AbsRel 0.14（0.24）、RMSE 3.46（4.20），在线适配总耗时 57.48 s（对照 67.75 s），全部指标在 NVIDIA AGX Orin 64GB 上测得。分数 7.3。
-
----
-
-### 13. DIVAL: Diffeomorphic Vector-Field Alignment for Nonholonomic Motion Planning
-
-**arXiv**: [2611.14918](https://arxiv.org/abs/2611.14918) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `embodied_ai` | **Tags**: embodied, nonholonomic-planning, vector-field, diffeomorphism, obstacle-avoidance, motion-planning, [unverified] | **Categories**: cs.RO, eess.SY | **Pages**: 19
-
-**Authors**: Yike Qiao; Xiaodong He; An Zhuo; Zhiyong Sun; Weimin Bao; Zhongkui Li
-
-**Affiliation**: [unverified]
-
-**Abstract**
-
-> Conventional vector-field-based motion planners for nonholonomic robots consist of two steps: first designing a nominal vector field and then controlling the robot to follow it to approach the target. However, a nonholonomic robot cannot follow the vector field instantaneously and may collide with obstacles, due to the inevitable mismatch between the robot's initial heading and the vector field's direction. This paper proposes a diffeomorphic vector-field alignment (DIVAL) method, which aligns the vector field's direction with the robot's initial heading so the robot can follow the vector field from the start. Specifically, the nominal vector field is locally reshaped by applying a diffeomorphic deformation to the workspace, such that the reshaped vector field has the same direction as the robot's heading at the initial position and coincides with the nominal vector field outside the deformed region. Since DIVAL eliminates the initial heading mismatch, the nonholonomic robot can maintain heading alignment with the reshaped vector field throughout the motion. This heading alignment further ensures that the robot preserves the nominal vector field's properties, including obstacle avoidance, convergence to the target, and smooth control signals. Numerical simulations provide vector-field-tracking baselines where the nominal vector fields are reshaped with DIVAL. Compared to the original baselines, the proposed method achieves collision-free convergence in all trials and avoids control discontinuities. Hardware experiments on a ground vehicle further demonstrate collision-free convergence across different targets and initial conditions under real-world disturbances.
-
-**Key findings**
-
-- **Finding**: 论文报告数值仿真中相对原始基线所有试验均实现无碰撞收敛并避免控制不连续，实机地面车在真实扰动下对不同目标与初始条件同样无碰撞收敛；实现上 active 区域半径取为初始位置到自由空间边界的距离，转移函数用 12 个系数的五次 B 样条表示，并以 RMS 曲率加峰值曲率的组合为目标做优化以压低角速度需求。
-- **Inference**: 把朝向失配在几何层面一次性消掉（而不是靠跟踪控制器慢慢转过来），等价于为非完整机器人造出一条可执行的积分曲线，于是障碍规避、目标收敛与控制平滑等名义向量场的性质可整段继承，代价是多求解一次微分同胚形变与 B 样条系数。
-- **Recommendation**: 设计非完整机器人的向量场规划器时，可直接用「工作空间微分同胚形变对齐初始朝向 + 形变区外保持原场」的思路，并用 RMS 与峰值曲率联合优化过渡函数来降低角速度需求；评估务必与原向量场跟踪基线对比碰撞率与控制连续性，而不是只看是否收敛。
-
-**Key figures**
-
-*Framework - Comparison between the vector-field-tracking method and DIVAL (proposed). (a): The vector-field- tracking planner gradually rotates the nonholonomic robot towards the vector field’s direction.*
-
-![DIVAL: Diffeomorphic Vector-Field Alignment for Nonholonomic Motion Planning - framework](res/2611.14918_framework.png)
-
-*Result - Illustration of 2D DIVAL, with the nominal vector field ξ “ r1, 0s⊺. The deformation map Φ maps the uniformly sampled nominal positions q to the deformed positions p, inducing the aligned vect*
-
-![DIVAL: Diffeomorphic Vector-Field Alignment for Nonholonomic Motion Planning - result](res/2611.14918_result.png)
-
-**Why this ranks #13**: 非完整约束机器人沿向量场运动时，初始朝向与向量场方向必然失配，带来偏航、碰撞与控制不连续。DIVAL 对工作空间做微分同胚形变，把向量场方向在起点处扭到机器人当前朝向上、在形变区外保持原向量场：数值仿真中相对原始基线所有试验均无碰撞收敛且无控制不连续，实机地面车在不同目标与初始条件下同样无碰撞收敛。active 区域半径取到自由空间边界距离、转移函数用 12 系数五次 B 样条优化。分数 7.0，为本 direction 末位。
+**Why this ranks #20**: 分数 7.7，并列本 direction 末位。它不动策略结构，而是改数据：把已访问状态分发给远程标注者补标多个可执行的目标位姿（动作宽度 K 从 1 到 10），五个真机操作任务上关键位姿策略平均成功率从 38.7% 升到 74.2%，轨迹策略提升 33.0 个百分点，且优于追加等量专家遥操作数据。
 
 ---
 
 ## Footer
 
-- Total papers reviewed across all 4 axes: 34
-- world_embodied axis final count: 13
+- Total papers reviewed across all 4 axes: 60
+- world_embodied axis final count: 20
 - Wild-cards in this axis: 0
 - Figure assets: 2026-11-13/res/
 

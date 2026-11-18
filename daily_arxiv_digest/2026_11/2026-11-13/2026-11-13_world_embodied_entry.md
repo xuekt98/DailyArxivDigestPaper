@@ -22,6 +22,35 @@
 ![organization](https://img.shields.io/badge/University_of_Texas_at_El_Paso-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**FOE-Dreamer 把潜状态拆成防御者可控分量、外生用户活动与对手嵌入三部分，在 8 主机 OpenStack 实网上单 GPU 训练三天，把回合损失做到 Rainbow 与 IQN 的一半左右，无需仿真器预训练阶段，适合交互代价高的真实系统。**</p>
 
++ **FloCOS: Predicting Compact Forward Occupancy Sets of Surrounding Vehicles via Conditional Flow Matching**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15488)
+![architecture](https://img.shields.io/badge/Flow_Matching_Forward_Occupancy-red)
+![task](https://img.shields.io/badge/Planning_with_World_Model-magenta)
+![organization](https://img.shields.io/badge/School_of_Future_Science_and_Engineering_Soochow_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**FloCOS 用条件流匹配把周围车辆的未来占据表示成半空间凸多边形的时变并集，直接作为规划器的碰撞约束来源：在 Waymo 1000 个测试场景上覆盖率 99.3%、面积比 3.10、交互完成率 85.6%，而面积比高达 8.59 的保守基线完成率只有 3.1%。**</p>
+
++ **TyphoonWorld: A Residual Token World Model for Probabilistic Forecasting of Typhoon Imagery**
+[![paper](https://img.shields.io/badge/Arxiv_2611.18-blue)](https://arxiv.org/abs/2611.18740)
+![architecture](https://img.shields.io/badge/Residual_Token_World_Model-red)
+![task](https://img.shields.io/badge/World_Model-magenta)
+![organization](https://img.shields.io/badge/Nanyang_Technological_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**TyphoonWorld 是残差式离散 token 世界模型，只采样直接回归中心被抹平的那部分误差：在 46 个留出风暴、276 个预报窗口上把 220 K 以下深对流区的 CRPS 相对所有其他集合降低 14%–39%，离散度与误差相关 0.78，参数量仅为无条件世界模型的 56%。**</p>
+
++ **From Forecasting to World Modeling: Can Temporal Foundation Models Recover Causal Response?**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15009)
+![architecture](https://img.shields.io/badge/Causal_Response_Evaluation-red)
+![task](https://img.shields.io/badge/Action_Conditioned_Prediction-magenta)
+![organization](https://img.shields.io/badge/Seoul_National_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**这篇工作系统检验「预测得准」不等于「反事实估得准」：在真值已知的模拟零售数据与真实销量记录上，基础模型的预测误差与价格效应误差常常反向；工具变量以残差形式给可使反事实 WMAPE 从 0.092 降到 0.064，直接喂原始工具变量反而升到 0.153。**</p>
+
++ **Multi-View 3D Reconstruction Using V-JEPA Features**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15143)
+![architecture](https://img.shields.io/badge/VJEPA_Geometry_Adaptation-red)
+![task](https://img.shields.io/badge/JEPA-magenta)
+![organization](https://img.shields.io/badge/unverified-green)
+[![project](https://img.shields.io/badge/project-blue)](https://github.com/Anwarshamim01/multi-view-3d-reconstruction-using-v-jepa-features)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**把 V-JEPA 2.1 的稠密视频特征接到多视角重建上，收益并不一致：空间相机配置在 168 个 CO3D 窗口上把轨迹误差降 29.3%，但仍比单位位姿基线高 10.03%，联合相对目标让对齐 Chamfer 从 0.6447 降到 0.5573，原始 Chamfer 却从 3.5535 涨到 4.4374。**</p>
+
 <!-- direction: embodied_ai -->
 
 + **Learning Low-Latency Action Verification for Frozen Vision-Language-Action Models**
@@ -54,6 +83,28 @@
 ![organization](https://img.shields.io/badge/unverified-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**真机—仿真双轨基准：22 个机器人-任务对跨 16 个任务名，真机微调 π0.5 的仿真—真机 Score 相关 r=0.9686、MAE 0.0405、RMSE 0.0520；32.6503 s 遥操作轨迹标定逐关节位置 RMSE 0.00614–0.03522 rad、力矩 RMSE 0.73545–4.00099 N·m。**</p>
 
++ **Autonomous Trail Racing with a Bicycle Robot**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15280)
+![architecture](https://img.shields.io/badge/Terrain_Embedded_Navigation-red)
+![task](https://img.shields.io/badge/Robot_Learning-magenta)
+![organization](https://img.shields.io/badge/Robotics_and_AI_Institute_RAI_Zurich-green)
+[![project](https://img.shields.io/badge/project-blue)](https://pages.rai-inst.com/autonomous-trail-racing/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**把山道路径编码成地形的一个语义层，自行车机器人 UMV 在苏黎世 1 公里非结构化山道上全程自主跑完，平均 3.26 m/s、峰值超 5 m/s，比遥控基线快 2.3 倍；语义管线从 50 Hz 提到约 90 Hz，在 AGX Orin 上以 30 Hz 融合 LiDAR 建图。**</p>
+
++ **EMS-Nav: Embodied Multi-Scale Navigation**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15589)
+![architecture](https://img.shields.io/badge/Region_Centered_Navigation-red)
+![task](https://img.shields.io/badge/Visual_Navigation-magenta)
+![organization](https://img.shields.io/badge/Tsinghua_University-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**EMS-Nav 把区域当作感知、建图与导航的基本单元，用高斯空间交互场做在线分区、周期性多尺度解析构语义层级：在 18628 条覆盖物体、房间、区域、实例四类目标的指令上把首次成功率比最强基线提高 9.39 个百分点，并在 RTX 4060 Ti 上跑到 5.19 FPS。**</p>
+
++ **DroneDiffusion: Uncertainty-Guided Diffusion Path Planner for UAV Navigation**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15277)
+![architecture](https://img.shields.io/badge/Perceptual_Safety_Diffusion_Planner-red)
+![task](https://img.shields.io/badge/Diffusion_Policy-magenta)
+![organization](https://img.shields.io/badge/Intelligent_Space_Robotics_Laboratory_Skolkovo_Institute_of_Science_and_Technology-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**DroneDiffusion 把传感器失效区做成扩散规划器的一等条件量：AnyTraverse 可靠性图与 RGB、目标点、初速度一起条件化 1D U-Net，推理时再叠加 CHOMP 引导，真实机上把碰撞率从 14.71% 降到 7.77%，轨迹平均感知可靠性 0.714 对几何基线 0.626。**</p>
+
 + **SPIRE: Task-agnostic embodied continual learning through autonomous situation inference and causal motor-primitive reuse**
 [![paper](https://img.shields.io/badge/Arxiv_2611.14-blue)](https://arxiv.org/abs/2611.14840)
 ![architecture](https://img.shields.io/badge/SPIRE-red)
@@ -68,6 +119,21 @@
 ![organization](https://img.shields.io/badge/Simon_Fraser_University-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**ESFFM 用扩展社会力场给出名义加速度，再由 MPC 前瞻规划、控制障碍函数兜底安全：四类 Gazebo 布局共 8 个条件里含 CBF 的控制器有 7 个零碰撞（纯 ESFFM 仅 1 个），平均 jerk 再降 1.22%–39.63%，并有 40 人在线用户研究佐证社交恰当性。**</p>
 
++ **APG-Planner: Learning Vision-Based High-Speed Trajectory Planning via Analytic Policy Gradient**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15296)
+![architecture](https://img.shields.io/badge/Analytic_Policy_Gradient_Planner-red)
+![task](https://img.shields.io/badge/Robot_Learning-magenta)
+![organization](https://img.shields.io/badge/unverified-green)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**APG-Planner 用微分平坦性把规划轨迹解析成车辆状态，在不建可微动力学模型的前提下做 episode 级解析策略梯度：稀疏林地成功率 94%、均速 8.16 m/s，去掉时序梯度只剩 2.46 m/s 而 PPO 仅 60% 成功率，单卡约 30 分钟训练，真实飞行峰值 11 m/s。**</p>
+
++ **CARE-Drive: Coupled Alternating Refinement for Ego-trajectories**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15360)
+![architecture](https://img.shields.io/badge/Component_Alternating_Refinement-red)
+![task](https://img.shields.io/badge/VLA_Model-magenta)
+![organization](https://img.shields.io/badge/NEXTAI_Research_Institute_Chery_Group-green)
+[![project](https://img.shields.io/badge/project-blue)](https://github.com/marshal12138/CARE-Drive)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**CARE-Drive 把轨迹精修改写成位置与航向两个物理分工的专家：Qwen3-VL-2B 骨干冻结后交替优化，NAVSIM v1 的 12146 个 navtest 场景上 PDMS 从 86.462 提到 88.837，其中航向专家先贡献 1.100 分、位置专家再贡献 1.110 分。**</p>
+
 + **From a Single RGB Image to Robot Execution: Metric Scene Alignment and Contact-Guided Retargeting**
 [![paper](https://img.shields.io/badge/Arxiv_2611.14-blue)](https://arxiv.org/abs/2611.14981)
 ![architecture](https://img.shields.io/badge/JMIR_CGRR_Pipeline-red)
@@ -75,25 +141,11 @@
 ![organization](https://img.shields.io/badge/Beijing_University_of_Chemical_Technology-green)
 [![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**从单张 RGB 图出发的完整管线：SAM 3D Objects 重建米制场景，JMIR 在重定向前校正人—场景几何、GMR 后由 CGRR 修复机器人支撑误差；精修时间从 480 s 降到 87 s（5.5×），仿真成功率 89%，Unitree G1 上 50 次物理试验成功率 70%。**</p>
 
-+ **HeadIO: Body-Frame Heading Decomposition for Neural Inertial Odometry on Head-Mounted Devices**
-[![paper](https://img.shields.io/badge/Arxiv_2611.14-blue)](https://arxiv.org/abs/2611.14895)
-![architecture](https://img.shields.io/badge/HeadIO-red)
-![task](https://img.shields.io/badge/Embodied_Agent-magenta)
-![organization](https://img.shields.io/badge/Northwestern_University-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**HeadIO 把机体系 heading 分解与双向 Mamba 结合，用于头戴设备的无摄像头惯性里程计：Nymeria 上 RTE-5s 从 0.260 m 降到 0.239 m（改善 8.1%），参数 0.97M 对等变方法的 7.59M、算力 444 对 1227 MFLOPs，且可与任意骨干组合。**</p>
-
-+ **Adapting Monocular Depth Estimation in Novel Scenes through Disparity Refinement and Robot Ego-Motion**
-[![paper](https://img.shields.io/badge/Arxiv_2611.14-blue)](https://arxiv.org/abs/2611.14958)
-![architecture](https://img.shields.io/badge/EM_ViT-red)
-![task](https://img.shields.io/badge/Scene_Reconstruction-magenta)
-![organization](https://img.shields.io/badge/University_of_California_Riverside-green)
-[![project](https://img.shields.io/badge/project-blue)](https://emvit-mde.github.io)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**EM-ViT 把仿射不变的单目相对深度在线适配成米制深度，按立体相机参数化拆成稠密视差精化与有效基线标量两个头，用稀疏 LiDAR 与可选自运动训练轻量 ViT：KITTI 上 δ1 0.822、AbsRel 0.14、适配 57.48 s，均在 Jetson AGX Orin 上测得。**</p>
-
-+ **DIVAL: Diffeomorphic Vector-Field Alignment for Nonholonomic Motion Planning**
-[![paper](https://img.shields.io/badge/Arxiv_2611.14-blue)](https://arxiv.org/abs/2611.14918)
-![architecture](https://img.shields.io/badge/Diffeomorphic_Vector_Field_Alignment-red)
-![task](https://img.shields.io/badge/Embodied_Agent-magenta)
-![organization](https://img.shields.io/badge/unverified-green)
-[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**DIVAL 对工作空间做微分同胚形变，把向量场方向在起点扭到机器人当前朝向上、区域外保持原场：非完整机器人数值仿真所有试验均无碰撞收敛且无控制不连续，实机地面车在扰动下同样无碰撞收敛，过渡函数用 12 系数五次 B 样条优化。**</p>
++ **CrowdMAPS: Crowdsourcing Multiple Actions per State for Real-World Imitation Learning**
+[![paper](https://img.shields.io/badge/Arxiv_2611.15-blue)](https://arxiv.org/abs/2611.15078)
+![architecture](https://img.shields.io/badge/Multiple_Actions_Per_State-red)
+![task](https://img.shields.io/badge/Imitation_Learning-magenta)
+![organization](https://img.shields.io/badge/University_of_Minnesota_Twin_Cities-green)
+[![project](https://img.shields.io/badge/project-blue)](https://yilongsong.github.io/CrowdMAPS/)
+[![note](https://img.shields.io/badge/note-mediumorchid)]() <p style="font-size: 14px;">**CrowdMAPS 用网页 3D 界面让远程标注者给已访问状态补充多个可执行的目标位姿动作：五个真机操作任务上动作宽度从 1 加到 10，关键位姿策略平均成功率从 38.7% 升到 74.2%，轨迹策略提升 33.0 个百分点并优于追加等量专家遥操作。**</p>
 

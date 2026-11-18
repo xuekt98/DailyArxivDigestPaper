@@ -1,4 +1,4 @@
-# Mine Arxiv Daily Digest - 2026-11-16 (AIGC 视觉生成与编辑 Axis, 10 papers)
+# Mine Arxiv Daily Digest - 2026-11-16 (AIGC 视觉生成与编辑 Axis, 15 papers)
 
 **Generated**: 2026-11-16 11:54 CST
 
@@ -6,31 +6,29 @@
 
 **Batch window**: 2026-11-12T19:00:00Z .. 2026-11-13T19:00:00Z（arXiv 公告批次横跨两个 UTC 日：从前一日的美东 14:00 截止时刻起算（EDT 为 18:00Z，EST 为 19:00Z），到当日的同一时刻为止）
 
-**Axis**: aigc_visual (10 papers, base 15, cap 20)
+**Axis**: aigc_visual (15 papers, base 15, cap 20)
 
-**Directions**: aigc_generation (6), aigc_editing (3), aigc_rl (1)
+**Directions**: aigc_generation (10), aigc_editing (4), aigc_rl (1)
 
-**Selection**: 10 papers ranked by relevance x quality, with 2 wild-card slots
+**Selection**: 15 papers ranked by relevance x quality, with 0 wild-card slots
 
-**Day total**: 48 papers across 4 axes (target 60)
+**Day total**: 60 papers across 4 axes (target 60)
 
 **Scope**: 图像 / 视频 / 3D / 4D 内容的生成与编辑，以及面向视觉生成的 RL / 偏好优化与奖励模型
 
-⚠️ **Wild-card**: 2 —— 本 axis 未启用常规补位名额，`aigc_generation` 与 `aigc_editing` 都低于基准。两条 wild-card 全部用于补 **3D 侧**的供给缺口：本批真正与 3D 生成/重建相关的可读论文只有 2611.17629（多视图 3D transformer 的免训练注意力近似加速）与 2611.17752（稀疏视角 3D 高斯泼溅的 lineage-aware dropout），而 3D 生成与重建正是用户的长期关注方向，因此这两条比任何够格论文都更该进。
+**Wild-card**: 0 —— 本 axis 未启用任何 wild-card 名额。原报告的 2 条 wild-card（2611.17629 多视图 3D transformer 的免训练加速、2611.17752 稀疏视角 3D 高斯泼溅的 lineage-aware dropout）在完整批次重跑后 relevance 都只有 6，被更够格的新候选挤出，按「wild-card 必须比够格论文更该进」的口径一并取消。
 
-**本 axis 10 篇（base 15，cap 20）**：`aigc_generation` 6 篇、`aigc_editing` 3 篇、`aigc_rl` **1 篇**。三个方向都低于各自基准，缺口由 aigc_visual 让出给候选更充裕的 `llm_vlm`（打满 20 上限）。
+**本 axis 从 10 篇补到 15 篇，正好打满基准 15 篇。** 原分配是 `aigc_generation` 6 / `aigc_editing` 3 / `aigc_rl` 1；本轮新增 7 篇——`aigc_generation` 6 篇（MacroGS、SceneAgent、Vessel2Brain、损失与预测参数化分析、JaRS、InfiHall-Bench）、`aigc_editing` 1 篇（RecurIR）、`aigc_rl` 0 篇，同时有 2 篇旧的 `aigc_generation` 被挤出（2611.17629、2611.17752），最终为 10 / 4 / 1。
 
-**`aigc_rl` 全批只有 1 篇**。严格扫描（RL 类词与视觉生成类词 160 字符双向共现窗口）命中 19 篇，逐篇回读原文后确认**只有 2611.17585 属于面向视觉生成的 RL**：其余 18 篇要么 RL 词与视觉词来自不同段落（离线 MARL 轨迹增强、对抗 MDP 后悔界、论文评审 RL、LLM 去遗忘、注意力共享理论），要么视觉词其实是分子/晶体扩散或 3D 检测，与生成 RL 无关。
+**`aigc_generation` 超基准 2 个，由 `aigc_rl` 让出。** 按 `pipeline.py select` 的判据 `dir_over ≤ max(dir_under, axis_surplus)`，本 axis 的 direction 基准和是 15、实际也是 15，因此 `axis_surplus = 0`，超基准的 2 个名额只能由 `aigc_rl` 的缺口吸收——而 `aigc_rl` 全批仍然断供，只有 2611.17585 一篇够格，未凑数。
 
-**`aigc_editing` 只有 3 篇**。编辑类正则（inpaint / outpaint / harmonization / retouch / 背景替换 / 身份保持 / 风格迁移 / 个性化 / 场景文字编辑 / 文档水印等）在本批 179 篇里只命中 4 篇，其中 2611.17793 的 inpainting 是误命中（讲的是多智能体轨迹增强）。
-
-**2 条 wild-card** 用来补 3D 侧供给：2611.17629（RAWATTA，多视图 3D transformer 的免训练加速，12 GB GPU 上 200 张图可跑而原版 100 张即 OOM）与 2611.17752（稀疏视角 3D 高斯泼溅的 lineage-aware dropout）。理由是本批 3D 侧真正可用的工作只有这两篇，而 3D 生成与重建正是用户的长期关注方向；两条都在报告与条目里逐条标注为补位。
+⚠️ **原报告的 2 条 wild-card 被取消**：2611.17629 与 2611.17752 在完整批次重跑后 relevance 均为 6，而 MacroGS 等新候选 relevance 为 8。wild-card 的前提是「比够格论文更该进」，候选供给变充裕后这一前提不再成立。
 
 ---
 
-## AIGC 生成（图像 / 视频 / 3D / 4D） · `aigc_generation` (6 papers)
+## AIGC 生成（图像 / 视频 / 3D / 4D） · `aigc_generation` (10 papers)
 
-本方向 6 篇（含 2 条 wild-card），主线是**「生成轨迹本身可以被重新设计」**。Speed-Variation Distillation 问了一个被默认忽略的问题：扩散模型的去噪轨迹整段都走在远离数据流形的损坏中间态上，它换成一个「变异缩减」的退化过程，把不同图像朝一个共同原型收缩，让生成全程都停留在可辨认的图像上。AnisoFlow 则动的是 flow matching 里手写的那个预测目标——速度、噪声或干净数据——把它换成完全可学习的、各向异性缩放的版本，理由是这个选择对训练与样本质量影响极大。有限速 Ornstein-Uhlenbeck-Kac 过程把布朗运动换成有限速的 Kac 过程来驱动生成流，其速度场被有限 Kac 速度界住，扩散模型里常见的时间截断因此不再必要，在奇异数据集上比扩散与 flow matching 更锐利。Creative Product Design 把品牌调研报告变成自我增强循环里的创意约束源，用 VLM-as-Judge 协议同时量创造性与品牌可辨识度，在汽车、摩托这类可想象设计空间本就窄的品类上收益最明显。两条 wild-card 分别补 3D 侧的供给缺口：RAWATTA 免训练地压缩多视图 3D transformer 的全局注意力，在 12 GB GPU 上把可处理图数从 100 抬到 200；稀疏视角 3D 高斯泼溅的 lineage-aware dropout 则把「同族高斯的补偿效应」当成一等公民来设计正则与致密化预算分配。
+本方向 10 篇里 7 篇是补跑新增，主线是**把生成目标与轨迹本身当成可设计的量**。AnisoFlow 只改训练目标、不动架构与采样器，就把 JiT-H/16 的 FID 从 1.90 降到 1.55；Speed-Variation Distillation 进一步把反向过程蒸馏成从共享原型出发的多样化算子，让每一步解都落在可辨认图像上、因而可以提前终止；Analyzing Learning-Dynamics Across Loss and Prediction Choices 则从理论上把这件事讲透——改变损失空间等价于确定性的时间步重加权，CIFAR-10 上换用 ε-损失让 x-预测的 FID 从 11.79 降到 2.20，瓶颈比 0.67 时 ε-预测 MSE 为 5.85 而 x-预测仅 0.048；Finite speed OU-K 则连驱动过程一起换，用有限速率的 Kac 过程替代布朗运动，让 diffusion 里必需的时间截断超参整体消失（CIFAR-10 FID 3.56 对 flow matching 3.59）。新增的应用侧覆盖三块：MacroGS 把光场超分的生成单元从单视角像素换成跨视角共享的宏像素，基元数从 UVKhw 降到 Khw、10 个编码器-尺度设定里 8 个拿到最高 PSNR；Vessel2Brain 只用稀疏血管标注就生成 3D 脑 MRI（SSIM 65.36%、PSNR 26.84、NMI 1.145）；SceneAgent 把跨引擎复用的构造过程做成规范状态加可蒸馏技能，1860 次成对判定胜率 76.9%。审计侧 JaRS 用去噪器雅可比行和定位记忆区域而无需 null prompt（mIoU 0.969 / 0.975），InfiHall-Bench 则测出自回归 T2I 的幻觉集中在多要求组合上（FLUX.1-dev 整体 67.08 而动作关系只有 64.53）。
 
 ### 1. Learning Anisotropic Prediction Targets for Flow Models
 
@@ -88,7 +86,39 @@
 
 ---
 
-### 3. Finite speed Ornstein-Uhlenbeck-Kac processes and their applications in generative modeling
+### 3. MacroGS: Macro-Pixel Shared Gaussian Primitives for Arbitrary-Scale Light Field Super-Resolutio
+
+**arXiv**: [2611.17957](https://arxiv.org/abs/2611.17957) | **Score**: 7.7 (relevance 8 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, light-field-super-resolution, gaussian-splatting, arbitrary-scale, multi-view-geometry, Capital Normal University | **Categories**: cs.CV | **Pages**: 11
+
+**Authors**: Zeqiang Wei; Angulia Yang; Min Xu
+
+**Affiliation**: Capital Normal University; National University of Singapore
+
+**Abstract**
+
+> Arbitrary-scale light field spatial super-resolution reconstructs high-resolution views at any requested scale from low-resolution multi-view observations. Gaussian primitives enable continuous reconstruction, but generating separate primitive sets for each view redundantly encodes shared scene structure across views and causes the primitive count grow linearly with the number of views. To avoid such redundancy, we propose MacroGS, a feed-forward decoder that jointly predicts a single shared Gaussian set per macro pixel rather than generating separate sets for each view. Disparity-dependent replacement and angle-conditioned appearance allow each set to be reused across all output views, keeping the predicted primitive count independent of the number of views at each requested scale. The decoder iteratively predicts per-primitive disparities, retrieves the corresponding multi-view features, and updates the primitive states. Gaussian splatting and residual refinement then reconstruct the output light field. Despite being learned without geometric supervision, the predicted disparities strongly correlate with underlying scene geometry. Experiments across five benchmarks demonstrate that MacroGS integrates effectively with diverse light field encoders, improving reconstruction quality at fixed scales while achieving leading performance across most evaluated arbitrary-scale settings. The decoder also achieves speedups of approximately $2$-$10\times$ over state-of-the-art implicit light field decoders and $10$-$18\times$ over the view-wise Gaussian baseline.
+
+**Key findings**
+
+- **Finding**: MacroGS 为每个宏像素预测 K 个高斯基元并跨全部视角共享，使基元总数从逐视角设计的 UVKhw 降到 Khw，在五个基准的十个编码器-尺度设定中有八个取得最高平均 PSNR。
+- **Inference**: 让基元集合与视角数解耦，说明光场超分的主要冗余来自逐视角重复参数化而非渲染本身，前馈共享表示因此比隐式坐标查询更划算。
+- **Recommendation**: 若要复现任意尺度光场重建，应把生成单元从单 SAI 像素换成宏像素，并逐基元预测视差而不是给整块赋同一个视差。
+
+**Key figures**
+
+*Framework - Gaussian representations of a 2 × 2 light field at one requested scale; colours mark the K primitives. Only the primi- tives generated at the red pixel are drawn; every LR pixel generates it*
+
+![MacroGS: Macro-Pixel Shared Gaussian Primitives for Arbitrary-Scale Light Field Super-Resolutio - framework](res/2611.17957_framework.png)
+
+*Result - The framework of MacroGS for arbitrary-scale LFSSR. From the encoder features F, MacroGS infers one set G of K Gaussian primitives per macro pixel, shared by all views, through (a) initializ*
+
+![MacroGS: Macro-Pixel Shared Gaussian Primitives for Arbitrary-Scale Light Field Super-Resolutio - result](res/2611.17957_result.png)
+
+**Why this ranks #3**: 生成侧覆盖广：MacroGS 属于面向 3D/4D 表征的生成式重建工作，每个宏像素只生成 K 个跨视角共享的高斯基元，把基元数从 UVKhw 降到 Khw，在 10 个编码器-尺度设定中 8 个拿到最高平均 PSNR，×4 时相对原上采样器提升 0.34–0.70 dB。
+
+---
+
+### 4. Finite speed Ornstein-Uhlenbeck-Kac processes and their applications in generative modeling
 
 **arXiv**: [2611.17625](https://arxiv.org/abs/2611.17625) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, ornstein-uhlenbeck-kac, finite-speed-diffusion, legendre-polynomial, flow-matching, cifar-10, Institute of Mathematics | **Categories**: cs.LG, math.AP, math.PR | **Pages**: 48
 
@@ -112,11 +142,11 @@
 
 ![Finite speed Ornstein-Uhlenbeck-Kac processes and their applications in generative modeling - framework](res/2611.17625_framework.png)
 
-**Why this ranks #3**: 用有限速率的 Kac 过程替代布朗运动驱动 OU 过程，解析求出 Euler-Poisson-Darboux 方程的显式解（两个 Legendre 多项式 L_k、L_{k-1}），并证明条件速度场被有限 Kac 速率一致有界、从而不再需要 diffusion 的时间截断；在 d=32 多面体这类奇异数据集上更早变锐，CIFAR-10 FID 3.56 也接近 flow matching 的 3.59 与 OU 的 3.50。
+**Why this ranks #4**: 用有限速率的 Kac 过程替代布朗运动驱动 OU 过程，解析求出 Euler-Poisson-Darboux 方程的显式解（两个 Legendre 多项式 L_k、L_{k-1}），并证明条件速度场被有限 Kac 速率一致有界、从而不再需要 diffusion 的时间截断；在 d=32 多面体这类奇异数据集上更早变锐，CIFAR-10 FID 3.56 也接近 flow matching 的 3.59 与 OU 的 3.50。
 
 ---
 
-### 4. Creative Product Design under Brand Image Constraints
+### 5. Creative Product Design under Brand Image Constraints
 
 **arXiv**: [2611.17762](https://arxiv.org/abs/2611.17762) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, brand-constraint, industrial-design, vlm-as-judge, self-enhancement-loop, creative-direction, TOYOTA CENTRAL R&D LABS. | **Categories**: cs.AI, cs.CV, cs.GR | **Pages**: 24
 
@@ -144,75 +174,171 @@
 
 ![Creative Product Design under Brand Image Constraints - result](res/2611.17762_result.png)
 
-**Why this ranks #4**: 把「品牌印象」当作可动态文本化的设计约束：先用 Deep Research 生成品牌调查报告并抽出创作方向，再让 Reviewer 批判生成图、把评语改写成下一轮提示词；在 5 个品类 50 个产品上用 Gemini 2.5 Pro 做 VLM-as-Judge 评创新性与品牌可识别性，最终 Identity Score 0.8、Creativity Score 3.7，在汽车、摩托这类强约束品类上取得尤其明显的增益。
+**Why this ranks #5**: 把「品牌印象」当作可动态文本化的设计约束：先用 Deep Research 生成品牌调查报告并抽出创作方向，再让 Reviewer 批判生成图、把评语改写成下一轮提示词；在 5 个品类 50 个产品上用 Gemini 2.5 Pro 做 VLM-as-Judge 评创新性与品牌可识别性，最终 Identity Score 0.8、Creativity Score 3.7，在汽车、摩托这类强约束品类上取得尤其明显的增益。
 
 ---
 
-### 5. Training-Free Acceleration of Multi-View 3D Transformers via Regime-Aware Attention Approximation
+### 6. SceneAgent: A Multi-Agent Framework for Portable Game Scene Generation
 
-**arXiv**: [2611.17629](https://arxiv.org/abs/2611.17629) | **Score**: 6.6 (relevance 6 x 0.7 + quality 8 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, attention-approximation, multi-view-transformer, training-free, low-precision-inference, pose-accuracy, Independent Researcher | **Categories**: cs.AI, cs.CV | **Pages**: 25
+**arXiv**: [2611.17821](https://arxiv.org/abs/2611.17821) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, multi-agent, game-scene-generation, skill-library, cross-backend-transfer, Tencent | **Categories**: cs.AI, cs.CV | **Pages**: 28
 
-**Authors**: Muhammed Izzet Sezer; Sevval Belkis Dikkaya
+**Authors**: Xingyi Li; Jiahao Yang; Yiqin Zhu; Jingwen Ye; Yang Sun; Weidong Zhang
 
-**Affiliation**: Independent Researcher; Carnegie Mellon University
+**Affiliation**: Tencent; Fudan University
 
 **Abstract**
 
-> Multi-view 3D transformers such as VGGT reconstruct a scene from a set of unposed images in a single forward pass, predicting camera poses, depth and 3D points, but the cost of their global attention grows quadratically with the num- ber of images. Accelerators borrowed from large language models assume that each token attends to only a few oth- ers; on these models they lose accuracy or gain little speed. We study the global attention of three multi-view transform- ers on seven datasets and find that every layer plays one of three roles: it averages over the whole scene, matches points across many images, or anchors on the first image, whose coordinates the outputs use. Building on this anal- ysis, we propose Regime-AWare ATTention Approximation (RAWATTA), a training-free method that runs attention in 8- bit precision and keeps 16-bit precision only in the layers where a worst-case calibration check requires it. Its fast set- ting, RAWATTA-Fast, also approximates attention in a few averaging and anchoring layers, while matching layers and the first image keep all their keys. On a 12 GB GPU at 50 im- ages, RAWATTA runs VGGT faster than the released code, mostly through our CUDA engine, and loses at most about one point of pose accuracy (AUC@3) on any dataset; RAWATTA-Fast is slightly faster and less accurate. Both fit 200 images, where the released code runs out of memory at 100.
+> Moving a scene generator to a new game engine requires more than exporting its final output: planning, construction tools, and stored experience may also depend on the original backend. We present SceneAgent, a multi-agent framework for reusing the construction process and its experience across backends. A canonical SceneContext maintains the evolving world, while backend adapters isolate coordinate conventions, asset bindings, and export. Structured handoffs let fresh Builder sessions query this persistent state without inheriting the full construction transcript. Across generations, human-approved traces are distilled into asset-ID-free Layout skills and semantic Content skills that can be retrieved and recombined. We introduce GameSceneBench, comprising 69 indoor and outdoor prompts. Under a common asset and evaluation protocol, SceneAgent obtains human tie-adjusted preference scores of 78.2-89.4% against five baselines. Ablations show that reusable skills and the multi-agent protocol primarily improve prompt alignment and scene completeness, with additional runtime. Deployment in a second engine preserves the shared construction protocol and skill library while replacing backend integration components. Together, these results support separating persistent scene state, task-local reasoning, and reusable experience for portable scene construction.
 
 **Key findings**
 
-- **Finding**: 12 GB RTX 4070 SUPER 上 50 帧整次前向，官方 VGGT-Ω 为 3605 ms 且 100 帧即 OOM，精确引擎 2237 ms，RAWATTA 1734 ms（2.08×），RAWATTA-Fast 1616 ms（2.23×），最差数据集 AUC@3 分别为 −1.03 与 −1.14。
-- **Inference**: 精度损失集中在少数「匹配层」，所以按层而不是全局统一降精度，就能把加速收益几乎无损地留下来。
-- **Recommendation**: 部署多视图几何模型时先按三种角色给全局注意力分层标定，再决定哪些层降精度，比直接套用稀疏注意力近似更安全。
+- **Finding**: 在 GameSceneBench 的 69 条提示、1860 次成对判定中，SCENEAGENT 胜率 76.9%、平局 12.7%、负率 10.3%，平局校正偏好 83.3%，对五个基线的偏好分落在 78.2–89.4%。
+- **Inference**: 把构造过程与经验沉淀解耦成可迁移的技能库，说明跨引擎复用的瓶颈不在单次生成质量，而在状态表示与资产绑定方式。
+- **Recommendation**: 场景生成工具链应拆成规范化 SceneContext 加后端适配器，并把人工确认轨迹蒸馏成不含资产 ID 的 Layout 与 Content 技能以便换引擎复用。
 
 **Key figures**
 
-*Result - Regimes and tolerance in VGGT-Ω. Top: normalised entropy (black) and attention mass on frame 0 (red) per global block at 10, 50 and 200 frames; background: regime at N=10. Bottom: ∆AUC@3 whe*
+*Framework - SCENEAGENT separates within-run construction from cross-run experience reuse. Fresh Builders coordinate through canonical scene state. Backend adapters realize that state in the target engin*
 
-![Training-Free Acceleration of Multi-View 3D Transformers via Regime-Aware Attention Approximation - result](res/2611.17629_result.png)
+![SceneAgent: A Multi-Agent Framework for Portable Game Scene Generation - framework](res/2611.17821_framework.png)
 
-**Why this ranks #5**: wild-card 补位（本轮 3D 生成侧合格候选供给不足）：免训练地在 7 个数据集、10–200 帧上把多视图 3D transformer 的全局注意力归为平均/匹配/锚定三种角色，再按角色选近似算子与数值格式；在 12 GB 的 RTX 4070 SUPER 上 50 帧时相对官方 VGGT-Ω 加速 2.08×（RAWATTA-Fast 2.23×），最差数据集位姿 AUC@3 只掉 1.03/1.14 点，并且 200 帧仍能跑（官方在 100 帧就 OOM）。  [wild-card=yes] 本批 3D 侧唯一一篇直接优化前沿多视图 3D 基础模型推理成本的论文：它先在 7 个数据集上拆出全局注意力的三种层角色，再给出免训练的 8-bit/16-bit 混合精度方案 RAWATTA 与进一步近似的 RAWATTA-Fast，在 12 GB GPU 上把可处理图数从原版 100 张抬到 200 张、位姿精度 AUC@3 只掉约 1 个点。3D 生成与重建管线正卡在推理吞吐上，这篇比任何够格的 2D 生成论文都更该占位。
+*Result - Qualitative comparison on representative GameSceneBench prompts. Rows share an input prompt, and columns show different methods under the common Engine A asset and rendering protocol.*
+
+![SceneAgent: A Multi-Agent Framework for Portable Game Scene Generation - result](res/2611.17821_result.png)
+
+**Why this ranks #6**: 场景生成是本方向的重要落点：SceneAgent 把跨引擎复用的构造过程做成规范状态加可蒸馏技能，在 GameSceneBench 的 69 条提示、1860 次成对判定中胜率 76.9%、平局 12.7%，平局校正偏好 83.3%，对五个基线为 78.2–89.4%。
 
 ---
 
-### 6. Stage-wise Lineage-aware Dropout for Sparse-View 3D Gaussian Splatting
+### 7. Vessel2Brain: Edge-Aware Multi-Scale Flow Matching for 3D Brain Image Generation from Vessel Masks
 
-**arXiv**: [2611.17752](https://arxiv.org/abs/2611.17752) | **Score**: 6.3 (relevance 6 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, gaussian-splatting, sparse-view, dropout-regularization, densification, lineage-family, Hefei University of Technology | **Categories**: cs.CV | **Pages**: 11
+**arXiv**: [2611.17919](https://arxiv.org/abs/2611.17919) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, flow-matching, 3d-brain-mri, conditional-generation, edge-aware-loss, medical-imaging, School of Engineering | **Categories**: cs.CV | **Pages**: 10
 
-**Authors**: Yan Xing; Zhi Chen; Fanglue Zhang; Junhong Zhao; Bing Xue; Mengjie Zhang
+**Authors**: Zhi Chen; Tianyang Zhang; Theodoros N. Arvanitis; Le Zhang
 
-**Affiliation**: Hefei University of Technology; Victoria University of Wellington; University of New South Wales; Joint International Research Laboratory of Spatio-temporal Information and Intelligent Location Services
+**Affiliation**: School of Engineering, College of Engineering and Physical Sciences, University of Birmingham; Institute of Biomedical Engineering, University of Oxford
 
 **Abstract**
 
-> Sparse-view 3D Gaussian Splatting (3DGS) is prone to overfitting because only a limited number of images are available to constrain scene geometry. Dropout is one regularization strategy for alleviating this problem. We introduce the concept of a lineage family to describe a set of Gaussian primitives derived from the same founder through cloning or splitting operations. The founder Gaussians refer to all Gaussian primitives generated during initialization. Descendants within the same family often jointly contribute to the refinement of adjacent local regions. However, dropping individual Gaussians can be less effective due to the compensation effect from neighboring Gaussians for the dropped ones. To address this issue, we propose Stage-wise Lineage-aware Dropout(SLD), which applies lineage-family dropout during the structural regularization stage and switches to individual dropout during the later refinement stage. We further propose Lineage-Balanced Densification(LBD), which operates during densification by constructing an expanded candidate pool and reallocating the densification budget according to the mean gradient scores and existing descendant sizes of different families. Experiments on the LLFF, MipNeRF360, and Blender datasets show that the proposed framework achieves competitive performance in sparse-view reconstruction
+> Generating realistic 3D brain MRI volumes from sparse anatomical priors is a highly ill-posed yet clinically valuable problem, with important applications in data augmentation, simulation, and downstream neuroimaging analysis. In this work, we investigate the challenging task of synthesising full 3D brain MRI volumes conditioned solely on vascular label maps. While vascular structures provide strong anatomical and topological cues, they occupy only a small fraction of the brain volume and offer no direct information about surrounding tissue appearance. To address this challenge, we propose Vessel2Brain, an edge-aware multi-scale conditional flow matching framework that explicitly incorporates vascular structure information into the generative process. Our approach formulates vessel-guided brain image synthesis as a conditional continuous flow, enabling stable training and flexible generation while preserving structural correspondence. A multi-scale flow matching strategy is introduced to jointly model global anatomical coherence and fine-grained local details, with auxiliary velocity predictions providing additional supervision across spatial resolutions. Furthermore, we design an edge-aware objective that emphasises vascular boundaries during training, encouraging anatomically faithful tissue synthesis around vessel structures. We evaluate Vessel2Brain on two public 3D brain MRI datasets with paired vascular annotations. Extensive quantitative and qualitative experiments demonstrate that our method consistently outperforms state-of-the-art generative models in terms of reconstruction accuracy, structural consistency, and distributional realism.
 
 **Key findings**
 
-- **Finding**: LLFF 3 视角下本方法 PSNR 20.70 dB，比 DropGaussian 高 0.37 dB，SSIM 与 LPIPS 均居首或次席；超参为 t_w=3000、t_s=7000、p_max=0.3、p_3=0.2，LBD 的 γ=0.5 与 β_max=0.5。
-- **Inference**: 邻居 Gaussian 的补偿效应让单个 dropout 效果打折，按同族整批停用才能真正压住对有限视角的过拟合。
-- **Recommendation**: 做稀疏视角 3DGS 时可把训练切成分正则与精修两段、前段改用族级 dropout，再对照单点 dropout 做消融。
+- **Finding**: 在 CereVessMRA 上 Vessel2Brain 的 SSIM 达 65.36%、PSNR 26.84、NMI 1.145、MAE 2.97%，四项全面超过 Med-DDPM（63.81%、26.79、1.142、2.99%）与 3D Pix2Pix（57.69%、23.74%）。
+- **Inference**: 在只有稀疏血管先验的条件下，边缘加权损失加粗分辨率辅助速度监督比纯像素重建损失更能守住解剖对应关系。
+- **Recommendation**: 做稀疏条件 3D 医学生成时可直接套用边缘加权 L1 流匹配损失加辅助速度头的组合，并按 128³ 体数据与被试级 8:1:1 划分对齐实验。
 
 **Key figures**
 
-*Framework - Overview of the proposed lineage-aware Gaussian optimization method. The input views are first processed through SFM initialization, and each initial Gaussian is assigned a founder identity to*
+*Framework - Overview of the proposed Vessel2Brain framework. Given a 3D vascular label map and a time step t, a UNet-style FlowNet conditioned on timestep and label embed- dings learns a velocity field fo*
 
-![Stage-wise Lineage-aware Dropout for Sparse-View 3D Gaussian Splatting - framework](res/2611.17752_framework.png)
+![Vessel2Brain: Edge-Aware Multi-Scale Flow Matching for 3D Brain Image Generation from Vessel Masks - framework](res/2611.17919_framework.png)
 
-*Result - Statistical characterization of densification-induced lineage families: (a) Family- size distribution; (b) Generation distribution.*
+*Result - Qualitative comparison on the CereVessMRA dataset. From left to right: vascu- lar mask, ground-truth brain MRI, 3D Pix2Pix, LDM, 3D VAE, Med-DDPM, and the proposed Vessel2Brain. Results are vi*
 
-![Stage-wise Lineage-aware Dropout for Sparse-View 3D Gaussian Splatting - result](res/2611.17752_result.png)
+![Vessel2Brain: Edge-Aware Multi-Scale Flow Matching for 3D Brain Image Generation from Vessel Masks - result](res/2611.17919_result.png)
 
-**Why this ranks #6**: wild-card 补位（本轮 3D 生成侧合格候选供给不足）：把稀疏视角 3DGS 的过拟合按「血统家族」重新建模——结构正则阶段整族 dropout、精修阶段退回单个 Gaussian dropout（t_w=3000、t_s=7000、p_max=0.3、p_3=0.2），并用 LBD 按族重分配稠密化预算（γ=0.5、β_max=0.5）；在 LLFF 3 视角下 PSNR 达 20.70 dB，比 DropGaussian 高 0.37 dB，同时取得全场最优 LPIPS。  [wild-card=yes] 本批另一篇 3D 侧代表作：它把 3D 高斯泼溅里由同一「创始」高斯经克隆或分裂派生出的高斯视为一个 lineage family，指出逐个丢弃会被邻近高斯的补偿效应抵消，于是提出分阶段使用族级 dropout 与族级致密化预算再分配，在 LLFF、MipNeRF360 与 Blender 上验证稀疏视角重建。稀疏视角 3D 重建是 3D 生成的直接前置环节，其正则与致密化策略对做 3D 生成的人有直接参考价值。
+**Why this ranks #7**: 3D 体数据生成归入本方向：Vessel2Brain 仅以稀疏血管标注为条件生成 3D 脑 MRI，在 128³ 分辨率上以边缘加权流匹配训练，在 CereVessMRA 取得 SSIM 65.36%、PSNR 26.84、NMI 1.145、MAE 2.97%，四项指标均超过 Med-DDPM。
 
 ---
 
-## AIGC 编辑（指令编辑 / 修补 / 个性化） · `aigc_editing` (3 papers)
+### 8. Analyzing Learning-Dynamics Across Loss and Prediction Choices for Diffusion Models
 
-本方向 3 篇，各自打编辑链路上的一个环节。HarmonyText 处理自然语言引导、无需掩码的场景文字编辑的三个老问题：伪 GT 监督带背景差异、标准 MSE 速度回归把文字抹得过于平滑、以及缺少免 GT 的评测；它的做法是把「反向到精修」的成对合成与区域解耦的频率学习结合起来。Open-World Scene Deocclusion 指出真实场景里遮挡常常涉及没有被检测到的背景表面或物体，现有方法在「遮挡 ↔ 缺失」互相耦合处失效，它用循环推理来打破这个耦合。Real-Time Diffusion Relighting 把低光照增强从离线重建任务改造成一个实时神经传感器，理由是机器人感知里的低照度与恶劣天气是训练分布之外的条件，而面向离线的 LLIE 方法根本没法塞进在线回路。
+**arXiv**: [2611.17967](https://arxiv.org/abs/2611.17967) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, diffusion-theory, prediction-parameterization, timestep-reweighting, bottleneck-analysis, POSTECH | **Categories**: cs.LG | **Pages**: 23
 
-### 7. Open-World Scene Deocclusion
+**Authors**: Dongwoo Kim
+
+**Affiliation**: POSTECH
+
+**Abstract**
+
+> Denoising generative models predict clean data ($x$), noise ($ε$), or velocity ($v$), while training losses can be measured in any of these spaces. Although the resulting nine combinations are algebraically related, they can yield substantially different denoising accuracy and sample quality. We disentangle the effects of prediction and loss spaces. For a fixed prediction target, we show that changing the loss space is exactly equivalent to timestep reweighting and provide a heuristic analysis of how this reweighting affects generation quality. We then show that a rank-$m$ linear bottleneck compressing a $D$-dimensional noisy input imposes an irreducible squared-error floor of $D-m$ on noise and velocity prediction, whereas clean-data prediction can exploit low-dimensional data structure. Combining this bound with prediction-dependent error conversion yields distinct necessary conditions on bottleneck capacity. Experiments with U-Net and JiT across CIFAR-10, Imagenette, and ImageNet-256 support these theoretical predictions. Under compression, prediction choice strongly affects both denoising accuracy and sample quality, with noise-prediction errors closely matching the theoretical lower bound. Our results provide a quantitative understanding of how architectural bottlenecks interact with prediction and loss choices in denoising generative models.
+
+**Key findings**
+
+- **Finding**: Proposition 1 证明固定预测目标时改变损失空间等价于确定性的时间步重加权；在 U-Net 与 JiT-B 上，CIFAR-10 把 x-损失换成 ε-损失让 x-预测的 FID 从 11.79 降到 2.20。
+- **Inference**: 损失与预测参数化本质是同一族时间步加权，只有当嵌入瓶颈比 r 低于 1 时，下界 D−m 才把差异放大成数量级的 MSE 差距。
+- **Recommendation**: 选型时先测出嵌入维度与瓶颈比 r，r 小于 1 时优先选 x-预测并同时比对 ε 与 v 预测的 x-space MSE，不要只看 FID 排序。
+
+**Key figures**
+
+*Framework - Synthetic validation of the bottleneck lower bound (Theorem 4) with D = 64 and d = 2. Left: Prediction MSE in each target’s native space as a function of bottleneck dimension m. The ϵ- and v*
+
+![Analyzing Learning-Dynamics Across Loss and Prediction Choices for Diffusion Models - framework](res/2611.17967_framework.png)
+
+**Why this ranks #8**: 扩散模型的训练动力学直接决定生成质量：该文证明改变损失空间等价于确定性的时间步重加权，并在 U-Net（≈97M 参数）与 JiT-B（≈130M 参数）上验证，CIFAR-10 上换用 ε-损失让 x-预测的 FID 从 11.79 降到 2.20，瓶颈比 0.67 时 ε-预测 MSE 为 5.85 而 x-预测仅 0.048。
+
+---
+
+### 9. JaRS: Contrast-Free Localization of Memorized Regions in Diffusion Models via Jacobian Row Sums
+
+**arXiv**: [2611.18024](https://arxiv.org/abs/2611.18024) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, memorization-detection, jacobian-analysis, diffusion-privacy, localization-map, Indian Institute of Science | **Categories**: cs.CV, cs.LG | **Pages**: 21
+
+**Authors**: Saisuchith Mahajan; Aditey Nandan; Rohit Singh; Nishanth Shetty; Chandra Sekhar Seelamantula
+
+**Affiliation**: Indian Institute of Science
+
+**Abstract**
+
+> Diffusion models sometimes memorize and reproduce regions of their training images, raising privacy and copyright concerns. We aim to localize these regions. Existing contrast-based methods use the diagonal of the denoiser Jacobian, which reflects the posterior variance of each pixel. However, a small diagonal entry is ambiguous: it signals either memorization or averaging over many neighboring pixels in smooth or predictable regions. To resolve this ambiguity, these methods subtract a reference map, which requires a second evaluation with a null prompt or an earlier checkpoint. Unconditional models have no null prompt, and earlier checkpoints are unavailable in general. We show that Jacobian row sums (JaRS), unlike the diagonal, separate memorization from local averaging without a reference map. Pairing JaRS with an image-level detection score that uses the same statistic at an early denoising step yields JaRS+. Across Stable Diffusion v1.4 and v2.1, Realistic Vision v5.1, and an unconditional diffusion Transformer (DiT), JaRS+ outperforms contrast-based localization methods.
+
+**Key findings**
+
+- **Finding**: JaRS+ 在 SD v1.4 的 TV、TV+N、All 设置分别取得 0.969、0.975、0.940 的 mIoU，比最强对比基线高 5.6 与 2.5 个点；SD v2.1 上 TV+N 达 0.989。
+- **Inference**: 雅可比行和能区分记忆与局部平均而无需参考图，说明对比式定位必须依赖 null prompt 或历史 checkpoint，根源在于对角元本身的歧义。
+- **Recommendation**: 审计扩散模型的训练数据泄漏时可直接用去噪器雅可比行和构造定位图，无需额外准备 null prompt 或历史 checkpoint。
+
+**Key figures**
+
+*Framework - Qualitative comparison of localization maps on Stable Diffusion v1.4 for randomly sampled test instances, two per row: four template verbatims from distinct templates (rows 1–2), one global*
+
+![JaRS: Contrast-Free Localization of Memorized Regions in Diffusion Models via Jacobian Row Sums - framework](res/2611.18024_framework.png)
+
+*Result - Full denoiser Jacobian rows of Stable Diffusion v1.4 (step 15) and DiT-B/2 (step 35). Left: For one development image from each category, we show the generated image (copied region outlined*
+
+![JaRS: Contrast-Free Localization of Memorized Regions in Diffusion Models via Jacobian Row Sums - result](res/2611.18024_result.png)
+
+**Why this ranks #9**: 扩散模型的可记忆性审计属于生成侧议题：JaRS 不用 null prompt 或早期 checkpoint 就能定位记忆区域，在 SD v1.4 的 TV 与 TV+N 上分别取得 0.969 与 0.975 mIoU，比最强对比基线高 5.6 与 2.5 个点，在无条件 DiT-B/2 上把 All 设置从 0.666 提到 0.869。
+
+---
+
+### 10. InfiHall-Bench: A Benchmark for Hallucination Evaluation in Autoregressive Text-to-Image Generation
+
+**arXiv**: [2611.18053](https://arxiv.org/abs/2611.18053) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_generation` | **Tags**: AIGC-visual, hallucination-benchmark, autoregressive-image-generation, confidence-masking, text-to-image, Harbin Institute of Technology | **Categories**: cs.CV | **Pages**: 18
+
+**Authors**: Yuxia Qiao; Xinhao Zhong; Junhao Li; Yi Sun; Jiaxin Hong; Shuoyang Sun; Bin Chen
+
+**Affiliation**: Harbin Institute of Technology, Shenzhen
+
+**Abstract**
+
+> Hallucination benchmarks for text-to-image generation are predominantly designed around diffusion models, limiting their diagnostic value for visual autoregressive (VAR) models and the development of mitigation methods. We identify two limitations in existing prompt construction paradigms: many prompts are no longer challenging for modern generators, while category-based construction relies on recurring object-attribute-relation templates and rarely tests interactions among multiple visual requirements within a single image. We introduce InfiHall-Bench, a controlled benchmark of 411 prompts constructed by systematically composing five foundational and visually verifiable skills: attribute binding, spatial relation, action relation, part consistency, and scene consistency. Each prompt covers 4.05 annotated skills on average, enabling the evaluation of hallucinations under diverse combinations of visual requirements. Using this benchmark, we find that hallucinations in VAR models exhibit a scale-wise persistence pattern: semantic errors can emerge at different autoregressive scales and are rarely corrected by subsequent fine-scale steps. Motivated by this observation, we propose Confidence-Masked Hallucination Mitigation (CMHM), which estimates the prediction confidence of target visual tokens at each autoregressive scale during teacher-forced fine-tuning. CMHM downweights reliably predicted tokens, allowing optimization to focus on uncertain predictions across scales. Experiments show that InfiHall-Bench distinguishes models that existing compositional benchmarks rate as comparable, while CMHM consistently outperforms uniform LoRA fine-tuning for VAR-based text-to-image generation.
+
+**Key findings**
+
+- **Finding**: InfiHall-Bench 含 411 条提示、平均每条标注 4.05 项技能；预训练模型中 FLUX.1-dev 的 Overall 最高为 67.08，Infinity-8B 为 65.77，却在 Action Relation 与 Spatial Relation 上只有 64.53 和 56.56，而 Scene Consistency 达 96.08。
+- **Inference**: 自回归生成的整体场景容易拼对、动作与相对布局却难拼对，说明幻觉集中在多要求组合上，并呈尺度级持久、后续精细尺度难以纠正。
+- **Recommendation**: 评估视觉自回归 T2I 应逐技能打分而非只看整体分，并可用 CMHM 这类按尺度重新分配损失权重的微调压低高不确定尺度上的错误。
+
+**Key figures**
+
+*Framework - Overview of InfiHall-Bench. Representative failures across the five skills covered by the benchmark. Each example shows the prompt, an Infinity output, and the skill-specific feedback return*
+
+![InfiHall-Bench: A Benchmark for Hallucination Evaluation in Autoregressive Text-to-Image Generation - framework](res/2611.18053_framework.png)
+
+*Result - Benchmark construction and evaluation. The upper panel shows skill-guided prompt construction, followed by quality control. The lower panel illustrates the evaluation protocol to produce an*
+
+![InfiHall-Bench: A Benchmark for Hallucination Evaluation in Autoregressive Text-to-Image Generation - result](res/2611.18053_result.png)
+
+**Why this ranks #10**: 自回归文生图的生成质量需要专门评测：InfiHall-Bench 用五类可验证技能系统组合出 411 条提示、平均每条 4.05 项技能，测得 FLUX.1-dev 整体分 67.08、Infinity-8B 65.77 但动作关系只有 64.53，并用 CMHM 把 Infinity-8B 提到 67.49。
+
+---
+
+## AIGC 编辑（指令编辑 / 修补 / 个性化） · `aigc_editing` (4 papers)
+
+本方向 4 篇里 1 篇新增，共同点是**编辑不再是单次前向，而是一个可迭代、可触发的回路**。HarmonyText 用 RePair 反向合成 25K 对高质量伪配对数据 STE25K，再以 RDO 把编辑区与保留区分开监督、CHFTG 在小波域补高频，155 张 HarmonyText-Bench 上 PSNR 28.443 dB、SSIM 0.803，比最强开源基线高 1.65 dB；Open-World Scene Deocclusion 先把场景分解成按深度排序的 RGBA 层再解开互遮挡环，把补全通过率从 12.49% 提到 35.59%（2.85×），并用边界连续、颜色保真、纹理连贯、全局合理四项子分数作为迭代停止条件。新增的 RecurIR 把「什么时候该改复原策略」本身建模成可证伪的假设，靠任务演化生成针对性退化变体，全合一设定下平均 PSNR 35.58 dB 比最强模型式基线 Defusion 高 2.00 dB，回滚率从 0.35 降到 0.12；Real-Time Diffusion Relighting 则把生成式增强做成控制回路里的神经传感器，只在检测置信度下降时异步启动，CARLA 五圈实验碰撞率从 32.75% 降到 21.44%，事件触发仅激活 0.4% 的帧、控制回路延迟保持 2.0 ms。
+
+### 11. Open-World Scene Deocclusion
 
 **arXiv**: [2611.17695](https://arxiv.org/abs/2611.17695) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `aigc_editing` | **Tags**: AIGC-visual, amodal-completion, deocclusion, training-free, rgba-layer-decomposition, iterative-refinement, Victoria University of Wellington | **Categories**: cs.CV | **Pages**: 10
 
@@ -240,11 +366,11 @@
 
 ![Open-World Scene Deocclusion - result](res/2611.17695_result.png)
 
-**Why this ranks #7**: 免训练地从单张 RGB 图像恢复被遮挡物体的完整外观：先把场景分解成按深度排序的 RGBA 层并解开互遮挡环，再用迭代精修把补全通过率从 12.49% 提到 35.59%（2.85×）；伪遮挡集上 CLIP 28.241、LPIPS 0.230、SSIM 0.895 均优于 OWAAC 的 27.105/0.384/0.726，27 人用户研究的强制选择胜率达 68.0%。
+**Why this ranks #11**: 免训练地从单张 RGB 图像恢复被遮挡物体的完整外观：先把场景分解成按深度排序的 RGBA 层并解开互遮挡环，再用迭代精修把补全通过率从 12.49% 提到 35.59%（2.85×）；伪遮挡集上 CLIP 28.241、LPIPS 0.230、SSIM 0.895 均优于 OWAAC 的 27.105/0.384/0.726，27 人用户研究的强制选择胜率达 68.0%。
 
 ---
 
-### 8. HarmonyText: Harmonious Scene Text Editing via Reverse-to-Refined Pair Synthesis and Region-Decoupled Frequency Learning
+### 12. HarmonyText: Harmonious Scene Text Editing via Reverse-to-Refined Pair Synthesis and Region-Decoupled Frequency Learning
 
 **arXiv**: [2611.17733](https://arxiv.org/abs/2611.17733) | **Score**: 8.0 (relevance 8 x 0.7 + quality 8 x 0.3) | **Direction**: `aigc_editing` | **Tags**: AIGC-visual, scene-text-editing, mask-free, wavelet-guidance, pseudo-pair-synthesis, gt-free-evaluation, South China University of Technology | **Categories**: cs.CV | **Pages**: 11
 
@@ -268,11 +394,43 @@
 
 ![HarmonyText: Harmonious Scene Text Editing via Reverse-to-Refined Pair Synthesis and Region-Decoupled Frequency Learning - framework](res/2611.17733_framework.png)
 
-**Why this ranks #8**: 针对自然语言指令驱动的免掩码场景文字编辑：RePair 反向合成出 25K 对高质量伪配对数据（STE25K），RDO 把编辑区与保留区分开监督，CHFTG 在小波域补高频纹理；在 155 张 HarmonyText-Bench 上 PSNR 28.443 dB、SSIM 0.803，比最强开源基线 FireRed-Image-Edit-v1.1 高 1.65 dB，CDD 0.063 比次优低 19.2%，Harmony Score 2.761 最高。
+**Why this ranks #12**: 针对自然语言指令驱动的免掩码场景文字编辑：RePair 反向合成出 25K 对高质量伪配对数据（STE25K），RDO 把编辑区与保留区分开监督，CHFTG 在小波域补高频纹理；在 155 张 HarmonyText-Bench 上 PSNR 28.443 dB、SSIM 0.803，比最强开源基线 FireRed-Image-Edit-v1.1 高 1.65 dB，CDD 0.063 比次优低 19.2%，Harmony Score 2.761 最高。
 
 ---
 
-### 9. Real-Time Diffusion Relighting as a Neural Sensor: Closing the Low-Light Domain Gap for Robotic Perception
+### 13. RecurIR: Learning When and How to Revise Restoration Policies via Recursive Self-Improvement
+
+**arXiv**: [2611.18006](https://arxiv.org/abs/2611.18006) | **Score**: 7.4 (relevance 8 x 0.7 + quality 6 x 0.3) | **Direction**: `aigc_editing` | **Tags**: AIGC-visual, agentic-restoration, self-improvement, policy-revision, image-restoration, Shanghai Jiao Tong University | **Categories**: cs.CV | **Pages**: 17
+
+**Authors**: Hu Gao; Haoran Zhang; Yulong Chen; Lizhuang Ma
+
+**Affiliation**: Shanghai Jiao Tong University; Harbin Institute of Technology
+
+**Abstract**
+
+> Agent-based image restoration has achieved promising performance by coordinating restoration tools to handle heterogeneous and coupled degradations. However, existing agents often improve their decisions through accumulated successful and failed executions, without explicitly identifying the conditions under which learned restoration strategies remain effective. Consequently, changes in degradation severity, spatial coverage, or interactions may invalidate previous decisions, while providing limited guidance on how these decisions should be revised. In this paper, we propose \textbf{RecurIR}, a recursive self-improvement framework that enables restoration agents to learn when and how to revise their decision rules. Specifically, we introduce a policy-hypothesis discovery mechanism to identify testable, condition-dependent rules through matched tool executions. We then design a rule-falsification-driven task evolution mechanism to generate targeted degradation variations, examine the validity of learned rules, and identify their applicability boundaries. Based on the resulting evidence, we develop a change-conditioned policy revision mechanism that learns how variations in degradation conditions should modify tool selection, execution order, operation strength, and processing regions. We further incorporate independent verification to retain effective revisions and use the resulting feedback to guide subsequent hypothesis discovery and task evolution. Through this recursive process, RecurIR progressively refines its restoration policies as degradation conditions change. Extensive experiments demonstrate the effectiveness of the proposed framework.
+
+**Key findings**
+
+- **Finding**: RecurIR 在全合一复原设定下的平均 PSNR 达 35.58 dB，比最强模型式基线 Defusion 的 33.58 dB 高 2.00 dB；最低分智能体 MAIR 为 34.96 dB，相对 Defusion 领先 1.38 dB。
+- **Inference**: 让智能体显式发现条件化策略规则并按退化变化改写规则，比单纯累积成败经验更能适应退化类型与空间分布的改变。
+- **Recommendation**: 构建复原智能体时应把何时修正策略建模成可证伪的假设，配合任务演化生成针对性退化变体，评估时同时看 PSNR 与回滚率。
+
+**Key figures**
+
+*Framework - Overview of the proposed RecurIR framework. Top: A general agentic image restoration pipeline. Bottom: The pro- posed recursive self-improvement framework, consisting of policy- hypothesis d*
+
+![RecurIR: Learning When and How to Revise Restoration Policies via Recursive Self-Improvement - framework](res/2611.18006_framework.png)
+
+*Result - Visual comparisons of different restoration methods. The red and green boxes highlight representative regions, with magnified views illustrating differences in artifact removal and detail pr*
+
+![RecurIR: Learning When and How to Revise Restoration Policies via Recursive Self-Improvement - result](res/2611.18006_result.png)
+
+**Why this ranks #13**: 图像编辑轴关注对已有图像的可控修改，复原属同类操作：RecurIR 在全合一设定下平均 PSNR 35.58 dB，比最强模型式基线 Defusion 的 33.58 dB 高 2.00 dB，也高于最低分智能体 MAIR 的 34.96 dB，在真实雨雾基准 RealRain-1k-L 上达 27.83 dB，并把回滚率从 0.35 降到 0.12。
+
+---
+
+### 14. Real-Time Diffusion Relighting as a Neural Sensor: Closing the Low-Light Domain Gap for Robotic Perception
 
 **arXiv**: [2611.17438](https://arxiv.org/abs/2611.17438) | **Score**: 7.0 (relevance 7 x 0.7 + quality 7 x 0.3) | **Direction**: `aigc_editing` | **Tags**: AIGC-visual, diffusion-relighting, low-light-enhancement, event-driven-trigger, robot-perception, real-time, University of Maryland | **Categories**: cs.CV | **Pages**: 8
 
@@ -300,15 +458,15 @@
 
 ![Real-Time Diffusion Relighting as a Neural Sensor: Closing the Low-Light Domain Gap for Robotic Perception - result](res/2611.17438_result.png)
 
-**Why this ranks #9**: 把 FLUX.2-klein-4B + LoRA 的图像重光照做成控制回路里的「生成式神经传感器」：只在检测置信度下降时由后台线程异步启动，ExDark 上取得 87.1% mAP；CARLA Thunderhill 5 圈实验中碰撞率从 32.75% 降到 21.44%，事件触发仅激活 0.4% 的帧，GPU 占用从 95.0% 降到 0.4%，控制回路延迟保持 2.0 ms。
+**Why this ranks #14**: 把 FLUX.2-klein-4B + LoRA 的图像重光照做成控制回路里的「生成式神经传感器」：只在检测置信度下降时由后台线程异步启动，ExDark 上取得 87.1% mAP；CARLA Thunderhill 5 圈实验中碰撞率从 32.75% 降到 21.44%，事件触发仅激活 0.4% 的帧，GPU 占用从 95.0% 降到 0.4%，控制回路延迟保持 2.0 ms。
 
 ---
 
 ## 面向视觉生成的 RL 与奖励模型 · `aigc_rl` (1 papers)
 
-本方向只有 1 篇，但它是全批唯一一篇真正面向视觉生成 RL 的工作。《Rethinking Visual Reasoning in Text-to-Image Reward Modeling》的出发点不是换更大的骨干或更多偏好对，而是奖励模型自身的视觉理解：它发现广泛使用的 T2I 奖励模型在针对性的视觉推理评测上表现很差，而从强视觉语言骨干出发做偏好微调会**侵蚀**这种能力，持续学习基线也化解不了「视觉推理 ↔ 偏好精度」之间那个陡峭的权衡。它的解法是翻转配对轴：把现有视觉推理数据集转换成「同一张图、不同 prompt」的偏好对，与常规人类偏好数据混合训练，最终在 GenEval 上让推理时 best-of-n 选择与 RL 后训练分别提升 4.0% 与 5.5%，并超过用了 6 倍偏好对的 HPSv3。
+本方向仍只有 1 篇，但它同时是本 axis 最高分（9.0）与 rel ≥ 9 的必进论文。Rethinking Visual Reasoning in Text-to-Image Reward Modeling 的出发点不是换更大的骨干或更多偏好对，而是奖励模型自身的视觉理解：它发现广泛使用的 T2I 奖励模型在针对性的视觉推理评测上表现很差，而从强视觉语言骨干出发做偏好微调会**侵蚀**这种能力，持续学习基线也化解不了「视觉推理 ↔ 偏好精度」之间那个陡峭的权衡。解法是翻转配对轴——把现有视觉理解与推理评测集转换成「同一张图、不同 prompt」的偏好对（CrossPairs），与常规人类偏好数据混合训练，最终在 GenEval 上让推理期 best-of-n 选择与 RL 后训练分别提升 4.0% 与 5.5%，并超过用了 6 倍偏好对（1.3M）的 HPSv3。
 
-### 10. Rethinking Visual Reasoning in Text-to-Image Reward Modeling
+### 15. Rethinking Visual Reasoning in Text-to-Image Reward Modeling
 
 **arXiv**: [2611.17585](https://arxiv.org/abs/2611.17585) | **Score**: 9.0 (relevance 9 x 0.7 + quality 9 x 0.3) | **Direction**: `aigc_rl` | **Tags**: AIGC-visual, reward-model, preference-data, visual-reasoning, best-of-n, geneval, Stanford University | **Categories**: cs.AI, cs.CV | **Pages**: 28
 
@@ -332,15 +490,15 @@
 
 ![Rethinking Visual Reasoning in Text-to-Image Reward Modeling - result](res/2611.17585_result.png)
 
-**Why this ranks #10**: 奖励模型是 T2I 推理期筛选与 RL 后训练的目标，但偏好微调会侵蚀视觉理解；本文翻转配对轴——让偏好对共享同一张图、只改提示词（CrossPairs），与常规人类偏好数据混合训练后两侧同时提升：在 GenEval 上 best-of-n 平均 +4.0%、RL 后训练平均 +5.5%，ImageRewardDB 准确率 66.3%，优于用了 6 倍偏好对（1.3M）的 HPSv3。
+**Why this ranks #15**: 奖励模型是 T2I 推理期筛选与 RL 后训练的目标，但偏好微调会侵蚀视觉理解；本文翻转配对轴——让偏好对共享同一张图、只改提示词（CrossPairs），与常规人类偏好数据混合训练后两侧同时提升：在 GenEval 上 best-of-n 平均 +4.0%、RL 后训练平均 +5.5%，ImageRewardDB 准确率 66.3%，优于用了 6 倍偏好对（1.3M）的 HPSv3。
 
 ---
 
 ## Footer
 
-- Total papers reviewed across all 4 axes: 48
-- aigc_visual axis final count: 10
-- Wild-cards in this axis: 2
+- Total papers reviewed across all 4 axes: 60
+- aigc_visual axis final count: 15
+- Wild-cards in this axis: 0
 - Figure assets: 2026-11-16/res/
 
 Generated by `mine-arxiv-daily-digest` skill. Sister file: `2026-11-16_aigc_visual_entry.md`.
