@@ -18,6 +18,12 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
   分类从 7 个增加到 8 个（加入 cs.IR）。配额改为**两级弹性分配**：
   先按 axis 基准配额（15 / 18 / 12 / 15 = 60）分配，再把富余名额按富余量依次分配，单个 axis 上限 20 篇；
   轴内再按 direction 基准配额（8/4/3、8/5/5、8/4、7/8）分配，薄 direction 让出名额而不被填充。
+- **skill v0.8.1（自 2026-11-24，只澄清 direction 归类的 tie-break，轴结构与配额不变）**：
+  RL 归 `*_rl` direction，判据是**训练方法**而不是「论文标题更像什么」——
+  用 RL（GRPO / DPO /「full-duplex RL」/ 奖励模型 / turn-taking 与 interruption 的 RL）
+  训练全双工 / 流式 / 口语对话 LM 的论文一律归 `speech_rl`，
+  **即使全双工模型本身是主要贡献、RL 只是多阶段配方里的一个阶段**（Duopra 2611.25773 即此例）；
+  `duplex_speech_core` 收**不做 RL** 的全双工工作。起因与影响见下方 2026-11-21 条目里的更正登记。
 
 目录表按这三个阶段分表呈现：**现行口径**表为 4 轴 60 篇，**过渡口径**表为 4 条线，**历史口径**表为 7 条线。
 
@@ -330,6 +336,39 @@ cs.LG / cs.IR），v0.4.0 与 v0.3.0 扫描 7 个分类（无 cs.IR）。线制�
      但那一轮覆盖的是**两个 listing 日**：11-18 公告于 **2026-11-19 01:00 UTC**、11-19 公告于 **2026-11-20 01:00 UTC**。
   按「不擅自改写已发布的历史日报」的规则，这两处**只在此处登记更正、不回改已发布的报告文件**；
   批次窗口、候选池、选稿结果与全部数字均不受影响。
+
+  ⚠️ **对已发布的 2026-11-21 日报的一处 direction 归类更正（选稿与全部数字无误，仅归类口径有误）**：
+  1. 该日报把 **Duopra（arXiv 2611.25773）记在 `duplex_speech_core`**，
+     按 skill 明文 tie-break 应记在 **`speech_rl`**。
+     证据全在论文摘要里：训练三阶段被明写为
+     「protocol SFT、**full-duplex RL** rewarding timely and complete execution、
+     projector-only repair」；该报告自己的 Tags 行也带了 `reinforcement-learning`，
+     「Why this ranks #1」里更直接写了「Dr. **GRPO 全双工 RL**（kact=3 单位内执行得 1.2 分，
+     编造结果扣 0.95）」。而 skill 的 `WORKFLOW.md` 第 110–113 行、`agents/ranker.md` 的
+     Direction Precedence 表、`agents/filter.md` 的打标说明都写着同一句：
+     「GRPO on a duplex speech LM goes to `speech_rl`」。
+  2. **影响范围**：该日报语音轴当天仍是 **5 篇**（`duplex_speech_core` 4 + `speech_rl` 1，
+     与改判后相同），**篇数、名额、分数、图、以及其余 55 篇全部不变**；
+     变的只是 `speech_rl` 那一格不再是 0。
+     [2026-11-24](daily_arxiv_digest/2026_11/2026-11-24/) 那份**不受影响**——
+     该轮 5 篇里没有一篇是全双工 RL 论文。
+  3. **为什么这个格子看起来一直是空的**：全仓库 35 份日报里做过 RL 的全双工论文共 **4 篇**，
+     当时分别落在
+     「音频与语音语言模型 / 双工语音助手」线（HiPLEX 2610.07727、2026-10-07、rel 9；
+     SteerablePlex 2610.12201、2026-10-09、rel 9）、
+     旧 7 轨口径的「LLM 后训练的强化学习」线（Integrate the Reward 2610.35581、2026-10-27，
+     而 `rl_llm` 在 v0.4.0 已整体退出跟踪范围）、
+     以及 v0.8.0 口径的 `duplex_speech_core`（Duopra）。
+     也就是说 **`speech_rl` 名义上存在、实际上长期是空的**，
+     「全双工 + RL」这个真实子方向被计进了本体线或一条已被撤销的线。
+     逐篇扫描已发布日报的摘要正文确认：**没有任何一篇全双工 RL 论文被漏发**，
+     丢的是分类信号，不是论文。
+  4. **已做的处置**：skill 升到 **v0.8.1**，在 `WORKFLOW.md` §4、`agents/ranker.md` 的
+     Direction Precedence、`agents/filter.md` 的打标说明、`shared/references/user-interests.md`
+     与 `shared/handoffs/ranking_contract.md` 里把这条 tie-break 写硬 —— 判据是
+     **训练方法**而不是标题重心，**RL 只是多阶段配方里的一个阶段也算**，
+     并把 Duopra 作为 worked example 写进规则。`duplex_speech_core` 收**不做 RL** 的全双工工作。
+  5. 按「不擅自改写已发布的历史日报」的规则，这条**只在此处登记更正、不回改已发布的报告文件**。
 
 - **2026-11-22（周日 · 无新批次 · 连续第二次空窗）** — 本轮跑在 **2026-11-22 23:06 CST（= 15:06 UTC = 10:06 ET，周日）**。
   `scrape.py --auto 6` 探测到的最新已公告 listing 日仍是 **2026-11-19**，实测 **855 条原始 / 640 篇去重**，

@@ -40,7 +40,8 @@ Daily arXiv paper collection, filtering, summarization, and reading notes.
 cs.AI / cs.RO / cs.LG / cs.IR）的最新公告批次，按 **4 个 axis × 10 个 direction**
 各出排名报告与条目目录，当天目标 **60 篇**。
 
-现行口径（`mine-arxiv-daily-digest` skill **v0.8.0**，自 2026-11-09 起）：
+现行口径（`mine-arxiv-daily-digest` skill **v0.8.1**；4 轴 × 10 direction 的结构自
+2026-11-09 的 v0.8.0 起，v0.8.1 只澄清 direction 归类的 tie-break，见下）：
 
 | axis | direction | 覆盖范围 |
 | --- | --- | --- |
@@ -51,6 +52,16 @@ cs.AI / cs.RO / cs.LG / cs.IR）的最新公告批次，按 **4 个 axis × 10 �
 
 **口径变更**：
 
+- **2026-11-24 起（v0.8.1）**：只澄清 **direction 归类的 tie-break**，不动轴结构、
+  配额与任何选稿结果。规则：**RL 归 `*_rl` direction，判据是「训练方法」而不是「论文标题更像什么」**——
+  用 RL（GRPO / DPO / "full-duplex RL" / 奖励模型 / turn-taking 与 interruption 的 RL）
+  训练全双工 / 流式 / 口语对话 LM 的论文一律归 `speech_rl`，
+  **即使全双工模型本身是论文的主要贡献、RL 只是多阶段配方里的一个阶段**
+  （Duopra，arXiv 2611.25773，三阶段为「protocol SFT、full-duplex RL、projector-only repair」→ `speech_rl`）。
+  `duplex_speech_core` 收**不做 RL** 的全双工工作：架构、数据、评测、解码、benchmark。
+  起因：2026-11-21 日报把 Duopra 记成了 `duplex_speech_core`，导致 `speech_rl` 那一格长期显示为空，
+  而实际上「全双工 + RL」是一个真实存在的子方向（HiPLEX 2610.07727、SteerablePlex 2610.12201、
+  Integrate the Reward 2610.35581、Duopra 2611.25773）。更正登记见 `index.md`。
 - **2026-11-09 起（v0.8.0）**：7 条 track（v0.3.0）/ 4 条 track（v0.4.0）合并为
   **4 个 axis × 10 个 direction**；**新增 `llm_vlm` 轴**（LLM / VLM 及其 RL），
   原 `speech_rl` 降为 `duplex_speech` 轴内的一个 direction；分类从 7 个增至 8 个
@@ -63,6 +74,9 @@ cs.AI / cs.RO / cs.LG / cs.IR）的最新公告批次，按 **4 个 axis × 10 �
 语音 / 音频 LM 的 RL 归 `duplex_speech` 轴的 `speech_rl` direction；
 **纯文本 LLM 的 RL 不再是独立跟踪线**，但当它服务于 VLM 或作为
 `llm_vlm_rl` direction（多模态 RLHF / DPO / GRPO、奖励模型、reward hacking）时仍会入选。
+⚠️ **双命中时 RL 优先（v0.8.1）**：一篇论文同时命中本体方向与 `*_rl` direction 时，
+按**训练方法**归类——只要 RL 确实作用在语音 / 音频 / 全双工模型上，就归 `speech_rl`，
+哪怕全双工模型是标题与主要贡献（Duopra 即此例）。
 
 **两级弹性配额**：
 
