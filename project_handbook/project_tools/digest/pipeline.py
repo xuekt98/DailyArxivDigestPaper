@@ -764,9 +764,9 @@ def cmd_render(a) -> int:
         L.append(f"**Source**: arXiv cs.CV, cs.SD, eess.AS, cs.CL, cs.AI, cs.RO, cs.LG, cs.IR "
                  f"submissions, listing day {a.listing} (announced {a.announced})")
         L.append("")
-        L.append(f"**Batch window**: {a.win_a} .. {a.win_b}（arXiv 公告批次横跨两个 UTC 日："
-                 f"从前一日的美东 14:00 截止时刻起算（EDT 为 18:00Z，EST 为 19:00Z），"
-                 f"到当日的同一时刻为止）")
+        L.append(f"**Batch window**: {a.win_a} .. {a.win_b}（arXiv 公告批次窗口按 listing 日逐段相接："
+                 f"每段的起点是前一日的美东 14:00 截止时刻（EDT 为 18:00Z，EST 为 19:00Z），"
+                 f"终点是当日同一时刻）")
         L.append("")
         L.append(f"**Axis**: {ax} ({len(rows_all)} papers, base {AXIS_BASE[ax]}, cap {AXIS_CAP})")
         L.append("")
